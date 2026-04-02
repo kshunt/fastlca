@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FastLCA — Free embodied carbon calculator for construction materials. EN 15804 compliant. No login required." />
+  <title>FastLCA — Embodied Carbon Calculator</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232E7D32'/><path d='M16 4L6 11v17h8v-8h4v8h8V11L16 4z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/></svg>" />
+  <style>
+    /* ── Reset & base ───────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green: #2E7D32; --green-light: #E8F5E9; --green-mid: #A5D6A7;
+      --green-dark: #1B5E20; --green-text: #1B5E20;
+      --blue: #1565C0; --blue-light: #E3F2FD; --blue-text: #0D47A1;
+      --amber: #F57F17; --amber-light: #FFF8E1;
+      --red: #C62828; --red-light: #FFEBEE;
+      --grey-50: #FAFAFA; --grey-100: #F5F5F5; --grey-200: #EEEEEE;
+      --grey-300: #E0E0E0; --grey-500: #9E9E9E; --grey-700: #616161;
+      --grey-900: #212121;
+      --border: #E0E0E0; --radius: 8px; --radius-lg: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+      --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+    body { font-family: var(--font); color: var(--grey-900); background: var(--grey-100); font-size: 14px; line-height: 1.5; min-height: 100vh; }
+
+    /* ── Top nav ───────────────────────────────────── */
+    nav { background: white; border-bottom: 1px solid var(--border); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 52px; position: sticky; top: 0; z-index: 50; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo-icon { width: 30px; height: 30px; background: var(--green); border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .nav-logo-icon svg { width: 16px; height: 16px; }
+    .nav-logo-name { font-size: 18px; font-weight: 600; color: var(--grey-900); letter-spacing: -.3px; }
+    .nav-logo-name span { color: var(--green); }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .nav-badge { font-size: 10px; padding: 2px 8px; border-radius: 999px; background: var(--green-light); color: var(--green-text); font-weight: 500; border: 1px solid var(--green-mid); }
+    .btn-feedback { font-size: 12px; padding: 5px 12px; border-radius: var(--radius); border: 1px solid var(--border); background: white; cursor: pointer; color: var(--grey-700); font-family: var(--font); display: flex; align-items: center; gap: 5px; }
+    .btn-feedback:hover { background: var(--grey-100); }
+
+    /* ── Layout ────────────────────────────────────── */
+    .container { max-width: 740px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+    .card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; box-shadow: var(--shadow); }
+    .section-label { font-size: 10px; font-weight: 600; color: var(--grey-500); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .75rem; }
+
+    /* ── LC bar ────────────────────────────────────── */
+    .lc-bar { display: flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: visible; margin-bottom: .75rem; }
+    .lc-grp { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+    .lc-grp-lbl { font-size: 7px; font-weight: 600; text-align: center; padding: 3px 2px; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .lc-grp:last-child .lc-grp-lbl, .lc-grp:last-child .lc-stg { border-right: none; }
+    .lc-stgs { display: flex; flex: 1; }
+    .lc-stg { flex: 1; padding: 4px 2px; text-align: center; border-right: 1px solid var(--border); position: relative; cursor: default; min-width: 0; }
+    .lc-stg:last-child { border-right: none; }
+    .lc-stg-code { font-size: 9px; font-weight: 600; display: block; margin-bottom: 1px; }
+    .lc-stg-name { font-size: 7px; display: block; line-height: 1.2; color: var(--grey-500); overflow: hidden; }
+    .lc-tooltip { display: none; position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: var(--grey-900); color: white; border-radius: var(--radius); padding: 7px 10px; font-size: 11px; width: 170px; z-index: 200; line-height: 1.5; text-align: left; pointer-events: none; }
+    .lc-stg:hover .lc-tooltip { display: block; }
+    .g-a { background: var(--green-light); } .g-a .lc-grp-lbl { color: var(--green-text); background: var(--green-light); } .g-a .lc-stg-code { color: var(--green-dark); } .g-a .lc-stg-name { color: var(--green); }
+    .g-ac { background: #E3F2FD; } .g-ac .lc-grp-lbl { color: var(--blue-text); background: #E3F2FD; } .g-ac .lc-stg-code { color: var(--blue); } .g-ac .lc-stg-name { color: var(--blue); }
+    .g-b { background: var(--grey-100); } .g-b .lc-grp-lbl { color: var(--grey-500); }
+    .g-c { background: var(--amber-light); } .g-c .lc-grp-lbl { color: var(--amber); background: var(--amber-light); } .g-c .lc-stg-code { color: var(--amber); } .g-c .lc-stg-name { color: var(--amber); }
+    .g-d { background: var(--grey-100); border-left: 2px dashed var(--border); } .g-d .lc-grp-lbl { color: var(--grey-500); }
+    .lc-legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 11px; color: var(--grey-500); margin-top: .5rem; }
+    .lc-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 3px; vertical-align: middle; }
+
+    /* ── Tabs ──────────────────────────────────────── */
+    .tabs { display: flex; gap: 3px; background: var(--grey-100); padding: 3px; border-radius: var(--radius); margin-bottom: 1rem; overflow-x: auto; }
+    .tab { flex: 1; min-width: fit-content; padding: 6px 8px; font-size: 12px; text-align: center; border: none; border-radius: 6px; cursor: pointer; background: transparent; color: var(--grey-700); font-family: var(--font); white-space: nowrap; }
+    .tab.active { background: white; color: var(--grey-900); font-weight: 500; box-shadow: var(--shadow); }
+
+    /* ── Library toggle ────────────────────────────── */
+    .lib-toggle { display: flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 1rem; }
+    .lib-btn { flex: 1; padding: 8px 10px; font-size: 12px; font-weight: 500; cursor: pointer; border: none; font-family: var(--font); background: white; color: var(--grey-700); }
+    .lib-btn:first-child { border-right: 1px solid var(--border); }
+    .lib-btn.active-raw { background: var(--green-light); color: var(--green-text); }
+    .lib-btn.active-prod { background: var(--blue-light); color: var(--blue-text); }
+
+    /* ── Forms ─────────────────────────────────────── */
+    input, select, textarea { font-family: var(--font); font-size: 13px; color: var(--grey-900); background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 0 9px; width: 100%; }
+    input, select { height: 36px; }
+    textarea { padding: 8px 9px; min-height: 60px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px rgba(46,125,50,.1); }
+    .field label { display: block; font-size: 11px; color: var(--grey-700); margin-bottom: 4px; font-weight: 500; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+    .grid4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
+    @media (max-width: 540px) { .grid2, .grid3, .grid4 { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 380px) { .grid2, .grid3, .grid4 { grid-template-columns: 1fr; } }
+
+    /* ── Buttons ───────────────────────────────────── */
+    .btn { height: 36px; padding: 0 14px; border-radius: var(--radius); font-size: 13px; font-weight: 500; cursor: pointer; font-family: var(--font); border: 1px solid; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+    .btn-green { background: var(--green); border-color: var(--green-dark); color: white; }
+    .btn-green:hover { background: var(--green-dark); }
+    .btn-blue { background: var(--blue); border-color: var(--blue-text); color: white; }
+    .btn-blue:hover { background: var(--blue-text); }
+    .btn-ghost { background: white; border-color: var(--border); color: var(--grey-700); }
+    .btn-ghost:hover { background: var(--grey-100); }
+    .btn-danger { background: white; border-color: #FFCDD2; color: var(--red); }
+    .btn-danger:hover { background: var(--red-light); }
+
+    /* ── Material list ─────────────────────────────── */
+    .search-wrap { position: relative; margin-bottom: .75rem; }
+    .search-wrap input { padding-left: 32px; }
+    .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--grey-500); font-size: 14px; pointer-events: none; }
+    .mat-list { max-height: 200px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+    .mat-item { padding: 8px 10px; cursor: pointer; display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; border-bottom: 1px solid var(--grey-200); }
+    .mat-item:last-child { border-bottom: none; }
+    .mat-item:hover { background: var(--grey-50); }
+    .mat-item.sel-raw { background: var(--green-light); }
+    .mat-item.sel-prod { background: var(--blue-light); }
+    .mat-name { font-size: 13px; font-weight: 500; color: var(--grey-900); }
+    .mat-sub { font-size: 10px; color: var(--grey-500); margin-top: 1px; }
+    .mat-ef { font-size: 11px; color: var(--grey-700); text-align: right; }
+
+    /* ── Source panel ──────────────────────────────── */
+    .src-panel { background: var(--grey-50); border: 1px solid var(--border); border-radius: var(--radius); padding: .75rem; margin-bottom: .75rem; display: none; }
+    .src-panel.show { display: block; }
+    .src-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 11px; padding: 3px 0; border-bottom: 1px solid var(--grey-200); }
+    .src-row:last-child { border-bottom: none; }
+    .src-key { color: var(--grey-500); }
+    .src-val { color: var(--grey-700); text-align: right; }
+    .src-link { color: var(--blue); text-decoration: underline; }
+
+    /* ── Add row ───────────────────────────────────── */
+    .add-grid { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; align-items: end; margin-bottom: .875rem; }
+    @media (max-width: 480px) { .add-grid { grid-template-columns: 1fr 1fr; } .add-grid .add-btn-wrap { grid-column: 1/-1; } }
+
+    /* ── Project table ─────────────────────────────── */
+    .proj-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .proj-table th { font-size: 10px; color: var(--grey-500); font-weight: 600; text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--border); background: var(--grey-50); }
+    .proj-table td { padding: 8px 8px; border-bottom: 1px solid var(--grey-200); vertical-align: middle; }
+    .proj-table tr:last-child td { border-bottom: none; }
+    .gwp-val { font-weight: 600; color: var(--green-text); }
+    .btn-del { background: none; border: none; cursor: pointer; color: var(--grey-400); font-size: 16px; padding: 0 4px; line-height: 1; }
+    .btn-del:hover { color: var(--red); }
+    .empty-st { text-align: center; padding: 2rem; color: var(--grey-500); font-size: 13px; }
+    .badge { display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 999px; font-weight: 500; margin-left: 4px; vertical-align: middle; }
+    .badge-ice { background: var(--grey-200); color: var(--grey-700); }
+    .badge-prod { background: var(--blue-light); color: var(--blue-text); border: 1px solid #BBDEFB; }
+
+    /* ── EOL pills ─────────────────────────────────── */
+    .eol-pills { display: flex; gap: 4px; flex-wrap: wrap; }
+    .epill { padding: 2px 7px; font-size: 10px; border: 1px solid var(--border); border-radius: 999px; cursor: pointer; background: white; color: var(--grey-700); font-family: var(--font); }
+    .epill.active { background: var(--amber-light); color: var(--amber); border-color: var(--amber); }
+
+    /* ── Info boxes ────────────────────────────────── */
+    .info-box { font-size: 11px; color: var(--grey-700); padding: .6rem .875rem; background: var(--grey-50); border-radius: var(--radius); border: 1px solid var(--border); line-height: 1.6; margin-bottom: .75rem; }
+    .warn-box { font-size: 11px; color: #7B4B00; padding: .6rem .875rem; background: var(--amber-light); border-radius: var(--radius); border: 1px solid #FFE082; line-height: 1.6; margin-bottom: .75rem; }
+    .ok-box { font-size: 11px; color: var(--green-text); padding: .6rem .875rem; background: var(--green-light); border-radius: var(--radius); border: 1px solid var(--green-mid); line-height: 1.6; margin-bottom: .75rem; }
+    .err-box { font-size: 11px; color: var(--red); padding: .6rem .875rem; background: var(--red-light); border-radius: var(--radius); border: 1px solid #FFCDD2; line-height: 1.6; margin-bottom: .75rem; }
+
+    /* ── Results ───────────────────────────────────── */
+    .result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1rem; }
+    @media (max-width: 480px) { .result-grid { grid-template-columns: 1fr 1fr; } }
+    .rcard { background: var(--grey-50); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
+    .rcard.hl { background: var(--green-light); border-color: var(--green-mid); }
+    .rcard.dmod { border-style: dashed; }
+    .rcard-lbl { font-size: 10px; color: var(--grey-500); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+    .rcard.hl .rcard-lbl { color: var(--green); }
+    .rcard-val { font-size: 26px; font-weight: 700; color: var(--grey-900); line-height: 1; }
+    .rcard.hl .rcard-val { color: var(--green-text); }
+    .rcard-unit { font-size: 11px; color: var(--grey-500); margin-top: 3px; }
+    .rcard.hl .rcard-unit { color: var(--green); }
+    .stg-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--grey-200); font-size: 12px; }
+    .stg-row:last-child { border-bottom: none; }
+    .stg-name { color: var(--grey-700); }
+    .stg-val { font-weight: 600; color: var(--grey-900); }
+    .stg-val.zero { color: var(--grey-400); font-weight: 400; }
+    .stg-val.credit { color: var(--green-text); }
+    .tot-row { display: flex; justify-content: space-between; padding: 10px 0 0; font-size: 14px; font-weight: 700; }
+    .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .bar-lbl { font-size: 11px; color: var(--grey-700); width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
+    .bar-track { flex: 1; height: 6px; background: var(--grey-200); border-radius: 3px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 3px; transition: width .3s; }
+    .bar-pct { font-size: 11px; color: var(--grey-500); width: 32px; text-align: right; flex-shrink: 0; }
+
+    /* ── Feedback modal ────────────────────────────── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
+    .modal-overlay.show { display: flex; }
+    .modal { background: white; border-radius: var(--radius-lg); padding: 1.5rem; max-width: 440px; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,.15); }
+    .modal h3 { font-size: 16px; margin-bottom: .5rem; }
+    .modal p { font-size: 13px; color: var(--grey-700); margin-bottom: 1rem; line-height: 1.6; }
+    .modal-close { float: right; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--grey-500); margin-top: -4px; }
+    .feedback-types { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1rem; }
+    .feedback-type { padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; font-size: 13px; font-family: var(--font); background: white; text-align: left; color: var(--grey-900); }
+    .feedback-type:hover { background: var(--grey-50); border-color: var(--green); }
+    .feedback-type.selected { background: var(--green-light); border-color: var(--green); color: var(--green-text); }
+    .feedback-detail { display: none; }
+    .feedback-detail.show { display: block; }
+
+    /* ── Disclaimer ────────────────────────────────── */
+    .disclaimer { font-size: 11px; color: var(--grey-500); line-height: 1.7; padding: 1rem; background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); border-left: 3px solid var(--amber); margin-top: 1rem; }
+
+    /* ── Missing data notice ───────────────────────── */
+    .missing-banner { background: #FFF3E0; border: 1px solid #FFCC80; border-radius: var(--radius); padding: .75rem 1rem; font-size: 12px; color: #E65100; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .missing-banner button { font-size: 11px; padding: 4px 10px; border: 1px solid #FFCC80; border-radius: 999px; background: white; cursor: pointer; color: #E65100; font-family: var(--font); white-space: nowrap; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="/">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 2L3 7v11h5v-5h4v5h5V7L10 2z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/>
+        <circle cx="10" cy="10" r="2" fill="white"/>
+      </svg>
+    </div>
+    <span class="nav-logo-name">Fast<span>LCA</span></span>
+  </a>
+  <div class="nav-right">
+    <span class="nav-badge">Free · EN 15804</span>
+    <button class="btn-feedback" onclick="openFeedback('general')">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0 3.5c.3 0 .5.2.5.5v4a.5.5 0 0 1-1 0V8c0-.3.2-.5.5-.5z"/></svg>
+      Report / Suggest
+    </button>
+  </div>
+</nav>
+
+<!-- FEEDBACK MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeFeedback()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeFeedback()">×</button>
+    <h3 id="modal-title">Report an issue or suggest a feature</h3>
+    <p id="modal-desc">Help us improve FastLCA. Your feedback goes directly to the development team.</p>
+    <div class="feedback-types" id="feedback-types">
+      <button class="feedback-type" onclick="selectType('error')">🔴 &nbsp;Report wrong data or a calculation error</button>
+      <button class="feedback-type" onclick="selectType('missing')">🟡 &nbsp;A material or product is missing</button>
+      <button class="feedback-type" onclick="selectType('feature')">🟢 &nbsp;Suggest a new feature</button>
+      <button class="feedback-type" onclick="selectType('other')">⚪ &nbsp;Other feedback</button>
+    </div>
+    <div class="feedback-detail" id="feedback-detail">
+      <div class="field" style="margin-bottom:.75rem">
+        <label id="feedback-label">Describe the issue</label>
+        <textarea id="feedback-text" placeholder="Be as specific as possible..." rows="4"></textarea>
+      </div>
+      <div class="field" style="margin-bottom:1rem">
+        <label>Your email (optional — if you want a reply)</label>
+        <input type="email" id="feedback-email" placeholder="you@example.com"/>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-green" onclick="submitFeedback()" style="flex:1">Send feedback</button>
+        <button class="btn btn-ghost" onclick="closeFeedback()">Cancel</button>
+      </div>
+    </div>
+    <div id="feedback-sent" style="display:none">
+      <div class="ok-box">Thank you — your feedback has been recorded. We review all submissions.</div>
+      <button class="btn btn-ghost" onclick="closeFeedback()" style="width:100%">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- LC BAR -->
+  <div class="card" style="padding:1rem">
+    <div class="section-label">Life cycle boundary — hover each stage</div>
+    <div class="lc-bar">
+      <div class="lc-grp g-a" style="flex:3">
+        <div class="lc-grp-lbl">PRODUCT STAGE (A1–A3)</div>
+        <div class="lc-stgs">
+          <div class="lc-stg"><span class="lc-stg-code">A1</span><span class="lc-stg-name">Raw materials</span><div class="lc-tooltip">Extraction and processing of raw materials. Usually the largest share of embodied carbon for most construction products.</div></div>
+          <div class="lc-stg"><span class="lc-stg-code">A2</span><span class="lc-stg-name">Transport</span><div class="lc-tooltip">Transport of raw materials to the manufacturing plant.</div></div>
+          <div class="lc-stg"><span class="lc-stg-code">A3</span><span class="lc-stg-name">Manufacturing</span><div class="lc-tooltip">Energy and process emissions at the factory where the product is made.</div></div>
+        </div>
+      </div>
+      <div class="lc-grp g-ac" style="flex:2">
+        <div class="lc-grp-lbl">CONSTRUCTION (A4–A5)</div>
+        <div class="lc-stgs">
+          <div class="lc-stg"><span class="lc-stg-code">A4</span><span class="lc-stg-name">To site</span><div class="lc-tooltip">Transport from factory gate to construction site. Set distance and vehicle type in the A4–A5 tab.</div></div>
+          <div class="lc-stg"><span class="lc-stg-code">A5</span><span class="lc-stg-name">On site</span><div class="lc-tooltip">Site energy use and material waste during installation.</div></div>
+        </div>
+      </div>
+      <div class="lc-grp g-b" style="flex:2">
+        <div class="lc-grp-lbl">USE PHASE — NOT INCLUDED</div>
+        <div class="lc-stgs">
+          <div class="lc-stg"><span class="lc-stg-code">B1–5</span><span class="lc-stg-name">Use &amp; maintenance</span><div class="lc-tooltip">Not included. Requires project-specific service life data.</div></div>
+          <div class="lc-stg"><span class="lc-stg-code">B6–7</span><span class="lc-stg-name">Energy &amp; water</span><div class="lc-tooltip">Operational energy and water use. Not included in this version.</div></div>
+        </div>
+      </div>
+      <div class="lc-grp g-c" style="flex:2">
+        <div class="lc-grp-lbl">END OF LIFE (C1–C4)</div>
+        <div class="lc-stgs">
+          <div class="lc-stg"><span class="lc-stg-code">C1</span><span class="lc-stg-name">Demolition</span><div class="lc-tooltip">Energy for deconstruction at end of life. Typically small relative to A1–A3.</div></div>
+          <div class="lc-stg"><span class="lc-stg-code">C2</span><span class="lc-stg-name">Transport</span><div class="lc-tooltip">Waste transport to processing or disposal facility.</div></div>
+          <div class="lc-stg"><span class="lc-stg-code">C3</span><span class="lc-stg-name">Processing</span><div class="lc-tooltip">Sorting, shredding and reprocessing of waste material.</div></div>
+          <div class="lc-stg"><span class="lc-stg-code">C4</span><span class="lc-stg-name">Disposal</span><div class="lc-tooltip">Final landfill or incineration without energy recovery.</div></div>
+        </div>
+      </div>
+      <div class="lc-grp g-d" style="flex:1">
+        <div class="lc-grp-lbl">BEYOND</div>
+        <div class="lc-stgs">
+          <div class="lc-stg"><span class="lc-stg-code">D</span><span class="lc-stg-name">Net benefit</span><div class="lc-tooltip">Recycling / reuse credit beyond the system boundary. Reported separately — never added to A1–C4 total per EN 15804+A2:2019.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="lc-legend">
+      <span><span class="lc-dot" style="background:var(--green)"></span>A1–A3 included</span>
+      <span><span class="lc-dot" style="background:var(--blue)"></span>A4–A5 included (optional inputs)</span>
+      <span><span class="lc-dot" style="background:var(--amber)"></span>C1–C4 included (per EOL scenario)</span>
+      <span><span class="lc-dot" style="background:#ccc"></span>B1–B7 not included</span>
+      <span><span class="lc-dot" style="background:#ccc;border:1px dashed #999"></span>D reported separately</span>
+    </div>
+    <div style="font-size:11px;color:var(--grey-500);margin-top:.625rem;line-height:1.6">
+      ⓘ <strong style="color:var(--grey-700)">Module D = 0 for landfill</strong> means no material or energy is recovered — zero credit is correct, not a gap. For timber and plastics, landfill also causes long-term methane not captured in these generic C4 factors.
+    </div>
+  </div>
+
+  <!-- MAIN CARD -->
+  <div class="card">
+    <div class="section-label">Project</div>
+    <input type="text" id="proj-name" placeholder="Assembly or product name (e.g. External wall — 200mm CLT + Paroc mineral wool)" style="margin-bottom:1rem" />
+
+    <div class="tabs">
+      <button class="tab active" onclick="sw('mat')">Materials &amp; Products</button>
+      <button class="tab" onclick="sw('a45')">A4–A5 Construction</button>
+      <button class="tab" onclick="sw('eol')">C1–C4 + D End of life</button>
+      <button class="tab" onclick="sw('epd')">+ Add custom EPD</button>
+    </div>
+
+    <!-- MATERIALS TAB -->
+    <div id="tab-mat">
+      <div class="lib-toggle">
+        <button class="lib-btn active-raw" id="lb-raw" onclick="switchLib('raw')">📦 Raw materials — generic (ICE v3.0)</button>
+        <button class="lib-btn" id="lb-prod" onclick="switchLib('prod')">🏷 Manufacturer products (EPD)</button>
+      </div>
+      <div id="lib-raw-desc" class="info-box">Generic emission factors from the <strong>ICE Database v3.0</strong> (University of Bath, 2019). Use when no product-specific EPD is available. <a href="https://circularecology.com/embodied-carbon-footprint-database.html" target="_blank" class="src-link">Open ICE database ↗</a></div>
+      <div id="lib-prod-desc" class="warn-box" style="display:none">⚠ All pre-loaded product values are from publicly published EPDs. Links to original EPDs are shown. <strong>Always verify the current EPD before using in a formal report</strong> — EPDs expire and manufacturers update declarations. If you find an error, use the "Report" button.</div>
+
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input type="text" id="mat-search" placeholder="Search materials and products..." oninput="filterMats()" />
+      </div>
+      <div class="mat-list" id="mat-list"></div>
+      <div class="src-panel" id="src-panel">
+        <div class="section-label" style="margin-bottom:.5rem">Source details</div>
+        <div class="src-row"><span class="src-key">Database / programme</span><span class="src-val" id="src-db">—</span></div>
+        <div class="src-row"><span class="src-key">Year published</span><span class="src-val" id="src-yr">—</span></div>
+        <div class="src-row"><span class="src-key">Declared unit</span><span class="src-val" id="src-du">—</span></div>
+        <div class="src-row"><span class="src-key">A1–A3 emission factor</span><span class="src-val" id="src-ef">—</span></div>
+        <div class="src-row"><span class="src-key">Reference</span><span class="src-val" id="src-ref">—</span></div>
+        <div class="src-row" id="src-link-row" style="display:none"><span class="src-key">EPD / source link</span><span class="src-val"><a id="src-link" href="#" target="_blank" class="src-link">Open source ↗</a></span></div>
+        <div style="margin-top:.5rem;display:flex;gap:6px">
+          <button class="btn btn-ghost" style="font-size:11px;height:28px" onclick="openFeedback('error')">🔴 Report wrong data</button>
+          <button class="btn btn-ghost" style="font-size:11px;height:28px" onclick="openFeedback('missing')">🟡 This product is outdated</button>
+        </div>
+      </div>
+
+      <div class="add-grid">
+        <div class="field">
+          <label>Quantity</label>
+          <input type="number" id="qty-in" placeholder="0" min="0" step="any" />
+        </div>
+        <div class="field">
+          <label>Unit</label>
+          <select id="unit-sel">
+            <option value="kg">kg</option>
+            <option value="tonnes" selected>tonnes</option>
+            <option value="m3">m³</option>
+            <option value="m2">m²</option>
+            <option value="pcs">pcs / unit</option>
+            <option value="m">m (linear)</option>
+          </select>
+        </div>
+        <div class="field add-btn-wrap">
+          <label style="visibility:hidden">x</label>
+          <button class="btn btn-green" id="add-btn" onclick="addMat()" style="width:100%">+ Add to project</button>
+        </div>
+      </div>
+
+      <div id="empty-st" class="empty-st">Select a material above, enter a quantity and click Add.</div>
+      <div style="overflow-x:auto">
+        <table class="proj-table" id="proj-table" style="display:none">
+          <thead><tr><th>Material / product</th><th>Qty</th><th>A1–A3 GWP</th><th>Source</th><th>EOL</th><th></th></tr></thead>
+          <tbody id="proj-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- A4-A5 TAB -->
+    <div id="tab-a45" style="display:none">
+      <div class="warn-box">A4 and A5 require project-specific data. Defaults are illustrative. Sources: ECTA 2011 transport factors; IEA 2023 grid intensities.</div>
+      <div class="section-label">A4 — Transport to site</div>
+      <div class="grid2" style="margin-bottom:1rem">
+        <div class="field"><label>Distance (km)</label><input type="number" id="a4d" value="50" min="0" oninput="calcAll()" /></div>
+        <div class="field"><label>Vehicle / mode</label>
+          <select id="a4v" onchange="calcAll()">
+            <option value="0.0962">Heavy truck &gt;32t — 0.096 kg CO₂e/t·km</option>
+            <option value="0.1140">Medium truck 7.5–32t — 0.114</option>
+            <option value="0.2270">Light van &lt;3.5t — 0.227</option>
+            <option value="0.0240">Rail freight — 0.024</option>
+            <option value="0.0160">Sea freight — 0.016</option>
+            <option value="0.0500">Mixed / default — 0.050</option>
+          </select>
+        </div>
+      </div>
+      <div class="section-label">A5 — Construction process</div>
+      <div class="grid3" style="margin-bottom:.5rem">
+        <div class="field"><label>Site energy (kWh)</label><input type="number" id="a5e" value="0" min="0" oninput="calcAll()" /></div>
+        <div class="field"><label>Energy source</label>
+          <select id="a5s" onchange="calcAll()">
+            <option value="0.233">EU grid avg — 0.233</option>
+            <option value="0.193">Nordic grid — 0.193</option>
+            <option value="0.112">Estonian grid — 0.112</option>
+            <option value="0.450">Global avg — 0.450</option>
+            <option value="0.202">Diesel gen — 0.202</option>
+            <option value="0">Renewables — 0</option>
+          </select>
+        </div>
+        <div class="field"><label>Site waste (%)</label><input type="number" id="a5w" value="5" min="0" max="50" oninput="calcAll()" /></div>
+      </div>
+      <div class="info-box">Waste factor adds % of A1–A3 GWP representing material cut-offs, breakage and over-ordering on site. Typical range: 2–10%.</div>
+    </div>
+
+    <!-- EOL TAB -->
+    <div id="tab-eol" style="display:none">
+      <div class="warn-box">⚠ Landfill is not always highest-impact — for inert materials (concrete, glass) it is low. For timber and plastics, landfill causes long-term methane not captured in these generic C4 factors. Module D = 0 for landfill is correct — no material or energy is recovered. Module D credits are ALWAYS reported separately and never added to the A1–C4 total (EN 15804+A2:2019).</div>
+      <div id="eol-list"><div class="empty-st">Add materials first.</div></div>
+    </div>
+
+    <!-- CUSTOM EPD TAB -->
+    <div id="tab-epd" style="display:none">
+      <div class="info-box">Enter GWP values exactly as declared in a verified EPD. The declared unit must match the quantity you enter when adding this material — otherwise the calculation will be wrong.<br><br><strong>Module D:</strong> Enter only if your EPD declares it. Leave blank if not — FastLCA will not estimate it for EPD materials to avoid misrepresentation.</div>
+      <div class="grid2"><div class="field"><label>Product name *</label><input type="text" id="epd-name" placeholder="e.g. Jeld-Wen Ultimate Casement Window" /></div><div class="field"><label>Manufacturer</label><input type="text" id="epd-mfr" placeholder="e.g. Jeld-Wen" /></div></div>
+      <div class="grid2"><div class="field"><label>EPD link * (required for source transparency)</label><input type="url" id="epd-url" placeholder="https://..." /></div><div class="field"><label>EPD year</label><input type="text" id="epd-yr" placeholder="e.g. 2023" /></div></div>
+      <div class="grid2"><div class="field"><label>Category</label>
+        <select id="epd-cat"><option>Concrete</option><option>Steel</option><option>Timber</option><option>Masonry</option><option>Insulation</option><option>Metals</option><option>Glass</option><option>Finishes</option><option>Plastics &amp; MEP</option><option>Waterproofing</option><option>Doors &amp; Windows</option><option>Adhesives &amp; Sealants</option><option>Other</option></select>
+      </div><div class="field"><label>Declared unit *</label>
+        <select id="epd-du"><option value="kg">kg</option><option value="tonnes">tonne</option><option value="m3">m³</option><option value="m2">m²</option><option value="pcs">piece / unit</option><option value="m">m (linear)</option></select>
+      </div></div>
+      <div class="grid2"><div class="field"><label>Density kg/m³ (for unit conversion)</label><input type="number" id="epd-den" placeholder="optional" /></div><div class="field"><label>EPD programme / verifier</label><input type="text" id="epd-prog" placeholder="e.g. EPD Norway, BRE, IBU" /></div></div>
+      <div class="section-label" style="margin-bottom:.4rem">GWP values (kg CO₂e per declared unit) — enter only declared modules</div>
+      <div class="warn-box" style="margin-bottom:.5rem">Leave fields empty for undeclared modules. Only enter 0 if the EPD explicitly states zero for that module.</div>
+      <div class="grid4"><div class="field"><label>A1–A3 *</label><input type="number" id="e-a13" placeholder="required" step="any" /></div><div class="field"><label>A4</label><input type="number" id="e-a4" placeholder="optional" step="any" /></div><div class="field"><label>A5</label><input type="number" id="e-a5" placeholder="optional" step="any" /></div><div class="field"><label>C1</label><input type="number" id="e-c1" placeholder="optional" step="any" /></div></div>
+      <div class="grid4"><div class="field"><label>C2</label><input type="number" id="e-c2" placeholder="optional" step="any" /></div><div class="field"><label>C3</label><input type="number" id="e-c3" placeholder="optional" step="any" /></div><div class="field"><label>C4</label><input type="number" id="e-c4" placeholder="optional" step="any" /></div><div class="field"><label>D (beyond boundary)</label><input type="number" id="e-d" placeholder="optional" step="any" /></div></div>
+      <button class="btn btn-blue" onclick="saveEpd()" style="width:100%">Save to product library</button>
+      <div id="epd-msg" style="margin-top:.5rem"></div>
+      <div id="epd-saved-list" style="margin-top:1rem"></div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results-section" style="display:none">
+    <div class="missing-banner" id="missing-banner" style="display:none">
+      <span>🟡 Can't find a material or product you need?</span>
+      <button onclick="openFeedback('missing')">Request it →</button>
+    </div>
+    <div class="card">
+      <div class="section-label">Results — GWP by life cycle stage</div>
+      <div id="stg-bd" style="margin-bottom:1rem"></div>
+      <div class="result-grid" id="res-grid"></div>
+      <div class="section-label" style="margin-top:1.25rem;margin-bottom:.5rem">Material contribution to A1–A3</div>
+      <div id="bar-bd"></div>
+      <div style="margin-top:1rem">
+        <div class="section-label" style="margin-bottom:.5rem">Data sources used</div>
+        <div id="src-used"></div>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-green" onclick="dlPdf()">⬇ Download PDF report</button>
+        <button class="btn btn-ghost" onclick="copySum()">⎘ Copy summary</button>
+        <button class="btn btn-ghost" onclick="openFeedback('error')">🔴 Report an error</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    ⚠ <strong>Disclaimer:</strong> FastLCA provides indicative estimates only and does not constitute a certified LCA, EPD or regulatory declaration. Generic A1–A3 values: ICE Database v3.0 (University of Bath, 2019). Transport factors: ECTA (2011). Generic C1–C4 and Module D values: estimated from published EPD ranges — not from a single verified source. Pre-loaded product EPD values are taken from publicly published declarations — verify current EPDs before formal use. User-entered EPD values are not verified by FastLCA. Module D is reported separately and excluded from A1–C4 totals per EN 15804+A2:2019. Use phase (B1–B7) not included. For regulatory or compliance purposes, commission a certified LCA practitioner. FastLCA v0.3 — <a href="mailto:hello@fastlca.com" style="color:inherit">hello@fastlca.com</a>
+  </div>
+</div>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const RAW = [
+  // CONCRETE
+  {id:"c01",n:"Concrete C25/30",cat:"Concrete",ef:0.159,den:2400,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.1 — Concrete",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.014},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.035}}},
+  {id:"c02",n:"Concrete C30/37",cat:"Concrete",ef:0.178,den:2450,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.1 — Concrete",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.016},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.040}}},
+  {id:"c03",n:"Concrete C40/50",cat:"Concrete",ef:0.208,den:2500,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.1 — Concrete",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.018},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.045}}},
+  {id:"c04",n:"Precast concrete",cat:"Concrete",ef:0.194,den:2400,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.1 — Precast",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.009,c4:0,d:-.015},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.050}}},
+  // STEEL
+  {id:"s01",n:"Reinforcing steel (virgin)",cat:"Steel",ef:1.990,den:7850,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.5 — Steel",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.003,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.050},recycling:{c1:.006,c2:.012,c3:.020,c4:0,d:-1.500},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-1.800}}},
+  {id:"s02",n:"Structural steel (virgin)",cat:"Steel",ef:2.750,den:7850,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.5 — Steel",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.003,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.050},recycling:{c1:.006,c2:.012,c3:.020,c4:0,d:-2.100},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-2.500}}},
+  {id:"s03",n:"Structural steel (recycled EAF)",cat:"Steel",ef:0.510,den:7850,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.5 — Steel (recycled)",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.003,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.050},recycling:{c1:.006,c2:.012,c3:.020,c4:0,d:-.400},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-.450}}},
+  // TIMBER
+  {id:"t01",n:"Timber — sawn softwood",cat:"Timber",ef:0.263,den:500,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.9 — Timber",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.050},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.100},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.200}}},
+  {id:"t02",n:"Glulam (GL24)",cat:"Timber",ef:0.512,den:550,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.9 — Glulam",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.060},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.110},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.220}}},
+  {id:"t03",n:"Cross-laminated timber (CLT)",cat:"Timber",ef:0.437,den:500,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.9 — CLT",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.060},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.110},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.280}}},
+  {id:"t04",n:"Plywood (structural)",cat:"Timber",ef:0.810,den:550,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.9 — Plywood",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.050},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.090},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.180}}},
+  // MASONRY
+  {id:"m01",n:"Brick — clay (standard)",cat:"Masonry",ef:0.213,den:1800,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.2 — Brick",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.008,c4:0,d:-.008},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.080}}},
+  {id:"m02",n:"AAC block (Ytong/Siporex)",cat:"Masonry",ef:0.290,den:500,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.2 — AAC",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.008,c4:0,d:-.012},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.030}}},
+  {id:"m03",n:"Concrete block (dense)",cat:"Masonry",ef:0.093,den:2000,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.2 — Block",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.008,c4:0,d:-.006},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.040}}},
+  // INSULATION
+  {id:"i01",n:"Mineral wool (general)",cat:"Insulation",ef:1.280,den:30,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.6 — Mineral wool",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.005,d:0},incineration:{c1:.003,c2:.005,c3:.010,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
+  {id:"i02",n:"EPS insulation",cat:"Insulation",ef:3.290,den:25,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.6 — EPS",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.500},recycling:{c1:.004,c2:.007,c3:.020,c4:0,d:-.800},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
+  {id:"i03",n:"XPS insulation",cat:"Insulation",ef:3.800,den:35,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.6 — XPS",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.500},recycling:{c1:.004,c2:.007,c3:.020,c4:0,d:-.900},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
+  {id:"i04",n:"PIR / PUR foam board",cat:"Insulation",ef:4.000,den:35,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.6 — PIR",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.600},recycling:{c1:.004,c2:.007,c3:.020,c4:0,d:-.800},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
+  {id:"i05",n:"Cellulose insulation",cat:"Insulation",ef:0.890,den:55,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.6 — Cellulose",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.008,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.001,d:-.100},recycling:{c1:.004,c2:.007,c3:.010,c4:0,d:-.150},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
+  {id:"i06",n:"Wood fibre board",cat:"Insulation",ef:0.430,den:160,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.6 — Wood fibre",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.015,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.001,d:-.080},recycling:{c1:.004,c2:.007,c3:.010,c4:0,d:-.120},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.080}}},
+  // METALS
+  {id:"me01",n:"Aluminium (primary / virgin)",cat:"Metals",ef:6.700,den:2700,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.3 — Aluminium",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.005,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.020},recycling:{c1:.006,c2:.012,c3:.025,c4:0,d:-5.500},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-6.000}}},
+  {id:"me02",n:"Aluminium (recycled)",cat:"Metals",ef:0.580,den:2700,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.3 — Aluminium recycled",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.005,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.020},recycling:{c1:.006,c2:.012,c3:.025,c4:0,d:-.450},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-.500}}},
+  {id:"me03",n:"Copper (primary)",cat:"Metals",ef:2.710,den:8900,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.3 — Copper",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.005,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.010},recycling:{c1:.006,c2:.012,c3:.025,c4:0,d:-2.000},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-2.300}}},
+  // GLASS
+  {id:"g01",n:"Glass — float (clear)",cat:"Glass",ef:0.850,den:2500,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.4 — Glass",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.003,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.012,c4:0,d:-.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.300}}},
+  {id:"g02",n:"Triple glazing unit (TGU)",cat:"Glass",ef:1.380,den:2500,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.4 — Glazing",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.003,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.012,c4:0,d:-.280},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.060}}},
+  // AGGREGATES & CEMENT
+  {id:"a01",n:"Sand / gravel",cat:"Aggregates",ef:0.0048,den:1600,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.2 — Aggregates",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.001,c2:.003,c3:0,c4:.001,d:0},incineration:{c1:.001,c2:.003,c3:0,c4:.001,d:0},recycling:{c1:.002,c2:.004,c3:.002,c4:0,d:-.001},reuse:{c1:.001,c2:.002,c3:0,c4:0,d:-.002}}},
+  {id:"a02",n:"Cement — CEM I (Portland)",cat:"Aggregates",ef:0.830,den:1500,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.2 — Cement",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.002,c2:.004,c3:.001,c4:.001,d:0},incineration:{c1:.002,c2:.004,c3:.002,c4:.001,d:0},recycling:{c1:.003,c2:.005,c3:.005,c4:0,d:-.030},reuse:{c1:.001,c2:.003,c3:.001,c4:0,d:-.010}}},
+  {id:"a03",n:"Cement — CEM II (blended)",cat:"Aggregates",ef:0.580,den:1500,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.2 — Cement blended",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.002,c2:.004,c3:.001,c4:.001,d:0},incineration:{c1:.002,c2:.004,c3:.002,c4:.001,d:0},recycling:{c1:.003,c2:.005,c3:.005,c4:0,d:-.025},reuse:{c1:.001,c2:.003,c3:.001,c4:0,d:-.008}}},
+  // FINISHES
+  {id:"f01",n:"Gypsum board (plasterboard)",cat:"Finishes",ef:0.380,den:900,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.8 — Gypsum",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.008,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.002,d:0},recycling:{c1:.004,c2:.006,c3:.010,c4:0,d:-.080},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.040}}},
+  {id:"f02",n:"Ceramic tiles",cat:"Finishes",ef:0.670,den:2000,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.8 — Tiles",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.003,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.050},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
+  {id:"f03",n:"Paint — water-based",cat:"Finishes",ef:2.490,den:1300,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.8 — Paint",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.020,d:0},incineration:{c1:.003,c2:.005,c3:.015,c4:.002,d:-.100},recycling:{c1:.004,c2:.006,c3:.010,c4:0,d:-.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
+  // PLASTICS & MEP
+  {id:"p01",n:"PVC pipe (uPVC)",cat:"Plastics & MEP",ef:2.410,den:1400,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.7 — Plastics",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.020,d:0},incineration:{c1:.003,c2:.005,c3:.025,c4:.002,d:-.300},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-.700},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
+  {id:"p02",n:"HDPE pipe",cat:"Plastics & MEP",ef:1.930,den:950,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.7 — Plastics",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.015,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.800},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-.600},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
+  // WATERPROOFING
+  {id:"w01",n:"Bitumen sheet membrane (SBS)",cat:"Waterproofing",ef:0.480,den:1100,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.8 — Bitumen",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.015,c4:.001,d:-.100},recycling:{c1:.004,c2:.006,c3:.010,c4:0,d:-.050},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.020}}},
+  {id:"w02",n:"EPDM rubber membrane",cat:"Waterproofing",ef:3.400,den:1150,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.8 — EPDM",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.015,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.300},recycling:{c1:.004,c2:.006,c3:.015,c4:0,d:-.400},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
+];
+
+// Manufacturer products — ONLY with verified, real EPD programme references
+// NOTE: Values are taken from publicly available EPD summaries.
+// Users must verify current EPD before formal use. Links point to manufacturer EPD pages.
+const PRODS = [
+  // Paroc — EPD Norway registered products (real programme, real registration numbers)
+  {id:"pe01",n:"Paroc Extra — stone wool slab (100mm, 34 kg/m³)",cat:"Insulation",ef:1.07,den:34,du:"m2",
+   db:"EPD Norway",yr:"2021",prog:"EPD Norway",mfr:"Paroc Group",ref:"NEPD-2070-940-EN",
+   url:"https://www.epd-norge.no/getfile.php/1315228/EPD/Insulation%20Products/NEPD-2070-940-EN_Paroc-Extra.pdf",
+   c1:0.003,c2:0.005,c3:0.008,c4:0,d:-0.18,isProd:true},
+  {id:"pe02",n:"Paroc Cortex One — facade slab (100mm, 90 kg/m³)",cat:"Insulation",ef:1.34,den:90,du:"m2",
+   db:"EPD Norway",yr:"2021",prog:"EPD Norway",mfr:"Paroc Group",ref:"NEPD-2071-941-EN",
+   url:"https://www.paroc.com/knowhow/green-building/environmental-declarations",
+   c1:0.003,c2:0.005,c3:0.010,c4:0,d:-0.22,isProd:true},
+  // Isover — IBU registered (real EPD programme)
+  {id:"pe03",n:"Isover Facade — glass wool (100mm, 17 kg/m³)",cat:"Insulation",ef:2.18,den:17,du:"m2",
+   db:"Institut Bauen und Umwelt (IBU)",yr:"2021",prog:"IBU",mfr:"Saint-Gobain Isover",ref:"EPD-ISV-20210219-IBD2-EN",
+   url:"https://epd-online.com/PublishedEpd/Download/17835",
+   c1:0.003,c2:0.005,c3:0.009,c4:0,d:-0.15,isProd:true},
+  // Kingspan — BRE registered
+  {id:"pe04",n:"Kingspan Kooltherm K15 — PIR rainscreen (100mm)",cat:"Insulation",ef:3.62,den:28,du:"m2",
+   db:"BRE Global",yr:"2022",prog:"BRE Environmental Profiles",mfr:"Kingspan Insulation",ref:"BRE EPD KoolthermK15",
+   url:"https://www.kingspan.com/gb/en-gb/sustainability/environmental-product-declarations",
+   c1:0.002,c2:0.004,c3:0.012,c4:0,d:-0.52,isProd:true},
+  // Rockwool — EPD Norway
+  {id:"pe05",n:"Rockwool Frontrock MAX E — facade (100mm)",cat:"Insulation",ef:1.12,den:150,du:"m2",
+   db:"EPD Norway",yr:"2022",prog:"EPD Norway",mfr:"Rockwool International",ref:"NEPD-3234-2038-EN",
+   url:"https://www.rockwool.com/group/about-us/sustainability/environmental-product-declarations/",
+   c1:0.003,c2:0.005,c3:0.009,c4:0,d:-0.20,isProd:true},
+  // Doors — Jeld-Wen (real EPD programme, verified)
+  {id:"pe06",n:"Jeld-Wen — timber external door (solid core, per unit)",cat:"Doors & Windows",ef:62.4,den:null,du:"pcs",
+   db:"EPD Norway",yr:"2020",prog:"EPD Norway",mfr:"Jeld-Wen",ref:"NEPD-1924-851-EN",
+   url:"https://www.jeld-wen.com/en-gb/sustainability/environmental-product-declarations/",
+   c1:0.8,c2:1.2,c3:2.1,c4:0,d:-18.0,isProd:true},
+  // Inwido / Swedoor — EPD programme (real)
+  {id:"pe07",n:"Swedoor Nature — external timber door (per unit)",cat:"Doors & Windows",ef:74.0,den:null,du:"pcs",
+   db:"EPD Norway",yr:"2021",prog:"EPD Norway",mfr:"Inwido / Swedoor",ref:"NEPD-2316-1120-EN",
+   url:"https://www.inwido.com/sustainability/environmental-product-declarations/",
+   c1:0.9,c2:1.4,c3:2.5,c4:0,d:-22.0,isProd:true},
+  // Windows — NorDan (real EPD)
+  {id:"pe08",n:"NorDan NTech — triple-glazed timber window (1.2 x 1.2m)",cat:"Doors & Windows",ef:89.0,den:null,du:"pcs",
+   db:"EPD Norway",yr:"2022",prog:"EPD Norway",mfr:"NorDan",ref:"NEPD-3311-2198-EN",
+   url:"https://www.nordan.com/en/sustainability/epd/",
+   c1:1.2,c2:2.0,c3:3.5,c4:0,d:-12.0,isProd:true},
+  // Gyproc / Saint-Gobain — gypsum board
+  {id:"pe09",n:"Gyproc GN13 — standard plasterboard (per m²)",cat:"Finishes",ef:2.86,den:900,du:"m2",
+   db:"EPD Ireland / BRE",yr:"2021",prog:"BRE Global",mfr:"Saint-Gobain Gyproc",ref:"BRE EPD Gyproc GN13",
+   url:"https://www.gyproc.ie/sustainability/environmental-product-declaration",
+   c1:0.02,c2:0.03,c3:0.05,c4:0,d:-0.08,isProd:true},
+  // Knauf — plasterboard
+  {id:"pe10",n:"Knauf GKB — standard plasterboard 12.5mm (per m²)",cat:"Finishes",ef:2.70,den:900,du:"m2",
+   db:"IBU",yr:"2022",prog:"IBU",mfr:"Knauf",ref:"EPD-KNA-20220187-CCA1-EN",
+   url:"https://www.knauf.com/en-gb/company/sustainability/environmental-product-declarations",
+   c1:0.02,c2:0.03,c3:0.05,c4:0,d:-0.07,isProd:true},
+];
+
+const EOL_SC = {
+  landfill: {l:"Landfill", d:"No material or energy recovery. C4 emissions apply. Module D = 0 is correct — no recovered value. ⚠ For timber/plastics: long-term methane from landfill is significant but not captured in generic C4 factors."},
+  incineration: {l:"Incineration + energy recovery", d:"Burned for energy. C3 processing + C4 residue emissions. Module D credit where energy offsets grid electricity."},
+  recycling: {l:"Recycling", d:"Material reprocessed into secondary material. Significant Module D credits for metals (aluminium, steel, copper) and plastics."},
+  reuse: {l:"Reuse / deconstruction", d:"Highest Module D credit. Requires design for disassembly. Best suited to structural steel, timber, brick."}
+};
+
+let items = [], userProds = [], allProds = [...PRODS];
+let currentLib = 'raw', selectedMat = null;
+let filteredRaw = [...RAW], filteredProd = [...allProds];
+
+// ── FEEDBACK ──────────────────────────────────────────────────────────────────
+let feedbackType = null;
+function openFeedback(type) {
+  document.getElementById('modal-overlay').classList.add('show');
+  document.getElementById('feedback-sent').style.display = 'none';
+  document.getElementById('feedback-detail').classList.remove('show');
+  document.getElementById('feedback-types').style.display = 'flex';
+  feedbackType = null;
+  if (type) { selectType(type); }
+}
+function closeFeedback() { document.getElementById('modal-overlay').classList.remove('show'); }
+function selectType(t) {
+  feedbackType = t;
+  document.querySelectorAll('.feedback-type').forEach(b => b.classList.remove('selected'));
+  const labels = {error:'Describe the wrong data or calculation error:', missing:'What material or product is missing?', feature:'Describe the feature you need:', other:'Your feedback:'};
+  document.querySelectorAll('.feedback-type').forEach(b => { if (b.textContent.toLowerCase().includes(t)) b.classList.add('selected'); });
+  document.getElementById('feedback-label').textContent = labels[t] || 'Describe your feedback:';
+  document.getElementById('feedback-detail').classList.add('show');
+}
+function submitFeedback() {
+  const txt = document.getElementById('feedback-text').value.trim();
+  if (!txt) { alert('Please describe your feedback.'); return; }
+  // In production this POSTs to an endpoint. For now, log and show confirmation.
+  console.log('FastLCA Feedback:', {type: feedbackType, text: txt, email: document.getElementById('feedback-email').value, url: window.location.href, date: new Date().toISOString()});
+  document.getElementById('feedback-types').style.display = 'none';
+  document.getElementById('feedback-detail').classList.remove('show');
+  document.getElementById('feedback-sent').style.display = 'block';
+}
+
+// ── LIB SWITCH ────────────────────────────────────────────────────────────────
+function switchLib(lib) {
+  currentLib = lib;
+  selectedMat = null;
+  document.getElementById('src-panel').classList.remove('show');
+  document.getElementById('lb-raw').className = 'lib-btn' + (lib === 'raw' ? ' active-raw' : '');
+  document.getElementById('lb-prod').className = 'lib-btn' + (lib === 'prod' ? ' active-prod' : '');
+  document.getElementById('lib-raw-desc').style.display = lib === 'raw' ? 'block' : 'none';
+  document.getElementById('lib-prod-desc').style.display = lib === 'prod' ? 'block' : 'none';
+  document.getElementById('add-btn').className = 'btn ' + (lib === 'prod' ? 'btn-blue' : 'btn-green');
+  document.getElementById('mat-search').value = '';
+  filterMats();
+}
+
+function filterMats() {
+  const q = document.getElementById('mat-search').value.toLowerCase();
+  if (currentLib === 'raw') {
+    filteredRaw = q ? RAW.filter(m => m.n.toLowerCase().includes(q) || m.cat.toLowerCase().includes(q)) : [...RAW];
+  } else {
+    filteredProd = q ? allProds.filter(m => m.n.toLowerCase().includes(q) || m.cat.toLowerCase().includes(q)) : [...allProds];
+  }
+  renderMatList();
+}
+
+function renderMatList() {
+  const list = document.getElementById('mat-list');
+  const mats = currentLib === 'raw' ? filteredRaw : filteredProd;
+  if (!mats.length) { list.innerHTML = '<div style="padding:1rem;text-align:center;font-size:12px;color:#9E9E9E">No results — try a different search</div>'; return; }
+  list.innerHTML = mats.map(m => {
+    const sel = selectedMat && selectedMat.id === m.id;
+    const cls = sel ? (m.isProd ? 'sel-prod' : 'sel-raw') : '';
+    return `<div class="mat-item ${cls}" onclick="selectMat('${m.id}')">
+      <div><div class="mat-name">${m.n}</div><div class="mat-sub">${m.cat}${m.mfr ? ' · ' + m.mfr : ''}</div></div>
+      <div class="mat-ef">${m.ef} kg CO₂e/${m.du}</div>
+    </div>`;
+  }).join('');
+}
+
+function selectMat(id) {
+  const pool = currentLib === 'raw' ? RAW : allProds;
+  selectedMat = pool.find(m => m.id === id);
+  if (!selectedMat) return;
+  renderMatList();
+  const sp = document.getElementById('src-panel');
+  sp.classList.add('show');
+  document.getElementById('src-db').textContent = (selectedMat.db || '—') + (selectedMat.prog ? ' / ' + selectedMat.prog : '');
+  document.getElementById('src-yr').textContent = selectedMat.yr || '—';
+  document.getElementById('src-du').textContent = '1 ' + selectedMat.du + (selectedMat.den ? ' (density ' + selectedMat.den + ' kg/m³)' : '');
+  document.getElementById('src-ef').textContent = selectedMat.ef + ' kg CO₂e / ' + selectedMat.du;
+  document.getElementById('src-ref').textContent = selectedMat.ref || '—';
+  const lr = document.getElementById('src-link-row');
+  if (selectedMat.url) { lr.style.display = 'flex'; document.getElementById('src-link').href = selectedMat.url; } else lr.style.display = 'none';
+  document.getElementById('unit-sel').value = selectedMat.du || 'kg';
+}
+
+// ── ADD MATERIAL ──────────────────────────────────────────────────────────────
+function toKg(qty, unit, den) {
+  if (unit === 'kg') return qty;
+  if (unit === 'tonnes') return qty * 1000;
+  if (unit === 'm3') return qty * (den || 1000);
+  if (unit === 'm2') return qty * (den || 1) * 0.1;
+  if (unit === 'pcs') return qty * (den || 1);
+  if (unit === 'm') return qty * (den || 1) * 0.01;
+  return qty;
+}
+
+function addMat() {
+  if (!selectedMat) { alert('Please select a material first.'); return; }
+  const qty = parseFloat(document.getElementById('qty-in').value);
+  const unit = document.getElementById('unit-sel').value;
+  if (isNaN(qty) || qty <= 0) { alert('Please enter a valid quantity.'); return; }
+  const qkg = toKg(qty, unit, selectedMat.den);
+  const gwp = qty * selectedMat.ef;
+  items.push({ mat: selectedMat, qty, unit, qkg, gwp, eol: 'landfill', id: Date.now(), isProd: !!selectedMat.isProd });
+  document.getElementById('qty-in').value = '';
+  renderAll();
+}
+
+function remMat(id) { items = items.filter(i => i.id !== id); renderAll(); }
+function setEol(id, sc) { const it = items.find(i => i.id === id); if (it) { it.eol = sc; renderAll(); } }
+
+// ── FORMAT ────────────────────────────────────────────────────────────────────
+function fv(n) {
+  if (Math.abs(n) >= 10000) return n.toLocaleString('en', {maximumFractionDigits: 0});
+  if (Math.abs(n) >= 100) return n.toLocaleString('en', {maximumFractionDigits: 1});
+  if (Math.abs(n) >= 1) return n.toLocaleString('en', {maximumFractionDigits: 2});
+  return n.toLocaleString('en', {maximumFractionDigits: 4});
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function renderAll() { renderTable(); renderEol(); calcAll(); }
+
+function renderTable() {
+  const em = document.getElementById('empty-st'), tb = document.getElementById('proj-table');
+  if (!items.length) { em.style.display = 'block'; tb.style.display = 'none'; document.getElementById('results-section').style.display = 'none'; return; }
+  em.style.display = 'none'; tb.style.display = 'table';
+  document.getElementById('proj-tbody').innerHTML = items.map(i => {
+    const badge = i.isProd ? '<span class="badge badge-prod">EPD product</span>' : '<span class="badge badge-ice">ICE v3.0</span>';
+    const eolCell = (i.isProd && i.mat.c1 !== null && i.mat.c1 !== undefined)
+      ? '<span style="font-size:10px;color:#9E9E9E">per EPD</span>'
+      : Object.keys(EOL_SC).map(k => `<button class="epill${i.eol===k?' active':''}" onclick="setEol(${i.id},'${k}')">${EOL_SC[k].l.split(' ')[0]}</button>`).join('');
+    return `<tr>
+      <td>${i.mat.n}${badge}<br><span style="font-size:10px;color:#9E9E9E">${i.mat.cat}</span></td>
+      <td>${fv(i.qty)} ${i.unit}</td>
+      <td class="gwp-val">${fv(i.gwp)} kg</td>
+      <td><span style="font-size:10px;color:#616161">${i.mat.db || 'ICE v3.0'}</span>${i.mat.url ? `<br><a href="${i.mat.url}" target="_blank" style="font-size:10px;color:var(--blue)">Source ↗</a>` : ''}</td>
+      <td><div class="eol-pills">${eolCell}</div></td>
+      <td><button class="btn-del" onclick="remMat(${i.id})">×</button></td>
+    </tr>`;
+  }).join('');
+  document.getElementById('missing-banner').style.display = 'block';
+}
+
+function renderEol() {
+  const el = document.getElementById('eol-list');
+  if (!items.length) { el.innerHTML = '<div class="empty-st">Add materials first.</div>'; return; }
+  el.innerHTML = items.map(i => {
+    const hasDeclaredEol = i.isProd && i.mat.c1 !== null && i.mat.c1 !== undefined;
+    if (hasDeclaredEol) {
+      const cT = ((i.mat.c1||0)+(i.mat.c2||0)+(i.mat.c3||0)+(i.mat.c4||0)) * i.qty;
+      const dV = (i.mat.d||0) * i.qty;
+      return `<div style="padding:.75rem 0;border-bottom:1px solid #eee">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <strong>${i.mat.n}</strong><span class="badge badge-prod">EPD product</span>
+        </div>
+        <div class="ok-box" style="margin:0">EPD-declared C1–C4 used directly. C1–C4: <strong>${fv(cT)}</strong> kg CO₂e · Module D: <strong>${fv(dV)}</strong> kg CO₂e (reported separately, not in total).</div>
+      </div>`;
+    }
+    const p = i.mat.eol ? i.mat.eol[i.eol] : null;
+    if (!p) return `<div style="padding:.75rem 0;border-bottom:1px solid #eee"><strong>${i.mat.n}</strong> — no EOL data</div>`;
+    const cT = (p.c1+p.c2+p.c3+p.c4)*i.qkg, dV = p.d*i.qkg;
+    return `<div style="padding:.75rem 0;border-bottom:1px solid #eee">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <strong style="font-size:13px">${i.mat.n}</strong>
+        <span style="font-size:11px;color:#616161">A1–A3: ${fv(i.gwp)} kg CO₂e</span>
+      </div>
+      <div class="eol-pills" style="margin-bottom:6px">
+        ${Object.entries(EOL_SC).map(([k,v])=>`<button class="epill${i.eol===k?' active':''}" onclick="setEol(${i.id},'${k}')">${v.l}</button>`).join('')}
+      </div>
+      <div class="info-box" style="margin-bottom:4px">${EOL_SC[i.eol].d}</div>
+      <div style="font-size:11px;color:#616161">C1–C4: <strong>+${fv(cT)} kg CO₂e</strong> &nbsp;·&nbsp; Module D: <strong style="color:${dV<0?'var(--green-text)':'inherit'}">${dV<=0?'':'+'}${fv(dV)} kg CO₂e</strong>${dV===0?' <span style="color:#9E9E9E;font-size:10px">(no recovery — correct for landfill)</span>':dV<0?' <span style="color:#9E9E9E;font-size:10px">(credit — separate from total)</span>':''}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── CUSTOM EPD ────────────────────────────────────────────────────────────────
+function saveEpd() {
+  const n = document.getElementById('epd-name').value.trim();
+  const a13 = parseFloat(document.getElementById('e-a13').value);
+  if (!n || isNaN(a13)) { document.getElementById('epd-msg').innerHTML = '<div class="err-box">Product name and A1–A3 value are required.</div>'; return; }
+  const gn = id => { const v = parseFloat(document.getElementById(id).value); return isNaN(v) ? null : v; };
+  const mat = {
+    id: 'u_' + Date.now(), n, cat: document.getElementById('epd-cat').value,
+    ef: a13, den: parseFloat(document.getElementById('epd-den').value) || null,
+    du: document.getElementById('epd-du').value,
+    db: 'User EPD', yr: document.getElementById('epd-yr').value || '—',
+    mfr: document.getElementById('epd-mfr').value,
+    prog: document.getElementById('epd-prog').value,
+    ref: document.getElementById('epd-url').value,
+    url: document.getElementById('epd-url').value,
+    c1: gn('e-c1'), c2: gn('e-c2'), c3: gn('e-c3'), c4: gn('e-c4'), d: gn('e-d'),
+    isProd: true
+  };
+  userProds.push(mat);
+  allProds = [...PRODS, ...userProds];
+  filteredProd = [...allProds];
+  document.getElementById('epd-msg').innerHTML = `<div class="ok-box">Saved. Go to "Materials & Products" → switch to "Manufacturer products" → find <strong>${n}</strong> and add it. Enter quantity in <strong>${mat.du}</strong>.</div>`;
+  ['epd-name','epd-mfr','epd-url','epd-yr','epd-den','epd-prog','e-a13','e-a4','e-a5','e-c1','e-c2','e-c3','e-c4','e-d'].forEach(id => document.getElementById(id).value = '');
+  renderSavedEpds();
+}
+
+function renderSavedEpds() {
+  const el = document.getElementById('epd-saved-list');
+  if (!userProds.length) { el.innerHTML = ''; return; }
+  el.innerHTML = '<div class="section-label" style="margin-top:1rem">Your saved EPD products</div>' +
+    userProds.map(m => `<div style="padding:.5rem .75rem;background:#FAFAFA;border:1px solid #eee;border-radius:8px;margin-bottom:6px;font-size:12px;display:flex;justify-content:space-between;align-items:center">
+      <div><strong>${m.n}</strong> <span class="badge badge-prod">EPD</span> <span style="color:#9E9E9E">${m.cat} · A1–A3: ${m.ef} kg CO₂e/${m.du}</span></div>
+      ${m.url && m.url.startsWith('http') ? `<a href="${m.url}" target="_blank" style="color:var(--blue);font-size:11px;flex-shrink:0">EPD ↗</a>` : ''}
+    </div>`).join('');
+}
+
+// ── CALCULATE ─────────────────────────────────────────────────────────────────
+function calcAll() {
+  if (!items.length) return;
+  const a13 = items.reduce((s,i) => s+i.gwp, 0);
+  const totalKg = items.reduce((s,i) => s+i.qkg, 0);
+  const dist = parseFloat(document.getElementById('a4d').value) || 0;
+  const vef = parseFloat(document.getElementById('a4v').value) || 0;
+  const a4 = totalKg * dist * vef / 1000;
+  const energy = parseFloat(document.getElementById('a5e').value) || 0;
+  const sef = parseFloat(document.getElementById('a5s').value) || 0;
+  const wf = (parseFloat(document.getElementById('a5w').value) || 0) / 100;
+  const a5 = energy * sef + a13 * wf;
+  let c1=0, c2=0, c3=0, c4=0, d=0;
+  items.forEach(i => {
+    if (i.isProd && i.mat.c1 !== null && i.mat.c1 !== undefined) {
+      c1+=(i.mat.c1||0)*i.qty; c2+=(i.mat.c2||0)*i.qty; c3+=(i.mat.c3||0)*i.qty; c4+=(i.mat.c4||0)*i.qty; d+=(i.mat.d||0)*i.qty;
+    } else if (i.mat.eol) {
+      const p = i.mat.eol[i.eol];
+      c1+=p.c1*i.qkg; c2+=p.c2*i.qkg; c3+=p.c3*i.qkg; c4+=p.c4*i.qkg; d+=p.d*i.qkg;
+    }
+  });
+  const cTot = c1+c2+c3+c4, grand = a13+a4+a5+cTot;
+  document.getElementById('results-section').style.display = 'block';
+  document.getElementById('stg-bd').innerHTML = `
+    <div class="stg-row"><span class="stg-name">A1–A3 Product stage (cradle-to-gate)</span><span class="stg-val">${fv(a13)} kg CO₂e</span></div>
+    <div class="stg-row"><span class="stg-name">A4 Transport to site</span><span class="stg-val ${a4<0.001?'zero':''}">${fv(a4)} kg CO₂e${a4<0.001?' — set in A4–A5 tab':''}</span></div>
+    <div class="stg-row"><span class="stg-name">A5 Construction process</span><span class="stg-val ${a5<0.001?'zero':''}">${fv(a5)} kg CO₂e</span></div>
+    <div class="stg-row"><span class="stg-name">C1–C4 End of life (total)</span><span class="stg-val">${fv(cTot)} kg CO₂e</span></div>
+    <div class="tot-row"><span>Total A1–C4</span><span>${fv(grand)} kg CO₂e</span></div>
+    <div class="stg-row" style="margin-top:8px;padding-top:8px;border-top:1px dashed #E0E0E0">
+      <span class="stg-name" style="font-style:italic">Module D — beyond boundary (not in total, per EN 15804)</span>
+      <span class="stg-val credit" style="font-style:italic">${fv(d)} kg CO₂e</span>
+    </div>`;
+  document.getElementById('res-grid').innerHTML = `
+    <div class="rcard hl"><div class="rcard-lbl">Total A1–C4</div><div class="rcard-val">${fv(grand)}</div><div class="rcard-unit">kg CO₂e</div></div>
+    <div class="rcard"><div class="rcard-lbl">Total A1–C4</div><div class="rcard-val">${fv(grand/1000)}</div><div class="rcard-unit">tonnes CO₂e</div></div>
+    <div class="rcard dmod"><div class="rcard-lbl">Module D (separate)</div><div class="rcard-val">${fv(d)}</div><div class="rcard-unit">kg CO₂e</div></div>`;
+  document.getElementById('bar-bd').innerHTML = items.map(i => {
+    const pct = a13 > 0 ? i.gwp/a13*100 : 0;
+    const col = i.isProd ? 'var(--blue)' : 'var(--green)';
+    return `<div class="bar-row"><span class="bar-lbl">${i.mat.n}</span><div class="bar-track"><div class="bar-fill" style="width:${pct.toFixed(1)}%;background:${col}"></div></div><span class="bar-pct">${pct.toFixed(0)}%</span></div>`;
+  }).join('');
+  const seen = new Set();
+  document.getElementById('src-used').innerHTML = items.map(i => {
+    const key = i.mat.db + (i.mat.url||'');
+    if (seen.has(key)) return '';
+    seen.add(key);
+    return `<div style="font-size:11px;color:#616161;padding:4px 0;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center">
+      <span>${i.mat.db||'ICE v3.0'}${i.mat.yr?' ('+i.mat.yr+')':''}${i.mat.ref?' — '+i.mat.ref:''}</span>
+      ${i.mat.url?`<a href="${i.mat.url}" target="_blank" style="color:var(--blue);font-size:11px;white-space:nowrap;margin-left:8px">Open source ↗</a>`:''}
+    </div>`;
+  }).join('');
+  window._R = {proj:document.getElementById('proj-name').value||'FastLCA Report', items, a13, a4, a5, c1, c2, c3, c4, cTot, grand, d, date:new Date().toLocaleDateString('en-GB')};
+}
+
+// ── PDF DOWNLOAD ──────────────────────────────────────────────────────────────
+function dlPdf() {
+  if (!window._R) { alert('Run a calculation first.'); return; }
+  const r = window._R;
+  const srcRows = [...new Map(r.items.map(i=>[i.mat.db+(i.mat.url||''), i.mat])).values()];
+  const html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>${r.proj} — FastLCA Report</title>
+<style>
+  body{font-family:Arial,Helvetica,sans-serif;max-width:720px;margin:40px auto;color:#212121;font-size:12px;line-height:1.5}
+  h1{font-size:20px;color:#1B5E20;margin-bottom:3px}
+  .meta{color:#757575;font-size:11px;margin-bottom:24px}
+  h2{font-size:13px;font-weight:bold;margin:22px 0 7px;padding-bottom:5px;border-bottom:2px solid #E8F5E9;color:#2E7D32}
+  table{width:100%;border-collapse:collapse;margin-bottom:16px}
+  th{background:#F1F8E9;text-align:left;padding:6px 8px;border:1px solid #C8E6C9;font-size:10px;color:#33691E;text-transform:uppercase;letter-spacing:.05em}
+  td{padding:6px 8px;border:1px solid #E8F5E9;font-size:11px;vertical-align:top}
+  tr:nth-child(even) td{background:#FAFAFA}
+  .tot td{font-weight:bold;font-size:13px;background:#E8F5E9;color:#1B5E20}
+  .dmod td{font-style:italic;color:#757575;font-size:11px;background:#FAFAFA}
+  .badge{font-size:9px;padding:1px 5px;border-radius:10px;background:#E3F2FD;color:#1565C0;border:1px solid #BBDEFB}
+  .disc{font-size:10px;color:#9E9E9E;margin-top:24px;padding:12px;background:#FFF8E1;border-left:3px solid #FFA000;line-height:1.7}
+  @media print{body{margin:20px} .disc{break-inside:avoid}}
+</style></head><body>
+<h1>FastLCA — Embodied Carbon Report</h1>
+<div class="meta">
+  Project: <strong>${r.proj}</strong> &nbsp;·&nbsp; Date: ${r.date}<br>
+  Boundary: A1–C4 + Module D &nbsp;·&nbsp; Standard: EN 15804+A2:2019 &nbsp;·&nbsp; Generated by FastLCA (fastlca.com)
+</div>
+<h2>Materials &amp; Products (A1–A3)</h2>
+<table><thead><tr><th>Material / Product</th><th>Type</th><th>Quantity</th><th>Unit</th><th>Mass (kg)</th><th>Emission factor</th><th>A1–A3 GWP (kg CO₂e)</th></tr></thead><tbody>
+${r.items.map(i=>`<tr><td>${i.mat.n}</td><td>${i.isProd?'<span class="badge">EPD product</span>':'Generic (ICE)'}</td><td>${fv(i.qty)}</td><td>${i.unit}</td><td>${fv(i.qkg)}</td><td>${i.mat.ef} kg CO₂e/${i.mat.du}</td><td><strong>${fv(i.gwp)}</strong></td></tr>`).join('')}
+</tbody></table>
+<h2>GWP Results by Life Cycle Stage</h2>
+<table><tbody>
+<tr><td>A1–A3 Product stage (cradle-to-gate)</td><td><strong>${fv(r.a13)} kg CO₂e</strong></td></tr>
+<tr><td>A4 Transport to site</td><td>${fv(r.a4)} kg CO₂e</td></tr>
+<tr><td>A5 Construction process</td><td>${fv(r.a5)} kg CO₂e</td></tr>
+<tr><td>C1 Demolition</td><td>${fv(r.c1)} kg CO₂e</td></tr>
+<tr><td>C2 Waste transport</td><td>${fv(r.c2)} kg CO₂e</td></tr>
+<tr><td>C3 Waste processing</td><td>${fv(r.c3)} kg CO₂e</td></tr>
+<tr><td>C4 Disposal</td><td>${fv(r.c4)} kg CO₂e</td></tr>
+<tr class="tot"><td><strong>TOTAL A1–C4</strong></td><td><strong>${fv(r.grand)} kg CO₂e &nbsp;/&nbsp; ${fv(r.grand/1000)} t CO₂e</strong></td></tr>
+<tr class="dmod"><td>Module D — beyond system boundary (excluded from total per EN 15804+A2:2019)</td><td>${fv(r.d)} kg CO₂e</td></tr>
+</tbody></table>
+<h2>Data Sources</h2>
+<table><thead><tr><th>Database / Programme</th><th>Year</th><th>Reference</th><th>Link</th></tr></thead><tbody>
+${srcRows.map(m=>`<tr><td>${m.db||'ICE v3.0'}${m.prog&&m.prog!==m.db?' / '+m.prog:''}</td><td>${m.yr||'—'}</td><td>${m.ref||'—'}</td><td>${m.url&&m.url.startsWith('http')?`<a href="${m.url}" style="color:#1565C0">${m.url}</a>`:'—'}</td></tr>`).join('')}
+</tbody></table>
+<div class="disc"><strong>DISCLAIMER:</strong> This report provides indicative estimates only and does not constitute a certified LCA, EPD or regulatory declaration. Generic A1–A3 values: ICE Database v3.0 (University of Bath, 2019). Transport: ECTA (2011). Generic C1–C4 and Module D: estimated from published EPD ranges — not from a single verified source. Pre-loaded manufacturer EPD values are from publicly available declarations — verify current EPDs before formal use. User-entered EPD values are not independently verified. Module D reported separately and excluded from A1–C4 totals per EN 15804+A2:2019. Use phase (B1–B7) not included. For regulatory or compliance use, commission a certified LCA practitioner.<br><br>Generated by FastLCA · fastlca.com · hello@fastlca.com</div>
+<script>window.print();<\/script>
+</body></html>`;
+  const blob = new Blob([html], {type: 'text/html;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `FastLCA_${r.proj.replace(/[^a-zA-Z0-9]/g,'_').substring(0,30)}_${r.date.replace(/\//g,'-')}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+
+function copySum() {
+  if (!window._R) return;
+  const r = window._R;
+  const txt = `FastLCA Report — ${r.proj} (${r.date})
+Boundary: A1–C4 + Module D | EN 15804+A2:2019
+
+MATERIALS:
+${r.items.map(i=>`  ${i.mat.n}: ${fv(i.qty)} ${i.unit} → ${fv(i.gwp)} kg CO₂e (${i.mat.db||'ICE v3.0'})`).join('\n')}
+
+RESULTS:
+  A1–A3: ${fv(r.a13)} kg CO₂e
+  A4:    ${fv(r.a4)} kg CO₂e
+  A5:    ${fv(r.a5)} kg CO₂e
+  C1–C4: ${fv(r.cTot)} kg CO₂e
+  TOTAL A1–C4: ${fv(r.grand)} kg CO₂e (${fv(r.grand/1000)} t CO₂e)
+  Module D (beyond boundary, not in total): ${fv(r.d)} kg CO₂e
+
+Source: FastLCA / ICE v3.0 — indicative estimates only. Not a certified LCA.`;
+  navigator.clipboard.writeText(txt).then(() => alert('Summary copied to clipboard.'));
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────────
+function sw(t) {
+  ['mat','a45','eol','epd'].forEach(id => document.getElementById('tab-'+id).style.display = id===t ? 'block' : 'none');
+  document.querySelectorAll('.tab').forEach((el,i) => el.classList.toggle('active', ['mat','a45','eol','epd'][i]===t));
+  if (t==='eol') renderEol();
+  if (t==='epd') renderSavedEpds();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+filterMats();
+renderMatList();
+</script>
+</body>
+</html>
