@@ -420,7 +420,7 @@
     <!-- CUSTOM EPD TAB -->
     <div id="tab-epd" style="display:none">
       <div class="info-box">Enter GWP values exactly as declared in a verified EPD. The declared unit must match the quantity you enter when adding this material — otherwise the calculation will be wrong.<br><br><strong>Module D:</strong> Enter only if your EPD declares it. Leave blank if not — FastLCA will not estimate it for EPD materials to avoid misrepresentation.</div>
-      <div class="grid2"><div class="field"><label>Product name *</label><input type="text" id="epd-name" placeholder="e.g. Jeld-Wen Ultimate Casement Window" /></div><div class="field"><label>Manufacturer</label><input type="text" id="epd-mfr" placeholder="e.g. Jeld-Wen" /></div></div>
+      <div class="grid2"><div class="field"><label>Product name *</label><input type="text" id="epd-name" placeholder="e.g. Company name windows" /></div><div class="field"><label>Manufacturer</label><input type="text" id="epd-mfr" placeholder="e.g. Jeld-Wen" /></div></div>
       <div class="grid2"><div class="field"><label>EPD link * (required for source transparency)</label><input type="url" id="epd-url" placeholder="https://..." /></div><div class="field"><label>EPD year</label><input type="text" id="epd-yr" placeholder="e.g. 2023" /></div></div>
       <div class="grid2"><div class="field"><label>Category</label>
         <select id="epd-cat"><option>Concrete</option><option>Steel</option><option>Timber</option><option>Masonry</option><option>Insulation</option><option>Metals</option><option>Glass</option><option>Finishes</option><option>Plastics &amp; MEP</option><option>Waterproofing</option><option>Doors &amp; Windows</option><option>Adhesives &amp; Sealants</option><option>Other</option></select>
@@ -607,7 +607,11 @@ function submitFeedback() {
   const txt = document.getElementById('feedback-text').value.trim();
   if (!txt) { alert('Please describe your feedback.'); return; }
   // In production this POSTs to an endpoint. For now, log and show confirmation.
-  console.log('FastLCA Feedback:', {type: feedbackType, text: txt, email: document.getElementById('feedback-email').value, url: window.location.href, date: new Date().toISOString()});
+  fetch('https://formspree.io/f/xnjobdgv', {
+     method: 'POST',
+     headers: {'Content-Type': 'application/json'},
+     body: JSON.stringify({type: feedbackType, text: txt, email: document.getElementById('feedback-email').value})
+   });;
   document.getElementById('feedback-types').style.display = 'none';
   document.getElementById('feedback-detail').classList.remove('show');
   document.getElementById('feedback-sent').style.display = 'block';
