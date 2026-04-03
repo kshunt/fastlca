@@ -53,9 +53,10 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
 @media(max-width:540px){.nbdg{display:none}.bnav-hide-sm{display:none}}
 
 /* LAYOUT */
-.cont{max-width:780px;margin:0 auto;padding:1.5rem 1rem 5rem}
-.card{background:var(--surf);border:1px solid var(--brd);border-radius:var(--rl2);padding:1.25rem;margin-bottom:1rem;box-shadow:var(--sh);transition:background .2s}
-.sl{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem}
+.cont{max-width:920px;margin:0 auto;padding:1.5rem 1.25rem 5rem}
+.card{background:var(--surf);border:1px solid var(--brd);border-radius:var(--rl2);padding:1.5rem;margin-bottom:1rem;box-shadow:var(--sh);transition:background .2s}
+.sl{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem}
+@media(max-width:780px){.cont{padding:1rem .875rem 4rem}}
 
 /* HERO */
 .hero{background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 60%,#388E3C 100%);border-radius:var(--rl2);padding:2rem 1.75rem;margin-bottom:1rem;box-shadow:0 4px 20px rgba(27,94,32,.25);position:relative;overflow:hidden}
@@ -87,27 +88,25 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
 .meth-it{font-size:12px;font-weight:700;color:var(--t1);margin-bottom:3px}
 .meth-id{font-size:11px;color:var(--t2);line-height:1.5}
 
-/* ── LC BAR (fixed hover) ───────────────────────────────────────────── */
-.lc-wrap{overflow-x:auto;margin-bottom:.75rem}
-.lc-bar{display:flex;border:1px solid var(--brd);border-radius:var(--r);min-width:500px}
+/* ── LC BAR ─────────────────────────────────────────────────── */
+.lc-wrap{overflow-x:auto;margin-bottom:.875rem}
+.lc-bar{display:flex;border:1px solid var(--brd);border-radius:var(--r);min-width:560px}
 .lc-grp{display:flex;flex-direction:column;flex:1;min-width:0}
-.lc-grp-lbl{font-size:7px;font-weight:700;text-align:center;padding:3px 2px;border-bottom:1px solid var(--brd);border-right:1px solid var(--brd);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lc-grp-lbl{font-size:9px;font-weight:700;text-align:center;padding:5px 4px;border-bottom:1px solid var(--brd);border-right:1px solid var(--brd);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.04em;text-transform:uppercase}
 .lc-grp:last-child .lc-grp-lbl,.lc-grp:last-child .lc-stg{border-right:none}
 .lc-stgs{display:flex;flex:1}
-.lc-stg{flex:1;padding:5px 2px;text-align:center;border-right:1px solid var(--brd);min-width:0;position:relative;cursor:default}
+.lc-stg{flex:1;padding:8px 3px;text-align:center;border-right:1px solid var(--brd);min-width:0;position:relative;cursor:default}
 .lc-stg:last-child{border-right:none}
-.lc-stg-code{font-size:9px;font-weight:700;display:block;margin-bottom:1px}
-.lc-stg-name{font-size:7px;display:block;line-height:1.2;overflow:hidden}
-/* Tooltip — uses JS positioning to avoid layout breaks */
+.lc-stg-code{font-size:11px;font-weight:800;display:block;margin-bottom:3px}
+.lc-stg-name{font-size:9px;display:block;line-height:1.25;overflow:hidden;color:inherit;opacity:.8}
+/* Tooltip */
 .lc-tooltip-text{
-  display:none;
-  position:fixed;
+  display:none;position:fixed;
   background:var(--t1);color:var(--surf);
-  border-radius:var(--r);padding:8px 11px;
-  font-size:11px;width:180px;z-index:9999;
+  border-radius:var(--r);padding:9px 12px;
+  font-size:12px;width:200px;z-index:9999;
   line-height:1.5;text-align:left;
-  pointer-events:none;
-  box-shadow:var(--shl);
+  pointer-events:none;box-shadow:var(--shl);
 }
 .lc-stg:hover .lc-tooltip-text{display:block}
 .g-a{background:var(--gl)}.g-a .lc-grp-lbl{color:var(--gd);background:var(--gl)}.g-a .lc-stg-code{color:var(--gd)}.g-a .lc-stg-name{color:var(--g)}
@@ -119,136 +118,136 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:3px;vertical-align:middle}
 
 /* TABS */
-.tabs{display:flex;gap:3px;background:var(--surf2);padding:3px;border-radius:var(--r);margin-bottom:1rem;overflow-x:auto}
-.tab{flex:1;min-width:max-content;padding:6px 9px;font-size:12px;text-align:center;border:none;border-radius:6px;cursor:pointer;background:transparent;color:var(--t2);font-family:inherit;font-weight:500;transition:all .15s}
+.tabs{display:flex;gap:4px;background:var(--surf2);padding:4px;border-radius:var(--r);margin-bottom:1rem;overflow-x:auto}
+.tab{flex:1;min-width:max-content;padding:8px 12px;font-size:13px;text-align:center;border:none;border-radius:6px;cursor:pointer;background:transparent;color:var(--t2);font-family:inherit;font-weight:500;transition:all .15s}
 .tab.active{background:var(--surf);color:var(--t1);font-weight:700;box-shadow:var(--sh)}
 
 /* LIB TOGGLE */
 .ltog{display:flex;border:1px solid var(--brd);border-radius:var(--r);overflow:hidden;margin-bottom:1rem}
-.lbtn{flex:1;padding:9px 10px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:var(--surf);color:var(--t2);transition:all .15s}
+.lbtn{flex:1;padding:11px 12px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:var(--surf);color:var(--t2);transition:all .15s}
 .lbtn:first-child{border-right:1px solid var(--brd)}
 .lbtn.ar{background:var(--gl);color:var(--gd)}
 .lbtn.ap{background:var(--bl);color:var(--bd)}
 
 /* FORMS */
-input,select,textarea{font-family:inherit;font-size:13px;color:var(--t1);background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);padding:0 9px;width:100%;transition:border-color .15s,background .2s}
-input,select{height:36px}
-textarea{padding:8px 9px;min-height:68px;resize:vertical}
+input,select,textarea{font-family:inherit;font-size:14px;color:var(--t1);background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);padding:0 10px;width:100%;transition:border-color .15s,background .2s}
+input,select{height:38px}
+textarea{padding:9px 10px;min-height:72px;resize:vertical}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-shadow:0 0 0 3px rgba(46,125,50,.1)}
-.fl label{display:block;font-size:11px;color:var(--t2);margin-bottom:4px;font-weight:600}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+.fl label{display:block;font-size:12px;color:var(--t2);margin-bottom:5px;font-weight:600}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
 @media(max-width:540px){.g2,.g3,.g4{grid-template-columns:1fr 1fr}}
 @media(max-width:360px){.g2,.g3,.g4{grid-template-columns:1fr}}
 
 /* BUTTONS */
-.btn{height:36px;padding:0 14px;border-radius:var(--r);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;border:1px solid;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;transition:all .15s}
+.btn{height:38px;padding:0 16px;border-radius:var(--r);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;border:1px solid;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;transition:all .15s}
 .bg2{background:var(--g);border-color:var(--gd);color:#fff}.bg2:hover{filter:brightness(1.08)}
 .bb2{background:var(--b);border-color:var(--bd);color:#fff}.bb2:hover{filter:brightness(1.08)}
 .bgh{background:transparent;border-color:var(--brd);color:var(--t2)}.bgh:hover{background:var(--surf2)}
-.bdel{background:none;border:none;cursor:pointer;color:var(--t3);font-size:16px;padding:0 4px;line-height:1}.bdel:hover{color:var(--rd)}
+.bdel{background:none;border:none;cursor:pointer;color:var(--t3);font-size:18px;padding:0 4px;line-height:1}.bdel:hover{color:var(--rd)}
 
 /* SEARCH + MAT LIST */
-.sw{position:relative;margin-bottom:.75rem}
-.sw input{padding-left:32px}
-.si{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--t3);pointer-events:none}
-.ml{max-height:210px;overflow-y:auto;border:1px solid var(--brd);border-radius:var(--r)}
-.mi{padding:8px 10px;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border-bottom:1px solid var(--brd2);transition:background .1s}
+.sw{position:relative;margin-bottom:.875rem}
+.sw input{padding-left:34px}
+.si{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--t3);pointer-events:none}
+.ml{max-height:240px;overflow-y:auto;border:1px solid var(--brd);border-radius:var(--r)}
+.mi{padding:10px 12px;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border-bottom:1px solid var(--brd2);transition:background .1s}
 .mi:last-child{border-bottom:none}
 .mi:hover{background:var(--surf2)}
 .mi.sr{background:var(--gl)}.mi.sp{background:var(--bl)}
-.mn{font-size:13px;font-weight:600;color:var(--t1)}.ms{font-size:10px;color:var(--t3);margin-top:1px}.mef{font-size:11px;color:var(--t2);text-align:right}
+.mn{font-size:14px;font-weight:600;color:var(--t1)}.ms{font-size:11px;color:var(--t3);margin-top:2px}.mef{font-size:12px;color:var(--t2);text-align:right}
 .mi.sr .mn{color:var(--gd)}.mi.sr .mef{color:var(--gd)}
 .mi.sp .mn{color:var(--bd)}.mi.sp .mef{color:var(--bd)}
 
 /* SOURCE PANEL */
-.spnl{background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);padding:.75rem;margin-bottom:.75rem;display:none}
+.spnl{background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);padding:.875rem;margin-bottom:.875rem;display:none}
 .spnl.show{display:block}
-.srow{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;padding:4px 0;border-bottom:1px solid var(--brd2)}
+.srow{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;padding:5px 0;border-bottom:1px solid var(--brd2)}
 .srow:last-child{border-bottom:none}
 .sk{color:var(--t3);flex-shrink:0;margin-right:8px}.sv{color:var(--t2);text-align:right;word-break:break-all}
 
 /* EPD DB CARDS */
-.dbgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem}
+.dbgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
 @media(max-width:420px){.dbgrid{grid-template-columns:1fr}}
-.dbc{display:flex;flex-direction:column;padding:.75rem;border:1px solid var(--brd);border-radius:var(--r);background:var(--surf2);text-decoration:none;transition:border-color .15s;gap:3px}
+.dbc{display:flex;flex-direction:column;padding:.875rem;border:1px solid var(--brd);border-radius:var(--r);background:var(--surf2);text-decoration:none;transition:border-color .15s;gap:4px}
 .dbc:hover{border-color:var(--b);background:var(--bl)}
-.dbn{font-size:13px;font-weight:700;color:var(--t1)}.dbc:hover .dbn{color:var(--bd)}
-.dbd{font-size:11px;color:var(--t3);line-height:1.4}
-.dbtg{font-size:10px;padding:1px 6px;border-radius:999px;background:var(--bl);color:var(--b);border:1px solid var(--bm);width:fit-content;margin-top:2px}
+.dbn{font-size:14px;font-weight:700;color:var(--t1)}.dbc:hover .dbn{color:var(--bd)}
+.dbd{font-size:12px;color:var(--t3);line-height:1.4}
+.dbtg{font-size:11px;padding:2px 8px;border-radius:999px;background:var(--bl);color:var(--b);border:1px solid var(--bm);width:fit-content;margin-top:2px}
 
 /* ADD ROW */
-.agrid{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;margin-bottom:.875rem}
+.agrid{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-bottom:1rem}
 @media(max-width:440px){.agrid{grid-template-columns:1fr 1fr}.agrid .aw{grid-column:1/-1}}
 
 /* TABLE */
-.tbl{width:100%;border-collapse:collapse;font-size:12px}
-.tbl th{font-size:10px;color:var(--t3);font-weight:700;text-align:left;padding:5px 8px;border-bottom:1px solid var(--brd);background:var(--surf2)}
-.tbl td{padding:7px 8px;border-bottom:1px solid var(--brd2);color:var(--t1);vertical-align:middle}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{font-size:11px;color:var(--t3);font-weight:700;text-align:left;padding:6px 10px;border-bottom:1px solid var(--brd);background:var(--surf2)}
+.tbl td{padding:9px 10px;border-bottom:1px solid var(--brd2);color:var(--t1);vertical-align:middle}
 .tbl tr:last-child td{border-bottom:none}
 .gv{font-weight:700;color:var(--gd)}[data-theme=dark] .gv{color:var(--g)}
-.bdg{display:inline-block;font-size:9px;padding:1px 5px;border-radius:999px;font-weight:700;margin-left:4px;vertical-align:middle}
+.bdg{display:inline-block;font-size:10px;padding:2px 6px;border-radius:999px;font-weight:700;margin-left:4px;vertical-align:middle}
 .bi{background:var(--surf2);color:var(--t3);border:1px solid var(--brd)}
 .bp{background:var(--bl);color:var(--bd);border:1px solid var(--bm)}
 
 /* EOL PILLS */
-.epls{display:flex;gap:4px;flex-wrap:wrap}
-.epl{padding:2px 7px;font-size:10px;border:1px solid var(--brd);border-radius:999px;cursor:pointer;background:transparent;color:var(--t2);font-family:inherit;transition:all .15s}
+.epls{display:flex;gap:5px;flex-wrap:wrap}
+.epl{padding:3px 9px;font-size:11px;border:1px solid var(--brd);border-radius:999px;cursor:pointer;background:transparent;color:var(--t2);font-family:inherit;transition:all .15s}
 .epl.active{background:var(--al);color:var(--am);border-color:var(--a2)}
 
 /* INFO BOXES */
-.ib{font-size:11px;color:var(--t2);padding:.625rem .875rem;background:var(--surf2);border-radius:var(--r);border:1px solid var(--brd);line-height:1.6;margin-bottom:.75rem}
-.wb{font-size:11px;color:var(--am);padding:.625rem .875rem;background:var(--al);border-radius:var(--r);border:1px solid var(--a2);line-height:1.6;margin-bottom:.75rem}
-.ob{font-size:11px;color:var(--gd);padding:.625rem .875rem;background:var(--gl);border-radius:var(--r);border:1px solid var(--gm);line-height:1.6;margin-bottom:.75rem}[data-theme=dark] .ob{color:var(--g)}
-.eb{font-size:11px;color:var(--rd);padding:.625rem .875rem;background:var(--rl);border-radius:var(--r);border:1px solid var(--rd);line-height:1.6;margin-bottom:.75rem}
+.ib{font-size:12px;color:var(--t2);padding:.75rem 1rem;background:var(--surf2);border-radius:var(--r);border:1px solid var(--brd);line-height:1.6;margin-bottom:.875rem}
+.wb{font-size:12px;color:var(--am);padding:.75rem 1rem;background:var(--al);border-radius:var(--r);border:1px solid var(--a2);line-height:1.6;margin-bottom:.875rem}
+.ob{font-size:12px;color:var(--gd);padding:.75rem 1rem;background:var(--gl);border-radius:var(--r);border:1px solid var(--gm);line-height:1.6;margin-bottom:.875rem}[data-theme=dark] .ob{color:var(--g)}
+.eb{font-size:12px;color:var(--rd);padding:.75rem 1rem;background:var(--rl);border-radius:var(--r);border:1px solid var(--rd);line-height:1.6;margin-bottom:.875rem}
 
 /* RESULTS */
-.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.25rem}
 @media(max-width:440px){.rgrid{grid-template-columns:1fr 1fr}}
-.rc{background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);padding:1rem}
+.rc{background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);padding:1.125rem}
 .rc.hl{background:var(--gl);border-color:var(--gm)}
 .rc.dm{border-style:dashed}
-.rcl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;font-weight:700}
+.rcl{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;font-weight:700}
 .rc.hl .rcl{color:var(--g)}
-.rcv{font-size:26px;font-weight:800;color:var(--t1);line-height:1}
+.rcv{font-size:30px;font-weight:800;color:var(--t1);line-height:1}
 .rc.hl .rcv{color:var(--gd)}[data-theme=dark] .rc.hl .rcv{color:var(--g)}
-.rcu{font-size:11px;color:var(--t3);margin-top:3px}
+.rcu{font-size:12px;color:var(--t3);margin-top:4px}
 .rc.hl .rcu{color:var(--g)}
-.stgr{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--brd2);font-size:12px}
+.stgr{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--brd2);font-size:13px}
 .stgr:last-child{border-bottom:none}
 .sgn{color:var(--t2)}.sgv{font-weight:700;color:var(--t1)}
 .sgv.z{color:var(--t3);font-weight:400}
 .sgv.cr{color:var(--gd)}[data-theme=dark] .sgv.cr{color:var(--g)}
-.totr{display:flex;justify-content:space-between;padding:10px 0 0;font-size:14px;font-weight:800;border-top:2px solid var(--brd)}
-.brw{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.brl{font-size:11px;color:var(--t2);width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:0}
-.brt{flex:1;height:6px;background:var(--surf2);border-radius:3px;overflow:hidden}
-.brf{height:100%;border-radius:3px;transition:width .3s}
-.brp{font-size:11px;color:var(--t3);width:32px;text-align:right;flex-shrink:0}
-.empt{text-align:center;padding:2rem;color:var(--t3);font-size:13px}
+.totr{display:flex;justify-content:space-between;padding:12px 0 0;font-size:15px;font-weight:800;border-top:2px solid var(--brd)}
+.brw{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.brl{font-size:12px;color:var(--t2);width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:0}
+.brt{flex:1;height:8px;background:var(--surf2);border-radius:4px;overflow:hidden}
+.brf{height:100%;border-radius:4px;transition:width .3s}
+.brp{font-size:12px;color:var(--t3);width:36px;text-align:right;flex-shrink:0}
+.empt{text-align:center;padding:2.5rem;color:var(--t3);font-size:14px}
 
 /* FLOOR AREA / m² metric */
-.fa-row{display:flex;align-items:center;gap:8px;padding:.75rem;background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);margin-top:1rem}
-.fa-row label{font-size:12px;color:var(--t2);font-weight:600;white-space:nowrap}
-.fa-row input{max-width:120px;height:32px}
-.fa-intensity{font-size:14px;font-weight:700;color:var(--gd);white-space:nowrap}
+.fa-row{display:flex;align-items:center;gap:10px;padding:.875rem 1rem;background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);margin-top:1.125rem}
+.fa-row label{font-size:13px;color:var(--t2);font-weight:600;white-space:nowrap}
+.fa-row input{max-width:130px;height:34px}
+.fa-intensity{font-size:15px;font-weight:700;color:var(--gd);white-space:nowrap}
 [data-theme=dark] .fa-intensity{color:var(--g)}
 
 /* CALC TRANSPARENCY PANEL */
-.calc-panel{border:1px solid var(--brd);border-radius:var(--r);overflow:hidden;margin-top:1rem}
-.calc-panel-hdr{display:flex;justify-content:space-between;align-items:center;padding:.625rem .875rem;cursor:pointer;background:var(--surf2);transition:background .15s;user-select:none;font-size:12px;font-weight:700;color:var(--t1)}
+.calc-panel{border:1px solid var(--brd);border-radius:var(--r);overflow:hidden;margin-top:1.125rem}
+.calc-panel-hdr{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1rem;cursor:pointer;background:var(--surf2);transition:background .15s;user-select:none;font-size:13px;font-weight:700;color:var(--t1)}
 .calc-panel-hdr:hover{background:var(--brd2)}
 .calc-panel-body{display:none;padding:0;background:var(--surf)}
 .calc-panel-body.open{display:block}
-.calc-row{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr 1.2fr;gap:0;font-size:11px}
-.calc-row.header{background:var(--surf2);font-weight:700;color:var(--t3);font-size:10px;text-transform:uppercase;letter-spacing:.05em}
-.calc-cell{padding:6px 10px;border-bottom:1px solid var(--brd2);border-right:1px solid var(--brd2)}
+.calc-row{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr 1.2fr;gap:0;font-size:12px}
+.calc-row.header{background:var(--surf2);font-weight:700;color:var(--t3);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.calc-cell{padding:7px 11px;border-bottom:1px solid var(--brd2);border-right:1px solid var(--brd2)}
 .calc-cell:last-child{border-right:none}
 .calc-row:last-child .calc-cell{border-bottom:none}
-.calc-formula{font-family:monospace;font-size:10px;color:var(--t3);padding:6px 10px;border-bottom:1px solid var(--brd2);background:var(--surf2)}
+.calc-formula{font-family:monospace;font-size:11px;color:var(--t3);padding:7px 11px;border-bottom:1px solid var(--brd2);background:var(--surf2)}
 .calc-ok{color:var(--gd);font-weight:700}[data-theme=dark] .calc-ok{color:var(--g)}
-.calc-note{font-size:10px;color:var(--t3);padding:.5rem .875rem;border-top:1px solid var(--brd2)}
+.calc-note{font-size:11px;color:var(--t3);padding:.625rem 1rem;border-top:1px solid var(--brd2)}
 
 /* COMPARISON MODE */
 .cmp-container{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
@@ -493,9 +492,9 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
   </div>
   <div class="meth-b" id="methB">
     <div class="ib" style="margin-top:.75rem">FastLCA calculates <strong>Global Warming Potential (GWP)</strong> in <strong>kg CO₂e</strong> following the module structure of <strong>EN 15804+A2:2019</strong> and methodology of <strong>ISO 14040/14044</strong>. Results are indicative estimates — not a certified LCA or EPD.</div>
-    <div class="wb" style="margin-top:.5rem">⚠ <strong>Important — EPiC is an Australian database.</strong> Generic values use Australian input-output data and manufacturing conditions. The hybrid method (process + input-output) gives <strong>higher values than European EPDs</strong> because it captures indirect supply chain processes that process-only methods miss. For European/UK projects: use values as upper-bound estimates and replace with local EPDs (EPD Norway, IBU, Environdec) for formal reporting. EPD Database license: <strong>CC0 Public Domain</strong> (freely redistributable) · Cite as: Crawford, R.H., Stephan, A. &amp; Prideaux, F. (2024), University of Melbourne · DOI: <a href="https://doi.org/10.26188/10257728.v11" target="_blank" rel="noopener">10.26188/10257728.v11</a></div>
+    <div class="wb" style="margin-top:.5rem">⚠ <strong>Important — EPiC is an Australian database.</strong> Generic values use Australian input-output data and manufacturing conditions. The hybrid method (process + input-output) gives <strong>higher values than European EPDs</strong> because it captures indirect supply chain processes that process-only methods miss. For European/UK projects: use values as upper-bound estimates and replace with local EPDs (EPD Norway, IBU, Environdec) for formal reporting. EPD Database licence: <strong>CC BY-NC-ND 4.0</strong> — used as internal calculation input only; raw data not exported · Cite as: Crawford, R.H., Stephan, A. &amp; Prideaux, F. (2024), University of Melbourne · DOI: <a href="https://doi.org/10.26188/10257728.v11" target="_blank" rel="noopener">10.26188/10257728.v11</a></div>
     <div class="meth-grid">
-      <div class="meth-i"><div class="meth-it">A1–A3 Generic materials</div><div class="meth-id"><strong>EPiC Database 2024</strong> (Crawford, Stephan &amp; Prideaux, University of Melbourne). Hybrid LCI — Australian supply chain data, CC0 licensed. Values are higher than EU EPDs due to full supply chain coverage. <a href="https://doi.org/10.26188/10257728.v11" target="_blank" rel="noopener">Open EPiC Database ↗</a></div></div>
+      <div class="meth-i"><div class="meth-it">A1–A3 Generic materials</div><div class="meth-id"><strong>EPiC Database 2024</strong> (Crawford, Stephan &amp; Prideaux, University of Melbourne). Hybrid LCI — Australian supply chain data. Licence: CC BY-NC-ND 4.0. Values are higher than EU EPDs due to full supply chain coverage. <a href="https://doi.org/10.26188/10257728.v11" target="_blank" rel="noopener">Open EPiC Database ↗</a></div></div>
       <div class="meth-i"><div class="meth-it">A1–A3 EPD products</div><div class="meth-id">Product-specific values from verified manufacturer EPDs, entered by the user from the original document.</div></div>
       <div class="meth-i"><div class="meth-it">A4 Transport</div><div class="meth-id">ECTA (2011) factors per vehicle type × distance (kg CO₂e/t·km), applied to total material mass.</div></div>
       <div class="meth-i"><div class="meth-it">A5 Construction</div><div class="meth-id">IEA 2023 grid intensity × site energy + waste factor (%) × A1–A3 GWP.</div></div>
@@ -590,7 +589,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
       <button class="lbtn ar" id="lbr" onclick="switchLib('raw')">📦 Generic materials — EPiC Database 2024</button>
       <button class="lbtn" id="lbp" onclick="switchLib('prod')">🏷 Manufacturer products (EPD)</button>
     </div>
-    <div id="dr" class="ib">Generic GHG emission factors from the <strong>EPiC Database 2024</strong> (Crawford, Stephan &amp; Prideaux, University of Melbourne). Hybrid LCI approach — covers full supply chain. Values are higher than process-only EPDs. <a href="https://doi.org/10.26188/10257728.v11" target="_blank" rel="noopener">Open EPiC Database ↗</a> · License: CC0 Public Domain</div>
+    <div id="dr" class="ib">Generic GHG emission factors from the <strong>EPiC Database 2024</strong> (Crawford, Stephan &amp; Prideaux, University of Melbourne). Hybrid LCI approach — covers full supply chain. Values are higher than process-only EPDs. <a href="https://doi.org/10.26188/10257728.v11" target="_blank" rel="noopener">Open EPiC Database ↗</a> · Licence: <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a> · Used as internal input only</div>
     <div id="dp" style="display:none">
       <div id="sheet-status" class="sheet-status"></div>
       <div class="wb">⚠ Products shown come from your Google Sheet database and any manually added EPDs. Always verify the current EPD before formal use.</div>
@@ -988,7 +987,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
   </div>
 </div>
 
-<div class="disc">⚠ <strong>Disclaimer:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. Generic A1–A3: EPiC Database 2024 (Crawford, Stephan &amp; Prideaux, University of Melbourne; CC0 licence). Hybrid values — systematically higher than process-only EPDs. Transport: ECTA (2011). Generic C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. For compliance, commission a certified LCA practitioner. &nbsp;·&nbsp; © 2026 FastLCA. All rights reserved. &nbsp;·&nbsp; FastLCA v0.7 &nbsp;·&nbsp; <a href="https://fastlca.com">fastlca.com</a> &nbsp;·&nbsp; <a href="mailto:hello@fastlca.com">hello@fastlca.com</a> &nbsp;·&nbsp; <a href="/about.html">Methodology</a> &nbsp;·&nbsp; <button onclick="openPrivacy()" style="background:none;border:none;color:var(--b);cursor:pointer;font-family:inherit;font-size:11px;padding:0;text-decoration:underline">Privacy Policy</button></div>
+<div class="disc">⚠ <strong>Disclaimer:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. Generic A1–A3: EPiC Database 2024 (Crawford, Stephan &amp; Prideaux, University of Melbourne; <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a>; used as internal calculation input). Hybrid values — systematically higher than process-only EPDs. Transport: ECTA (2011). Generic C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. For compliance, commission a certified LCA practitioner. &nbsp;·&nbsp; © 2026 FastLCA. All rights reserved. &nbsp;·&nbsp; FastLCA v0.7 &nbsp;·&nbsp; <a href="https://fastlca.com">fastlca.com</a> &nbsp;·&nbsp; <a href="mailto:hello@fastlca.com">hello@fastlca.com</a> &nbsp;·&nbsp; <a href="/about.html">Methodology</a> &nbsp;·&nbsp; <button onclick="openPrivacy()" style="background:none;border:none;color:var(--b);cursor:pointer;font-family:inherit;font-size:11px;padding:0;text-decoration:underline">Privacy Policy</button></div>
 </div>
 
 <!-- PRIVACY MODAL -->
@@ -1095,7 +1094,7 @@ function toggleCalc(){
 // Source: Crawford, R.H., Stephan, A. and Prideaux, F. (2024)
 // Environmental Performance in Construction (EPiC) Database,
 // The University of Melbourne. DOI: 10.26188/10257728.v11
-// License: CC0 1.0 Public Domain (Figshare) — freely redistributable
+// Licence: Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 (CC BY-NC-ND 4.0)
 //
 // ⚠ IMPORTANT: EPiC uses a HYBRID approach (process + input-output data)
 // covering the full Australian supply chain. Values are systematically
@@ -1104,63 +1103,76 @@ function toggleCalc(){
 // or European databases (ÖKOBAUDAT, IBU, EPD Norway) for formal reporting.
 // Values confirmed from peer-reviewed literature citing Crawford et al. 2024.
 const EPIC_URL = "https://doi.org/10.26188/10257728.v11";
-const EPIC_DB = "EPiC Database 2024";
-const EPIC_YR = "2024";
+const EPIC_DB  = "EPiC Database 2024";
+const EPIC_YR  = "2024";
 const EPIC_CITE = "Crawford, Stephan & Prideaux (2024), Univ. of Melbourne";
+const EPIC_LIC = "CC BY-NC-ND 4.0";
+const EPIC_LIC_URL = "https://creativecommons.org/licenses/by-nc-nd/4.0/";
 
+// ── VERIFIED VALUES: directly from EPiC Database 2024 Excel ─────────────
+// Source: EPiC_Database_2024.xlsx  cross-checked 2026-04-03
+// Licence: Creative Commons Attribution-NonCommercial-NoDerivatives 4.0
+//   (CC BY-NC-ND 4.0) — NOT CC0. FastLCA uses EPiC as internal calculation
+//   input only. Raw database values are not exported or redistributed.
+// Concrete/timber given per m³ in EPiC; converted using standard densities.
 const RAW=[
-  // CONCRETE — confirmed: 25 MPa = 0.15 kg CO2e/kg (Crawford et al. 2024 via peer-reviewed citations)
-  {id:"c01",n:"Concrete 25 MPa",cat:"Concrete",ef:0.150,den:2400,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Concrete 25 MPa — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.012},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.030}}},
-  {id:"c02",n:"Concrete 32 MPa",cat:"Concrete",ef:0.170,den:2450,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Concrete 32 MPa — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.014},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.035}}},
-  {id:"c03",n:"Concrete 40 MPa",cat:"Concrete",ef:0.190,den:2450,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Concrete 40 MPa — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.016},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.040}}},
-  {id:"c04",n:"Concrete 50 MPa",cat:"Concrete",ef:0.220,den:2500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Concrete 50 MPa — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.018},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.045}}},
-  {id:"c05",n:"Precast concrete",cat:"Concrete",ef:0.200,den:2400,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Precast concrete — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.009,c4:0,d:-.013},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.045}}},
-  // STEEL — confirmed: mild steel = 3.7 kg CO2e/kg (Crawford et al. 2024 via peer-reviewed citations)
-  // Note: EPiC hybrid values are higher than EU EPD averages due to full supply chain coverage
-  {id:"s01",n:"Reinforcing steel",cat:"Steel",ef:3.70,den:7850,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Steel reinforcing — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.003,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.050},recycling:{c1:.006,c2:.012,c3:.020,c4:0,d:-2.800},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-3.300}}},
-  {id:"s02",n:"Structural steel (sections)",cat:"Steel",ef:3.70,den:7850,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Steel structural — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.003,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.050},recycling:{c1:.006,c2:.012,c3:.020,c4:0,d:-2.900},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-3.500}}},
-  {id:"s03",n:"Steel corrugated roofing",cat:"Steel",ef:5.50,den:7850,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Steel corrugated roofing — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.003,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.050},recycling:{c1:.006,c2:.012,c3:.020,c4:0,d:-4.200},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-5.000}}},
-  // TIMBER — EPiC hybrid values include full transport supply chain
-  // Note: EPiC timber values are higher than EN 15804 EPD values due to hybrid methodology
-  {id:"t01",n:"Timber — sawn softwood",cat:"Timber",ef:0.86,den:500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Softwood sawn — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.050},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.100},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.200}}},
-  {id:"t02",n:"Glulam",cat:"Timber",ef:1.50,den:550,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Glulam — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.060},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.110},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.220}}},
-  {id:"t03",n:"Cross-laminated timber (CLT)",cat:"Timber",ef:1.50,den:500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"CLT — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.060},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.110},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.280}}},
-  {id:"t04",n:"Plywood (structural)",cat:"Timber",ef:1.90,den:550,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Plywood structural — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.050},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.090},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.180}}},
-  // MASONRY
-  {id:"m01",n:"Brick — clay (standard)",cat:"Masonry",ef:0.73,den:1800,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Clay brick — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.008,c4:0,d:-.008},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.080}}},
-  {id:"m02",n:"AAC block (autoclaved aerated concrete)",cat:"Masonry",ef:0.45,den:500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"AAC block — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.008,c4:0,d:-.012},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.030}}},
-  {id:"m03",n:"Concrete block",cat:"Masonry",ef:0.21,den:2000,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Concrete block — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.008,c4:0,d:-.006},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.040}}},
-  {id:"m04",n:"Mortar (cement-sand)",cat:"Masonry",ef:0.33,den:2000,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Cement mortar — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.002,c2:.004,c3:.001,c4:.001,d:0},incineration:{c1:.002,c2:.004,c3:.002,c4:.001,d:0},recycling:{c1:.003,c2:.005,c3:.005,c4:0,d:-.005},reuse:{c1:.001,c2:.003,c3:.001,c4:0,d:-.010}}},
-  // INSULATION — EPiC hybrid values per kg; note glass wool ~2.4, EPS ~3.4 per EPiC methodology
-  {id:"i01",n:"Glass wool insulation",cat:"Insulation",ef:2.40,den:20,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Glass wool — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.005,d:0},incineration:{c1:.003,c2:.005,c3:.010,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
-  {id:"i02",n:"Rock wool / stone wool insulation",cat:"Insulation",ef:2.90,den:30,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Rock wool — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.005,d:0},incineration:{c1:.003,c2:.005,c3:.010,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
-  {id:"i03",n:"EPS insulation",cat:"Insulation",ef:3.40,den:25,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"EPS — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.500},recycling:{c1:.004,c2:.007,c3:.020,c4:0,d:-.800},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
-  {id:"i04",n:"XPS insulation",cat:"Insulation",ef:4.50,den:35,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"XPS — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.500},recycling:{c1:.004,c2:.007,c3:.020,c4:0,d:-.900},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
-  {id:"i05",n:"PIR / PUR foam board",cat:"Insulation",ef:4.80,den:35,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"PIR/PUR — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.600},recycling:{c1:.004,c2:.007,c3:.020,c4:0,d:-.800},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
-  {id:"i06",n:"Cellulose insulation",cat:"Insulation",ef:1.10,den:55,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Cellulose insulation — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.008,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.001,d:-.100},recycling:{c1:.004,c2:.007,c3:.010,c4:0,d:-.150},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
-  {id:"i07",n:"Wood fibre board insulation",cat:"Insulation",ef:0.98,den:160,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Wood fibre — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.015,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.001,d:-.080},recycling:{c1:.004,c2:.007,c3:.010,c4:0,d:-.120},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.080}}},
-  // METALS — confirmed: aluminium primary = 29.4 kg CO2e/kg (Crawford et al. 2024)
-  {id:"me01",n:"Aluminium (primary / virgin)",cat:"Metals",ef:29.40,den:2700,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Aluminium primary — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.005,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.020},recycling:{c1:.006,c2:.012,c3:.025,c4:0,d:-24.00},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-27.00}}},
-  {id:"me02",n:"Aluminium (recycled / secondary)",cat:"Metals",ef:2.90,den:2700,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Aluminium recycled — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.005,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.020},recycling:{c1:.006,c2:.012,c3:.025,c4:0,d:-2.200},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-2.500}}},
-  {id:"me03",n:"Copper (primary)",cat:"Metals",ef:6.00,den:8900,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Copper primary — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.005,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.010},recycling:{c1:.006,c2:.012,c3:.025,c4:0,d:-4.500},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-5.000}}},
-  // GLASS
-  {id:"g01",n:"Glass — float (clear)",cat:"Glass",ef:1.50,den:2500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Float glass — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.003,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.012,c4:0,d:-.300},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.400}}},
-  {id:"g02",n:"Double glazing unit (DGU)",cat:"Glass",ef:1.90,den:2500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Double glazing — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.003,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.012,c4:0,d:-.350},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.080}}},
-  // AGGREGATES & CEMENT
-  {id:"a01",n:"Sand / gravel",cat:"Aggregates",ef:0.05,den:1600,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Sand/gravel — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.001,c2:.003,c3:0,c4:.001,d:0},incineration:{c1:.001,c2:.003,c3:0,c4:.001,d:0},recycling:{c1:.002,c2:.004,c3:.002,c4:0,d:-.002},reuse:{c1:.001,c2:.002,c3:0,c4:0,d:-.003}}},
-  {id:"a02",n:"Portland cement (general purpose)",cat:"Aggregates",ef:1.40,den:1500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"GP cement — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.002,c2:.004,c3:.001,c4:.001,d:0},incineration:{c1:.002,c2:.004,c3:.002,c4:.001,d:0},recycling:{c1:.003,c2:.005,c3:.005,c4:0,d:-.050},reuse:{c1:.001,c2:.003,c3:.001,c4:0,d:-.015}}},
-  {id:"a03",n:"Blended cement (fly ash / slag)",cat:"Aggregates",ef:0.90,den:1500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Blended cement — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.002,c2:.004,c3:.001,c4:.001,d:0},incineration:{c1:.002,c2:.004,c3:.002,c4:.001,d:0},recycling:{c1:.003,c2:.005,c3:.005,c4:0,d:-.035},reuse:{c1:.001,c2:.003,c3:.001,c4:0,d:-.010}}},
-  // FINISHES
-  {id:"f01",n:"Gypsum board (plasterboard)",cat:"Finishes",ef:1.80,den:900,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Plasterboard — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.008,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.002,d:0},recycling:{c1:.004,c2:.006,c3:.010,c4:0,d:-.150},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.070}}},
-  {id:"f02",n:"Ceramic tiles",cat:"Finishes",ef:0.87,den:2000,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Ceramic tiles — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.003,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.070},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.130}}},
-  {id:"f03",n:"Paint — water-based",cat:"Finishes",ef:3.20,den:1300,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Water-based paint — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.020,d:0},incineration:{c1:.003,c2:.005,c3:.015,c4:.002,d:-.100},recycling:{c1:.004,c2:.006,c3:.010,c4:0,d:-.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
-  // PLASTICS & MEP
-  {id:"p01",n:"PVC pipe (uPVC)",cat:"Plastics & MEP",ef:4.50,den:1400,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"PVC pipe — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.020,d:0},incineration:{c1:.003,c2:.005,c3:.025,c4:.002,d:-.300},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-1.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.200}}},
-  {id:"p02",n:"HDPE pipe",cat:"Plastics & MEP",ef:3.10,den:950,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"HDPE pipe — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.015,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.800},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-1.000},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.150}}},
-  // WATERPROOFING
-  {id:"w01",n:"Bitumen sheet membrane",cat:"Waterproofing",ef:1.10,den:1100,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Bitumen membrane — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.015,c4:.001,d:-.100},recycling:{c1:.004,c2:.006,c3:.010,c4:0,d:-.080},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.030}}},
-  {id:"w02",n:"EPDM rubber membrane",cat:"Waterproofing",ef:5.50,den:1150,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"EPDM membrane — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.015,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.300},recycling:{c1:.004,c2:.006,c3:.015,c4:0,d:-.600},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.080}}},
+  // CONCRETE — EPiC per m³ values; density 2400 kg/m³
+  // 25MPa=368÷2400=0.153, 32MPa=416÷2400=0.173, 40MPa=497÷2400=0.207, 50MPa=626÷2400=0.261
+  {id:"c01",n:"Concrete 25 MPa",cat:"Concrete",ef:0.153,den:2400,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"368 kg CO₂e/m³ ÷ 2400 kg/m³",url:EPIC_URL,eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.012},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.030}}},
+  {id:"c02",n:"Concrete 32 MPa",cat:"Concrete",ef:0.173,den:2400,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"416 kg CO₂e/m³ ÷ 2400 kg/m³",url:EPIC_URL,eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.014},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.035}}},
+  {id:"c03",n:"Concrete 40 MPa",cat:"Concrete",ef:0.207,den:2400,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"497 kg CO₂e/m³ ÷ 2400 kg/m³",url:EPIC_URL,eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.016},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.040}}},
+  {id:"c04",n:"Concrete 50 MPa",cat:"Concrete",ef:0.261,den:2400,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"626 kg CO₂e/m³ ÷ 2400 kg/m³",url:EPIC_URL,eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.020},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.050}}},
+  {id:"c05",n:"Precast concrete (est.)",cat:"Concrete",ef:0.180,den:2400,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Est. between 25–32 MPa; use project-specific EPD for formal work",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.009,c4:0,d:-.013},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.045}}},
+  // STEEL — EPiC direct per-kg values
+  // Steel bar=2.1, Hot rolled structural=2.9, Cold rolled=3.7, Corrugated=5.5
+  {id:"s01",n:"Reinforcing steel (bar)",cat:"Steel",ef:2.10,den:7850,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Steel bar — 2.1 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.003,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.050},recycling:{c1:.006,c2:.012,c3:.020,c4:0,d:-1.600},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-1.900}}},
+  {id:"s02",n:"Structural steel (hot rolled sections)",cat:"Steel",ef:2.90,den:7850,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Hot rolled structural steel — 2.9 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.003,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.050},recycling:{c1:.006,c2:.012,c3:.020,c4:0,d:-2.200},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-2.600}}},
+  {id:"s03",n:"Cold rolled steel",cat:"Steel",ef:3.70,den:7850,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Cold rolled steel — 3.7 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.003,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.050},recycling:{c1:.006,c2:.012,c3:.020,c4:0,d:-2.800},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-3.300}}},
+  {id:"s04",n:"Steel corrugated roofing",cat:"Steel",ef:5.50,den:7850,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Steel sheet corrugated — 5.5 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.003,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.050},recycling:{c1:.006,c2:.012,c3:.020,c4:0,d:-4.200},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-5.000}}},
+  // TIMBER — EPiC per m³; densities: softwood 480, CLT 500, glulam 500, plywood 550 kg/m³
+  // Softwood kiln-dried: 583÷480=1.215, CLT: 645÷500=1.290, Glulam: 1718÷500=3.436, Plywood: 1777÷550=3.231
+  {id:"t01",n:"Timber — sawn softwood (kiln-dried)",cat:"Timber",ef:1.215,den:480,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Softwood kiln-dried 583 kg CO₂e/m³ ÷ 480 kg/m³",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.050},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.100},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.200}}},
+  {id:"t02",n:"Glulam (indoor)",cat:"Timber",ef:3.436,den:500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Glued laminated timber indoor 1718 kg CO₂e/m³ ÷ 500 kg/m³",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.060},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.110},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.220}}},
+  {id:"t03",n:"Cross-laminated timber (CLT)",cat:"Timber",ef:1.290,den:500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"CLT 645 kg CO₂e/m³ ÷ 500 kg/m³",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.060},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.110},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.280}}},
+  {id:"t04",n:"Plywood (outdoor / structural)",cat:"Timber",ef:3.231,den:550,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Plywood outdoor 1777 kg CO₂e/m³ ÷ 550 kg/m³",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.050},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.090},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.180}}},
+  // MASONRY — EPiC direct per-kg values
+  {id:"m01",n:"Brick — clay",cat:"Masonry",ef:0.320,den:1800,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Clay brick — 0.32 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.008,c4:0,d:-.008},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.080}}},
+  {id:"m02",n:"AAC block (autoclaved aerated concrete)",cat:"Masonry",ef:0.710,den:500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"AAC — 0.71 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.008,c4:0,d:-.012},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.030}}},
+  {id:"m03",n:"Concrete block",cat:"Masonry",ef:0.240,den:2000,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Concrete block — 0.24 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.008,c4:0,d:-.006},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.040}}},
+  {id:"m04",n:"Mortar (cement-sand)",cat:"Masonry",ef:0.350,den:2000,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Cement mortar — 0.35 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.002,c2:.004,c3:.001,c4:.001,d:0},incineration:{c1:.002,c2:.004,c3:.002,c4:.001,d:0},recycling:{c1:.003,c2:.005,c3:.005,c4:0,d:-.005},reuse:{c1:.001,c2:.003,c3:.001,c4:0,d:-.010}}},
+  // INSULATION — EPiC direct per-kg values
+  // Glasswool=4.0, Rockwool=3.8, EPS/XPS (combined)=8.0, PU rigid=17.5, Cellulose=0.79
+  {id:"i01",n:"Glass wool insulation",cat:"Insulation",ef:4.00,den:20,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Glasswool insulation — 4.0 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.005,d:0},incineration:{c1:.003,c2:.005,c3:.010,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
+  {id:"i02",n:"Rock wool / stone wool insulation",cat:"Insulation",ef:3.80,den:30,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Rockwool insulation — 3.8 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.005,d:0},incineration:{c1:.003,c2:.005,c3:.010,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
+  {id:"i03",n:"EPS insulation",cat:"Insulation",ef:8.00,den:25,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Polystyrene EPS/XPS — 8.0 kg CO₂e/kg (EPiC combines EPS and XPS)",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.500},recycling:{c1:.004,c2:.007,c3:.020,c4:0,d:-.800},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
+  {id:"i04",n:"XPS insulation",cat:"Insulation",ef:8.00,den:35,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Polystyrene EPS/XPS — 8.0 kg CO₂e/kg (EPiC combines EPS and XPS)",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.500},recycling:{c1:.004,c2:.007,c3:.020,c4:0,d:-.900},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
+  {id:"i05",n:"Polyurethane (PU/PIR) rigid foam board",cat:"Insulation",ef:17.50,den:35,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"PU rigid foam insulation — 17.5 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.600},recycling:{c1:.004,c2:.007,c3:.020,c4:0,d:-.800},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
+  {id:"i06",n:"Cellulose insulation",cat:"Insulation",ef:0.790,den:55,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Cellulose insulation — 0.79 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.008,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.001,d:-.100},recycling:{c1:.004,c2:.007,c3:.010,c4:0,d:-.150},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
+  // METALS — EPiC direct per-kg values
+  {id:"me01",n:"Aluminium (extruded / primary)",cat:"Metals",ef:29.40,den:2700,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Aluminium extruded — 29.4 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.005,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.020},recycling:{c1:.006,c2:.012,c3:.025,c4:0,d:-24.00},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-27.00}}},
+  {id:"me02",n:"Aluminium sheet",cat:"Metals",ef:26.70,den:2700,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Aluminium sheet — 26.7 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.005,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.020},recycling:{c1:.006,c2:.012,c3:.025,c4:0,d:-22.00},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-24.00}}},
+  {id:"me03",n:"Copper pipe",cat:"Metals",ef:10.10,den:8900,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Copper pipe — 10.1 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.005,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.010},recycling:{c1:.006,c2:.012,c3:.025,c4:0,d:-8.000},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-9.000}}},
+  // GLASS — EPiC direct per-kg
+  {id:"g01",n:"Glass — flat sheet",cat:"Glass",ef:2.00,den:2500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Flat glass sheet — 2.0 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.003,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.012,c4:0,d:-.300},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.400}}},
+  {id:"g02",n:"Double glazing unit (DGU — toughened 4:12:4)",cat:"Glass",ef:2.20,den:2500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Toughened glass sheet — 2.2 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.003,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.012,c4:0,d:-.350},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.080}}},
+  // AGGREGATES & CEMENT — EPiC direct per-kg; Sand=0.024, Gravel=0.036, Portland=1.3
+  {id:"a01",n:"Sand",cat:"Aggregates",ef:0.024,den:1600,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Sand — 0.024 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.001,c2:.003,c3:0,c4:.001,d:0},incineration:{c1:.001,c2:.003,c3:0,c4:.001,d:0},recycling:{c1:.002,c2:.004,c3:.002,c4:0,d:-.001},reuse:{c1:.001,c2:.002,c3:0,c4:0,d:-.001}}},
+  {id:"a01b",n:"Gravel",cat:"Aggregates",ef:0.036,den:1600,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Gravel — 0.036 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.001,c2:.003,c3:0,c4:.001,d:0},incineration:{c1:.001,c2:.003,c3:0,c4:.001,d:0},recycling:{c1:.002,c2:.004,c3:.002,c4:0,d:-.001},reuse:{c1:.001,c2:.002,c3:0,c4:0,d:-.001}}},
+  {id:"a02",n:"Portland cement (general purpose)",cat:"Aggregates",ef:1.300,den:1500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Portland cement — 1.3 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.002,c2:.004,c3:.001,c4:.001,d:0},incineration:{c1:.002,c2:.004,c3:.002,c4:.001,d:0},recycling:{c1:.003,c2:.005,c3:.005,c4:0,d:-.050},reuse:{c1:.001,c2:.003,c3:.001,c4:0,d:-.015}}},
+  {id:"a03",n:"Blended cement (fly ash / slag) — est.",cat:"Aggregates",ef:0.800,den:1500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"No direct EPiC value; estimated from 25MPa+30% fly ash reduction implied by concrete grades",url:EPIC_URL,eol:{landfill:{c1:.002,c2:.004,c3:.001,c4:.001,d:0},incineration:{c1:.002,c2:.004,c3:.002,c4:.001,d:0},recycling:{c1:.003,c2:.005,c3:.005,c4:0,d:-.030},reuse:{c1:.001,c2:.003,c3:.001,c4:0,d:-.010}}},
+  // FINISHES — EPiC: Gypsum plaster=0.44, Ceramic tile=1.3, Water-based paint=6.8
+  // Note: EPiC has gypsum PLASTER not plasterboard; using 0.44 as best available EPiC value
+  {id:"f01",n:"Gypsum plaster / plasterboard",cat:"Finishes",ef:0.440,den:900,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Gypsum plaster — 0.44 kg CO₂e/kg (no separate plasterboard in EPiC)",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.008,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.002,d:0},recycling:{c1:.004,c2:.006,c3:.010,c4:0,d:-.080},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.040}}},
+  {id:"f02",n:"Ceramic tiles",cat:"Finishes",ef:1.300,den:2000,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Ceramic tile — 1.3 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.003,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.070},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.130}}},
+  {id:"f03",n:"Paint — water-based",cat:"Finishes",ef:6.800,den:1300,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Water-based paint — 6.8 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.020,d:0},incineration:{c1:.003,c2:.005,c3:.015,c4:.002,d:-.100},recycling:{c1:.004,c2:.006,c3:.010,c4:0,d:-.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
+  // PLASTICS & MEP — EPiC: uPVC=4.2, HDPE pipe=5.6
+  {id:"p01",n:"uPVC pipe",cat:"Plastics & MEP",ef:4.200,den:1400,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Unplasticised PVC (uPVC) — 4.2 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.020,d:0},incineration:{c1:.003,c2:.005,c3:.025,c4:.002,d:-.300},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-1.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.200}}},
+  {id:"p02",n:"HDPE pipe",cat:"Plastics & MEP",ef:5.600,den:950,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"HDPE pipe — 5.6 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.015,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.800},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-2.000},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.200}}},
+  // WATERPROOFING — no direct bitumen/EPDM in EPiC; proxies used
+  {id:"w01",n:"Bitumen sheet membrane",cat:"Waterproofing",ef:0.200,den:1100,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Asphalt proxy (0.20 kg CO₂e/kg) — no dedicated bitumen membrane in EPiC",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.015,c4:.001,d:-.100},recycling:{c1:.004,c2:.006,c3:.010,c4:0,d:-.080},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.030}}},
+  {id:"w02",n:"EPDM / synthetic rubber membrane",cat:"Waterproofing",ef:3.700,den:1150,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Synthetic rubber proxy (3.7 kg CO₂e/kg) — no dedicated EPDM in EPiC",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.015,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.300},recycling:{c1:.004,c2:.006,c3:.015,c4:0,d:-.600},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.080}}},
 ];
+
 
 const EOL={
   landfill:{l:"Landfill",d:"No material or energy recovery. Module D = 0 is correct — no recovered value. ⚠ For timber/plastics: long-term methane not captured in generic C4."},
@@ -1697,7 +1709,7 @@ ${r.items.map(i=>`  ${i.mat.n}: ${fv(i.qty)} ${i.u} × ${i.mat.ef} kg CO₂e/${i
 <table><thead><tr><th>Database / Programme</th><th>Year</th><th>Reference</th><th>Link</th></tr></thead><tbody>
 ${src.map(m=>`<tr><td>${m.db||'EPiC 2024'}${m.prog&&m.prog!==m.db?' / '+m.prog:''}</td><td>${m.yr||'—'}</td><td>${m.ref||'—'}</td><td>${m.url&&m.url.startsWith('http')?`<a href="${m.url}" style="color:#1565C0;font-size:10px">${m.url}</a>`:'—'}</td></tr>`).join('')}
 </tbody></table>
-<div class="disc"><strong>DISCLAIMER:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. A1–A3: EPiC Database 2024 (Crawford et al., Univ. Melbourne; CC0). Hybrid values — higher than process-only EPDs. Transport: ECTA (2011). C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. Commission a certified LCA practitioner for compliance use.</div>
+<div class="disc"><strong>DISCLAIMER:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. A1–A3: EPiC Database 2024 (Crawford et al., Univ. Melbourne; CC BY-NC-ND 4.0; internal use only). Hybrid values — higher than process-only EPDs. Transport: ECTA (2011). C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. Commission a certified LCA practitioner for compliance use.</div>
 <div class="ftr"><span>FastLCA v0.6 · fastlca.com · hello@fastlca.com</span><span>Generated ${r.date}</span></div>
 </div><script>setTimeout(()=>window.print(),500);<\/script></body></html>`;
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
