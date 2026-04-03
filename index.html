@@ -4,18 +4,16 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="description" content="FastLCA — Free embodied carbon calculator for construction materials. Calculate GWP (kg CO₂e) across life cycle stages A1–C4 + Module D. EN 15804 compliant. No login required."/>
-<meta name="keywords" content="LCA calculator,embodied carbon,GWP calculator,construction materials,EN 15804,carbon footprint,EPD,life cycle assessment"/>
+<meta name="keywords" content="LCA calculator,embodied carbon,GWP calculator,construction materials,EN 15804,EPD,life cycle assessment"/>
 <meta property="og:title" content="FastLCA — Free Embodied Carbon Calculator"/>
-<meta property="og:description" content="Calculate the GWP of construction materials and assemblies. Free, fast, EN 15804 compliant."/>
+<meta property="og:description" content="Calculate the GWP of construction materials. Free, EN 15804 compliant."/>
 <meta property="og:url" content="https://fastlca.com"/>
 <meta property="og:type" content="website"/>
-<meta name="twitter:card" content="summary"/>
 <link rel="canonical" href="https://fastlca.com/"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"FastLCA","url":"https://fastlca.com","description":"Free embodied carbon calculator for construction materials. EN 15804 compliant.","applicationCategory":"BusinessApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"FastLCA","url":"https://fastlca.com","description":"Free embodied carbon calculator for construction materials.","applicationCategory":"BusinessApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}</script>
 <title>FastLCA — Free Embodied Carbon Calculator | GWP for Construction Materials</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232E7D32'/><path d='M16 4L6 11v17h8v-8h4v8h8V11L16 4z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/></svg>"/>
 <style>
-/* ── THEME TOKENS ─────────────────────────────────────────── */
 :root{
   --bg:#F5F5F5;--surf:#fff;--surf2:#FAFAFA;--brd:#E0E0E0;--brd2:#EEEEEE;
   --t1:#212121;--t2:#616161;--t3:#9E9E9E;
@@ -40,7 +38,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:var(--t1);b
 a{color:var(--b)}
 
 /* NAV */
-nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:100;box-shadow:var(--sh);transition:background .2s}
+nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:100;box-shadow:var(--sh)}
 .nl{display:flex;align-items:center;gap:9px;text-decoration:none}
 .ni{width:30px;height:30px;background:var(--g);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .nn{font-size:18px;font-weight:700;color:var(--t1);letter-spacing:-.3px}
@@ -52,7 +50,7 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;
 .tbtn{width:32px;height:32px;padding:0;justify-content:center;font-size:16px}
 
 /* LAYOUT */
-.cont{max-width:740px;margin:0 auto;padding:1.5rem 1rem 5rem}
+.cont{max-width:780px;margin:0 auto;padding:1.5rem 1rem 5rem}
 .card{background:var(--surf);border:1px solid var(--brd);border-radius:var(--rl2);padding:1.25rem;margin-bottom:1rem;box-shadow:var(--sh);transition:background .2s}
 .sl{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem}
 
@@ -60,14 +58,14 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;
 .hero{background:var(--gl);border:1px solid var(--gm);border-radius:var(--rl2);padding:1.5rem;margin-bottom:1rem;box-shadow:var(--sh)}
 .hero h1{font-size:21px;font-weight:800;color:var(--gd);margin-bottom:.375rem;letter-spacing:-.3px}
 [data-theme=dark] .hero h1{color:var(--g)}
-.hero p{font-size:13px;color:var(--t2);line-height:1.6;max-width:520px}
+.hero p{font-size:13px;color:var(--t2);line-height:1.6;max-width:540px}
 .hbdgs{display:flex;gap:6px;flex-wrap:wrap;margin-top:.875rem}
 .hb{font-size:11px;padding:3px 10px;border-radius:999px;font-weight:600;border:1px solid}
 .hbg{background:var(--gl);color:var(--gd);border-color:var(--gm)}
 .hbb{background:var(--bl);color:var(--bd);border-color:var(--bm)}
 .hbn{background:var(--surf2);color:var(--t2);border-color:var(--brd)}
 
-/* METHODOLOGY ACCORDION */
+/* METHODOLOGY */
 .meth{border:1px solid var(--brd);border-radius:var(--rl2);margin-bottom:1rem;overflow:hidden;box-shadow:var(--sh)}
 .meth-h{display:flex;justify-content:space-between;align-items:center;padding:.875rem 1.25rem;cursor:pointer;background:var(--surf);transition:background .15s;user-select:none}
 .meth-h:hover{background:var(--surf2)}
@@ -82,25 +80,35 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;
 .meth-it{font-size:12px;font-weight:700;color:var(--t1);margin-bottom:3px}
 .meth-id{font-size:11px;color:var(--t2);line-height:1.5}
 
-/* LC BAR */
-.lcwrap{overflow-x:auto;margin-bottom:.625rem}
-.lcbar{display:flex;border:1px solid var(--brd);border-radius:var(--r);min-width:480px}
-.lg{display:flex;flex-direction:column;flex:1;min-width:0}
-.lgl{font-size:7px;font-weight:700;text-align:center;padding:3px 2px;border-bottom:1px solid var(--brd);border-right:1px solid var(--brd);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lg:last-child .lgl,.lg:last-child .ls{border-right:none}
-.lss{display:flex;flex:1}
-.ls{flex:1;padding:4px 2px;text-align:center;border-right:1px solid var(--brd);position:relative;cursor:default;min-width:0}
-.ls:last-child{border-right:none}
-.lsc{font-size:9px;font-weight:700;display:block;margin-bottom:1px}
-.lsn{font-size:7px;display:block;line-height:1.2;overflow:hidden}
-.ltt{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--t1);color:var(--surf);border-radius:var(--r);padding:7px 10px;font-size:11px;width:170px;z-index:200;line-height:1.5;text-align:left;pointer-events:none;box-shadow:var(--shl)}
-.ls:hover .ltt{display:block}
-.ga{background:var(--gl)}.ga .lgl{color:var(--gd);background:var(--gl)}.ga .lsc{color:var(--gd)}.ga .lsn{color:var(--g)}
-.gac{background:var(--bl)}.gac .lgl{color:var(--bd);background:var(--bl)}.gac .lsc{color:var(--b)}.gac .lsn{color:var(--b)}
-.gb{background:var(--surf2)}.gb .lgl,.gb .lsc,.gb .lsn{color:var(--t3)}
-.gc{background:var(--al)}.gc .lgl{color:var(--am);background:var(--al)}.gc .lsc,.gc .lsn{color:var(--am)}
-.gd2{background:var(--surf2);border-left:2px dashed var(--brd)}.gd2 .lgl,.gd2 .lsc,.gd2 .lsn{color:var(--t3)}
-.llg{display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--t3);margin-top:.5rem}
+/* ── LC BAR (fixed hover) ───────────────────────────────────────────── */
+.lc-wrap{overflow-x:auto;margin-bottom:.75rem}
+.lc-bar{display:flex;border:1px solid var(--brd);border-radius:var(--r);min-width:500px}
+.lc-grp{display:flex;flex-direction:column;flex:1;min-width:0}
+.lc-grp-lbl{font-size:7px;font-weight:700;text-align:center;padding:3px 2px;border-bottom:1px solid var(--brd);border-right:1px solid var(--brd);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lc-grp:last-child .lc-grp-lbl,.lc-grp:last-child .lc-stg{border-right:none}
+.lc-stgs{display:flex;flex:1}
+.lc-stg{flex:1;padding:5px 2px;text-align:center;border-right:1px solid var(--brd);min-width:0;position:relative;cursor:default}
+.lc-stg:last-child{border-right:none}
+.lc-stg-code{font-size:9px;font-weight:700;display:block;margin-bottom:1px}
+.lc-stg-name{font-size:7px;display:block;line-height:1.2;overflow:hidden}
+/* Tooltip — uses JS positioning to avoid layout breaks */
+.lc-tooltip-text{
+  display:none;
+  position:fixed;
+  background:var(--t1);color:var(--surf);
+  border-radius:var(--r);padding:8px 11px;
+  font-size:11px;width:180px;z-index:9999;
+  line-height:1.5;text-align:left;
+  pointer-events:none;
+  box-shadow:var(--shl);
+}
+.lc-stg:hover .lc-tooltip-text{display:block}
+.g-a{background:var(--gl)}.g-a .lc-grp-lbl{color:var(--gd);background:var(--gl)}.g-a .lc-stg-code{color:var(--gd)}.g-a .lc-stg-name{color:var(--g)}
+.g-ac{background:var(--bl)}.g-ac .lc-grp-lbl{color:var(--bd);background:var(--bl)}.g-ac .lc-stg-code{color:var(--b)}.g-ac .lc-stg-name{color:var(--b)}
+.g-b{background:var(--surf2)}.g-b .lc-grp-lbl,.g-b .lc-stg-code,.g-b .lc-stg-name{color:var(--t3)}
+.g-c{background:var(--al)}.g-c .lc-grp-lbl{color:var(--am);background:var(--al)}.g-c .lc-stg-code,.g-c .lc-stg-name{color:var(--am)}
+.g-d{background:var(--surf2);border-left:2px dashed var(--brd)}.g-d .lc-grp-lbl,.g-d .lc-stg-code,.g-d .lc-stg-name{color:var(--t3)}
+.lc-legend{display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--t3);margin-top:.5rem}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:3px;vertical-align:middle}
 
 /* TABS */
@@ -152,7 +160,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
 .spnl.show{display:block}
 .srow{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;padding:4px 0;border-bottom:1px solid var(--brd2)}
 .srow:last-child{border-bottom:none}
-.sk{color:var(--t3)}.sv{color:var(--t2);text-align:right;word-break:break-all}
+.sk{color:var(--t3);flex-shrink:0;margin-right:8px}.sv{color:var(--t2);text-align:right;word-break:break-all}
 
 /* EPD DB CARDS */
 .dbgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem}
@@ -213,18 +221,48 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
 .brp{font-size:11px;color:var(--t3);width:32px;text-align:right;flex-shrink:0}
 .empt{text-align:center;padding:2rem;color:var(--t3);font-size:13px}
 
-/* FEEDBACK MODAL */
-.ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center;padding:1rem}
-.ovl.show{display:flex}
-.modal{background:var(--surf);border-radius:var(--rl2);padding:1.5rem;max-width:440px;width:100%;box-shadow:var(--shl);border:1px solid var(--brd)}
-.modal h3{font-size:16px;font-weight:700;margin-bottom:.5rem;color:var(--t1)}
-.modal p{font-size:13px;color:var(--t2);margin-bottom:1rem;line-height:1.6}
-.mc{float:right;background:none;border:none;font-size:22px;cursor:pointer;color:var(--t3);margin-top:-4px;line-height:1}
-.ftps{display:flex;flex-direction:column;gap:6px;margin-bottom:1rem}
-.ftp{padding:10px 12px;border:1px solid var(--brd);border-radius:var(--r);cursor:pointer;font-size:13px;font-family:inherit;background:var(--surf);text-align:left;color:var(--t1);transition:all .15s}
-.ftp:hover{border-color:var(--g);background:var(--gl)}
-.ftp.sel{background:var(--gl);border-color:var(--g);color:var(--gd);font-weight:700}
-.fdt{display:none}.fdt.show{display:block}
+/* FLOOR AREA / m² metric */
+.fa-row{display:flex;align-items:center;gap:8px;padding:.75rem;background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);margin-top:1rem}
+.fa-row label{font-size:12px;color:var(--t2);font-weight:600;white-space:nowrap}
+.fa-row input{max-width:120px;height:32px}
+.fa-intensity{font-size:14px;font-weight:700;color:var(--gd);white-space:nowrap}
+[data-theme=dark] .fa-intensity{color:var(--g)}
+
+/* CALC TRANSPARENCY PANEL */
+.calc-panel{border:1px solid var(--brd);border-radius:var(--r);overflow:hidden;margin-top:1rem}
+.calc-panel-hdr{display:flex;justify-content:space-between;align-items:center;padding:.625rem .875rem;cursor:pointer;background:var(--surf2);transition:background .15s;user-select:none;font-size:12px;font-weight:700;color:var(--t1)}
+.calc-panel-hdr:hover{background:var(--brd2)}
+.calc-panel-body{display:none;padding:0;background:var(--surf)}
+.calc-panel-body.open{display:block}
+.calc-row{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr 1.2fr;gap:0;font-size:11px}
+.calc-row.header{background:var(--surf2);font-weight:700;color:var(--t3);font-size:10px;text-transform:uppercase;letter-spacing:.05em}
+.calc-cell{padding:6px 10px;border-bottom:1px solid var(--brd2);border-right:1px solid var(--brd2)}
+.calc-cell:last-child{border-right:none}
+.calc-row:last-child .calc-cell{border-bottom:none}
+.calc-formula{font-family:monospace;font-size:10px;color:var(--t3);padding:6px 10px;border-bottom:1px solid var(--brd2);background:var(--surf2)}
+.calc-ok{color:var(--gd);font-weight:700}[data-theme=dark] .calc-ok{color:var(--g)}
+.calc-note{font-size:10px;color:var(--t3);padding:.5rem .875rem;border-top:1px solid var(--brd2)}
+
+/* COMPARISON MODE */
+.cmp-container{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
+@media(max-width:560px){.cmp-container{grid-template-columns:1fr}}
+.cmp-col{border:1px solid var(--brd);border-radius:var(--rl2);overflow:hidden}
+.cmp-col.winner{border-color:var(--gm);box-shadow:0 0 0 2px var(--gm)}
+.cmp-header{padding:.75rem 1rem;border-bottom:1px solid var(--brd);display:flex;justify-content:space-between;align-items:center;background:var(--surf2)}
+.cmp-header input{background:transparent;border:none;font-size:13px;font-weight:700;color:var(--t1);padding:0;height:auto;width:auto;flex:1}
+.cmp-header input:focus{outline:none;border-bottom:1px dashed var(--brd)}
+.cmp-body{padding:1rem}
+.cmp-total{font-size:22px;font-weight:800;color:var(--t1);margin:.5rem 0 .25rem}
+.cmp-total.winner-val{color:var(--gd)}[data-theme=dark] .cmp-total.winner-val{color:var(--g)}
+.cmp-badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:999px;background:var(--gl);color:var(--gd);border:1px solid var(--gm);font-weight:700;margin-bottom:.5rem}
+[data-theme=dark] .cmp-badge{color:var(--g)}
+.cmp-diff{font-size:12px;color:var(--t2);margin-top:.5rem;padding:.5rem;background:var(--gl);border-radius:var(--r)}
+[data-theme=dark] .cmp-diff{background:var(--surf2)}
+
+/* SAVE / RESTORE PROJECT */
+.save-bar{display:flex;gap:8px;align-items:center;padding:.625rem .875rem;background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);margin-bottom:1rem;flex-wrap:wrap}
+.save-bar span{font-size:11px;color:var(--t3);flex:1}
+.save-status{font-size:11px;color:var(--g);display:none}
 
 /* MISSING BANNER */
 .mban{background:var(--al);border:1px solid var(--a2);border-radius:var(--r);padding:.75rem 1rem;font-size:12px;color:var(--am);margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;gap:10px}
@@ -232,12 +270,88 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
 
 /* SHEET STATUS */
 .sheet-status{font-size:11px;padding:.4rem .75rem;border-radius:var(--r);margin-bottom:.5rem;display:none}
-.sheet-ok{background:var(--gl);color:var(--gd);border:1px solid var(--gm)}
+.sheet-ok{background:var(--gl);color:var(--gd);border:1px solid var(--gm)}[data-theme=dark] .sheet-ok{color:var(--g)}
 .sheet-warn{background:var(--al);color:var(--am);border:1px solid var(--a2)}
-[data-theme=dark] .sheet-ok{color:var(--g)}
 
-/* DISCLAIMER */
+/* FEEDBACK MODAL */
+.ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center;padding:1rem}
+.ovl.show{display:flex}
+.modal{background:var(--surf);border-radius:var(--rl2);padding:1.5rem;max-width:440px;width:100%;box-shadow:var(--shl);border:1px solid var(--brd)}
+.modal h3{font-size:16px;font-weight:700;margin-bottom:.5rem}
+.modal p{font-size:13px;color:var(--t2);margin-bottom:1rem;line-height:1.6}
+.mc{float:right;background:none;border:none;font-size:22px;cursor:pointer;color:var(--t3);margin-top:-4px;line-height:1}
+.ftps{display:flex;flex-direction:column;gap:6px;margin-bottom:1rem}
+.ftp{padding:10px 12px;border:1px solid var(--brd);border-radius:var(--r);cursor:pointer;font-size:13px;font-family:inherit;background:var(--surf);text-align:left;color:var(--t1);transition:all .15s}
+.ftp:hover{border-color:var(--g);background:var(--gl)}
+.ftp.sel{background:var(--gl);border-color:var(--g);color:var(--gd);font-weight:700}
+.fdt{display:none}.fdt.show{display:block}
 .disc{font-size:11px;color:var(--t3);line-height:1.7;padding:1rem;background:var(--surf);border:1px solid var(--brd);border-radius:var(--rl2);border-left:3px solid var(--a2);margin-top:1rem;box-shadow:var(--sh)}
+
+/* ── ASSEMBLY MODE ────────────────────────────────────────────────────── */
+.asm-hero{background:var(--gl);border:1px solid var(--gm);border-radius:var(--r);padding:1rem;margin-bottom:1rem}
+.asm-hero p{font-size:12px;color:var(--t2);line-height:1.6;margin-top:.375rem}
+.asm-layers{border:1px solid var(--brd);border-radius:var(--r);overflow:hidden;margin-bottom:.875rem}
+.asm-layer{display:grid;grid-template-columns:28px 1fr 100px 80px 80px 36px;gap:6px;align-items:center;padding:7px 10px;border-bottom:1px solid var(--brd2);background:var(--surf);transition:background .1s}
+.asm-layer:last-child{border-bottom:none}
+.asm-layer:hover{background:var(--surf2)}
+.asm-layer-num{font-size:11px;font-weight:700;color:var(--t3);text-align:center;width:20px;height:20px;background:var(--surf2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.asm-layer select,.asm-layer input{height:32px;font-size:12px;border-radius:6px}
+.asm-layer-gwp{font-size:12px;font-weight:700;color:var(--gd);text-align:right;white-space:nowrap}
+[data-theme=dark] .asm-layer-gwp{color:var(--g)}
+.asm-empty{text-align:center;padding:1.5rem;color:var(--t3);font-size:12px}
+.asm-result{background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);padding:1rem;margin-top:.875rem}
+.asm-result-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:.75rem}
+@media(max-width:440px){.asm-result-grid{grid-template-columns:1fr 1fr}}
+.asm-rc{padding:.875rem;background:var(--surf);border:1px solid var(--brd);border-radius:var(--r);text-align:center}
+.asm-rc.hl{background:var(--gl);border-color:var(--gm)}
+.asm-rc-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;font-weight:700}
+.asm-rc.hl .asm-rc-l{color:var(--g)}
+.asm-rc-v{font-size:22px;font-weight:800;color:var(--t1)}
+.asm-rc.hl .asm-rc-v{color:var(--gd)}
+[data-theme=dark] .asm-rc.hl .asm-rc-v{color:var(--g)}
+.asm-rc-u{font-size:11px;color:var(--t3);margin-top:2px}
+.asm-add-row{display:grid;grid-template-columns:1fr 90px 76px auto;gap:6px;align-items:end;margin-bottom:.75rem}
+@media(max-width:480px){.asm-add-row{grid-template-columns:1fr 1fr;}.asm-add-row .asm-btn-wrap{grid-column:1/-1}}
+.asm-area-row{display:flex;align-items:center;gap:8px;margin-bottom:.875rem;flex-wrap:wrap}
+.asm-area-row label{font-size:12px;color:var(--t2);font-weight:600;white-space:nowrap}
+.asm-area-row input{max-width:110px;height:34px}
+.asm-bar-wrap{margin-top:.75rem}
+.asm-bar{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.asm-bar-lbl{font-size:11px;color:var(--t2);width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:0}
+.asm-bar-track{flex:1;height:6px;background:var(--surf2);border-radius:3px;overflow:hidden}
+.asm-bar-fill{height:100%;border-radius:3px}
+.asm-bar-pct{font-size:11px;color:var(--t3);width:34px;text-align:right;flex-shrink:0}
+
+/* ── SHARE CARD ───────────────────────────────────────────────────────── */
+.share-card-wrap{display:none;margin-top:1rem}
+.share-card-wrap.show{display:block}
+.share-card{background:var(--surf);border:2px solid var(--gm);border-radius:var(--rl2);padding:1.5rem;text-align:center;box-shadow:var(--shl);position:relative}
+.share-card-logo{font-size:13px;font-weight:800;color:var(--gd);letter-spacing:-.3px;margin-bottom:.875rem;display:flex;align-items:center;justify-content:center;gap:7px}
+[data-theme=dark] .share-card-logo{color:var(--g)}
+.share-card-logo-icon{width:26px;height:26px;background:var(--g);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.share-card-proj{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:.25rem}
+.share-card-total{font-size:44px;font-weight:800;color:var(--gd);line-height:1;margin:.5rem 0 .25rem}
+[data-theme=dark] .share-card-total{color:var(--g)}
+.share-card-unit{font-size:14px;color:var(--t3);margin-bottom:1rem}
+.share-card-breakdown{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:1rem;padding:.75rem;background:var(--surf2);border-radius:var(--r)}
+.share-card-stage{text-align:center}
+.share-card-stage-v{font-size:15px;font-weight:700;color:var(--t1)}
+.share-card-stage-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.share-card-footer{font-size:11px;color:var(--t3);margin-top:.5rem}
+.share-card-footer a{color:var(--b)}
+.share-btn-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:.875rem}
+
+/* ── PRIVACY MODAL ────────────────────────────────────────────────────── */
+.privacy-ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}
+.privacy-ovl.show{display:flex}
+.privacy-modal{background:var(--surf);border-radius:var(--rl2);padding:2rem;max-width:620px;width:100%;box-shadow:var(--shl);border:1px solid var(--brd);margin:auto}
+.privacy-modal h2{font-size:18px;font-weight:800;color:var(--t1);margin-bottom:.25rem}
+.privacy-modal .pm-date{font-size:11px;color:var(--t3);margin-bottom:1.25rem}
+.privacy-modal h3{font-size:13px;font-weight:700;color:var(--t1);margin:1.25rem 0 .375rem;padding-top:.875rem;border-top:1px solid var(--brd)}
+.privacy-modal h3:first-of-type{border-top:none;padding-top:0}
+.privacy-modal p,.privacy-modal li{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:.5rem}
+.privacy-modal ul{padding-left:1.25rem;margin-bottom:.5rem}
+.privacy-close{float:right;background:none;border:none;font-size:22px;cursor:pointer;color:var(--t3);line-height:1;margin-top:-6px}
 </style>
 </head>
 <body>
@@ -249,11 +363,13 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
   </a>
   <div class="nr">
     <span class="nbdg">Free · EN 15804</span>
+    <a href="/about.html" class="bnav" style="text-decoration:none">About</a>
     <button class="bnav" onclick="openFB('general')">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0 3.5c.3 0 .5.2.5.5v4a.5.5 0 0 1-1 0V8c0-.3.2-.5.5-.5z"/></svg>
       Feedback
     </button>
     <button class="bnav tbtn" onclick="toggleTheme()" id="tbtn" title="Toggle dark/light">🌙</button>
+    <button class="bnav" onclick="openPrivacy()" style="font-size:11px">Privacy</button>
   </div>
 </nav>
 
@@ -274,7 +390,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
       <div class="fl" style="margin-bottom:1rem"><label>Your email (optional)</label><input type="email" id="feml" placeholder="you@example.com"/></div>
       <div style="display:flex;gap:8px"><button class="btn bg2" onclick="submitFB()" style="flex:1">Send feedback</button><button class="btn bgh" onclick="closeFB()">Cancel</button></div>
     </div>
-    <div id="fsnt" style="display:none"><div class="ob">✓ Thank you — feedback recorded. We review all submissions within 48 hours.</div><button class="btn bgh" onclick="closeFB()" style="width:100%">Close</button></div>
+    <div id="fsnt" style="display:none"><div class="ob">✓ Thank you — feedback recorded.</div><button class="btn bgh" onclick="closeFB()" style="width:100%">Close</button></div>
   </div>
 </div>
 
@@ -287,64 +403,84 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
   <div class="hbdgs">
     <span class="hb hbg">✓ EN 15804+A2:2019</span>
     <span class="hb hbg">✓ ISO 14040/14044 boundary</span>
-    <span class="hb hbb">ICE Database v3.0</span>
+    <span class="hb hbb">EPiC Database 2024</span>
     <span class="hb hbb">Stages A1–C4 + Module D</span>
     <span class="hb hbn">No login required</span>
-    <span class="hb hbn">Free forever</span>
+    
   </div>
 </div>
 
 <!-- METHODOLOGY -->
 <div class="meth">
-  <div class="meth-h" onclick="toggleMeth()" id="methHdr">
+  <div class="meth-h" onclick="toggleMeth()">
     <span class="meth-t">
-      <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0 3.5c.3 0 .5.2.5.5v4a.5.5 0 0 1-1 0V8c0-.3.2-.5.5-.5z"/></svg>
-      Methodology &amp; data sources — how FastLCA works
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0 3.5c.3 0 .5.2.5.5v4a.5.5 0 0 1-1 0V8c0-.3.2-.5.5-.5z"/></svg>
+      Methodology &amp; data sources — click to expand
     </span>
     <span class="meth-a" id="methArr">▼</span>
   </div>
   <div class="meth-b" id="methB">
-    <div class="ib" style="margin-top:.75rem">FastLCA calculates <strong>Global Warming Potential (GWP)</strong> in <strong>kg CO₂e</strong>, following the module structure of <strong>EN 15804+A2:2019</strong> and the general methodology of <strong>ISO 14040/14044</strong>. Results are indicative estimates — not a certified LCA or EPD.</div>
+    <div class="ib" style="margin-top:.75rem">FastLCA calculates <strong>Global Warming Potential (GWP)</strong> in <strong>kg CO₂e</strong> following the module structure of <strong>EN 15804+A2:2019</strong> and methodology of <strong>ISO 14040/14044</strong>. Results are indicative estimates — not a certified LCA or EPD.</div>
+    <div class="wb" style="margin-top:.5rem">⚠ <strong>Important — EPiC is an Australian database.</strong> Generic values use Australian input-output data and manufacturing conditions. The hybrid method (process + input-output) gives <strong>higher values than European EPDs</strong> because it captures indirect supply chain processes that process-only methods miss. For European/UK projects: use values as upper-bound estimates and replace with local EPDs (EPD Norway, IBU, Environdec) for formal reporting. EPD Database license: <strong>CC0 Public Domain</strong> (freely redistributable) · Cite as: Crawford, R.H., Stephan, A. &amp; Prideaux, F. (2024), University of Melbourne · DOI: <a href="https://doi.org/10.26188/10257728.v11" target="_blank" rel="noopener">10.26188/10257728.v11</a></div>
     <div class="meth-grid">
-      <div class="meth-i"><div class="meth-it">A1–A3 — Generic materials</div><div class="meth-id"><strong>ICE Database v3.0</strong> (University of Bath, 2019). Widely used, peer-reviewed generic values representing UK/European industry averages. <a href="https://circularecology.com/embodied-carbon-footprint-database.html" target="_blank">Open database ↗</a></div></div>
-      <div class="meth-i"><div class="meth-it">A1–A3 — EPD products</div><div class="meth-id">Product-specific values entered from verified manufacturer EPDs. FastLCA does not pre-load values to avoid outdated data — users verify against the current EPD document.</div></div>
-      <div class="meth-i"><div class="meth-it">A4 — Transport to site</div><div class="meth-id">ECTA (2011) transport emission factors per vehicle type and distance (kg CO₂e per tonne·km). User-specified.</div></div>
-      <div class="meth-i"><div class="meth-it">A5 — Construction process</div><div class="meth-id">IEA 2023 grid intensities (user-selectable) + waste factor (%) applied to A1–A3, representing material off-cuts and over-ordering.</div></div>
-      <div class="meth-i"><div class="meth-it">C1–C4 — End of life</div><div class="meth-id">Generic per-kg factors estimated from published EPD ranges by material category and EOL scenario. For EPD products with declared C1–C4, those are used directly.</div></div>
-      <div class="meth-i"><div class="meth-it">Module D — Beyond boundary</div><div class="meth-id">Net benefit from material recovery. <strong>Always reported separately</strong> — never added to A1–C4 total per EN 15804+A2:2019 clause 6.4.3.4.</div></div>
+      <div class="meth-i"><div class="meth-it">A1–A3 Generic materials</div><div class="meth-id"><strong>EPiC Database 2024</strong> (Crawford, Stephan &amp; Prideaux, University of Melbourne). Hybrid LCI — Australian supply chain data, CC0 licensed. Values are higher than EU EPDs due to full supply chain coverage. <a href="https://doi.org/10.26188/10257728.v11" target="_blank" rel="noopener">Open EPiC Database ↗</a></div></div>
+      <div class="meth-i"><div class="meth-it">A1–A3 EPD products</div><div class="meth-id">Product-specific values from verified manufacturer EPDs, entered by the user from the original document.</div></div>
+      <div class="meth-i"><div class="meth-it">A4 Transport</div><div class="meth-id">ECTA (2011) factors per vehicle type × distance (kg CO₂e/t·km), applied to total material mass.</div></div>
+      <div class="meth-i"><div class="meth-it">A5 Construction</div><div class="meth-id">IEA 2023 grid intensity × site energy + waste factor (%) × A1–A3 GWP.</div></div>
+      <div class="meth-i"><div class="meth-it">C1–C4 End of life</div><div class="meth-id">Generic per-kg factors estimated from published EPD ranges by material and EOL scenario. EPD-declared values used where available.</div></div>
+      <div class="meth-i"><div class="meth-it">Module D</div><div class="meth-id">Net recovery benefit. <strong>Always reported separately</strong> — never added to A1–C4 total per EN 15804+A2:2019 clause 6.4.3.4.</div></div>
     </div>
-    <div class="wb" style="margin-top:.75rem;margin-bottom:0">⚠ <strong>Limitations:</strong> ICE v3.0 values are UK/European averages from 2019. Generic C1–C4 and Module D values are estimated — not from a single verified source. For project-specific accuracy, use product EPDs. FastLCA is not a substitute for a certified LCA or EPD.</div>
+    <div class="wb" style="margin-top:.75rem;margin-bottom:0">⚠ <strong>Limitations:</strong> EPiC uses Australian input-output data — values are systematically <strong>higher</strong> than European EPDs because the hybrid method captures full supply chain emissions including indirect processes. For European/UK projects these are indicative only. Generic C1–C4 and Module D values are estimated — not from a single verified source. Always prefer product-specific EPDs for formal reporting.</div>
   </div>
 </div>
 
 <!-- LC BAR -->
 <div class="card" style="padding:1rem">
-  <div class="sl">Life cycle boundary — hover each stage</div>
-  <div class="lcwrap"><div class="lcbar">
-    <div class="lg ga" style="flex:3"><div class="lgl">PRODUCT STAGE (A1–A3)</div><div class="lss">
-      <div class="ls"><span class="lsc">A1</span><span class="lsn">Raw mat.</span><div class="ltt">Extraction and processing of raw materials. Usually the largest share for construction products.</div></div>
-      <div class="ls"><span class="lsc">A2</span><span class="lsn">Transport</span><div class="ltt">Transport of raw materials to the manufacturing plant.</div></div>
-      <div class="ls"><span class="lsc">A3</span><span class="lsn">Manufacture</span><div class="ltt">Energy and process emissions at the factory where the product is made.</div></div>
-    </div></div>
-    <div class="lg gac" style="flex:2"><div class="lgl">CONSTRUCTION (A4–A5)</div><div class="lss">
-      <div class="ls"><span class="lsc">A4</span><span class="lsn">To site</span><div class="ltt">Transport from factory gate to construction site. Set distance and vehicle in A4–A5 tab.</div></div>
-      <div class="ls"><span class="lsc">A5</span><span class="lsn">On site</span><div class="ltt">Site energy use and material waste during installation.</div></div>
-    </div></div>
-    <div class="lg gb" style="flex:2"><div class="lgl">USE PHASE — NOT INCLUDED</div><div class="lss">
-      <div class="ls"><span class="lsc">B1–5</span><span class="lsn">Use &amp; maint.</span><div class="ltt">Not included. Requires project-specific service life data.</div></div>
-      <div class="ls"><span class="lsc">B6–7</span><span class="lsn">Energy/water</span><div class="ltt">Operational energy and water. Not included.</div></div>
-    </div></div>
-    <div class="lg gc" style="flex:2"><div class="lgl">END OF LIFE (C1–C4)</div><div class="lss">
-      <div class="ls"><span class="lsc">C1</span><span class="lsn">Demolition</span><div class="ltt">Energy for deconstruction at end of life.</div></div>
-      <div class="ls"><span class="lsc">C2</span><span class="lsn">Transport</span><div class="ltt">Waste transport to processing or disposal facility.</div></div>
-      <div class="ls"><span class="lsc">C3</span><span class="lsn">Processing</span><div class="ltt">Sorting, shredding and reprocessing of waste material.</div></div>
-      <div class="ls"><span class="lsc">C4</span><span class="lsn">Disposal</span><div class="ltt">Final landfill or incineration without energy recovery.</div></div>
-    </div></div>
-    <div class="lg gd2" style="flex:1"><div class="lgl">BEYOND</div><div class="lss">
-      <div class="ls"><span class="lsc">D</span><span class="lsn">Net benefit</span><div class="ltt">Recycling/reuse credit. Reported separately — NEVER added to A1–C4 total per EN 15804+A2:2019.</div></div>
-    </div></div>
-  </div></div>
-  <div class="llg">
+  <div class="sl">Life cycle boundary — hover each stage for details</div>
+  <div class="lc-wrap">
+    <div class="lc-bar" id="lcbar">
+      <div class="lc-grp g-a" style="flex:3">
+        <div class="lc-grp-lbl">PRODUCT STAGE (A1–A3)</div>
+        <div class="lc-stgs">
+          <div class="lc-stg" data-tip="A1: Extraction and processing of raw materials. Usually the largest share of embodied carbon for construction products."><span class="lc-stg-code">A1</span><span class="lc-stg-name">Raw mat.</span></div>
+          <div class="lc-stg" data-tip="A2: Transport of raw materials to the manufacturing plant."><span class="lc-stg-code">A2</span><span class="lc-stg-name">Transport</span></div>
+          <div class="lc-stg" data-tip="A3: Energy and process emissions at the factory where the product is manufactured."><span class="lc-stg-code">A3</span><span class="lc-stg-name">Manufacture</span></div>
+        </div>
+      </div>
+      <div class="lc-grp g-ac" style="flex:2">
+        <div class="lc-grp-lbl">CONSTRUCTION (A4–A5)</div>
+        <div class="lc-stgs">
+          <div class="lc-stg" data-tip="A4: Transport from factory gate to construction site. Set distance and vehicle type in the A4–A5 tab."><span class="lc-stg-code">A4</span><span class="lc-stg-name">To site</span></div>
+          <div class="lc-stg" data-tip="A5: Site energy use and material waste during installation of the product."><span class="lc-stg-code">A5</span><span class="lc-stg-name">On site</span></div>
+        </div>
+      </div>
+      <div class="lc-grp g-b" style="flex:2">
+        <div class="lc-grp-lbl">USE PHASE — NOT INCLUDED</div>
+        <div class="lc-stgs">
+          <div class="lc-stg" data-tip="B1–B5: Use, maintenance, repair, replacement. Not included — requires project-specific service life data."><span class="lc-stg-code">B1–5</span><span class="lc-stg-name">Use &amp; maint.</span></div>
+          <div class="lc-stg" data-tip="B6–B7: Operational energy and water use. Not included in this version."><span class="lc-stg-code">B6–7</span><span class="lc-stg-name">Energy/water</span></div>
+        </div>
+      </div>
+      <div class="lc-grp g-c" style="flex:2">
+        <div class="lc-grp-lbl">END OF LIFE (C1–C4)</div>
+        <div class="lc-stgs">
+          <div class="lc-stg" data-tip="C1: Energy for deconstruction at end of life. Typically small relative to A1–A3."><span class="lc-stg-code">C1</span><span class="lc-stg-name">Demolition</span></div>
+          <div class="lc-stg" data-tip="C2: Waste transport to processing or disposal facility."><span class="lc-stg-code">C2</span><span class="lc-stg-name">Transport</span></div>
+          <div class="lc-stg" data-tip="C3: Sorting, shredding and reprocessing of waste material."><span class="lc-stg-code">C3</span><span class="lc-stg-name">Processing</span></div>
+          <div class="lc-stg" data-tip="C4: Final landfill or incineration without energy recovery."><span class="lc-stg-code">C4</span><span class="lc-stg-name">Disposal</span></div>
+        </div>
+      </div>
+      <div class="lc-grp g-d" style="flex:1">
+        <div class="lc-grp-lbl">BEYOND</div>
+        <div class="lc-stgs">
+          <div class="lc-stg" data-tip="Module D: Recycling/reuse credit beyond the system boundary. Reported separately — NEVER added to A1–C4 total per EN 15804+A2:2019."><span class="lc-stg-code">D</span><span class="lc-stg-name">Net benefit</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Single shared tooltip element -->
+  <div id="lc-tooltip" class="lc-tooltip-text"></div>
+  <div class="lc-legend">
     <span><span class="dot" style="background:var(--g)"></span>A1–A3 included</span>
     <span><span class="dot" style="background:var(--b)"></span>A4–A5 (optional)</span>
     <span><span class="dot" style="background:var(--am)"></span>C1–C4 (per EOL)</span>
@@ -357,32 +493,43 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
 <!-- MAIN CARD -->
 <div class="card">
   <div class="sl">Project</div>
-  <input type="text" id="pname" placeholder="Assembly / product name (e.g. External wall — 200mm CLT + mineral wool)" style="margin-bottom:1rem"/>
+
+  <!-- SAVE BAR -->
+  <div class="save-bar">
+    <span id="save-label">Project saved automatically to your browser</span>
+    <span class="save-status" id="save-status">✓ Saved</span>
+    <button class="btn bgh" style="font-size:11px;height:28px" onclick="clearSaved()">Clear saved project</button>
+  </div>
+
+  <input type="text" id="pname" placeholder="Assembly / product name (e.g. External wall — 200mm CLT + mineral wool)" style="margin-bottom:1rem" oninput="scheduleSave()"/>
+
   <div class="tabs">
     <button class="tab active" onclick="sw('mat')">Materials &amp; Products</button>
     <button class="tab" onclick="sw('a45')">A4–A5 Construction</button>
     <button class="tab" onclick="sw('eol')">C1–C4 + D End of life</button>
+    <button class="tab" onclick="sw('asm')">🏗 Assemblies</button>
     <button class="tab" onclick="sw('epd')">+ Add custom EPD</button>
+    <button class="tab" onclick="sw('cmp')">⇌ Compare</button>
   </div>
 
   <!-- MATERIALS TAB -->
   <div id="tab-mat">
     <div class="ltog">
-      <button class="lbtn ar" id="lbr" onclick="switchLib('raw')">📦 Raw materials — generic (ICE v3.0)</button>
+      <button class="lbtn ar" id="lbr" onclick="switchLib('raw')">📦 Generic materials — EPiC Database 2024</button>
       <button class="lbtn" id="lbp" onclick="switchLib('prod')">🏷 Manufacturer products (EPD)</button>
     </div>
-    <div id="dr" class="ib">Generic emission factors from <strong>ICE Database v3.0</strong> (University of Bath, 2019). Use when no product-specific EPD is available. <a href="https://circularecology.com/embodied-carbon-footprint-database.html" target="_blank">Open ICE database ↗</a></div>
+    <div id="dr" class="ib">Generic GHG emission factors from the <strong>EPiC Database 2024</strong> (Crawford, Stephan &amp; Prideaux, University of Melbourne). Hybrid LCI approach — covers full supply chain. Values are higher than process-only EPDs. <a href="https://doi.org/10.26188/10257728.v11" target="_blank" rel="noopener">Open EPiC Database ↗</a> · License: CC0 Public Domain</div>
     <div id="dp" style="display:none">
       <div id="sheet-status" class="sheet-status"></div>
-      <div class="wb">⚠ Products below come from your Google Sheet database or are added manually. Always verify current EPD before formal use. Use "Report wrong data" to flag outdated entries.</div>
-      <div class="sl" style="margin-bottom:.5rem">Find EPDs in these free databases</div>
+      <div class="wb">⚠ Products shown come from your Google Sheet database and any manually added EPDs. Always verify the current EPD before formal use.</div>
+      <div class="sl" style="margin-bottom:.5rem">Find EPDs in free databases</div>
       <div class="dbgrid">
-        <a class="dbc" href="https://www.epd-norge.no" target="_blank"><div class="dbn">EPD Norway</div><div class="dbd">Nordic products, free search</div><div class="dbtg">Nordic / EU</div></a>
-        <a class="dbc" href="https://www.ibu-epd.com/en/epd-programmes/published-epds/" target="_blank"><div class="dbn">IBU (Germany)</div><div class="dbd">EU products, EN 15804 compliant</div><div class="dbtg">Germany / EU</div></a>
-        <a class="dbc" href="https://www.environdec.com/library" target="_blank"><div class="dbn">Environdec</div><div class="dbd">Global, thousands of verified EPDs</div><div class="dbtg">Global</div></a>
-        <a class="dbc" href="https://buildingtransparency.org/ec3" target="_blank"><div class="dbn">EC3</div><div class="dbd">Large North American database</div><div class="dbtg">North America</div></a>
-        <a class="dbc" href="https://www.breeam.com/discover/technical-standards/verified-epds/" target="_blank"><div class="dbn">BRE Global</div><div class="dbd">UK products, BREEAM verified</div><div class="dbtg">UK</div></a>
-        <a class="dbc" href="https://epdhub.com" target="_blank"><div class="dbn">EPD Hub</div><div class="dbd">EU aggregator</div><div class="dbtg">EU aggregator</div></a>
+        <a class="dbc" href="https://www.epd-norge.no" target="_blank"><div class="dbn">EPD Norway</div><div class="dbd">Nordic, free search</div><div class="dbtg">Nordic / EU</div></a>
+        <a class="dbc" href="https://www.ibu-epd.com/en/epd-programmes/published-epds/" target="_blank"><div class="dbn">IBU (Germany)</div><div class="dbd">EN 15804 compliant</div><div class="dbtg">Germany / EU</div></a>
+        <a class="dbc" href="https://www.environdec.com/library" target="_blank"><div class="dbn">Environdec</div><div class="dbd">Global, thousands of EPDs</div><div class="dbtg">Global</div></a>
+        <a class="dbc" href="https://buildingtransparency.org/ec3" target="_blank"><div class="dbn">EC3</div><div class="dbd">North American database</div><div class="dbtg">North America</div></a>
+        <a class="dbc" href="https://www.breeam.com/discover/technical-standards/verified-epds/" target="_blank"><div class="dbn">BRE Global</div><div class="dbd">UK, BREEAM verified</div><div class="dbtg">UK</div></a>
+        <a class="dbc" href="https://epdhub.com" target="_blank"><div class="dbn">EPD Hub</div><div class="dbd">EU aggregator</div><div class="dbtg">EU</div></a>
       </div>
     </div>
     <div class="sw"><span class="si">⌕</span><input type="text" id="msrch" placeholder="Search materials and products..." oninput="filterM()"/></div>
@@ -442,14 +589,17 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
       <div class="fl"><label>Site energy (kWh)</label><input type="number" id="a5e" value="0" min="0" oninput="calcAll()"/></div>
       <div class="fl"><label>Energy source</label>
         <select id="a5s" onchange="calcAll()">
-          <option value="0.233">EU grid avg — 0.233</option><option value="0.193">Nordic grid — 0.193</option>
-          <option value="0.112">Estonian grid — 0.112</option><option value="0.450">Global avg — 0.450</option>
-          <option value="0.202">Diesel gen — 0.202</option><option value="0">Renewables — 0</option>
+          <option value="0.233">EU grid avg — 0.233</option>
+          <option value="0.193">Nordic grid — 0.193</option>
+          <option value="0.112">Estonian grid — 0.112</option>
+          <option value="0.450">Global avg — 0.450</option>
+          <option value="0.202">Diesel gen — 0.202</option>
+          <option value="0">Renewables — 0</option>
         </select>
       </div>
       <div class="fl"><label>Site waste (%)</label><input type="number" id="a5w" value="5" min="0" max="50" oninput="calcAll()"/></div>
     </div>
-    <div class="ib">Waste factor adds % of A1–A3 GWP for cut-offs, breakage and over-ordering. Typical: 2–10%.</div>
+    <div class="ib">Waste factor adds % of A1–A3 GWP for material cut-offs, breakage and over-ordering. Typical: 2–10%.</div>
   </div>
 
   <!-- EOL TAB -->
@@ -458,9 +608,69 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
     <div id="eoll"><div class="empt">Add materials first.</div></div>
   </div>
 
-  <!-- CUSTOM EPD TAB -->
+  <!-- ASSEMBLY TAB -->
+  <div id="tab-asm" style="display:none">
+    <div class="asm-hero">
+      <div class="sl" style="margin-bottom:.25rem">🏗 Assembly calculator</div>
+      <p>Build a complete wall, floor, roof or façade layer by layer. Specify each material by <strong>thickness</strong> — FastLCA calculates the mass from density automatically. Enter the total area to get <strong>kg CO₂e/m²</strong> — the standard metric for RICS and RIBA reporting.</p>
+    </div>
+
+    <div class="fl" style="margin-bottom:.875rem">
+      <label>Assembly name</label>
+      <input type="text" id="asm-name" placeholder="e.g. External wall — 200mm CLT + 100mm rock wool + 12.5mm plasterboard"/>
+    </div>
+
+    <div class="asm-area-row">
+      <label>Assembly area:</label>
+      <input type="number" id="asm-area" placeholder="e.g. 85" min="0" step="any" oninput="calcAsm()"/>
+      <span style="font-size:12px;color:var(--t2)">m²</span>
+      <span style="font-size:11px;color:var(--t3);margin-left:.5rem">Leave blank to see only kg CO₂e/m²</span>
+    </div>
+
+    <div class="sl" style="margin-bottom:.5rem">Add layers</div>
+    <div class="asm-add-row">
+      <div class="fl">
+        <label>Material</label>
+        <select id="asm-mat-sel" style="height:36px;font-size:12px">
+          <option value="">— select material —</option>
+        </select>
+      </div>
+      <div class="fl">
+        <label>Thickness (mm)</label>
+        <input type="number" id="asm-thick" placeholder="e.g. 200" min="0" step="any" style="height:36px;font-size:12px"/>
+      </div>
+      <div class="fl">
+        <label>Or mass (kg/m²)</label>
+        <input type="number" id="asm-mass" placeholder="e.g. 10" min="0" step="any" style="height:36px;font-size:12px"/>
+      </div>
+      <div class="fl asm-btn-wrap">
+        <label style="visibility:hidden">x</label>
+        <button class="btn bg2" onclick="addAsmLayer()" style="width:100%">+ Add layer</button>
+      </div>
+    </div>
+    <div class="ib" style="margin-bottom:.75rem;font-size:11px">Enter either thickness <em>or</em> mass per m² — not both. Thickness requires the material to have a known density. For glazing, doors, or items without thickness, use mass (kg/m²) directly.</div>
+
+    <div class="asm-layers" id="asm-layers">
+      <div class="asm-empty">No layers yet — add materials above to build your assembly.</div>
+    </div>
+
+    <div id="asm-result" style="display:none">
+      <div class="asm-result">
+        <div class="sl" style="margin-bottom:.625rem">Assembly results</div>
+        <div class="asm-result-grid" id="asm-cards"></div>
+        <div class="asm-bar-wrap" id="asm-bars" style="margin-top:.875rem"></div>
+        <div style="margin-top:.875rem;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn bg2" onclick="addAsmToProject()">→ Add assembly total to project</button>
+          <button class="btn bgh" onclick="clearAsm()">Clear assembly</button>
+        </div>
+        <div class="ib" style="margin-top:.75rem;margin-bottom:0;font-size:11px">
+          ⓘ <strong>"Add to project"</strong> creates a single line item in the Materials tab representing this whole assembly — useful when you want to combine multiple assemblies into one project total.
+        </div>
+      </div>
+    </div>
+  </div>
   <div id="tab-epd" style="display:none">
-    <div class="ib">Enter GWP values exactly as declared in a verified EPD. The declared unit must match the quantity you enter. <strong>Module D:</strong> Only enter if your EPD explicitly declares it — leave blank otherwise.</div>
+    <div class="ib">Enter GWP values exactly as declared in a verified EPD. The declared unit must match the quantity you enter. <strong>Module D:</strong> Only enter if your EPD explicitly declares it.</div>
     <div class="g2"><div class="fl"><label>Product name *</label><input type="text" id="en" placeholder="e.g. Paroc Extra 100mm stone wool slab"/></div><div class="fl"><label>Manufacturer</label><input type="text" id="em" placeholder="e.g. Paroc Group"/></div></div>
     <div class="g2"><div class="fl"><label>EPD link *</label><input type="url" id="eu" placeholder="https://..."/></div><div class="fl"><label>EPD year</label><input type="text" id="ey" placeholder="e.g. 2023"/></div></div>
     <div class="g2">
@@ -476,6 +686,16 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
     <div id="emsg" style="margin-top:.5rem"></div>
     <div id="esav" style="margin-top:1rem"></div>
   </div>
+
+  <!-- COMPARE TAB -->
+  <div id="tab-cmp" style="display:none">
+    <div class="ib">Compare two assemblies side by side. Each column is independent — add materials to each using the main Materials tab, then switch here to compare. Currently comparing <strong>Project A</strong> (your main project) against a second scenario.</div>
+    <div style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap">
+      <button class="btn bg2" onclick="setCmpA()">Set current project as Scenario A</button>
+      <button class="btn bb2" onclick="setCmpB()">Set current project as Scenario B</button>
+    </div>
+    <div id="cmp-result"><div class="empt">Build two scenarios using the Materials tab, then set each as Scenario A and B.</div></div>
+  </div>
 </div>
 
 <!-- RESULTS -->
@@ -488,150 +708,396 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
     <div class="sl">Results — GWP by life cycle stage</div>
     <div id="stgbd" style="margin-bottom:1.25rem"></div>
     <div class="rgrid" id="rgd"></div>
+
+    <!-- FLOOR AREA METRIC -->
+    <div class="fa-row">
+      <label for="fa-input">kg CO₂e per m² floor area:</label>
+      <input type="number" id="fa-input" placeholder="e.g. 150" min="0" step="any" oninput="updateFA()" style="max-width:110px;height:32px"/>
+      <span style="font-size:12px;color:var(--t2)">m² GFA</span>
+      <span class="fa-intensity" id="fa-out">—</span>
+      <span style="font-size:11px;color:var(--t3)">kg CO₂e/m²</span>
+    </div>
+
     <div class="sl" style="margin-top:1.25rem;margin-bottom:.5rem">Material contribution to A1–A3</div>
     <div id="barbd"></div>
+
+    <!-- CALCULATION TRANSPARENCY PANEL -->
+    <div class="calc-panel">
+      <div class="calc-panel-hdr" onclick="toggleCalc()">
+        <span>🔍 Show full calculation breakdown (verify the maths)</span>
+        <span id="calcArr">▼</span>
+      </div>
+      <div class="calc-panel-body" id="calcBody">
+        <div class="calc-row header">
+          <div class="calc-cell">Material</div>
+          <div class="calc-cell">Quantity (input unit)</div>
+          <div class="calc-cell">Quantity in kg</div>
+          <div class="calc-cell">EF (kg CO₂e/kg or /unit)</div>
+          <div class="calc-cell">A1–A3 GWP (kg CO₂e)</div>
+        </div>
+        <div id="calc-rows"></div>
+        <div id="calc-a4-row" class="calc-formula"></div>
+        <div id="calc-a5-row" class="calc-formula"></div>
+        <div id="calc-eol-row" class="calc-formula"></div>
+        <div class="calc-note" id="calc-note"></div>
+      </div>
+    </div>
+
     <div style="margin-top:1.25rem"><div class="sl" style="margin-bottom:.5rem">Data sources used</div><div id="srcbd"></div></div>
     <div style="margin-top:1.25rem;display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn bg2" onclick="dlPdf()">⬇ Download PDF report</button>
       <button class="btn bgh" onclick="copySm()">⎘ Copy summary</button>
+      <button class="btn bgh" onclick="showShareCard()">🔗 Share result</button>
       <button class="btn bgh" onclick="openFB('error')" style="margin-left:auto">🔴 Report error</button>
+    </div>
+
+    <!-- SHARE CARD -->
+    <div class="share-card-wrap" id="share-card-wrap">
+      <div class="sl" style="margin:.875rem 0 .5rem">Shareable result card — screenshot or copy the link below</div>
+      <div class="share-card" id="share-card">
+        <div class="share-card-logo">
+          <div class="share-card-logo-icon"><svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M10 2L3 7v11h5v-5h4v5h5V7L10 2z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/><circle cx="10" cy="10" r="2" fill="white"/></svg></div>
+          FastLCA
+        </div>
+        <div class="share-card-proj" id="sc-proj">—</div>
+        <div class="share-card-total" id="sc-total">—</div>
+        <div class="share-card-unit">kg CO₂e &nbsp;·&nbsp; A1–C4 total</div>
+        <div class="share-card-breakdown" id="sc-breakdown"></div>
+        <div class="share-card-footer">Calculated with <a href="https://fastlca.com" target="_blank">fastlca.com</a> · EN 15804+A2:2019 · EPiC Database 2024 · Indicative estimate only</div>
+      </div>
+      <div class="share-btn-row">
+        <button class="btn bg2" onclick="copyShareImg()">⎘ Copy card text</button>
+        <button class="btn bgh" onclick="document.getElementById('share-card-wrap').classList.remove('show')">Dismiss</button>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="disc">⚠ <strong>Disclaimer:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. Generic A1–A3: ICE Database v3.0 (University of Bath, 2019). Transport: ECTA (2011). Generic C1–C4 and Module D: estimated from published EPD ranges — not a single verified source. User-entered EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. For compliance, commission a certified LCA practitioner. &nbsp;·&nbsp; FastLCA v0.5 &nbsp;·&nbsp; <a href="https://fastlca.com">fastlca.com</a> &nbsp;·&nbsp; <a href="mailto:hello@fastlca.com">hello@fastlca.com</a></div>
+<div class="disc">⚠ <strong>Disclaimer:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. Generic A1–A3: EPiC Database 2024 (Crawford, Stephan &amp; Prideaux, University of Melbourne; CC0 licence). Hybrid values — systematically higher than process-only EPDs. Transport: ECTA (2011). Generic C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. For compliance, commission a certified LCA practitioner. &nbsp;·&nbsp; FastLCA v0.7 &nbsp;·&nbsp; <a href="https://fastlca.com">fastlca.com</a> &nbsp;·&nbsp; <a href="/cdn-cgi/l/email-protection#fc9499909093bc9a9d8f88909f9dd29f9391"><span class="__cf_email__" data-cfemail="2b434e4747446b4d4a585f47484a05484446">[email&#160;protected]</span></a> &nbsp;·&nbsp; <button onclick="openPrivacy()" style="background:none;border:none;color:var(--b);cursor:pointer;font-family:inherit;font-size:11px;padding:0;text-decoration:underline">Privacy Policy</button></div>
 </div>
 
-<script>
-// ╔══════════════════════════════════════════════════════════════════════╗
-// ║  GOOGLE SHEETS LIVE DATABASE                                        ║
-// ║  Paste your Google Sheet CSV publish URL below                      ║
-// ║  Instructions: see FastLCA_EPD_Database.xlsx → Instructions tab     ║
-// ╚══════════════════════════════════════════════════════════════════════╝
-const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQgthFoOrSFYSjhrDcb7s5DlRkwEjmvefXhBVPyWLAtE8YvWa35G18INB3RW_a4fTfwFxICVfKatNwo/pub?gid=1836254893&single=true&output=csv';
-// ↑ PASTE YOUR GOOGLE SHEET CSV URL HERE (between the quotes)
-// Example: 'https://docs.google.com/spreadsheets/d/e/XXXX/pub?gid=0&single=true&output=csv'
+<!-- PRIVACY MODAL -->
+<div class="privacy-ovl" id="privacy-ovl" onclick="if(event.target===this)closePrivacy()">
+  <div class="privacy-modal">
+    <button class="privacy-close" onclick="closePrivacy()">×</button>
+    <h2>Privacy Policy</h2>
+    <p class="pm-date">Last updated: April 2026</p>
 
-// ── THEME ─────────────────────────────────────────────────────────────
+    <h3>Who we are</h3>
+    <p>FastLCA is a free embodied carbon calculator available at <a href="https://fastlca.com">fastlca.com</a>. It is operated as a personal project. Contact: <a href="/cdn-cgi/l/email-protection#bad2dfd6d6d5fadcdbc9ced6d9db94d9d5d7"><span class="__cf_email__" data-cfemail="0c64696060634c6a6d7f78606f6d226f6361">[email&#160;protected]</span></a></p>
+
+    <h3>What data we collect</h3>
+    <p>FastLCA is designed to collect as little data as possible.</p>
+    <ul>
+      <li><strong>Project data you enter</strong> (materials, quantities, assembly names) is stored only in your own browser using localStorage. It never leaves your device and we cannot access it.</li>
+      <li><strong>Feedback form submissions</strong> — if you submit feedback via the feedback button, your message and optional email address are sent to Formspree (formspree.io) for delivery to our inbox. We store these only to respond to your message.</li>
+      <li><strong>Server logs</strong> — our hosting provider (Vercel) may log standard HTTP request data (IP address, browser type, page visited, timestamp) as part of normal infrastructure operation. We do not have direct access to individual log entries and do not use these for tracking.</li>
+    </ul>
+
+    <h3>Cookies and tracking</h3>
+    <p>FastLCA does not use advertising cookies, tracking pixels, or third-party analytics scripts. We do not use Google Analytics or Facebook Pixel. The only data stored in your browser is your saved project (localStorage), which you can clear at any time using the "Clear saved project" button in the app.</p>
+
+    <h3>Third-party services</h3>
+    <ul>
+      <li><strong>Vercel</strong> — hosting provider (vercel.com). Subject to Vercel's privacy policy.</li>
+      <li><strong>Formspree</strong> — feedback form processing (formspree.io). Subject to Formspree's privacy policy.</li>
+      <li><strong>Google Sheets</strong> — if configured, the EPD product database is loaded from a publicly published Google Sheet. No personal data is sent to Google Sheets.</li>
+      <li><strong>allorigins.win</strong> — a CORS proxy used to fetch the Google Sheet. No personal data passes through this service.</li>
+    </ul>
+
+    <h3>Your rights (GDPR)</h3>
+    <p>If you are in the European Economic Area, you have the right to access, correct, or delete any personal data we hold about you. Since we hold essentially no personal data beyond feedback submissions, any such request can be made by emailing <a href="/cdn-cgi/l/email-protection#2149444d4d4e61474052554d42400f424e4c"><span class="__cf_email__" data-cfemail="1d75787171725d7b7c6e69717e7c337e7270">[email&#160;protected]</span></a> and we will respond within 30 days.</p>
+
+    <h3>Data retention</h3>
+    <p>Feedback submissions are retained only as long as needed to respond and are deleted within 12 months. Your project data in localStorage is under your sole control and is not held by us.</p>
+
+    <h3>Changes to this policy</h3>
+    <p>If we make material changes to this policy, we will update the date at the top of this page. Continued use of FastLCA after changes constitutes acceptance of the updated policy.</p>
+
+    <div style="margin-top:1.5rem">
+      <button class="btn bg2" onclick="closePrivacy()" style="width:100%">Close</button>
+    </div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  GOOGLE SHEETS LIVE DATABASE                                ║
+// ║  Paste your published CSV URL below                         ║
+// ║  IMPORTANT: Use gid=0 for the FIRST sheet tab               ║
+// ╚══════════════════════════════════════════════════════════════╝
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQgthFoOrSFYSjhrDcb7s5DlRkwEjmvefXhBVPyWLAtE8YvWa35G18INB3RW_a4fTfwFxICVfKatNwo/pub?gid=1836254893&single=true&output=csv';
+// ↑ Your URL is already pasted here. If products don't load, try changing gid=1836254893 to gid=0
+
+// CORS PROXY — needed because browsers block direct Google Sheets fetches
+// Using allorigins.win (free, reliable public proxy)
+function proxiedUrl(url){
+  return 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
+}
+
+// ── THEME ─────────────────────────────────────────────────────
 function toggleTheme(){
   const d=document.documentElement;
   const t=d.getAttribute('data-theme')==='dark'?'light':'dark';
   d.setAttribute('data-theme',t);
   document.getElementById('tbtn').textContent=t==='dark'?'☀️':'🌙';
-  localStorage.setItem('flca-t',t);
+  try{localStorage.setItem('flca-t',t);}catch(e){}
 }
 (()=>{
-  const t=localStorage.getItem('flca-t')||'light';
-  document.documentElement.setAttribute('data-theme',t);
-  document.addEventListener('DOMContentLoaded',()=>{
-    document.getElementById('tbtn').textContent=t==='dark'?'☀️':'🌙';
-  });
+  try{
+    const t=localStorage.getItem('flca-t')||'light';
+    document.documentElement.setAttribute('data-theme',t);
+    document.addEventListener('DOMContentLoaded',()=>{
+      document.getElementById('tbtn').textContent=t==='dark'?'☀️':'🌙';
+    });
+  }catch(e){}
 })();
 
-// ── METHODOLOGY ACCORDION ─────────────────────────────────────────────
+// ── METHODOLOGY ACCORDION ─────────────────────────────────────
 function toggleMeth(){
   const b=document.getElementById('methB'),a=document.getElementById('methArr');
   const open=b.classList.contains('open');
   b.classList.toggle('open',!open);a.classList.toggle('open',!open);
 }
 
-// ── RAW MATERIAL DATABASE (ICE v3.0) ─────────────────────────────────
+// ── CALC PANEL ────────────────────────────────────────────────
+function toggleCalc(){
+  const b=document.getElementById('calcBody'),a=document.getElementById('calcArr');
+  const open=b.classList.contains('open');
+  b.classList.toggle('open',!open);
+  a.textContent=open?'▼':'▲';
+}
+
+// ── LC BAR TOOLTIPS (fixed — uses mousemove for positioning) ──
+(()=>{
+  const tip=document.getElementById('lc-tooltip');
+  document.querySelectorAll('.lc-stg[data-tip]').forEach(el=>{
+    el.addEventListener('mouseenter',e=>{
+      tip.textContent=el.getAttribute('data-tip');
+      tip.style.display='block';
+    });
+    el.addEventListener('mousemove',e=>{
+      let x=e.clientX+14,y=e.clientY-60;
+      if(x+190>window.innerWidth)x=e.clientX-200;
+      if(y<8)y=e.clientY+20;
+      tip.style.left=x+'px';tip.style.top=y+'px';
+    });
+    el.addEventListener('mouseleave',()=>{tip.style.display='none';});
+  });
+})();
+
+// ── GENERIC MATERIAL DATABASE — EPiC 2024 ────────────────────
+// Source: Crawford, R.H., Stephan, A. and Prideaux, F. (2024)
+// Environmental Performance in Construction (EPiC) Database,
+// The University of Melbourne. DOI: 10.26188/10257728.v11
+// License: CC0 1.0 Public Domain (Figshare) — freely redistributable
+//
+// ⚠ IMPORTANT: EPiC uses a HYBRID approach (process + input-output data)
+// covering the full Australian supply chain. Values are systematically
+// higher than process-only EPDs or databases based on European averages.
+// For European/UK projects these factors are INDICATIVE — use local EPDs
+// or European databases (ÖKOBAUDAT, IBU, EPD Norway) for formal reporting.
+// Values confirmed from peer-reviewed literature citing Crawford et al. 2024.
+const EPIC_URL = "https://doi.org/10.26188/10257728.v11";
+const EPIC_DB = "EPiC Database 2024";
+const EPIC_YR = "2024";
+const EPIC_CITE = "Crawford, Stephan & Prideaux (2024), Univ. of Melbourne";
+
 const RAW=[
-  {id:"c01",n:"Concrete C25/30",cat:"Concrete",ef:0.159,den:2400,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.1 — Concrete",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.014},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.035}}},
-  {id:"c02",n:"Concrete C30/37",cat:"Concrete",ef:0.178,den:2450,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.1 — Concrete",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.016},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.040}}},
-  {id:"c03",n:"Concrete C40/50",cat:"Concrete",ef:0.208,den:2500,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.1 — Concrete",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.018},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.045}}},
-  {id:"c04",n:"Precast concrete",cat:"Concrete",ef:0.194,den:2400,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.1 — Precast",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.009,c4:0,d:-.015},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.050}}},
-  {id:"s01",n:"Reinforcing steel (virgin)",cat:"Steel",ef:1.990,den:7850,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.5 — Steel",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.003,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.050},recycling:{c1:.006,c2:.012,c3:.020,c4:0,d:-1.500},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-1.800}}},
-  {id:"s02",n:"Structural steel (virgin)",cat:"Steel",ef:2.750,den:7850,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.5 — Steel",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.003,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.050},recycling:{c1:.006,c2:.012,c3:.020,c4:0,d:-2.100},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-2.500}}},
-  {id:"s03",n:"Structural steel (recycled EAF)",cat:"Steel",ef:0.510,den:7850,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.5 — Recycled steel",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.003,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.050},recycling:{c1:.006,c2:.012,c3:.020,c4:0,d:-.400},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-.450}}},
-  {id:"t01",n:"Timber — sawn softwood",cat:"Timber",ef:0.263,den:500,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.9 — Timber",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.050},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.100},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.200}}},
-  {id:"t02",n:"Glulam (GL24)",cat:"Timber",ef:0.512,den:550,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.9 — Glulam",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.060},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.110},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.220}}},
-  {id:"t03",n:"Cross-laminated timber (CLT)",cat:"Timber",ef:0.437,den:500,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.9 — CLT",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.060},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.110},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.280}}},
-  {id:"t04",n:"Plywood (structural)",cat:"Timber",ef:0.810,den:550,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.9 — Plywood",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.050},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.090},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.180}}},
-  {id:"m01",n:"Brick — clay (standard)",cat:"Masonry",ef:0.213,den:1800,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.2 — Brick",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.008,c4:0,d:-.008},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.080}}},
-  {id:"m02",n:"AAC block (Ytong / Siporex)",cat:"Masonry",ef:0.290,den:500,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.2 — AAC",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.008,c4:0,d:-.012},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.030}}},
-  {id:"m03",n:"Concrete block (dense)",cat:"Masonry",ef:0.093,den:2000,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.2 — Block",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.008,c4:0,d:-.006},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.040}}},
-  {id:"m04",n:"Mortar (cement:sand 1:3)",cat:"Masonry",ef:0.208,den:2000,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.2 — Mortar",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.002,c2:.004,c3:.001,c4:.001,d:0},incineration:{c1:.002,c2:.004,c3:.002,c4:.001,d:0},recycling:{c1:.003,c2:.005,c3:.005,c4:0,d:-.005},reuse:{c1:.001,c2:.003,c3:.001,c4:0,d:-.010}}},
-  {id:"i01",n:"Mineral wool (general)",cat:"Insulation",ef:1.280,den:30,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.6 — Mineral wool",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.005,d:0},incineration:{c1:.003,c2:.005,c3:.010,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
-  {id:"i02",n:"EPS insulation",cat:"Insulation",ef:3.290,den:25,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.6 — EPS",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.500},recycling:{c1:.004,c2:.007,c3:.020,c4:0,d:-.800},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
-  {id:"i03",n:"XPS insulation",cat:"Insulation",ef:3.800,den:35,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.6 — XPS",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.500},recycling:{c1:.004,c2:.007,c3:.020,c4:0,d:-.900},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
-  {id:"i04",n:"PIR / PUR foam board",cat:"Insulation",ef:4.000,den:35,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.6 — PIR",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.600},recycling:{c1:.004,c2:.007,c3:.020,c4:0,d:-.800},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
-  {id:"i05",n:"Cellulose insulation",cat:"Insulation",ef:0.890,den:55,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.6 — Cellulose",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.008,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.001,d:-.100},recycling:{c1:.004,c2:.007,c3:.010,c4:0,d:-.150},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
-  {id:"i06",n:"Wood fibre board",cat:"Insulation",ef:0.430,den:160,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.6 — Wood fibre",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.015,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.001,d:-.080},recycling:{c1:.004,c2:.007,c3:.010,c4:0,d:-.120},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.080}}},
-  {id:"me01",n:"Aluminium (primary / virgin)",cat:"Metals",ef:6.700,den:2700,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.3 — Aluminium",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.005,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.020},recycling:{c1:.006,c2:.012,c3:.025,c4:0,d:-5.500},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-6.000}}},
-  {id:"me02",n:"Aluminium (recycled)",cat:"Metals",ef:0.580,den:2700,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.3 — Aluminium recycled",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.005,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.020},recycling:{c1:.006,c2:.012,c3:.025,c4:0,d:-.450},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-.500}}},
-  {id:"me03",n:"Copper (primary)",cat:"Metals",ef:2.710,den:8900,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.3 — Copper",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.005,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.010},recycling:{c1:.006,c2:.012,c3:.025,c4:0,d:-2.000},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-2.300}}},
-  {id:"g01",n:"Glass — float (clear)",cat:"Glass",ef:0.850,den:2500,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.4 — Glass",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.003,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.012,c4:0,d:-.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.300}}},
-  {id:"g02",n:"Triple glazing unit (TGU)",cat:"Glass",ef:1.380,den:2500,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.4 — Glazing",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.003,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.012,c4:0,d:-.280},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.060}}},
-  {id:"a01",n:"Sand / gravel",cat:"Aggregates",ef:0.0048,den:1600,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.2 — Aggregates",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.001,c2:.003,c3:0,c4:.001,d:0},incineration:{c1:.001,c2:.003,c3:0,c4:.001,d:0},recycling:{c1:.002,c2:.004,c3:.002,c4:0,d:-.001},reuse:{c1:.001,c2:.002,c3:0,c4:0,d:-.002}}},
-  {id:"a02",n:"Cement — CEM I (Portland)",cat:"Aggregates",ef:0.830,den:1500,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.2 — Cement",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.002,c2:.004,c3:.001,c4:.001,d:0},incineration:{c1:.002,c2:.004,c3:.002,c4:.001,d:0},recycling:{c1:.003,c2:.005,c3:.005,c4:0,d:-.030},reuse:{c1:.001,c2:.003,c3:.001,c4:0,d:-.010}}},
-  {id:"a03",n:"Cement — CEM II (blended)",cat:"Aggregates",ef:0.580,den:1500,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.2 — Cement blended",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.002,c2:.004,c3:.001,c4:.001,d:0},incineration:{c1:.002,c2:.004,c3:.002,c4:.001,d:0},recycling:{c1:.003,c2:.005,c3:.005,c4:0,d:-.025},reuse:{c1:.001,c2:.003,c3:.001,c4:0,d:-.008}}},
-  {id:"f01",n:"Gypsum board (plasterboard)",cat:"Finishes",ef:0.380,den:900,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.8 — Gypsum",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.008,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.002,d:0},recycling:{c1:.004,c2:.006,c3:.010,c4:0,d:-.080},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.040}}},
-  {id:"f02",n:"Ceramic tiles",cat:"Finishes",ef:0.670,den:2000,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.8 — Tiles",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.003,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.050},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
-  {id:"f03",n:"Paint — water-based",cat:"Finishes",ef:2.490,den:1300,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.8 — Paint",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.020,d:0},incineration:{c1:.003,c2:.005,c3:.015,c4:.002,d:-.100},recycling:{c1:.004,c2:.006,c3:.010,c4:0,d:-.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
-  {id:"p01",n:"PVC pipe (uPVC)",cat:"Plastics & MEP",ef:2.410,den:1400,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.7 — Plastics",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.020,d:0},incineration:{c1:.003,c2:.005,c3:.025,c4:.002,d:-.300},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-.700},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
-  {id:"p02",n:"HDPE pipe",cat:"Plastics & MEP",ef:1.930,den:950,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.7 — Plastics",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.015,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.800},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-.600},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
-  {id:"w01",n:"Bitumen sheet membrane (SBS)",cat:"Waterproofing",ef:0.480,den:1100,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.8 — Bitumen",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.015,c4:.001,d:-.100},recycling:{c1:.004,c2:.006,c3:.010,c4:0,d:-.050},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.020}}},
-  {id:"w02",n:"EPDM rubber membrane",cat:"Waterproofing",ef:3.400,den:1150,du:"kg",db:"ICE Database v3.0",yr:"2019",ref:"Table 4.8 — EPDM",url:"https://circularecology.com/embodied-carbon-footprint-database.html",eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.015,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.300},recycling:{c1:.004,c2:.006,c3:.015,c4:0,d:-.400},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
+  // CONCRETE — confirmed: 25 MPa = 0.15 kg CO2e/kg (Crawford et al. 2024 via peer-reviewed citations)
+  {id:"c01",n:"Concrete 25 MPa",cat:"Concrete",ef:0.150,den:2400,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Concrete 25 MPa — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.012},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.030}}},
+  {id:"c02",n:"Concrete 32 MPa",cat:"Concrete",ef:0.170,den:2450,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Concrete 32 MPa — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.014},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.035}}},
+  {id:"c03",n:"Concrete 40 MPa",cat:"Concrete",ef:0.190,den:2450,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Concrete 40 MPa — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.016},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.040}}},
+  {id:"c04",n:"Concrete 50 MPa",cat:"Concrete",ef:0.220,den:2500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Concrete 50 MPa — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.018},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.045}}},
+  {id:"c05",n:"Precast concrete",cat:"Concrete",ef:0.200,den:2400,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Precast concrete — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.009,c4:0,d:-.013},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.045}}},
+  // STEEL — confirmed: mild steel = 3.7 kg CO2e/kg (Crawford et al. 2024 via peer-reviewed citations)
+  // Note: EPiC hybrid values are higher than EU EPD averages due to full supply chain coverage
+  {id:"s01",n:"Reinforcing steel",cat:"Steel",ef:3.70,den:7850,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Steel reinforcing — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.003,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.050},recycling:{c1:.006,c2:.012,c3:.020,c4:0,d:-2.800},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-3.300}}},
+  {id:"s02",n:"Structural steel (sections)",cat:"Steel",ef:3.70,den:7850,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Steel structural — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.003,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.050},recycling:{c1:.006,c2:.012,c3:.020,c4:0,d:-2.900},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-3.500}}},
+  {id:"s03",n:"Steel corrugated roofing",cat:"Steel",ef:5.50,den:7850,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Steel corrugated roofing — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.003,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.050},recycling:{c1:.006,c2:.012,c3:.020,c4:0,d:-4.200},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-5.000}}},
+  // TIMBER — EPiC hybrid values include full transport supply chain
+  // Note: EPiC timber values are higher than EN 15804 EPD values due to hybrid methodology
+  {id:"t01",n:"Timber — sawn softwood",cat:"Timber",ef:0.86,den:500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Softwood sawn — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.050},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.100},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.200}}},
+  {id:"t02",n:"Glulam",cat:"Timber",ef:1.50,den:550,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Glulam — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.060},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.110},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.220}}},
+  {id:"t03",n:"Cross-laminated timber (CLT)",cat:"Timber",ef:1.50,den:500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"CLT — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.060},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.110},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.280}}},
+  {id:"t04",n:"Plywood (structural)",cat:"Timber",ef:1.90,den:550,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Plywood structural — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.030,d:0},incineration:{c1:.003,c2:.005,c3:.001,c4:.001,d:-.050},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.090},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.180}}},
+  // MASONRY
+  {id:"m01",n:"Brick — clay (standard)",cat:"Masonry",ef:0.73,den:1800,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Clay brick — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.008,c4:0,d:-.008},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.080}}},
+  {id:"m02",n:"AAC block (autoclaved aerated concrete)",cat:"Masonry",ef:0.45,den:500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"AAC block — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.008,c4:0,d:-.012},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.030}}},
+  {id:"m03",n:"Concrete block",cat:"Masonry",ef:0.21,den:2000,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Concrete block — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.008,c4:0,d:-.006},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.040}}},
+  {id:"m04",n:"Mortar (cement-sand)",cat:"Masonry",ef:0.33,den:2000,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Cement mortar — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.002,c2:.004,c3:.001,c4:.001,d:0},incineration:{c1:.002,c2:.004,c3:.002,c4:.001,d:0},recycling:{c1:.003,c2:.005,c3:.005,c4:0,d:-.005},reuse:{c1:.001,c2:.003,c3:.001,c4:0,d:-.010}}},
+  // INSULATION — EPiC hybrid values per kg; note glass wool ~2.4, EPS ~3.4 per EPiC methodology
+  {id:"i01",n:"Glass wool insulation",cat:"Insulation",ef:2.40,den:20,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Glass wool — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.005,d:0},incineration:{c1:.003,c2:.005,c3:.010,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
+  {id:"i02",n:"Rock wool / stone wool insulation",cat:"Insulation",ef:2.90,den:30,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Rock wool — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.005,d:0},incineration:{c1:.003,c2:.005,c3:.010,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
+  {id:"i03",n:"EPS insulation",cat:"Insulation",ef:3.40,den:25,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"EPS — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.500},recycling:{c1:.004,c2:.007,c3:.020,c4:0,d:-.800},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
+  {id:"i04",n:"XPS insulation",cat:"Insulation",ef:4.50,den:35,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"XPS — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.500},recycling:{c1:.004,c2:.007,c3:.020,c4:0,d:-.900},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
+  {id:"i05",n:"PIR / PUR foam board",cat:"Insulation",ef:4.80,den:35,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"PIR/PUR — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.600},recycling:{c1:.004,c2:.007,c3:.020,c4:0,d:-.800},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.100}}},
+  {id:"i06",n:"Cellulose insulation",cat:"Insulation",ef:1.10,den:55,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Cellulose insulation — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.008,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.001,d:-.100},recycling:{c1:.004,c2:.007,c3:.010,c4:0,d:-.150},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
+  {id:"i07",n:"Wood fibre board insulation",cat:"Insulation",ef:0.98,den:160,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Wood fibre — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.015,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.001,d:-.080},recycling:{c1:.004,c2:.007,c3:.010,c4:0,d:-.120},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.080}}},
+  // METALS — confirmed: aluminium primary = 29.4 kg CO2e/kg (Crawford et al. 2024)
+  {id:"me01",n:"Aluminium (primary / virgin)",cat:"Metals",ef:29.40,den:2700,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Aluminium primary — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.005,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.020},recycling:{c1:.006,c2:.012,c3:.025,c4:0,d:-24.00},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-27.00}}},
+  {id:"me02",n:"Aluminium (recycled / secondary)",cat:"Metals",ef:2.90,den:2700,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Aluminium recycled — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.005,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.020},recycling:{c1:.006,c2:.012,c3:.025,c4:0,d:-2.200},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-2.500}}},
+  {id:"me03",n:"Copper (primary)",cat:"Metals",ef:6.00,den:8900,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Copper primary — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.005,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.010},recycling:{c1:.006,c2:.012,c3:.025,c4:0,d:-4.500},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-5.000}}},
+  // GLASS
+  {id:"g01",n:"Glass — float (clear)",cat:"Glass",ef:1.50,den:2500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Float glass — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.003,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.012,c4:0,d:-.300},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.400}}},
+  {id:"g02",n:"Double glazing unit (DGU)",cat:"Glass",ef:1.90,den:2500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Double glazing — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.003,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.002,d:0},recycling:{c1:.004,c2:.007,c3:.012,c4:0,d:-.350},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.080}}},
+  // AGGREGATES & CEMENT
+  {id:"a01",n:"Sand / gravel",cat:"Aggregates",ef:0.05,den:1600,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Sand/gravel — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.001,c2:.003,c3:0,c4:.001,d:0},incineration:{c1:.001,c2:.003,c3:0,c4:.001,d:0},recycling:{c1:.002,c2:.004,c3:.002,c4:0,d:-.002},reuse:{c1:.001,c2:.002,c3:0,c4:0,d:-.003}}},
+  {id:"a02",n:"Portland cement (general purpose)",cat:"Aggregates",ef:1.40,den:1500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"GP cement — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.002,c2:.004,c3:.001,c4:.001,d:0},incineration:{c1:.002,c2:.004,c3:.002,c4:.001,d:0},recycling:{c1:.003,c2:.005,c3:.005,c4:0,d:-.050},reuse:{c1:.001,c2:.003,c3:.001,c4:0,d:-.015}}},
+  {id:"a03",n:"Blended cement (fly ash / slag)",cat:"Aggregates",ef:0.90,den:1500,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Blended cement — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.002,c2:.004,c3:.001,c4:.001,d:0},incineration:{c1:.002,c2:.004,c3:.002,c4:.001,d:0},recycling:{c1:.003,c2:.005,c3:.005,c4:0,d:-.035},reuse:{c1:.001,c2:.003,c3:.001,c4:0,d:-.010}}},
+  // FINISHES
+  {id:"f01",n:"Gypsum board (plasterboard)",cat:"Finishes",ef:1.80,den:900,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Plasterboard — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.008,d:0},incineration:{c1:.003,c2:.005,c3:.005,c4:.002,d:0},recycling:{c1:.004,c2:.006,c3:.010,c4:0,d:-.150},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.070}}},
+  {id:"f02",n:"Ceramic tiles",cat:"Finishes",ef:0.87,den:2000,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Ceramic tiles — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.003,d:0},incineration:{c1:.003,c2:.005,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.006,c3:.008,c4:0,d:-.070},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.130}}},
+  {id:"f03",n:"Paint — water-based",cat:"Finishes",ef:3.20,den:1300,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Water-based paint — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.020,d:0},incineration:{c1:.003,c2:.005,c3:.015,c4:.002,d:-.100},recycling:{c1:.004,c2:.006,c3:.010,c4:0,d:-.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.050}}},
+  // PLASTICS & MEP
+  {id:"p01",n:"PVC pipe (uPVC)",cat:"Plastics & MEP",ef:4.50,den:1400,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"PVC pipe — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.020,d:0},incineration:{c1:.003,c2:.005,c3:.025,c4:.002,d:-.300},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-1.200},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.200}}},
+  {id:"p02",n:"HDPE pipe",cat:"Plastics & MEP",ef:3.10,den:950,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"HDPE pipe — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.015,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.800},recycling:{c1:.004,c2:.007,c3:.015,c4:0,d:-1.000},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.150}}},
+  // WATERPROOFING
+  {id:"w01",n:"Bitumen sheet membrane",cat:"Waterproofing",ef:1.10,den:1100,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Bitumen membrane — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.010,d:0},incineration:{c1:.003,c2:.005,c3:.015,c4:.001,d:-.100},recycling:{c1:.004,c2:.006,c3:.010,c4:0,d:-.080},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.030}}},
+  {id:"w02",n:"EPDM rubber membrane",cat:"Waterproofing",ef:5.50,den:1150,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"EPDM membrane — hybrid coefficient",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.005,c3:.001,c4:.015,d:0},incineration:{c1:.003,c2:.005,c3:.020,c4:.001,d:-.300},recycling:{c1:.004,c2:.006,c3:.015,c4:0,d:-.600},reuse:{c1:.001,c2:.004,c3:.002,c4:0,d:-.080}}},
 ];
 
 const EOL={
-  landfill:{l:"Landfill",d:"No material or energy recovery. Module D = 0 is correct — no recovered value. ⚠ For timber/plastics: long-term methane not captured in generic C4 factors."},
-  incineration:{l:"Incineration + energy recovery",d:"Burned for energy. C3 processing + C4 residue emissions. Module D credit where energy offsets grid electricity."},
-  recycling:{l:"Recycling",d:"Material reprocessed into secondary material. Largest Module D credits for metals and plastics."},
+  landfill:{l:"Landfill",d:"No material or energy recovery. Module D = 0 is correct — no recovered value. ⚠ For timber/plastics: long-term methane not captured in generic C4."},
+  incineration:{l:"Incineration + energy recovery",d:"Burned for energy. C3 processing + C4 residue emissions. Module D credit where energy offsets grid."},
+  recycling:{l:"Recycling",d:"Material reprocessed. Largest Module D credits for metals and plastics."},
   reuse:{l:"Reuse / deconstruction",d:"Highest Module D credit. Requires design for disassembly. Best for structural steel, timber, brick."}
 };
 
-// ── GOOGLE SHEETS LOADER ──────────────────────────────────────────────
-let sheetProds=[], userProds=[], allProds=[];
+// ── STATE ─────────────────────────────────────────────────────
+let items=[],sheetProds=[],userProds=[],allProds=[];
+let cLib='raw',selM=null,fR=[...RAW],fP=[];
+let cmpA=null,cmpB=null;
+let saveTimer=null;
 
+// ── LOCALSTORAGE SAVE/RESTORE ──────────────────────────────────
+const SAVE_KEY='flca_project_v1';
+function scheduleSave(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(saveProject,1200);
+}
+function saveProject(){
+  try{
+    const data={
+      pname:document.getElementById('pname').value,
+      items:items.map(i=>({
+        matId:i.mat.id,matDef:i.isProd?i.mat:null,
+        qty:i.qty,u:i.u,eol:i.eol,isProd:i.isProd
+      })),
+      a4d:document.getElementById('a4d').value,
+      a4v:document.getElementById('a4v').value,
+      a5e:document.getElementById('a5e').value,
+      a5s:document.getElementById('a5s').value,
+      a5w:document.getElementById('a5w').value,
+      userProds,
+      saved:new Date().toLocaleTimeString()
+    };
+    localStorage.setItem(SAVE_KEY,JSON.stringify(data));
+    const ss=document.getElementById('save-status');
+    ss.style.display='inline';ss.textContent='✓ Saved at '+data.saved;
+    setTimeout(()=>ss.style.display='none',2500);
+  }catch(e){}
+}
+function restoreProject(){
+  try{
+    const raw=localStorage.getItem(SAVE_KEY);if(!raw)return;
+    const data=JSON.parse(raw);
+    if(data.pname)document.getElementById('pname').value=data.pname;
+    if(data.a4d)document.getElementById('a4d').value=data.a4d;
+    if(data.a4v)document.getElementById('a4v').value=data.a4v;
+    if(data.a5e)document.getElementById('a5e').value=data.a5e;
+    if(data.a5s)document.getElementById('a5s').value=data.a5s;
+    if(data.a5w)document.getElementById('a5w').value=data.a5w;
+    if(data.userProds&&data.userProds.length){
+      userProds=data.userProds;
+      allProds=[...sheetProds,...userProds];
+    }
+    if(data.items&&data.items.length){
+      items=data.items.map(saved=>{
+        let mat=RAW.find(m=>m.id===saved.matId)||allProds.find(m=>m.id===saved.matId)||saved.matDef;
+        if(!mat)return null;
+        const qkg=toKg(saved.qty,saved.u,mat.den);
+        return{mat,qty:saved.qty,u:saved.u,qkg,gwp:saved.qty*mat.ef,eol:saved.eol||'landfill',id:Date.now()+Math.random(),isProd:saved.isProd};
+      }).filter(Boolean);
+      renderAll();
+    }
+    if(data.saved){
+      document.getElementById('save-label').textContent='Project restored from '+data.saved;
+    }
+  }catch(e){console.warn('Restore failed:',e);}
+}
+function clearSaved(){
+  if(!confirm('Clear saved project? This cannot be undone.'))return;
+  try{localStorage.removeItem(SAVE_KEY);}catch(e){}
+  items=[];userProds=[];allProds=[...sheetProds];
+  document.getElementById('pname').value='';
+  ['a4d','a5e','a5w'].forEach(id=>{document.getElementById(id).value=document.getElementById(id).defaultValue;});
+  document.getElementById('save-label').textContent='Project cleared';
+  renderAll();
+}
+
+// ── GOOGLE SHEETS LOADER (with CORS proxy) ────────────────────
 async function loadSheetProds(){
   if(!SHEET_CSV_URL){
-    updateSheetStatus(false,'No Google Sheet connected — add your SHEET_CSV_URL to show live EPD products here. See the FastLCA_EPD_Database.xlsx instructions.');
-    return;
+    showSheetStatus(false,'No Google Sheet connected. Paste your CSV URL into SHEET_CSV_URL in index.html.');return;
   }
+  showSheetStatus(false,'Loading EPD products from Google Sheet...');
   try{
-    const res=await fetch(SHEET_CSV_URL);
+    const proxyUrl=proxiedUrl(SHEET_CSV_URL);
+    const res=await fetch(proxyUrl,{signal:AbortSignal.timeout(10000)});
     if(!res.ok)throw new Error('HTTP '+res.status);
-    const csv=await res.text();
-    const rows=csv.split('\n').map(r=>r.split(',').map(c=>c.trim().replace(/^"|"$/g,'')));
-    if(rows.length<3){updateSheetStatus(false,'Sheet appears empty — add EPD products to the EPD Products tab.');return;}
-    const hdrs=rows[1]; // row 2 = headers (row 1 = instructions)
+    const json=await res.json();
+    const csv=json.contents;
+    if(!csv)throw new Error('Empty response from proxy');
+    const rows=csv.split('\n').map(r=>{
+      // Handle quoted CSV fields
+      const result=[];let cur='',inQ=false;
+      for(let i=0;i<r.length;i++){
+        if(r[i]==='"'){inQ=!inQ;}
+        else if(r[i]===','&&!inQ){result.push(cur.trim());cur='';}
+        else cur+=r[i];
+      }
+      result.push(cur.trim());return result;
+    });
+    // Find header row (contains 'id' and 'ef')
+    let hdrIdx=rows.findIndex(r=>r.some(c=>c.toLowerCase()==='id')&&r.some(c=>c.toLowerCase()==='ef'));
+    if(hdrIdx<0)hdrIdx=0;
+    const hdrs=rows[hdrIdx].map(h=>h.toLowerCase().trim());
     const parsed=[];
-    for(let i=2;i<rows.length;i++){
-      const r=rows[i];if(!r[0]||r[0].startsWith('_'))continue;
-      const g=(col)=>{const idx=hdrs.indexOf(col);return idx>=0?r[idx]||null:null;};
-      const gn=(col)=>{const v=parseFloat(g(col));return isNaN(v)?null:v;};
-      const ef=gn('ef');if(!g('id')||ef===null)continue;
+    for(let i=hdrIdx+1;i<rows.length;i++){
+      const r=rows[i];
+      if(!r||!r[0])continue;
+      const g=col=>{const idx=hdrs.indexOf(col);return idx>=0&&idx<r.length?r[idx].trim()||null:null;};
+      const gn=col=>{const v=parseFloat(g(col));return isNaN(v)?null:v;};
+      const id=g('id'),ef=gn('ef'),name=g('n')||g('name')||g('product name');
+      if(!id||ef===null||id.startsWith('_')||id.startsWith('YOUR'))continue;
       parsed.push({
-        id:g('id'),n:g('n')||'Unnamed',cat:g('cat')||'Other',
-        mfr:g('mfr')||'',ef,den:gn('den'),du:g('du')||'kg',
-        db:g('db')||'User EPD',prog:g('prog')||'',yr:g('yr')||'—',
-        ref:g('ref')||'',url:g('url')||'',
+        id,n:name||'Unnamed',cat:g('cat')||g('category')||'Other',
+        mfr:g('mfr')||g('manufacturer')||'',ef,
+        den:gn('den')||gn('density'),
+        du:g('du')||g('declared unit')||g('unit')||'kg',
+        db:g('db')||g('database')||'User EPD',
+        prog:g('prog')||g('programme')||'',
+        yr:g('yr')||g('year')||'—',
+        ref:g('ref')||g('reference')||'',
+        url:g('url')||g('link')||'',
         c1:gn('c1'),c2:gn('c2'),c3:gn('c3'),c4:gn('c4'),d:gn('d'),
         isProd:true,fromSheet:true
       });
     }
-    sheetProds=parsed;
-    allProds=[...sheetProds,...userProds];
-    updateSheetStatus(true,`✓ ${parsed.length} EPD product${parsed.length!==1?'s':''} loaded from your Google Sheet`);
+    sheetProds=parsed;allProds=[...sheetProds,...userProds];
+    showSheetStatus(true,`✓ ${parsed.length} EPD product${parsed.length!==1?'s':''} loaded from Google Sheet`);
     if(cLib==='prod')filterM();
   }catch(e){
-    updateSheetStatus(false,'Could not load Google Sheet — check the URL and that the sheet is published as CSV. Error: '+e.message);
+    showSheetStatus(false,`Could not load Google Sheet. Error: ${e.message}. Check: (1) Sheet is published as CSV, (2) URL is correct, (3) gid matches the right tab (use gid=0 for first tab).`);
   }
 }
-
-function updateSheetStatus(ok,msg){
+function showSheetStatus(ok,msg){
   const el=document.getElementById('sheet-status');
-  el.textContent=msg;
-  el.className='sheet-status '+(ok?'sheet-ok':'sheet-warn');
-  el.style.display='block';
+  el.textContent=msg;el.className='sheet-status '+(ok?'sheet-ok':'sheet-warn');el.style.display='block';
 }
 
-// ── STATE ─────────────────────────────────────────────────────────────
-let items=[],cLib='raw',selM=null,fR=[...RAW],fP=[];
-
-// ── FEEDBACK ──────────────────────────────────────────────────────────
+// ── FEEDBACK ──────────────────────────────────────────────────
 let fbT=null;
 function openFB(t){
   document.getElementById('ovl').classList.add('show');
@@ -646,7 +1112,7 @@ function selT(t){
   document.querySelectorAll('.ftp').forEach(b=>b.classList.remove('sel'));
   const m={error:'wrong data',missing:'material',feature:'new feature',other:'other'};
   document.querySelectorAll('.ftp').forEach(b=>{if(b.textContent.toLowerCase().includes(m[t]||t))b.classList.add('sel');});
-  const L={error:'Describe the wrong data — include material name and correct value:',missing:'What material, product or EPD is missing?',feature:'Describe the feature you need:',other:'Your feedback:'};
+  const L={error:'Describe the wrong data — include material name and what you believe is correct:',missing:'What material, product or EPD is missing?',feature:'Describe the feature you need:',other:'Your feedback:'};
   document.getElementById('flbl').textContent=L[t]||'Describe your feedback:';
   document.getElementById('fdt').classList.add('show');
 }
@@ -654,8 +1120,7 @@ function submitFB(){
   const txt=document.getElementById('ftxt').value.trim();
   if(!txt){alert('Please describe your feedback.');return;}
   fetch('https://formspree.io/f/xnjobdgv',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
+    method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({type:fbT,text:txt,email:document.getElementById('feml').value,url:window.location.href,date:new Date().toISOString()})
   });
   document.getElementById('ftps').style.display='none';
@@ -664,7 +1129,7 @@ function submitFB(){
   document.getElementById('ftxt').value='';
 }
 
-// ── LIB SWITCH ────────────────────────────────────────────────────────
+// ── LIB SWITCH ────────────────────────────────────────────────
 function switchLib(l){
   cLib=l;selM=null;
   document.getElementById('spnl').classList.remove('show');
@@ -673,38 +1138,32 @@ function switchLib(l){
   document.getElementById('dr').style.display=l==='raw'?'block':'none';
   document.getElementById('dp').style.display=l==='prod'?'block':'none';
   document.getElementById('abtn').className='btn '+(l==='prod'?'bb2':'bg2');
-  document.getElementById('msrch').value='';
-  filterM();
+  document.getElementById('msrch').value='';filterM();
 }
-
 function filterM(){
   const q=document.getElementById('msrch').value.toLowerCase();
   if(cLib==='raw'){fR=q?RAW.filter(m=>m.n.toLowerCase().includes(q)||m.cat.toLowerCase().includes(q)):[...RAW];}
   else{fP=q?allProds.filter(m=>m.n.toLowerCase().includes(q)||m.cat.toLowerCase().includes(q)):[...allProds];}
   renderML();
 }
-
 function renderML(){
   const el=document.getElementById('ml');
   const mats=cLib==='raw'?fR:fP;
   if(!mats.length){
-    el.innerHTML='<div style="padding:1rem;text-align:center;font-size:12px;color:var(--t3)">'+(cLib==='prod'&&!allProds.length?'No EPD products yet — add them via "+ Add custom EPD" or connect your Google Sheet.':'No results')+'</div>';
-    return;
+    el.innerHTML='<div style="padding:1rem;text-align:center;font-size:12px;color:var(--t3)">'+(cLib==='prod'&&!allProds.length?'No EPD products yet. Add via "+ Add custom EPD" tab or connect a Google Sheet.':'No results')+'</div>';return;
   }
   el.innerHTML=mats.map(m=>{
     const s=selM&&selM.id===m.id;
-    const sheetTag=m.fromSheet?' <span style="font-size:9px;padding:0 4px;background:var(--bl);color:var(--bd);border-radius:3px;vertical-align:middle">Sheet</span>':'';
+    const stag=m.fromSheet?'<span style="font-size:9px;padding:0 4px;background:var(--bl);color:var(--bd);border-radius:3px;margin-left:4px">Sheet</span>':'';
     return`<div class="mi${s?(m.isProd?' sp':' sr'):''}" onclick="pickM('${m.id}')">
-      <div><div class="mn">${m.n}${sheetTag}</div><div class="ms">${m.cat}${m.mfr?' · '+m.mfr:''}</div></div>
+      <div><div class="mn">${m.n}${stag}</div><div class="ms">${m.cat}${m.mfr?' · '+m.mfr:''}</div></div>
       <div class="mef">${m.ef} kg CO₂e/${m.du}</div>
     </div>`;
   }).join('');
 }
-
 function pickM(id){
   const pool=cLib==='raw'?RAW:allProds;
-  selM=pool.find(m=>m.id===id);
-  if(!selM)return;
+  selM=pool.find(m=>m.id===id);if(!selM)return;
   renderML();
   document.getElementById('spnl').classList.add('show');
   document.getElementById('sdb').textContent=(selM.db||'—')+(selM.prog&&selM.prog!==selM.db?' / '+selM.prog:'');
@@ -718,7 +1177,7 @@ function pickM(id){
   document.getElementById('unit').value=selM.du||'kg';
 }
 
-// ── ADD/REMOVE/EOL ────────────────────────────────────────────────────
+// ── ADD / REMOVE / EOL ────────────────────────────────────────
 function toKg(qty,u,den){
   if(u==='kg')return qty;if(u==='tonnes')return qty*1000;
   if(u==='m3')return qty*(den||1000);if(u==='m2')return qty*(den||1)*0.1;
@@ -732,12 +1191,11 @@ function addM(){
   if(isNaN(qty)||qty<=0){alert('Enter a valid quantity.');return;}
   items.push({mat:selM,qty,u,qkg:toKg(qty,u,selM.den),gwp:qty*selM.ef,eol:'landfill',id:Date.now(),isProd:!!selM.isProd});
   document.getElementById('qty').value='';
-  renderAll();
+  renderAll();scheduleSave();
 }
-function rem(id){items=items.filter(i=>i.id!==id);renderAll();}
-function setEol(id,sc){const it=items.find(i=>i.id===id);if(it){it.eol=sc;renderAll();}}
+function rem(id){items=items.filter(i=>i.id!==id);renderAll();scheduleSave();}
+function setEol(id,sc){const it=items.find(i=>i.id===id);if(it){it.eol=sc;renderAll();scheduleSave();}}
 
-// ── FORMAT ────────────────────────────────────────────────────────────
 function fv(n){
   if(Math.abs(n)>=10000)return n.toLocaleString('en',{maximumFractionDigits:0});
   if(Math.abs(n)>=100)return n.toLocaleString('en',{maximumFractionDigits:1});
@@ -745,7 +1203,7 @@ function fv(n){
   return n.toLocaleString('en',{maximumFractionDigits:4});
 }
 
-// ── RENDER ────────────────────────────────────────────────────────────
+// ── RENDER ────────────────────────────────────────────────────
 function renderAll(){renderT();renderEol();calcAll();}
 
 function renderT(){
@@ -753,7 +1211,7 @@ function renderT(){
   if(!items.length){em.style.display='block';tb.style.display='none';document.getElementById('res').style.display='none';return;}
   em.style.display='none';tb.style.display='table';
   document.getElementById('ptbd').innerHTML=items.map(i=>{
-    const bdg=i.isProd?'<span class="bdg bp">EPD</span>':'<span class="bdg bi">ICE v3.0</span>';
+    const bdg=i.isProd?'<span class="bdg bp">EPD</span>':'<span class="bdg bi">EPiC 2024</span>';
     const hde=i.isProd&&i.mat.c1!=null;
     const ec=hde?'<span style="font-size:10px;color:var(--t3)">per EPD</span>':
       Object.keys(EOL).map(k=>`<button class="epl${i.eol===k?' active':''}" onclick="setEol(${i.id},'${k}')">${EOL[k].l.split(' ')[0]}</button>`).join('');
@@ -761,7 +1219,7 @@ function renderT(){
       <td>${i.mat.n}${bdg}<br><span style="font-size:10px;color:var(--t3)">${i.mat.cat}</span></td>
       <td>${fv(i.qty)} ${i.u}</td>
       <td class="gv">${fv(i.gwp)} kg</td>
-      <td><span style="font-size:10px;color:var(--t2)">${i.mat.db||'ICE v3.0'}</span>${i.mat.url&&i.mat.url.startsWith('http')?`<br><a href="${i.mat.url}" target="_blank" style="font-size:10px">Source ↗</a>`:''}${i.mat.yr&&i.mat.yr!=='—'?`<br><span style="font-size:9px;color:var(--t3)">${i.mat.yr}</span>`:''}</td>
+      <td><span style="font-size:10px;color:var(--t2)">${i.mat.db||'EPiC 2024'}</span>${i.mat.url&&i.mat.url.startsWith('http')?`<br><a href="${i.mat.url}" target="_blank" style="font-size:10px">Source ↗</a>`:''}${i.mat.yr&&i.mat.yr!=='—'?`<br><span style="font-size:9px;color:var(--t3)">${i.mat.yr}</span>`:''}</td>
       <td><div class="epls">${ec}</div></td>
       <td><button class="bdel" onclick="rem(${i.id})">×</button></td>
     </tr>`;
@@ -778,14 +1236,12 @@ function renderEol(){
       const cT=((i.mat.c1||0)+(i.mat.c2||0)+(i.mat.c3||0)+(i.mat.c4||0))*i.qty;
       const dV=(i.mat.d||0)*i.qty;
       return`<div style="padding:.75rem 0;border-bottom:1px solid var(--brd2)">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-          <strong>${i.mat.n}</strong><span class="bdg bp">EPD</span>
-        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><strong>${i.mat.n}</strong><span class="bdg bp">EPD</span></div>
         <div class="ob">EPD-declared C1–C4 used directly. C1–C4: <strong>${fv(cT)}</strong> kg CO₂e · Module D: <strong>${fv(dV)}</strong> kg CO₂e (reported separately).</div>
       </div>`;
     }
     const p=i.mat.eol?i.mat.eol[i.eol]:null;
-    if(!p)return`<div style="padding:.75rem 0;border-bottom:1px solid var(--brd2)"><strong>${i.mat.n}</strong> — no EOL data available</div>`;
+    if(!p)return`<div style="padding:.75rem 0;border-bottom:1px solid var(--brd2)"><strong>${i.mat.n}</strong> — no EOL data</div>`;
     const cT=(p.c1+p.c2+p.c3+p.c4)*i.qkg,dV=p.d*i.qkg;
     return`<div style="padding:.75rem 0;border-bottom:1px solid var(--brd2)">
       <div style="display:flex;justify-content:space-between;margin-bottom:6px">
@@ -794,34 +1250,23 @@ function renderEol(){
       </div>
       <div class="epls" style="margin-bottom:6px">${Object.entries(EOL).map(([k,v])=>`<button class="epl${i.eol===k?' active':''}" onclick="setEol(${i.id},'${k}')">${v.l}</button>`).join('')}</div>
       <div class="ib" style="margin-bottom:4px">${EOL[i.eol].d}</div>
-      <div style="font-size:11px;color:var(--t2)">C1–C4: <strong>+${fv(cT)} kg CO₂e</strong> &nbsp;·&nbsp; Module D: <strong style="color:${dV<0?'var(--gd)':'var(--t2)'}">${dV<=0?'':'+'}${fv(dV)} kg CO₂e</strong>${dV===0?' <span style="color:var(--t3);font-size:10px">(no recovery — correct for landfill)</span>':dV<0?' <span style="color:var(--t3);font-size:10px">(credit — reported separately)</span>':''}</div>
+      <div style="font-size:11px;color:var(--t2)">C1–C4: <strong>+${fv(cT)} kg CO₂e</strong> &nbsp;·&nbsp; Module D: <strong style="color:${dV<0?'var(--gd)':'var(--t2)'}">${dV<=0?'':'+'}${fv(dV)} kg CO₂e</strong>${dV===0?' <span style="color:var(--t3);font-size:10px">(no recovery)</span>':dV<0?' <span style="color:var(--t3);font-size:10px">(credit — reported separately)</span>':''}</div>
     </div>`;
   }).join('');
 }
 
-// ── CUSTOM EPD ────────────────────────────────────────────────────────
+// ── CUSTOM EPD ────────────────────────────────────────────────
 function saveEpd(){
   const n=document.getElementById('en').value.trim();
   const a13=parseFloat(document.getElementById('ea1').value);
   if(!n||isNaN(a13)){document.getElementById('emsg').innerHTML='<div class="eb">Product name and A1–A3 value are required.</div>';return;}
   const gn=id=>{const v=parseFloat(document.getElementById(id).value);return isNaN(v)?null:v;};
   const url=document.getElementById('eu').value.trim();
-  const mat={
-    id:'u_'+Date.now(),n,cat:document.getElementById('ec').value,
-    ef:a13,den:parseFloat(document.getElementById('ede').value)||null,
-    du:document.getElementById('edu').value,
-    db:'User EPD',yr:document.getElementById('ey').value||'—',
-    mfr:document.getElementById('em').value,
-    prog:document.getElementById('ep').value,
-    ref:url,url,
-    c1:gn('ec1'),c2:gn('ec2'),c3:gn('ec3'),c4:gn('ec4'),d:gn('ed'),
-    isProd:true
-  };
-  userProds.push(mat);
-  allProds=[...sheetProds,...userProds];
+  const mat={id:'u_'+Date.now(),n,cat:document.getElementById('ec').value,ef:a13,den:parseFloat(document.getElementById('ede').value)||null,du:document.getElementById('edu').value,db:'User EPD',yr:document.getElementById('ey').value||'—',mfr:document.getElementById('em').value,prog:document.getElementById('ep').value,ref:url,url,c1:gn('ec1'),c2:gn('ec2'),c3:gn('ec3'),c4:gn('ec4'),d:gn('ed'),isProd:true};
+  userProds.push(mat);allProds=[...sheetProds,...userProds];fP=[...allProds];
   ['en','em','eu','ey','ede','ep','ea1','ea4','ea5','ec1','ec2','ec3','ec4','ed'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('emsg').innerHTML=`<div class="ob">✓ Saved. Go to "Materials & Products" → "Manufacturer products" → find <strong>${n}</strong>.</div>`;
-  renderSaved();
+  renderSaved();scheduleSave();
   if(cLib==='prod')filterM();
 }
 function renderSaved(){
@@ -834,7 +1279,60 @@ function renderSaved(){
     </div>`).join('');
 }
 
-// ── CALCULATE ─────────────────────────────────────────────────────────
+// ── FLOOR AREA ────────────────────────────────────────────────
+function updateFA(){
+  const fa=parseFloat(document.getElementById('fa-input').value);
+  const el=document.getElementById('fa-out');
+  if(window._R&&!isNaN(fa)&&fa>0){
+    el.textContent=fv(window._R.grand/fa);
+  }else{el.textContent='—';}
+}
+
+// ── COMPARISON ────────────────────────────────────────────────
+function setCmpA(){
+  if(!window._R){alert('Calculate a result first.');return;}
+  cmpA={...window._R,label:'Scenario A',items:[...items]};
+  renderCmp();alert('Set as Scenario A. Now change your materials and set Scenario B.');
+}
+function setCmpB(){
+  if(!window._R){alert('Calculate a result first.');return;}
+  cmpB={...window._R,label:'Scenario B',items:[...items]};
+  renderCmp();
+}
+function renderCmp(){
+  const el=document.getElementById('cmp-result');
+  if(!cmpA&&!cmpB){el.innerHTML='<div class="empt">Build two scenarios and set each as A and B.</div>';return;}
+  const aGrand=cmpA?cmpA.grand:null;
+  const bGrand=cmpB?cmpB.grand:null;
+  const aWins=aGrand!==null&&bGrand!==null&&aGrand<=bGrand;
+  const diff=aGrand!==null&&bGrand!==null?Math.abs(aGrand-bGrand):null;
+  const pct=diff&&Math.max(aGrand,bGrand)>0?diff/Math.max(aGrand,bGrand)*100:null;
+  el.innerHTML=`<div class="cmp-container">
+    ${renderCmpCol(cmpA,'A',aWins&&aGrand!==null)}
+    ${renderCmpCol(cmpB,'B',!aWins&&bGrand!==null)}
+  </div>
+  ${diff!==null?`<div class="cmp-diff">Difference: <strong>${fv(diff)} kg CO₂e</strong> (${pct?pct.toFixed(1)+'%':''}) — ${aWins?'Scenario A is lower carbon':'Scenario B is lower carbon'}</div>`:''}`;
+}
+function renderCmpCol(sc,label,winner){
+  if(!sc)return`<div class="cmp-col"><div class="cmp-header"><input value="Scenario ${label} — not set yet" readonly/></div><div class="cmp-body"><div class="empt">Set using the button above.</div></div></div>`;
+  return`<div class="cmp-col${winner?' winner':''}">
+    <div class="cmp-header"><span style="font-size:13px;font-weight:700;color:var(--t1)">${sc.proj||'Scenario '+label}</span>${winner?'<span class="cmp-badge">✓ Lower carbon</span>':''}</div>
+    <div class="cmp-body">
+      <div class="cmp-total${winner?' winner-val':''}">${fv(sc.grand)} <span style="font-size:14px;font-weight:400">kg CO₂e</span></div>
+      <div style="font-size:11px;color:var(--t2);margin-bottom:.75rem">${fv(sc.grand/1000)} t CO₂e</div>
+      <div style="font-size:11px;color:var(--t2);line-height:1.8">
+        <div>A1–A3: <strong>${fv(sc.a13)}</strong> kg CO₂e</div>
+        <div>A4: <strong>${fv(sc.a4)}</strong> kg CO₂e</div>
+        <div>A5: <strong>${fv(sc.a5)}</strong> kg CO₂e</div>
+        <div>C1–C4: <strong>${fv(sc.cTot)}</strong> kg CO₂e</div>
+        <div style="font-style:italic;color:var(--t3)">Module D: ${fv(sc.d)} kg CO₂e (separate)</div>
+      </div>
+      ${sc.items.length?`<div style="margin-top:.75rem;font-size:11px;color:var(--t3)">${sc.items.length} material${sc.items.length!==1?'s':''}: ${sc.items.map(i=>i.mat.n).join(', ')}</div>`:''}
+    </div>
+  </div>`;
+}
+
+// ── CALCULATE ─────────────────────────────────────────────────
 function calcAll(){
   if(!items.length)return;
   const a13=items.reduce((s,i)=>s+i.gwp,0);
@@ -874,18 +1372,37 @@ function calcAll(){
     const pct=a13>0?i.gwp/a13*100:0,col=i.isProd?'var(--b)':'var(--g)';
     return`<div class="brw"><span class="brl">${i.mat.n}</span><div class="brt"><div class="brf" style="width:${pct.toFixed(1)}%;background:${col}"></div></div><span class="brp">${pct.toFixed(0)}%</span></div>`;
   }).join('');
+  // Calculation transparency rows
+  document.getElementById('calc-rows').innerHTML=items.map(i=>{
+    const unitDisplay=i.u==='m3'?'m³':i.u==='m2'?'m²':i.u;
+    const check=Math.abs(i.qty*i.mat.ef-i.gwp)<0.001;
+    return`<div class="calc-row">
+      <div class="calc-cell">${i.mat.n}</div>
+      <div class="calc-cell">${fv(i.qty)} ${unitDisplay}</div>
+      <div class="calc-cell">${fv(i.qkg)} kg</div>
+      <div class="calc-cell">${i.mat.ef} per ${i.mat.du}</div>
+      <div class="calc-cell"><span class="${check?'calc-ok':''}">${fv(i.gwp)} ✓</span></div>
+    </div>
+    <div class="calc-formula">${i.qty} ${unitDisplay} × ${i.mat.ef} kg CO₂e/${i.mat.du} = ${fv(i.gwp)} kg CO₂e &nbsp;(mass in kg: ${fv(i.qkg)} kg)</div>`;
+  }).join('');
+  document.getElementById('calc-a4-row').textContent=`A4: ${fv(tkg)} kg total mass × ${dist} km × ${vef} kg CO₂e/t·km ÷ 1000 = ${fv(a4)} kg CO₂e`;
+  document.getElementById('calc-a5-row').textContent=`A5: (${energy} kWh × ${sef} kg CO₂e/kWh) + (A1–A3 ${fv(a13)} × ${((wf)*100).toFixed(0)}% waste) = ${fv(a5)} kg CO₂e`;
+  document.getElementById('calc-eol-row').textContent=`C1–C4 total: ${fv(c1+c2+c3+c4)} kg CO₂e · Module D: ${fv(d)} kg CO₂e (per EOL scenario selected per material)`;
+  document.getElementById('calc-note').innerHTML=`<strong>Grand total check:</strong> ${fv(a13)} (A1–A3) + ${fv(a4)} (A4) + ${fv(a5)} (A5) + ${fv(cTot)} (C1–C4) = <strong class="calc-ok">${fv(grand)} kg CO₂e</strong> · Module D ${fv(d)} kg CO₂e reported separately`;
+  // Sources
   const seen=new Set();
   document.getElementById('srcbd').innerHTML=items.map(i=>{
     const k=i.mat.db+(i.mat.url||'');if(seen.has(k))return'';seen.add(k);
     return`<div style="font-size:11px;color:var(--t2);padding:5px 0;border-bottom:1px solid var(--brd2);display:flex;justify-content:space-between;align-items:center">
-      <span>${i.mat.db||'ICE v3.0'}${i.mat.yr&&i.mat.yr!=='—'?' ('+i.mat.yr+')':''}${i.mat.ref?' — '+i.mat.ref:''}</span>
+      <span>${i.mat.db||'EPiC 2024'}${i.mat.yr&&i.mat.yr!=='—'?' ('+i.mat.yr+')':''}${i.mat.ref?' — '+i.mat.ref:''}</span>
       ${i.mat.url&&i.mat.url.startsWith('http')?`<a href="${i.mat.url}" target="_blank" style="font-size:11px;white-space:nowrap;margin-left:8px">Open ↗</a>`:''}
     </div>`;
   }).join('');
   window._R={proj:document.getElementById('pname').value||'FastLCA Report',items,a13,a4,a5,c1,c2,c3,c4,cTot,grand,d,date:new Date().toLocaleDateString('en-GB')};
+  updateFA();
 }
 
-// ── PDF ────────────────────────────────────────────────────────────────
+// ── PDF ────────────────────────────────────────────────────────
 function dlPdf(){
   if(!window._R){alert('Run a calculation first.');return;}
   const r=window._R;
@@ -927,7 +1444,8 @@ tr:nth-child(even) td{background:#FAFAFA}
 .sn{color:#616161}.sv{font-weight:700}
 .stot{display:flex;justify-content:space-between;padding:10px 0 0;font-size:14px;font-weight:800;border-top:2.5px solid #2E7D32}
 .sdmod{display:flex;justify-content:space-between;padding:7px 0 0;font-size:10px;font-style:italic;color:#9E9E9E}
-.bdg{display:inline-block;font-size:9px;padding:1px 6px;border-radius:999px;background:#E3F2FD;color:#1565C0;border:1px solid #BBDEFB;font-weight:700;margin-left:4px}
+.bdg{font-size:9px;padding:1px 6px;border-radius:999px;background:#E3F2FD;color:#1565C0;border:1px solid #BBDEFB;font-weight:700;margin-left:4px}
+.calc-tbl{font-size:10px;font-family:monospace;background:#F5F5F5;padding:8px;border-radius:5px;margin-bottom:10px;line-height:1.8;color:#424242}
 .disc{font-size:9.5px;color:#9E9E9E;margin-top:20px;padding:12px;background:#FFF8E1;border-left:3px solid #FFA000;line-height:1.7;border-radius:5px}
 .ftr{margin-top:20px;padding-top:12px;border-top:1px solid #E0E0E0;display:flex;justify-content:space-between;font-size:10px;color:#BDBDBD}
 @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.page{padding:12mm 14mm}}
@@ -942,30 +1460,38 @@ tr:nth-child(even) td{background:#FAFAFA}
 <div class="ptitle">${r.proj}</div>
 <div class="pmeta">Generated by FastLCA · ${r.date} · Indicative estimates only — see disclaimer</div>
 <h2>Materials &amp; Products — A1–A3</h2>
-<table><thead><tr><th>Material / Product</th><th>Type</th><th>Qty</th><th>Unit</th><th>Mass (kg)</th><th>EF (kg CO₂e/unit)</th><th>A1–A3 GWP (kg CO₂e)</th></tr></thead><tbody>
-${r.items.map(i=>`<tr><td><strong>${i.mat.n}</strong><br><span style="color:#9E9E9E;font-size:9px">${i.mat.cat}</span></td><td>${i.isProd?'<span class="bdg">EPD</span>':'Generic (ICE v3.0)'}</td><td>${fv(i.qty)}</td><td>${i.u}</td><td>${fv(i.qkg)}</td><td>${i.mat.ef} / ${i.mat.du}</td><td><strong>${fv(i.gwp)}</strong></td></tr>`).join('')}
+<table><thead><tr><th>Material / Product</th><th>Type</th><th>Qty</th><th>Unit</th><th>Mass (kg)</th><th>EF (per unit)</th><th>A1–A3 GWP (kg CO₂e)</th></tr></thead><tbody>
+${r.items.map(i=>`<tr><td><strong>${i.mat.n}</strong><br><span style="color:#9E9E9E;font-size:9px">${i.mat.cat}</span></td><td>${i.isProd?'<span class="bdg">EPD</span>':'Generic (EPiC 2024)'}</td><td>${fv(i.qty)}</td><td>${i.u}</td><td>${fv(i.qkg)}</td><td>${i.mat.ef} / ${i.mat.du}</td><td><strong>${fv(i.gwp)}</strong></td></tr>`).join('')}
 </tbody></table>
+<h2>Calculation Verification</h2>
+<div class="calc-tbl">
+${r.items.map(i=>`  ${i.mat.n}: ${fv(i.qty)} ${i.u} × ${i.mat.ef} kg CO₂e/${i.mat.du} = ${fv(i.gwp)} kg CO₂e`).join('\n')}
+  A4: ${fv(r.items.reduce((s,i)=>s+i.qkg,0))} kg × ${document.getElementById('a4d').value} km × ${document.getElementById('a4v').value} kg CO₂e/t·km ÷ 1000 = ${fv(r.a4)} kg CO₂e
+  A5: site energy + ${document.getElementById('a5w').value}% waste factor = ${fv(r.a5)} kg CO₂e
+  C1–C4 total = ${fv(r.cTot)} kg CO₂e · Module D = ${fv(r.d)} kg CO₂e
+  TOTAL: ${fv(r.a13)} + ${fv(r.a4)} + ${fv(r.a5)} + ${fv(r.cTot)} = ${fv(r.grand)} kg CO₂e ✓
+</div>
 <h2>GWP Results by Life Cycle Stage</h2>
 <div class="sgrid">
   <div class="sc hl"><div class="scl">Total A1–C4</div><div class="scv">${fv(r.grand)}</div><div class="scu">kg CO₂e</div></div>
   <div class="sc"><div class="scl">Total A1–C4</div><div class="scv">${fv(r.grand/1000)}</div><div class="scu">tonnes CO₂e</div></div>
   <div class="sc dm"><div class="scl">Module D (separate)</div><div class="scv" style="font-size:20px">${fv(r.d)}</div><div class="scu">kg CO₂e</div></div>
 </div>
-<div class="sr"><span class="sn">A1–A3 Product stage (cradle-to-gate)</span><span class="sv">${fv(r.a13)} kg CO₂e</span></div>
+<div class="sr"><span class="sn">A1–A3 Product stage</span><span class="sv">${fv(r.a13)} kg CO₂e</span></div>
 <div class="sr"><span class="sn">A4 Transport to site</span><span class="sv">${fv(r.a4)} kg CO₂e</span></div>
-<div class="sr"><span class="sn">A5 Construction process</span><span class="sv">${fv(r.a5)} kg CO₂e</span></div>
+<div class="sr"><span class="sn">A5 Construction</span><span class="sv">${fv(r.a5)} kg CO₂e</span></div>
 <div class="sr"><span class="sn">C1 Demolition</span><span class="sv">${fv(r.c1)} kg CO₂e</span></div>
 <div class="sr"><span class="sn">C2 Waste transport</span><span class="sv">${fv(r.c2)} kg CO₂e</span></div>
 <div class="sr"><span class="sn">C3 Waste processing</span><span class="sv">${fv(r.c3)} kg CO₂e</span></div>
 <div class="sr"><span class="sn">C4 Disposal</span><span class="sv">${fv(r.c4)} kg CO₂e</span></div>
 <div class="stot"><span>Total A1–C4</span><span>${fv(r.grand)} kg CO₂e &nbsp;/&nbsp; ${fv(r.grand/1000)} t CO₂e</span></div>
-<div class="sdmod"><span>Module D — beyond system boundary (excluded from total per EN 15804+A2:2019 cl. 6.4.3.4)</span><span>${fv(r.d)} kg CO₂e</span></div>
+<div class="sdmod"><span>Module D — beyond system boundary (excluded per EN 15804+A2:2019 cl. 6.4.3.4)</span><span>${fv(r.d)} kg CO₂e</span></div>
 <h2>Data Sources</h2>
 <table><thead><tr><th>Database / Programme</th><th>Year</th><th>Reference</th><th>Link</th></tr></thead><tbody>
-${src.map(m=>`<tr><td>${m.db||'ICE v3.0'}${m.prog&&m.prog!==m.db?' / '+m.prog:''}</td><td>${m.yr||'—'}</td><td>${m.ref||'—'}</td><td>${m.url&&m.url.startsWith('http')?`<a href="${m.url}" style="color:#1565C0;font-size:10px">${m.url}</a>`:'—'}</td></tr>`).join('')}
+${src.map(m=>`<tr><td>${m.db||'EPiC 2024'}${m.prog&&m.prog!==m.db?' / '+m.prog:''}</td><td>${m.yr||'—'}</td><td>${m.ref||'—'}</td><td>${m.url&&m.url.startsWith('http')?`<a href="${m.url}" style="color:#1565C0;font-size:10px">${m.url}</a>`:'—'}</td></tr>`).join('')}
 </tbody></table>
-<div class="disc"><strong>DISCLAIMER:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. Generic A1–A3: ICE Database v3.0 (University of Bath, 2019). Transport: ECTA (2011). Generic C1–C4 and Module D: estimated from published EPD ranges — not a single verified source. User-entered EPD values not independently verified. Module D excluded from A1–C4 totals per EN 15804+A2:2019. B1–B7 not included. For compliance, commission a certified LCA practitioner.</div>
-<div class="ftr"><span>FastLCA v0.5 · fastlca.com · hello@fastlca.com</span><span>Generated ${r.date}</span></div>
+<div class="disc"><strong>DISCLAIMER:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. A1–A3: EPiC Database 2024 (Crawford et al., Univ. Melbourne; CC0). Hybrid values — higher than process-only EPDs. Transport: ECTA (2011). C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. Commission a certified LCA practitioner for compliance use.</div>
+<div class="ftr"><span>FastLCA v0.6 · fastlca.com · hello@fastlca.com</span><span>Generated ${r.date}</span></div>
 </div><script>setTimeout(()=>window.print(),500);<\/script></body></html>`;
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
   const a=document.createElement('a');
@@ -977,19 +1503,186 @@ ${src.map(m=>`<tr><td>${m.db||'ICE v3.0'}${m.prog&&m.prog!==m.db?' / '+m.prog:''
 
 function copySm(){
   if(!window._R)return;const r=window._R;
-  const txt=`FastLCA — Embodied Carbon Report\nProject: ${r.proj} | Date: ${r.date}\nBoundary: A1–C4 + Module D | EN 15804+A2:2019\n\nMATERIALS:\n${r.items.map(i=>`  ${i.mat.n}: ${fv(i.qty)} ${i.u} → ${fv(i.gwp)} kg CO₂e (${i.mat.db||'ICE v3.0'})`).join('\n')}\n\nRESULTS:\n  A1–A3: ${fv(r.a13)} kg CO₂e\n  A4:    ${fv(r.a4)} kg CO₂e\n  A5:    ${fv(r.a5)} kg CO₂e\n  C1–C4: ${fv(r.cTot)} kg CO₂e\n  ────────────────────────────\n  TOTAL A1–C4: ${fv(r.grand)} kg CO₂e | ${fv(r.grand/1000)} t CO₂e\n  Module D (beyond boundary): ${fv(r.d)} kg CO₂e\n\nFastLCA v0.5 · fastlca.com · indicative estimates only`;
-  navigator.clipboard.writeText(txt).then(()=>alert('Summary copied to clipboard.'));
+  const txt=`FastLCA — Embodied Carbon Report\nProject: ${r.proj} | ${r.date}\nBoundary: A1–C4 + Module D | EN 15804+A2:2019\n\nMATERIALS:\n${r.items.map(i=>`  ${i.mat.n}: ${fv(i.qty)} ${i.u} → ${fv(i.gwp)} kg CO₂e`).join('\n')}\n\nRESULTS:\n  A1–A3: ${fv(r.a13)} kg CO₂e\n  A4: ${fv(r.a4)} kg CO₂e\n  A5: ${fv(r.a5)} kg CO₂e\n  C1–C4: ${fv(r.cTot)} kg CO₂e\n  TOTAL A1–C4: ${fv(r.grand)} kg CO₂e | ${fv(r.grand/1000)} t CO₂e\n  Module D (beyond boundary, separate): ${fv(r.d)} kg CO₂e\n\nFastLCA v0.6 · fastlca.com`;
+  navigator.clipboard.writeText(txt).then(()=>alert('Summary copied.'));
 }
 
 function sw(t){
-  ['mat','a45','eol','epd'].forEach(id=>document.getElementById('tab-'+id).style.display=id===t?'block':'none');
-  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['mat','a45','eol','epd'][i]===t));
-  if(t==='eol')renderEol();if(t==='epd')renderSaved();
+  ['mat','a45','eol','asm','epd','cmp'].forEach(id=>document.getElementById('tab-'+id).style.display=id===t?'block':'none');
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['mat','a45','eol','asm','epd','cmp'][i]===t));
+  if(t==='eol')renderEol();if(t==='epd')renderSaved();if(t==='cmp')renderCmp();
+  if(t==='asm')initAsmMatSel();
 }
 
-// ── INIT ───────────────────────────────────────────────────────────────
-filterM();renderML();
-loadSheetProds();
-</script>
-</body>
-</html>
+// ── PRIVACY ───────────────────────────────────────────────────
+function openPrivacy(){document.getElementById('privacy-ovl').classList.add('show');}
+function closePrivacy(){document.getElementById('privacy-ovl').classList.remove('show');}
+
+// ── ASSEMBLY MODE ─────────────────────────────────────────────
+let asmLayers=[];
+
+function initAsmMatSel(){
+  const sel=document.getElementById('asm-mat-sel');
+  if(sel.options.length>1)return; // already populated
+  const all=[...RAW,...allProds];
+  const byCat={};
+  all.forEach(m=>{if(!byCat[m.cat])byCat[m.cat]=[];byCat[m.cat].push(m);});
+  Object.keys(byCat).sort().forEach(cat=>{
+    const og=document.createElement('optgroup');og.label=cat;
+    byCat[cat].forEach(m=>{
+      const o=document.createElement('option');
+      o.value=m.id;
+      o.textContent=m.n+(m.den?` (${m.den} kg/m³)`:'');
+      og.appendChild(o);
+    });
+    sel.appendChild(og);
+  });
+}
+
+function addAsmLayer(){
+  const matId=document.getElementById('asm-mat-sel').value;
+  const thickMm=parseFloat(document.getElementById('asm-thick').value);
+  const massPm2=parseFloat(document.getElementById('asm-mass').value);
+  if(!matId){alert('Select a material first.');return;}
+  const mat=[...RAW,...allProds].find(m=>m.id===matId);
+  if(!mat){return;}
+
+  let kgPerM2=null;
+  let method='';
+  if(!isNaN(massPm2)&&massPm2>0){
+    kgPerM2=massPm2;method=`${massPm2} kg/m²`;
+  } else if(!isNaN(thickMm)&&thickMm>0){
+    if(!mat.den){alert(`"${mat.n}" has no density — enter mass per m² directly instead.`);return;}
+    kgPerM2=(thickMm/1000)*mat.den;
+    method=`${thickMm}mm × ${mat.den} kg/m³`;
+  } else {
+    alert('Enter a thickness (mm) or a mass per m².');return;
+  }
+
+  const gwpPerM2=kgPerM2*mat.ef;
+  asmLayers.push({mat,kgPerM2,gwpPerM2,method,id:Date.now()});
+  document.getElementById('asm-thick').value='';
+  document.getElementById('asm-mass').value='';
+  document.getElementById('asm-mat-sel').value='';
+  renderAsm();calcAsm();
+}
+
+function remAsmLayer(id){
+  asmLayers=asmLayers.filter(l=>l.id!==id);
+  renderAsm();calcAsm();
+}
+
+function renderAsm(){
+  const el=document.getElementById('asm-layers');
+  if(!asmLayers.length){
+    el.innerHTML='<div class="asm-empty">No layers yet — add materials above to build your assembly.</div>';
+    document.getElementById('asm-result').style.display='none';
+    return;
+  }
+  el.innerHTML=asmLayers.map((l,i)=>`
+    <div class="asm-layer">
+      <span class="asm-layer-num">${i+1}</span>
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--t1)">${l.mat.n}</div>
+        <div style="font-size:10px;color:var(--t3)">${l.method} = ${fv(l.kgPerM2)} kg/m²</div>
+      </div>
+      <div style="font-size:10px;color:var(--t2);text-align:right">${fv(l.kgPerM2)} kg/m²</div>
+      <div class="asm-layer-gwp">${fv(l.gwpPerM2)}</div>
+      <div style="font-size:9px;color:var(--t3);text-align:center">kg CO₂e/m²</div>
+      <button class="bdel" onclick="remAsmLayer(${l.id})">×</button>
+    </div>`).join('');
+}
+
+function calcAsm(){
+  if(!asmLayers.length){document.getElementById('asm-result').style.display='none';return;}
+  const totalGwpM2=asmLayers.reduce((s,l)=>s+l.gwpPerM2,0);
+  const totalKgM2=asmLayers.reduce((s,l)=>s+l.kgPerM2,0);
+  const area=parseFloat(document.getElementById('asm-area').value)||null;
+  const totalGwp=area?totalGwpM2*area:null;
+
+  document.getElementById('asm-result').style.display='block';
+  document.getElementById('asm-cards').innerHTML=`
+    <div class="asm-rc hl">
+      <div class="asm-rc-l">A1–A3 GWP</div>
+      <div class="asm-rc-v">${fv(totalGwpM2)}</div>
+      <div class="asm-rc-u">kg CO₂e / m²</div>
+    </div>
+    <div class="asm-rc">
+      <div class="asm-rc-l">Total mass</div>
+      <div class="asm-rc-v">${fv(totalKgM2)}</div>
+      <div class="asm-rc-u">kg / m²</div>
+    </div>
+    <div class="asm-rc${totalGwp?' hl':''}">
+      <div class="asm-rc-l">Total for ${area?area+' m²':'area'}</div>
+      <div class="asm-rc-v" style="${!totalGwp?'font-size:16px;color:var(--t3)':''}">${totalGwp?fv(totalGwp):'—'}</div>
+      <div class="asm-rc-u">${totalGwp?'kg CO₂e total':'enter area above'}</div>
+    </div>`;
+
+  // Bar chart
+  document.getElementById('asm-bars').innerHTML=asmLayers.map(l=>{
+    const pct=totalGwpM2>0?l.gwpPerM2/totalGwpM2*100:0;
+    const col=l.mat.isProd?'var(--b)':'var(--g)';
+    return`<div class="asm-bar">
+      <span class="asm-bar-lbl">${l.mat.n}</span>
+      <div class="asm-bar-track"><div class="asm-bar-fill" style="width:${pct.toFixed(1)}%;background:${col}"></div></div>
+      <span class="asm-bar-pct">${pct.toFixed(0)}%</span>
+    </div>`;
+  }).join('');
+
+  window._ASM={name:document.getElementById('asm-name').value||'Assembly',layers:asmLayers,totalGwpM2,totalKgM2,totalGwp,area};
+}
+
+function addAsmToProject(){
+  if(!window._ASM||!asmLayers.length){return;}
+  const a=window._ASM;
+  // Create a pseudo-material representing the whole assembly
+  const name=a.name||'Assembly';
+  const area=a.area||1;
+  const gwp=a.totalGwp||a.totalGwpM2;
+  const pseudoMat={
+    id:'asm_'+Date.now(),n:name,cat:'Assembly',ef:a.totalGwpM2,
+    den:null,du:'m2',db:'FastLCA Assembly',yr:new Date().getFullYear().toString(),
+    ref:`${asmLayers.length} layers · ${fv(a.totalKgM2)} kg/m²`,url:'',
+    isProd:false,eol:{landfill:{c1:0,c2:0,c3:0,c4:0,d:0},incineration:{c1:0,c2:0,c3:0,c4:0,d:0},recycling:{c1:0,c2:0,c3:0,c4:0,d:0},reuse:{c1:0,c2:0,c3:0,c4:0,d:0}}
+  };
+  const qty=area;
+  items.push({mat:pseudoMat,qty,u:'m2',qkg:a.totalKgM2*area,gwp:a.totalGwpM2*area,eol:'landfill',id:Date.now(),isProd:false});
+  sw('mat');renderAll();scheduleSave();
+  alert(`✓ "${name}" added to project (${fv(area)} m² · ${fv(gwp)} kg CO₂e total).`);
+}
+
+function clearAsm(){
+  asmLayers=[];
+  document.getElementById('asm-name').value='';
+  document.getElementById('asm-area').value='';
+  renderAsm();
+}
+
+// ── SHARE CARD ────────────────────────────────────────────────
+function showShareCard(){
+  if(!window._R){alert('Run a calculation first.');return;}
+  const r=window._R;
+  document.getElementById('sc-proj').textContent=r.proj||'Embodied carbon estimate';
+  document.getElementById('sc-total').textContent=fv(r.grand);
+  document.getElementById('sc-breakdown').innerHTML=`
+    <div class="share-card-stage"><div class="share-card-stage-v">${fv(r.a13)}</div><div class="share-card-stage-l">A1–A3</div></div>
+    <div class="share-card-stage"><div class="share-card-stage-v">${fv(r.a4+r.a5)}</div><div class="share-card-stage-l">A4–A5</div></div>
+    <div class="share-card-stage"><div class="share-card-stage-v">${fv(r.cTot)}</div><div class="share-card-stage-l">C1–C4</div></div>
+    <div class="share-card-stage" style="border-left:1px dashed var(--brd);padding-left:16px"><div class="share-card-stage-v" style="color:var(--gd)">${fv(r.d)}</div><div class="share-card-stage-l">Module D*</div></div>`;
+  document.getElementById('share-card-wrap').classList.add('show');
+  document.getElementById('share-card-wrap').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function copyShareImg(){
+  if(!window._R)return;
+  const r=window._R;
+  const txt=`📊 Embodied carbon estimate — ${r.proj||'FastLCA Result'}
+
+Total A1–C4: ${fv(r.grand)} kg CO₂e (${fv(r.grand/1000)} t CO₂e)
+
+  A1–A3 Product stage:  ${fv(r.a13)} kg CO₂e
+  A4–A5 Construction:   ${fv(r.a4+r.a5)} kg CO₂e
+  C1–C4 End of life:    ${fv(r.cTot)} kg CO₂e
+  Module D (separate):  ${fv(r.d)} kg CO₂e
+
+Calculated with FastLCA — free embodied carbon calculat
