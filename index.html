@@ -12,7 +12,7 @@
 <link rel="canonical" href="https://fastlca.com/"/>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"FastLCA","url":"https://fastlca.com","description":"Free embodied carbon calculator for construction materials.","applicationCategory":"BusinessApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}</script>
 <title>FastLCA — Free Embodied Carbon Calculator | GWP for Construction Materials</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232E7D32'/><path d='M16 4L6 11v17h8v-8h4v8h8V11L16 4z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/></svg>"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%231B5E20'/><path d='M16 26V15' stroke='%23A5D6A7' stroke-width='1.5' stroke-linecap='round'/><path d='M16 19 C13 19 10 17 10 13 C13 13 16 15 16 19Z' fill='%234CAF50'/><path d='M16 21 C19 21 22 19 22 15 C19 15 16 17 16 21Z' fill='%2366BB6A'/><path d='M16 16 C16 13 18 10 21 9 C21 12 19 15 16 16Z' fill='%2381C784'/></svg>"/>
 <style>
 :root{
   --bg:#F5F5F5;--surf:#fff;--surf2:#FAFAFA;--brd:#E0E0E0;--brd2:#EEEEEE;
@@ -38,16 +38,19 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:var(--t1);b
 a{color:var(--b)}
 
 /* NAV */
-nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:100;box-shadow:var(--sh)}
-.nl{display:flex;align-items:center;gap:9px;text-decoration:none}
-.ni{width:30px;height:30px;background:var(--g);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.nn{font-size:18px;font-weight:700;color:var(--t1);letter-spacing:-.3px}
-.nn em{color:var(--g);font-style:normal}
-.nr{display:flex;align-items:center;gap:8px}
+nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;box-shadow:var(--sh)}
+.nl{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.ni{width:34px;height:34px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nn{font-size:20px;font-weight:800;color:var(--gd);letter-spacing:-.5px;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+.nn em{color:var(--gd);font-style:normal;font-weight:800}
+[data-theme=dark] .nn{color:var(--g)}
+[data-theme=dark] .nn em{color:var(--g)}
+.nr{display:flex;align-items:center;gap:6px}
 .nbdg{font-size:10px;padding:2px 8px;border-radius:999px;background:var(--gl);color:var(--gd);font-weight:600;border:1px solid var(--gm);white-space:nowrap}
-.bnav{font-size:12px;padding:5px 10px;border-radius:var(--r);border:1px solid var(--brd);background:transparent;cursor:pointer;color:var(--t2);font-family:inherit;display:flex;align-items:center;gap:5px;transition:background .15s}
+.bnav{font-size:12px;padding:5px 10px;border-radius:var(--r);border:1px solid var(--brd);background:transparent;cursor:pointer;color:var(--t2);font-family:inherit;display:flex;align-items:center;gap:5px;transition:background .15s;white-space:nowrap;text-decoration:none}
 .bnav:hover{background:var(--surf2)}
 .tbtn{width:32px;height:32px;padding:0;justify-content:center;font-size:16px}
+@media(max-width:540px){.nbdg{display:none}.bnav-hide-sm{display:none}}
 
 /* LAYOUT */
 .cont{max-width:780px;margin:0 auto;padding:1.5rem 1rem 5rem}
@@ -55,15 +58,19 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;
 .sl{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem}
 
 /* HERO */
-.hero{background:var(--gl);border:1px solid var(--gm);border-radius:var(--rl2);padding:1.5rem;margin-bottom:1rem;box-shadow:var(--sh)}
-.hero h1{font-size:21px;font-weight:800;color:var(--gd);margin-bottom:.375rem;letter-spacing:-.3px}
-[data-theme=dark] .hero h1{color:var(--g)}
-.hero p{font-size:13px;color:var(--t2);line-height:1.6;max-width:540px}
-.hbdgs{display:flex;gap:6px;flex-wrap:wrap;margin-top:.875rem}
+.hero{background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 60%,#388E3C 100%);border-radius:var(--rl2);padding:2rem 1.75rem;margin-bottom:1rem;box-shadow:0 4px 20px rgba(27,94,32,.25);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;background:rgba(255,255,255,.06);border-radius:50%}
+.hero::after{content:'';position:absolute;right:20px;bottom:-60px;width:140px;height:140px;background:rgba(255,255,255,.04);border-radius:50%}
+.hero-tag{font-size:11px;font-weight:700;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.625rem}
+.hero h1{font-size:26px;font-weight:800;color:#fff;margin-bottom:.5rem;letter-spacing:-.5px;line-height:1.2}
+.hero h1 span{color:#A5D6A7}
+.hero p{font-size:13px;color:rgba(255,255,255,.8);line-height:1.65;max-width:520px;margin-bottom:1.25rem}
+.hbdgs{display:flex;gap:6px;flex-wrap:wrap}
 .hb{font-size:11px;padding:3px 10px;border-radius:999px;font-weight:600;border:1px solid}
-.hbg{background:var(--gl);color:var(--gd);border-color:var(--gm)}
-.hbb{background:var(--bl);color:var(--bd);border-color:var(--bm)}
-.hbn{background:var(--surf2);color:var(--t2);border-color:var(--brd)}
+.hbg{background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.3)}
+.hbb{background:rgba(165,214,167,.15);color:#A5D6A7;border-color:rgba(165,214,167,.4)}
+.hbn{background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.2)}
+@media(max-width:480px){.hero{padding:1.5rem 1.25rem}.hero h1{font-size:22px}}
 
 /* METHODOLOGY */
 .meth{border:1px solid var(--brd);border-radius:var(--rl2);margin-bottom:1rem;overflow:hidden;box-shadow:var(--sh)}
@@ -341,10 +348,63 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
 .share-card-footer a{color:var(--b)}
 .share-btn-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:.875rem}
 
-/* PRIVACY MODAL */
-.privacy-ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}
+/* PRE-EPD NARRATIVE / MONETISATION CTA */
+.epd-cta{background:linear-gradient(135deg,var(--gl) 0%,var(--bl) 100%);border:1px solid var(--gm);border-radius:var(--rl2);padding:1.5rem;margin-top:1rem}
+[data-theme=dark] .epd-cta{background:linear-gradient(135deg,var(--gl) 0%,var(--bl) 100%)}
+.epd-cta-tag{font-size:10px;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
+.epd-cta h3{font-size:17px;font-weight:800;color:var(--t1);margin-bottom:.5rem;letter-spacing:-.2px}
+.epd-cta p{font-size:13px;color:var(--t2);line-height:1.65;margin-bottom:1rem}
+.epd-cta-steps{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem}
+@media(max-width:480px){.epd-cta-steps{grid-template-columns:1fr}}
+.epd-step{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r);padding:.875rem}
+.epd-step-num{font-size:11px;font-weight:800;color:var(--g);margin-bottom:.25rem}
+.epd-step-title{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:.25rem}
+.epd-step-desc{font-size:11px;color:var(--t2);line-height:1.5}
+.epd-cta-btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn-epd-primary{background:var(--g);border:1px solid var(--gd);color:#fff;font-weight:700;height:40px;padding:0 18px;border-radius:var(--r);font-size:13px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;transition:filter .15s;text-decoration:none}
+.btn-epd-primary:hover{filter:brightness(1.08)}
+.btn-epd-secondary{background:var(--surf);border:1px solid var(--brd);color:var(--t1);font-weight:600;height:40px;padding:0 16px;border-radius:var(--r);font-size:13px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;transition:background .15s}
+.btn-epd-secondary:hover{background:var(--surf2)}
+.epd-lead-form{display:none;margin-top:1rem;background:var(--surf);border:1px solid var(--brd);border-radius:var(--r);padding:1.25rem}
+.epd-lead-form.show{display:block}
+.epd-lead-form h4{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:.25rem}
+.epd-lead-form p{font-size:12px;color:var(--t3);margin-bottom:1rem}
+.epd-lead-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.875rem}
+@media(max-width:440px){.epd-lead-grid{grid-template-columns:1fr}}
+
+/* REGULATORY SECTION */
+.reg-block{margin:1.25rem 0;background:var(--surf);border:1px solid var(--brd);border-radius:var(--r);overflow:hidden}
+.reg-block-hdr{padding:.75rem 1rem;background:var(--surf2);border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.reg-block-hdr:hover{background:var(--brd2)}
+.reg-block-title{font-size:13px;font-weight:700;color:var(--t1);flex:1}
+.reg-block-tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;white-space:nowrap}
+.tag-live{background:#FFF3E0;color:#E65100;border:1px solid #FFCC80}
+.tag-coming{background:var(--bl);color:var(--bd);border:1px solid var(--bm)}
+.tag-paused{background:var(--surf2);color:var(--t3);border:1px solid var(--brd)}
+.reg-block-body{display:none;padding:1rem}
+.reg-block-body.open{display:block}
+.reg-block-body p{font-size:13px;color:var(--t2);line-height:1.65;margin-bottom:.625rem}
+.reg-block-body p:last-child{margin-bottom:0}
+.reg-block-body strong{color:var(--t1)}
+.reg-timeline{display:flex;flex-direction:column;gap:0;margin:1rem 0;position:relative}
+.reg-timeline::before{content:'';position:absolute;left:10px;top:8px;bottom:8px;width:2px;background:var(--brd);border-radius:1px}
+.reg-tl-item{display:flex;gap:12px;align-items:flex-start;padding:.5rem 0}
+.reg-tl-dot{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;z-index:1;margin-top:1px}
+.reg-tl-dot.done{background:var(--g);color:#fff}
+.reg-tl-dot.now{background:var(--am);color:#fff}
+.reg-tl-dot.future{background:var(--surf);border:2px solid var(--brd);color:var(--t3)}
+.reg-tl-content{flex:1}
+.reg-tl-date{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em}
+.reg-tl-text{font-size:13px;color:var(--t1);line-height:1.5;margin-top:2px}
+.reg-tl-sub{font-size:11px;color:var(--t3);margin-top:2px;line-height:1.4}
+.reg-what-box{background:var(--gl);border:1px solid var(--gm);border-radius:var(--r);padding:.875rem;margin-top:.875rem}
+.reg-what-box p{font-size:13px;color:var(--gd);margin-bottom:0}
+[data-theme=dark] .reg-what-box p{color:var(--g)}
+.reg-arrow{font-size:12px;color:var(--t3);transition:transform .2s}
+.reg-arrow.open{transform:rotate(180deg)}
+.privacy-ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;align-items:center;justify-content:center;padding:1rem}
 .privacy-ovl.show{display:flex}
-.privacy-modal{background:var(--surf);border-radius:var(--rl2);padding:2rem;max-width:620px;width:100%;box-shadow:var(--shl);border:1px solid var(--brd);margin:auto}
+.privacy-modal{background:var(--surf);border-radius:var(--rl2);padding:1.75rem;max-width:580px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--shl);border:1px solid var(--brd)}
 .privacy-modal h2{font-size:18px;font-weight:800;color:var(--t1);margin-bottom:.25rem}
 .privacy-modal .pm-date{font-size:11px;color:var(--t3);margin-bottom:1.25rem}
 .privacy-modal h3{font-size:13px;font-weight:700;color:var(--t1);margin:1.25rem 0 .375rem;padding-top:.875rem;border-top:1px solid var(--brd)}
@@ -357,13 +417,26 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
 
 <nav>
   <a class="nl" href="/">
-    <div class="ni"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 2L3 7v11h5v-5h4v5h5V7L10 2z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/><circle cx="10" cy="10" r="2" fill="white"/></svg></div>
-    <span class="nn">Fast<em>LCA</em></span>
+    <div class="ni">
+      <!-- Leaf icon matching new brand -->
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="17" cy="17" r="17" fill="#1B5E20"/>
+        <!-- stem -->
+        <path d="M17 27V16" stroke="#A5D6A7" stroke-width="1.6" stroke-linecap="round"/>
+        <!-- left leaf -->
+        <path d="M17 20 C14 20 11 18 11 14 C14 14 17 16 17 20Z" fill="#4CAF50"/>
+        <!-- right leaf -->
+        <path d="M17 22 C20 22 23 20 23 16 C20 16 17 18 17 22Z" fill="#66BB6A"/>
+        <!-- top leaf -->
+        <path d="M17 17 C17 14 19 11 22 10 C22 13 20 16 17 17Z" fill="#81C784"/>
+      </svg>
+    </div>
+    <span class="nn">FastLCA</span>
   </a>
   <div class="nr">
     <span class="nbdg">Free · EN 15804</span>
-    <a href="/about.html" class="bnav" style="text-decoration:none">About</a>
-    <button class="bnav" onclick="openFB('general')">
+    <a href="/about.html" class="bnav bnav-hide-sm" style="text-decoration:none">About</a>
+    <button class="bnav bnav-hide-sm" onclick="openFB('general')">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0 3.5c.3 0 .5.2.5.5v4a.5.5 0 0 1-1 0V8c0-.3.2-.5.5-.5z"/></svg>
       Feedback
     </button>
@@ -397,15 +470,15 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
 
 <!-- HERO -->
 <div class="hero">
-  <h1>Embodied carbon calculator for construction</h1>
-  <p>Calculate the GWP (kg CO₂e) of construction materials and assemblies across all life cycle stages. Free, transparent, and based on verified data sources.</p>
+  <div class="hero-tag">Embodied carbon calculator</div>
+  <h1>Quick LCA insights,<br><span>Smarter Decisions.</span></h1>
+  <p>Calculate the GWP (kg CO₂e) of construction materials and assemblies across all life cycle stages. Free, transparent, EN 15804 compliant — no login required.</p>
   <div class="hbdgs">
     <span class="hb hbg">✓ EN 15804+A2:2019</span>
-    <span class="hb hbg">✓ ISO 14040/14044 boundary</span>
+    <span class="hb hbg">✓ ISO 14040/14044</span>
     <span class="hb hbb">EPiC Database 2024</span>
-    <span class="hb hbb">Stages A1–C4 + Module D</span>
-    <span class="hb hbn">No login required</span>
-    
+    <span class="hb hbb">A1–C4 + Module D</span>
+    <span class="hb hbn">No login</span>
   </div>
 </div>
 
@@ -764,10 +837,158 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
         <button class="btn bgh" onclick="document.getElementById('share-card-wrap').classList.remove('show')">Dismiss</button>
       </div>
     </div>
+
+    <!-- PRE-EPD NARRATIVE + LEAD CAPTURE -->
+    <div class="epd-cta" id="epd-cta-block" style="display:none">
+      <div class="epd-cta-tag">What comes next</div>
+      <h3>FastLCA gives you the early picture — here's how to go further</h3>
+      <p>This estimate is a useful starting point for design decisions and client conversations. But if your product or project needs a <strong>verified EPD</strong> — for green building certification, procurement requirements, or a public carbon claim — that requires a certified LCA study. Here's what that journey looks like:</p>
+      <div class="epd-cta-steps">
+        <div class="epd-step">
+          <div class="epd-step-num">Step 1 — You are here</div>
+          <div class="epd-step-title">Pre-screening with FastLCA</div>
+          <div class="epd-step-desc">Understand which materials dominate, compare options, identify hotspots. Free, instant, no expertise needed.</div>
+        </div>
+        <div class="epd-step">
+          <div class="epd-step-num">Step 2</div>
+          <div class="epd-step-title">Certified LCA study</div>
+          <div class="epd-step-desc">A verified practitioner collects product-specific data, models the full supply chain, and produces a report compliant with ISO 14040/44 and EN 15804.</div>
+        </div>
+        <div class="epd-step">
+          <div class="epd-step-num">Step 3</div>
+          <div class="epd-step-title">EPD verification &amp; registration</div>
+          <div class="epd-step-desc">The LCA report is independently verified and registered with a programme operator (EPD Norway, IBU, Environdec). Typically €3,000–€15,000 depending on complexity.</div>
+        </div>
+        <div class="epd-step">
+          <div class="epd-step-num">Step 4</div>
+          <div class="epd-step-title">Publish &amp; use your EPD</div>
+          <div class="epd-step-desc">Your verified EPD becomes a marketable asset — usable for BREEAM/LEED credits, public procurement, green financing, and customer transparency.</div>
+        </div>
+      </div>
+
+      <div class="epd-cta-btns" style="margin-top:1.25rem">
+        <button class="btn-epd-primary" onclick="toggleLeadForm()">📋 Request an introduction to a verified LCA expert</button>
+        <a href="/about.html" class="btn-epd-secondary">Learn about our methodology →</a>
+      </div>
+
+      <!-- EU REGULATORY CONTEXT -->
+      <div style="margin-top:1.25rem">
+        <div class="sl" style="margin-bottom:.625rem">📋 EU regulatory context — why this matters now</div>
+
+        <!-- DPP -->
+        <div class="reg-block">
+          <div class="reg-block-hdr" onclick="toggleReg('dpp')">
+            <span class="reg-block-title">🪪 Digital Product Passport (DPP) — mandatory for construction products</span>
+            <span class="reg-block-tag tag-coming">2027–2030</span>
+            <span class="reg-arrow" id="reg-arr-dpp">▼</span>
+          </div>
+          <div class="reg-block-body" id="reg-dpp">
+            <p>The <strong>Ecodesign for Sustainable Products Regulation (ESPR, Regulation EU 2024/1781)</strong> entered into force in July 2024. It mandates a Digital Product Passport for construction products — a machine-readable digital record that travels with the product throughout its life cycle, containing origin, material composition, carbon footprint, recycled content, durability, and end-of-life data.</p>
+            <p>The <strong>Construction Products Regulation (CPR, Regulation EU 2024/1305)</strong> specifically extends DPP requirements to construction materials. Together these regulations mean that placing a construction product on the EU market without a DPP will become illegal.</p>
+            <div class="reg-timeline">
+              <div class="reg-tl-item">
+                <div class="reg-tl-dot done">✓</div>
+                <div class="reg-tl-content">
+                  <div class="reg-tl-date">July 2024</div>
+                  <div class="reg-tl-text">ESPR entered into force</div>
+                  <div class="reg-tl-sub">Legal framework established. No product-specific requirements yet.</div>
+                </div>
+              </div>
+              <div class="reg-tl-item">
+                <div class="reg-tl-dot done">✓</div>
+                <div class="reg-tl-content">
+                  <div class="reg-tl-date">Q2 2025</div>
+                  <div class="reg-tl-text">ESPR Working Plan 2025–2030 published</div>
+                  <div class="reg-tl-sub">First wave: textiles, furniture, tyres, iron/steel, aluminium chains prioritised.</div>
+                </div>
+              </div>
+              <div class="reg-tl-item">
+                <div class="reg-tl-dot now">→</div>
+                <div class="reg-tl-content">
+                  <div class="reg-tl-date">Late 2025 – 2026</div>
+                  <div class="reg-tl-text">First delegated acts expected</div>
+                  <div class="reg-tl-sub">Product-specific DPP data requirements defined. Minimum 18-month transition after adoption.</div>
+                </div>
+              </div>
+              <div class="reg-tl-item">
+                <div class="reg-tl-dot future">○</div>
+                <div class="reg-tl-content">
+                  <div class="reg-tl-date">February 2027</div>
+                  <div class="reg-tl-text">Battery DPP mandatory (EV &amp; industrial batteries)</div>
+                  <div class="reg-tl-sub">First mandatory DPP. Sets the technical precedent for other sectors.</div>
+                </div>
+              </div>
+              <div class="reg-tl-item">
+                <div class="reg-tl-dot future">○</div>
+                <div class="reg-tl-content">
+                  <div class="reg-tl-date">2027–2030</div>
+                  <div class="reg-tl-text">Construction product DPPs phased in</div>
+                  <div class="reg-tl-sub">Mandatory DPPs for regulated construction materials. EPDs aligned with EN 15804+A2 expected to feed directly into DPP data.</div>
+                </div>
+              </div>
+            </div>
+            <div class="reg-what-box">
+              <p>💡 <strong>What this means for you:</strong> EPDs aligned with EN 15804+A2 are explicitly expected to become the primary data source for DPPs in construction. Having a verified EPD now means your DPP data is already half-built — and you're ahead of competitors who wait until compliance is mandatory.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- GREENWASHING -->
+        <div class="reg-block" style="margin-top:.5rem">
+          <div class="reg-block-hdr" onclick="toggleReg('gw')">
+            <span class="reg-block-title">🚫 EU anti-greenwashing rules — already binding from September 2026</span>
+            <span class="reg-block-tag tag-live">Binding Sep 2026</span>
+            <span class="reg-arrow" id="reg-arr-gw">▼</span>
+          </div>
+          <div class="reg-block-body" id="reg-gw">
+            <p>Two EU directives now restrict how companies can make environmental and climate claims — even in B2B contexts relevant to construction:</p>
+            <p><strong>Empowering Consumers for the Green Transition Directive (EmpCo / ECGT, Directive EU 2024/825)</strong> — adopted March 2024, binding from <strong>27 September 2026</strong> across all EU member states. This is already law.</p>
+            <p>From September 2026 it will be <strong>illegal</strong> to:</p>
+            <ul style="padding-left:1.25rem;margin:.5rem 0 .75rem;font-size:13px;color:var(--t2);line-height:1.8">
+              <li>Make generic environmental claims — "eco-friendly", "green", "sustainable", "natural", "circular" — without proof</li>
+              <li>Claim a product is "climate neutral" or "carbon neutral" based on offsetting rather than actual emission reductions</li>
+              <li>Display a sustainability label that hasn't been verified by a recognised certification scheme</li>
+              <li>Claim environmental benefit for only part of a product while implying it applies to the whole</li>
+            </ul>
+            <p><strong>Green Claims Directive (proposed)</strong> — would have added mandatory third-party pre-verification for all explicit environmental claims. The Commission announced intention to withdraw the proposal in June 2025 after political opposition to its bureaucratic burden on small businesses. The legislative process is paused — but not cancelled. The EmpCo Directive (above) still applies regardless.</p>
+            <div class="reg-what-box">
+              <p>💡 <strong>What this means for you:</strong> If your product will carry any carbon or environmental claim after September 2026 — on a website, in a tender, in a sales brochure — it needs to be substantiated with verifiable data. A verified EPD with declared GWP values from an accredited LCA programme is exactly the kind of evidence that makes a claim defensible. FastLCA estimates are not sufficient for public claims — they're a starting point.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEAD FORM -->
+      <div class="epd-lead-form" id="epd-lead-form">
+        <h4>Tell us a bit about your project</h4>
+        <p>We'll connect you with a verified LCA practitioner suited to your product type and timeline. No obligation — we'll respond within 2 business days.</p>
+        <div class="epd-lead-grid">
+          <div class="fl"><label>Company / organisation *</label><input type="text" id="lf-company" placeholder="e.g. Nordic Timber AS"/></div>
+          <div class="fl"><label>Product or project type *</label><input type="text" id="lf-product" placeholder="e.g. CLT wall panel, concrete mix"/></div>
+          <div class="fl"><label>Timeline</label>
+            <select id="lf-timeline">
+              <option value="">— select —</option>
+              <option>As soon as possible</option>
+              <option>Within 3 months</option>
+              <option>Within 6 months</option>
+              <option>Just exploring</option>
+            </select>
+          </div>
+          <div class="fl"><label>Your email *</label><input type="email" id="lf-email" placeholder="you@company.com"/></div>
+        </div>
+        <div class="fl" style="margin-bottom:.875rem"><label>Additional context (optional)</label><textarea id="lf-notes" placeholder="e.g. product scope, target EPD programme, any existing LCA data" rows="3" style="width:100%;padding:8px 10px;border:1px solid var(--brd);border-radius:var(--r);font-family:inherit;font-size:13px;background:var(--surf);color:var(--t1);resize:vertical"></textarea></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <button class="btn bg2" onclick="submitLead()" style="height:40px">Send introduction request →</button>
+          <button class="btn bgh" onclick="toggleLeadForm()" style="height:40px">Cancel</button>
+          <span style="font-size:11px;color:var(--t3)">Your details are only used to connect you with an LCA expert. See our privacy policy.</span>
+        </div>
+        <div id="lf-msg" style="margin-top:.75rem"></div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="disc">⚠ <strong>Disclaimer:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. Generic A1–A3: EPiC Database 2024 (Crawford, Stephan &amp; Prideaux, University of Melbourne; CC0 licence). Hybrid values — systematically higher than process-only EPDs. Transport: ECTA (2011). Generic C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. For compliance, commission a certified LCA practitioner. &nbsp;·&nbsp; FastLCA v0.7 &nbsp;·&nbsp; <a href="https://fastlca.com">fastlca.com</a> &nbsp;·&nbsp; <a href="mailto:hello@fastlca.com">hello@fastlca.com</a> &nbsp;·&nbsp; <a href="/about.html">Methodology</a> &nbsp;·&nbsp; <button onclick="openPrivacy()" style="background:none;border:none;color:var(--b);cursor:pointer;font-family:inherit;font-size:11px;padding:0;text-decoration:underline">Privacy Policy</button></div>
+<div class="disc">⚠ <strong>Disclaimer:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. Generic A1–A3: EPiC Database 2024 (Crawford, Stephan &amp; Prideaux, University of Melbourne; CC0 licence). Hybrid values — systematically higher than process-only EPDs. Transport: ECTA (2011). Generic C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. For compliance, commission a certified LCA practitioner. &nbsp;·&nbsp; © 2026 FastLCA. All rights reserved. &nbsp;·&nbsp; FastLCA v0.7 &nbsp;·&nbsp; <a href="https://fastlca.com">fastlca.com</a> &nbsp;·&nbsp; <a href="mailto:hello@fastlca.com">hello@fastlca.com</a> &nbsp;·&nbsp; <a href="/about.html">Methodology</a> &nbsp;·&nbsp; <button onclick="openPrivacy()" style="background:none;border:none;color:var(--b);cursor:pointer;font-family:inherit;font-size:11px;padding:0;text-decoration:underline">Privacy Policy</button></div>
 </div>
 
 <!-- PRIVACY MODAL -->
@@ -1384,6 +1605,8 @@ function calcAll(){
   }).join('');
   window._R={proj:document.getElementById('pname').value||'FastLCA Report',items,a13,a4,a5,c1,c2,c3,c4,cTot,grand,d,date:new Date().toLocaleDateString('en-GB')};
   updateFA();
+  // Show pre-EPD narrative block
+  document.getElementById('epd-cta-block').style.display='block';
 }
 
 // ── PDF ────────────────────────────────────────────────────────
@@ -1636,6 +1859,59 @@ function copyShareText(){
   const r=window._R;
   const txt='📊 Embodied carbon estimate — '+(r.proj||'FastLCA Result')+'\n\nTotal A1–C4: '+fv(r.grand)+' kg CO₂e ('+fv(r.grand/1000)+' t CO₂e)\n\n  A1–A3: '+fv(r.a13)+' kg CO₂e\n  A4–A5: '+fv(r.a4+r.a5)+' kg CO₂e\n  C1–C4: '+fv(r.cTot)+' kg CO₂e\n  Module D (separate): '+fv(r.d)+' kg CO₂e\n\nCalculated with FastLCA · fastlca.com · EN 15804+A2:2019 · EPiC Database 2024\nIndicative estimate only — not a certified LCA';
   navigator.clipboard.writeText(txt).then(()=>alert('Result text copied — paste into LinkedIn, email or a report.'));
+}
+
+// ── REGULATORY TOGGLES ─────────────────────────────────────────
+function toggleReg(id){
+  const body=document.getElementById('reg-'+id);
+  const arr=document.getElementById('reg-arr-'+id);
+  body.classList.toggle('open');
+  arr.classList.toggle('open');
+}
+
+// ── PRE-EPD LEAD CAPTURE ───────────────────────────────────────
+function toggleLeadForm(){
+  const f=document.getElementById('epd-lead-form');
+  f.classList.toggle('show');
+  if(f.classList.contains('show'))f.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function submitLead(){
+  const company=document.getElementById('lf-company').value.trim();
+  const product=document.getElementById('lf-product').value.trim();
+  const email=document.getElementById('lf-email').value.trim();
+  const timeline=document.getElementById('lf-timeline').value;
+  const notes=document.getElementById('lf-notes').value.trim();
+  const msg=document.getElementById('lf-msg');
+  if(!company||!product||!email){
+    msg.innerHTML='<span style="color:var(--rd);font-size:12px">Please fill in company, product type and email.</span>';
+    return;
+  }
+  if(!email.includes('@')){
+    msg.innerHTML='<span style="color:var(--rd);font-size:12px">Please enter a valid email address.</span>';
+    return;
+  }
+  const r=window._R;
+  const body={
+    company,product,email,timeline,notes,
+    fastlca_result: r ? `${r.proj} — ${fv(r.grand)} kg CO₂e (A1–C4)` : 'no result',
+    _subject:`FastLCA EPD lead — ${company}`
+  };
+  msg.innerHTML='<span style="color:var(--t3);font-size:12px">Sending…</span>';
+  fetch('https://formspree.io/f/xnjobdgv',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+    .then(r=>{
+      if(r.ok){
+        msg.innerHTML='<span style="color:var(--gd);font-size:13px;font-weight:600">✓ Received — we\'ll be in touch within 2 business days.</span>';
+        document.getElementById('lf-company').value='';
+        document.getElementById('lf-product').value='';
+        document.getElementById('lf-email').value='';
+        document.getElementById('lf-notes').value='';
+      } else {
+        msg.innerHTML='<span style="color:var(--rd);font-size:12px">Something went wrong — please email hello@fastlca.com directly.</span>';
+      }
+    }).catch(()=>{
+      msg.innerHTML='<span style="color:var(--rd);font-size:12px">Network error — please email <a href="mailto:hello@fastlca.com">hello@fastlca.com</a> directly.</span>';
+    });
 }
 
 // ── INIT ───────────────────────────────────────────────────────

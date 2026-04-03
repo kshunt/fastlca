@@ -11,7 +11,7 @@
 <meta property="og:type" content="website"/>
 <link rel="canonical" href="https://fastlca.com/about.html"/>
 <title>About & Methodology — FastLCA Embodied Carbon Calculator</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232E7D32'/><path d='M16 4L6 11v17h8v-8h4v8h8V11L16 4z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/></svg>"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%231B5E20'/><path d='M16 26V15' stroke='%23A5D6A7' stroke-width='1.5' stroke-linecap='round'/><path d='M16 19 C13 19 10 17 10 13 C13 13 16 15 16 19Z' fill='%234CAF50'/><path d='M16 21 C19 21 22 19 22 15 C19 15 16 17 16 21Z' fill='%2366BB6A'/><path d='M16 16 C16 13 18 10 21 9 C21 12 19 15 16 16Z' fill='%2381C784'/></svg>"/>
 <style>
 :root{
   --bg:#F5F5F5;--surf:#fff;--surf2:#FAFAFA;--brd:#E0E0E0;--brd2:#EEEEEE;
@@ -36,10 +36,12 @@ a{color:var(--b)}
 
 /* NAV */
 nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:100;box-shadow:var(--sh)}
-.nl{display:flex;align-items:center;gap:9px;text-decoration:none}
-.ni{width:30px;height:30px;background:var(--g);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.nn{font-size:18px;font-weight:700;color:var(--t1);letter-spacing:-.3px}
-.nn em{color:var(--g);font-style:normal}
+.nl{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.ni{width:34px;height:34px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nn{font-size:20px;font-weight:800;color:var(--gd);letter-spacing:-.5px}
+.nn em{color:var(--gd);font-style:normal;font-weight:800}
+[data-theme=dark] .nn{color:var(--g)}
+[data-theme=dark] .nn em{color:var(--g)}
 .nr{display:flex;align-items:center;gap:8px}
 .bnav{font-size:12px;padding:5px 10px;border-radius:var(--r);border:1px solid var(--brd);background:transparent;cursor:pointer;color:var(--t2);font-family:inherit;display:flex;align-items:center;gap:5px;transition:background .15s;text-decoration:none}
 .bnav:hover{background:var(--surf2)}
@@ -138,8 +140,16 @@ footer a{color:var(--b)}
 
 <nav>
   <a class="nl" href="/">
-    <div class="ni"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 2L3 7v11h5v-5h4v5h5V7L10 2z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/><circle cx="10" cy="10" r="2" fill="white"/></svg></div>
-    <span class="nn">Fast<em>LCA</em></span>
+    <div class="ni">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="17" cy="17" r="17" fill="#1B5E20"/>
+        <path d="M17 27V16" stroke="#A5D6A7" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M17 20 C14 20 11 18 11 14 C14 14 17 16 17 20Z" fill="#4CAF50"/>
+        <path d="M17 22 C20 22 23 20 23 16 C20 16 17 18 17 22Z" fill="#66BB6A"/>
+        <path d="M17 17 C17 14 19 11 22 10 C22 13 20 16 17 17Z" fill="#81C784"/>
+      </svg>
+    </div>
+    <span class="nn">FastLCA</span>
   </a>
   <div class="nr">
     <a href="/about.html" class="bnav active">About</a>
@@ -363,7 +373,7 @@ footer a{color:var(--b)}
     <h2>About FastLCA</h2>
     <p>FastLCA was built to fill a gap: most free embodied carbon tools are either too simple (a single number with no transparency) or too complex (requiring training to use). FastLCA aims to be transparent about its methodology, honest about its limitations, and useful enough to support real early-stage decisions.</p>
     <p>The tool is maintained as a personal project. The generic database (EPiC 2024) is openly licensed. All calculation logic runs in your browser — no data leaves your device except feedback you choose to submit.</p>
-    <p>Corrections, feedback, and EPD suggestions are welcome at <a href="mailto:hello@fastlca.com">hello@fastlca.com</a> or via the feedback button in the calculator.</p>
+    <p>Corrections, feedback, and EPD suggestions are welcome at <a href="/cdn-cgi/l/email-protection#5d35383131321d3b3c2e29313e3c733e3230"><span class="__cf_email__" data-cfemail="dbb3beb7b7b49bbdbaa8afb7b8baf5b8b4b6">[email&#160;protected]</span></a> or via the feedback button in the calculator.</p>
 
     <div class="callout callout-blue">
       <p><strong>For formal LCA work:</strong> FastLCA is a screening tool. For certified LCA reports, EPD production, or regulatory compliance, engage a certified LCA practitioner and use a fully validated LCA software platform (SimaPro, OpenLCA, One Click LCA, etc.).</p>
@@ -377,16 +387,16 @@ footer a{color:var(--b)}
 </div>
 
 <footer>
-  <p>FastLCA v0.7 · <a href="https://fastlca.com">fastlca.com</a> · <a href="mailto:hello@fastlca.com">hello@fastlca.com</a></p>
+  <p>© 2026 FastLCA. All rights reserved. · FastLCA v0.7 · <a href="https://fastlca.com">fastlca.com</a> · <a href="mailto:hello@fastlca.com">hello@fastlca.com</a></p>
   <p><a href="/">Calculator</a> · <a href="/about.html">About &amp; Methodology</a></p>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function toggleTheme(){
   const d=document.documentElement;
   const t=d.getAttribute('data-theme')==='dark'?'light':'dark';
   d.setAttribute('data-theme',t);
-  document.getElementById('tbtn').textContent=t==='dark'?'☀️':'🌙';
+  document.getElementById('tbtn').textContent=t==='dark'?'\u2600\ufe0f':'\U0001f319';
   try{localStorage.setItem('flca-t',t);}catch(e){}
 }
 (()=>{
@@ -394,7 +404,7 @@ function toggleTheme(){
     const t=localStorage.getItem('flca-t')||'light';
     document.documentElement.setAttribute('data-theme',t);
     document.addEventListener('DOMContentLoaded',()=>{
-      document.getElementById('tbtn').textContent=t==='dark'?'☀️':'🌙';
+      document.getElementById('tbtn').textContent=t==='dark'?'\u2600\ufe0f':'\U0001f319';
     });
   }catch(e){}
 })();
