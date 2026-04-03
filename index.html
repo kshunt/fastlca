@@ -286,72 +286,6 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
 .ftp.sel{background:var(--gl);border-color:var(--g);color:var(--gd);font-weight:700}
 .fdt{display:none}.fdt.show{display:block}
 .disc{font-size:11px;color:var(--t3);line-height:1.7;padding:1rem;background:var(--surf);border:1px solid var(--brd);border-radius:var(--rl2);border-left:3px solid var(--a2);margin-top:1rem;box-shadow:var(--sh)}
-
-/* ── ASSEMBLY MODE ────────────────────────────────────────────────────── */
-.asm-hero{background:var(--gl);border:1px solid var(--gm);border-radius:var(--r);padding:1rem;margin-bottom:1rem}
-.asm-hero p{font-size:12px;color:var(--t2);line-height:1.6;margin-top:.375rem}
-.asm-layers{border:1px solid var(--brd);border-radius:var(--r);overflow:hidden;margin-bottom:.875rem}
-.asm-layer{display:grid;grid-template-columns:28px 1fr 100px 80px 80px 36px;gap:6px;align-items:center;padding:7px 10px;border-bottom:1px solid var(--brd2);background:var(--surf);transition:background .1s}
-.asm-layer:last-child{border-bottom:none}
-.asm-layer:hover{background:var(--surf2)}
-.asm-layer-num{font-size:11px;font-weight:700;color:var(--t3);text-align:center;width:20px;height:20px;background:var(--surf2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.asm-layer select,.asm-layer input{height:32px;font-size:12px;border-radius:6px}
-.asm-layer-gwp{font-size:12px;font-weight:700;color:var(--gd);text-align:right;white-space:nowrap}
-[data-theme=dark] .asm-layer-gwp{color:var(--g)}
-.asm-empty{text-align:center;padding:1.5rem;color:var(--t3);font-size:12px}
-.asm-result{background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);padding:1rem;margin-top:.875rem}
-.asm-result-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:.75rem}
-@media(max-width:440px){.asm-result-grid{grid-template-columns:1fr 1fr}}
-.asm-rc{padding:.875rem;background:var(--surf);border:1px solid var(--brd);border-radius:var(--r);text-align:center}
-.asm-rc.hl{background:var(--gl);border-color:var(--gm)}
-.asm-rc-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;font-weight:700}
-.asm-rc.hl .asm-rc-l{color:var(--g)}
-.asm-rc-v{font-size:22px;font-weight:800;color:var(--t1)}
-.asm-rc.hl .asm-rc-v{color:var(--gd)}
-[data-theme=dark] .asm-rc.hl .asm-rc-v{color:var(--g)}
-.asm-rc-u{font-size:11px;color:var(--t3);margin-top:2px}
-.asm-add-row{display:grid;grid-template-columns:1fr 90px 76px auto;gap:6px;align-items:end;margin-bottom:.75rem}
-@media(max-width:480px){.asm-add-row{grid-template-columns:1fr 1fr;}.asm-add-row .asm-btn-wrap{grid-column:1/-1}}
-.asm-area-row{display:flex;align-items:center;gap:8px;margin-bottom:.875rem;flex-wrap:wrap}
-.asm-area-row label{font-size:12px;color:var(--t2);font-weight:600;white-space:nowrap}
-.asm-area-row input{max-width:110px;height:34px}
-.asm-bar-wrap{margin-top:.75rem}
-.asm-bar{display:flex;align-items:center;gap:8px;margin-bottom:5px}
-.asm-bar-lbl{font-size:11px;color:var(--t2);width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:0}
-.asm-bar-track{flex:1;height:6px;background:var(--surf2);border-radius:3px;overflow:hidden}
-.asm-bar-fill{height:100%;border-radius:3px}
-.asm-bar-pct{font-size:11px;color:var(--t3);width:34px;text-align:right;flex-shrink:0}
-
-/* ── SHARE CARD ───────────────────────────────────────────────────────── */
-.share-card-wrap{display:none;margin-top:1rem}
-.share-card-wrap.show{display:block}
-.share-card{background:var(--surf);border:2px solid var(--gm);border-radius:var(--rl2);padding:1.5rem;text-align:center;box-shadow:var(--shl);position:relative}
-.share-card-logo{font-size:13px;font-weight:800;color:var(--gd);letter-spacing:-.3px;margin-bottom:.875rem;display:flex;align-items:center;justify-content:center;gap:7px}
-[data-theme=dark] .share-card-logo{color:var(--g)}
-.share-card-logo-icon{width:26px;height:26px;background:var(--g);border-radius:6px;display:flex;align-items:center;justify-content:center}
-.share-card-proj{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:.25rem}
-.share-card-total{font-size:44px;font-weight:800;color:var(--gd);line-height:1;margin:.5rem 0 .25rem}
-[data-theme=dark] .share-card-total{color:var(--g)}
-.share-card-unit{font-size:14px;color:var(--t3);margin-bottom:1rem}
-.share-card-breakdown{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:1rem;padding:.75rem;background:var(--surf2);border-radius:var(--r)}
-.share-card-stage{text-align:center}
-.share-card-stage-v{font-size:15px;font-weight:700;color:var(--t1)}
-.share-card-stage-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
-.share-card-footer{font-size:11px;color:var(--t3);margin-top:.5rem}
-.share-card-footer a{color:var(--b)}
-.share-btn-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:.875rem}
-
-/* ── PRIVACY MODAL ────────────────────────────────────────────────────── */
-.privacy-ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}
-.privacy-ovl.show{display:flex}
-.privacy-modal{background:var(--surf);border-radius:var(--rl2);padding:2rem;max-width:620px;width:100%;box-shadow:var(--shl);border:1px solid var(--brd);margin:auto}
-.privacy-modal h2{font-size:18px;font-weight:800;color:var(--t1);margin-bottom:.25rem}
-.privacy-modal .pm-date{font-size:11px;color:var(--t3);margin-bottom:1.25rem}
-.privacy-modal h3{font-size:13px;font-weight:700;color:var(--t1);margin:1.25rem 0 .375rem;padding-top:.875rem;border-top:1px solid var(--brd)}
-.privacy-modal h3:first-of-type{border-top:none;padding-top:0}
-.privacy-modal p,.privacy-modal li{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:.5rem}
-.privacy-modal ul{padding-left:1.25rem;margin-bottom:.5rem}
-.privacy-close{float:right;background:none;border:none;font-size:22px;cursor:pointer;color:var(--t3);line-height:1;margin-top:-6px}
 </style>
 </head>
 <body>
@@ -363,13 +297,11 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
   </a>
   <div class="nr">
     <span class="nbdg">Free · EN 15804</span>
-    <a href="/about.html" class="bnav" style="text-decoration:none">About</a>
     <button class="bnav" onclick="openFB('general')">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0 3.5c.3 0 .5.2.5.5v4a.5.5 0 0 1-1 0V8c0-.3.2-.5.5-.5z"/></svg>
       Feedback
     </button>
     <button class="bnav tbtn" onclick="toggleTheme()" id="tbtn" title="Toggle dark/light">🌙</button>
-    <button class="bnav" onclick="openPrivacy()" style="font-size:11px">Privacy</button>
   </div>
 </nav>
 
@@ -507,7 +439,6 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
     <button class="tab active" onclick="sw('mat')">Materials &amp; Products</button>
     <button class="tab" onclick="sw('a45')">A4–A5 Construction</button>
     <button class="tab" onclick="sw('eol')">C1–C4 + D End of life</button>
-    <button class="tab" onclick="sw('asm')">🏗 Assemblies</button>
     <button class="tab" onclick="sw('epd')">+ Add custom EPD</button>
     <button class="tab" onclick="sw('cmp')">⇌ Compare</button>
   </div>
@@ -608,67 +539,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
     <div id="eoll"><div class="empt">Add materials first.</div></div>
   </div>
 
-  <!-- ASSEMBLY TAB -->
-  <div id="tab-asm" style="display:none">
-    <div class="asm-hero">
-      <div class="sl" style="margin-bottom:.25rem">🏗 Assembly calculator</div>
-      <p>Build a complete wall, floor, roof or façade layer by layer. Specify each material by <strong>thickness</strong> — FastLCA calculates the mass from density automatically. Enter the total area to get <strong>kg CO₂e/m²</strong> — the standard metric for RICS and RIBA reporting.</p>
-    </div>
-
-    <div class="fl" style="margin-bottom:.875rem">
-      <label>Assembly name</label>
-      <input type="text" id="asm-name" placeholder="e.g. External wall — 200mm CLT + 100mm rock wool + 12.5mm plasterboard"/>
-    </div>
-
-    <div class="asm-area-row">
-      <label>Assembly area:</label>
-      <input type="number" id="asm-area" placeholder="e.g. 85" min="0" step="any" oninput="calcAsm()"/>
-      <span style="font-size:12px;color:var(--t2)">m²</span>
-      <span style="font-size:11px;color:var(--t3);margin-left:.5rem">Leave blank to see only kg CO₂e/m²</span>
-    </div>
-
-    <div class="sl" style="margin-bottom:.5rem">Add layers</div>
-    <div class="asm-add-row">
-      <div class="fl">
-        <label>Material</label>
-        <select id="asm-mat-sel" style="height:36px;font-size:12px">
-          <option value="">— select material —</option>
-        </select>
-      </div>
-      <div class="fl">
-        <label>Thickness (mm)</label>
-        <input type="number" id="asm-thick" placeholder="e.g. 200" min="0" step="any" style="height:36px;font-size:12px"/>
-      </div>
-      <div class="fl">
-        <label>Or mass (kg/m²)</label>
-        <input type="number" id="asm-mass" placeholder="e.g. 10" min="0" step="any" style="height:36px;font-size:12px"/>
-      </div>
-      <div class="fl asm-btn-wrap">
-        <label style="visibility:hidden">x</label>
-        <button class="btn bg2" onclick="addAsmLayer()" style="width:100%">+ Add layer</button>
-      </div>
-    </div>
-    <div class="ib" style="margin-bottom:.75rem;font-size:11px">Enter either thickness <em>or</em> mass per m² — not both. Thickness requires the material to have a known density. For glazing, doors, or items without thickness, use mass (kg/m²) directly.</div>
-
-    <div class="asm-layers" id="asm-layers">
-      <div class="asm-empty">No layers yet — add materials above to build your assembly.</div>
-    </div>
-
-    <div id="asm-result" style="display:none">
-      <div class="asm-result">
-        <div class="sl" style="margin-bottom:.625rem">Assembly results</div>
-        <div class="asm-result-grid" id="asm-cards"></div>
-        <div class="asm-bar-wrap" id="asm-bars" style="margin-top:.875rem"></div>
-        <div style="margin-top:.875rem;display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn bg2" onclick="addAsmToProject()">→ Add assembly total to project</button>
-          <button class="btn bgh" onclick="clearAsm()">Clear assembly</button>
-        </div>
-        <div class="ib" style="margin-top:.75rem;margin-bottom:0;font-size:11px">
-          ⓘ <strong>"Add to project"</strong> creates a single line item in the Materials tab representing this whole assembly — useful when you want to combine multiple assemblies into one project total.
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- CUSTOM EPD TAB -->
   <div id="tab-epd" style="display:none">
     <div class="ib">Enter GWP values exactly as declared in a verified EPD. The declared unit must match the quantity you enter. <strong>Module D:</strong> Only enter if your EPD explicitly declares it.</div>
     <div class="g2"><div class="fl"><label>Product name *</label><input type="text" id="en" placeholder="e.g. Paroc Extra 100mm stone wool slab"/></div><div class="fl"><label>Manufacturer</label><input type="text" id="em" placeholder="e.g. Paroc Group"/></div></div>
@@ -747,80 +618,15 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
     <div style="margin-top:1.25rem;display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn bg2" onclick="dlPdf()">⬇ Download PDF report</button>
       <button class="btn bgh" onclick="copySm()">⎘ Copy summary</button>
-      <button class="btn bgh" onclick="showShareCard()">🔗 Share result</button>
       <button class="btn bgh" onclick="openFB('error')" style="margin-left:auto">🔴 Report error</button>
     </div>
-
-    <!-- SHARE CARD -->
-    <div class="share-card-wrap" id="share-card-wrap">
-      <div class="sl" style="margin:.875rem 0 .5rem">Shareable result card — screenshot or copy the link below</div>
-      <div class="share-card" id="share-card">
-        <div class="share-card-logo">
-          <div class="share-card-logo-icon"><svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M10 2L3 7v11h5v-5h4v5h5V7L10 2z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/><circle cx="10" cy="10" r="2" fill="white"/></svg></div>
-          FastLCA
-        </div>
-        <div class="share-card-proj" id="sc-proj">—</div>
-        <div class="share-card-total" id="sc-total">—</div>
-        <div class="share-card-unit">kg CO₂e &nbsp;·&nbsp; A1–C4 total</div>
-        <div class="share-card-breakdown" id="sc-breakdown"></div>
-        <div class="share-card-footer">Calculated with <a href="https://fastlca.com" target="_blank">fastlca.com</a> · EN 15804+A2:2019 · EPiC Database 2024 · Indicative estimate only</div>
-      </div>
-      <div class="share-btn-row">
-        <button class="btn bg2" onclick="copyShareImg()">⎘ Copy card text</button>
-        <button class="btn bgh" onclick="document.getElementById('share-card-wrap').classList.remove('show')">Dismiss</button>
-      </div>
-    </div>
   </div>
 </div>
 
-<div class="disc">⚠ <strong>Disclaimer:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. Generic A1–A3: EPiC Database 2024 (Crawford, Stephan &amp; Prideaux, University of Melbourne; CC0 licence). Hybrid values — systematically higher than process-only EPDs. Transport: ECTA (2011). Generic C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. For compliance, commission a certified LCA practitioner. &nbsp;·&nbsp; FastLCA v0.7 &nbsp;·&nbsp; <a href="https://fastlca.com">fastlca.com</a> &nbsp;·&nbsp; <a href="/cdn-cgi/l/email-protection#fc9499909093bc9a9d8f88909f9dd29f9391"><span class="__cf_email__" data-cfemail="2b434e4747446b4d4a585f47484a05484446">[email&#160;protected]</span></a> &nbsp;·&nbsp; <button onclick="openPrivacy()" style="background:none;border:none;color:var(--b);cursor:pointer;font-family:inherit;font-size:11px;padding:0;text-decoration:underline">Privacy Policy</button></div>
+<div class="disc">⚠ <strong>Disclaimer:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. Generic A1–A3: EPiC Database 2024 (Crawford, Stephan &amp; Prideaux, University of Melbourne; CC0 licence). Hybrid values — systematically higher than process-only EPDs. Transport: ECTA (2011). Generic C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. For compliance, commission a certified LCA practitioner. &nbsp;·&nbsp; FastLCA v0.6 &nbsp;·&nbsp; <a href="https://fastlca.com">fastlca.com</a> &nbsp;·&nbsp; <a href="mailto:hello@fastlca.com">hello@fastlca.com</a></div>
 </div>
 
-<!-- PRIVACY MODAL -->
-<div class="privacy-ovl" id="privacy-ovl" onclick="if(event.target===this)closePrivacy()">
-  <div class="privacy-modal">
-    <button class="privacy-close" onclick="closePrivacy()">×</button>
-    <h2>Privacy Policy</h2>
-    <p class="pm-date">Last updated: April 2026</p>
-
-    <h3>Who we are</h3>
-    <p>FastLCA is a free embodied carbon calculator available at <a href="https://fastlca.com">fastlca.com</a>. It is operated as a personal project. Contact: <a href="/cdn-cgi/l/email-protection#bad2dfd6d6d5fadcdbc9ced6d9db94d9d5d7"><span class="__cf_email__" data-cfemail="0c64696060634c6a6d7f78606f6d226f6361">[email&#160;protected]</span></a></p>
-
-    <h3>What data we collect</h3>
-    <p>FastLCA is designed to collect as little data as possible.</p>
-    <ul>
-      <li><strong>Project data you enter</strong> (materials, quantities, assembly names) is stored only in your own browser using localStorage. It never leaves your device and we cannot access it.</li>
-      <li><strong>Feedback form submissions</strong> — if you submit feedback via the feedback button, your message and optional email address are sent to Formspree (formspree.io) for delivery to our inbox. We store these only to respond to your message.</li>
-      <li><strong>Server logs</strong> — our hosting provider (Vercel) may log standard HTTP request data (IP address, browser type, page visited, timestamp) as part of normal infrastructure operation. We do not have direct access to individual log entries and do not use these for tracking.</li>
-    </ul>
-
-    <h3>Cookies and tracking</h3>
-    <p>FastLCA does not use advertising cookies, tracking pixels, or third-party analytics scripts. We do not use Google Analytics or Facebook Pixel. The only data stored in your browser is your saved project (localStorage), which you can clear at any time using the "Clear saved project" button in the app.</p>
-
-    <h3>Third-party services</h3>
-    <ul>
-      <li><strong>Vercel</strong> — hosting provider (vercel.com). Subject to Vercel's privacy policy.</li>
-      <li><strong>Formspree</strong> — feedback form processing (formspree.io). Subject to Formspree's privacy policy.</li>
-      <li><strong>Google Sheets</strong> — if configured, the EPD product database is loaded from a publicly published Google Sheet. No personal data is sent to Google Sheets.</li>
-      <li><strong>allorigins.win</strong> — a CORS proxy used to fetch the Google Sheet. No personal data passes through this service.</li>
-    </ul>
-
-    <h3>Your rights (GDPR)</h3>
-    <p>If you are in the European Economic Area, you have the right to access, correct, or delete any personal data we hold about you. Since we hold essentially no personal data beyond feedback submissions, any such request can be made by emailing <a href="/cdn-cgi/l/email-protection#2149444d4d4e61474052554d42400f424e4c"><span class="__cf_email__" data-cfemail="1d75787171725d7b7c6e69717e7c337e7270">[email&#160;protected]</span></a> and we will respond within 30 days.</p>
-
-    <h3>Data retention</h3>
-    <p>Feedback submissions are retained only as long as needed to respond and are deleted within 12 months. Your project data in localStorage is under your sole control and is not held by us.</p>
-
-    <h3>Changes to this policy</h3>
-    <p>If we make material changes to this policy, we will update the date at the top of this page. Continued use of FastLCA after changes constitutes acceptance of the updated policy.</p>
-
-    <div style="margin-top:1.5rem">
-      <button class="btn bg2" onclick="closePrivacy()" style="width:100%">Close</button>
-    </div>
-  </div>
-</div>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ╔══════════════════════════════════════════════════════════════╗
 // ║  GOOGLE SHEETS LIVE DATABASE                                ║
 // ║  Paste your published CSV URL below                         ║
@@ -1508,181 +1314,15 @@ function copySm(){
 }
 
 function sw(t){
-  ['mat','a45','eol','asm','epd','cmp'].forEach(id=>document.getElementById('tab-'+id).style.display=id===t?'block':'none');
-  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['mat','a45','eol','asm','epd','cmp'][i]===t));
+  ['mat','a45','eol','epd','cmp'].forEach(id=>document.getElementById('tab-'+id).style.display=id===t?'block':'none');
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['mat','a45','eol','epd','cmp'][i]===t));
   if(t==='eol')renderEol();if(t==='epd')renderSaved();if(t==='cmp')renderCmp();
-  if(t==='asm')initAsmMatSel();
 }
 
-// ── PRIVACY ───────────────────────────────────────────────────
-function openPrivacy(){document.getElementById('privacy-ovl').classList.add('show');}
-function closePrivacy(){document.getElementById('privacy-ovl').classList.remove('show');}
-
-// ── ASSEMBLY MODE ─────────────────────────────────────────────
-let asmLayers=[];
-
-function initAsmMatSel(){
-  const sel=document.getElementById('asm-mat-sel');
-  if(sel.options.length>1)return; // already populated
-  const all=[...RAW,...allProds];
-  const byCat={};
-  all.forEach(m=>{if(!byCat[m.cat])byCat[m.cat]=[];byCat[m.cat].push(m);});
-  Object.keys(byCat).sort().forEach(cat=>{
-    const og=document.createElement('optgroup');og.label=cat;
-    byCat[cat].forEach(m=>{
-      const o=document.createElement('option');
-      o.value=m.id;
-      o.textContent=m.n+(m.den?` (${m.den} kg/m³)`:'');
-      og.appendChild(o);
-    });
-    sel.appendChild(og);
-  });
-}
-
-function addAsmLayer(){
-  const matId=document.getElementById('asm-mat-sel').value;
-  const thickMm=parseFloat(document.getElementById('asm-thick').value);
-  const massPm2=parseFloat(document.getElementById('asm-mass').value);
-  if(!matId){alert('Select a material first.');return;}
-  const mat=[...RAW,...allProds].find(m=>m.id===matId);
-  if(!mat){return;}
-
-  let kgPerM2=null;
-  let method='';
-  if(!isNaN(massPm2)&&massPm2>0){
-    kgPerM2=massPm2;method=`${massPm2} kg/m²`;
-  } else if(!isNaN(thickMm)&&thickMm>0){
-    if(!mat.den){alert(`"${mat.n}" has no density — enter mass per m² directly instead.`);return;}
-    kgPerM2=(thickMm/1000)*mat.den;
-    method=`${thickMm}mm × ${mat.den} kg/m³`;
-  } else {
-    alert('Enter a thickness (mm) or a mass per m².');return;
-  }
-
-  const gwpPerM2=kgPerM2*mat.ef;
-  asmLayers.push({mat,kgPerM2,gwpPerM2,method,id:Date.now()});
-  document.getElementById('asm-thick').value='';
-  document.getElementById('asm-mass').value='';
-  document.getElementById('asm-mat-sel').value='';
-  renderAsm();calcAsm();
-}
-
-function remAsmLayer(id){
-  asmLayers=asmLayers.filter(l=>l.id!==id);
-  renderAsm();calcAsm();
-}
-
-function renderAsm(){
-  const el=document.getElementById('asm-layers');
-  if(!asmLayers.length){
-    el.innerHTML='<div class="asm-empty">No layers yet — add materials above to build your assembly.</div>';
-    document.getElementById('asm-result').style.display='none';
-    return;
-  }
-  el.innerHTML=asmLayers.map((l,i)=>`
-    <div class="asm-layer">
-      <span class="asm-layer-num">${i+1}</span>
-      <div>
-        <div style="font-size:12px;font-weight:600;color:var(--t1)">${l.mat.n}</div>
-        <div style="font-size:10px;color:var(--t3)">${l.method} = ${fv(l.kgPerM2)} kg/m²</div>
-      </div>
-      <div style="font-size:10px;color:var(--t2);text-align:right">${fv(l.kgPerM2)} kg/m²</div>
-      <div class="asm-layer-gwp">${fv(l.gwpPerM2)}</div>
-      <div style="font-size:9px;color:var(--t3);text-align:center">kg CO₂e/m²</div>
-      <button class="bdel" onclick="remAsmLayer(${l.id})">×</button>
-    </div>`).join('');
-}
-
-function calcAsm(){
-  if(!asmLayers.length){document.getElementById('asm-result').style.display='none';return;}
-  const totalGwpM2=asmLayers.reduce((s,l)=>s+l.gwpPerM2,0);
-  const totalKgM2=asmLayers.reduce((s,l)=>s+l.kgPerM2,0);
-  const area=parseFloat(document.getElementById('asm-area').value)||null;
-  const totalGwp=area?totalGwpM2*area:null;
-
-  document.getElementById('asm-result').style.display='block';
-  document.getElementById('asm-cards').innerHTML=`
-    <div class="asm-rc hl">
-      <div class="asm-rc-l">A1–A3 GWP</div>
-      <div class="asm-rc-v">${fv(totalGwpM2)}</div>
-      <div class="asm-rc-u">kg CO₂e / m²</div>
-    </div>
-    <div class="asm-rc">
-      <div class="asm-rc-l">Total mass</div>
-      <div class="asm-rc-v">${fv(totalKgM2)}</div>
-      <div class="asm-rc-u">kg / m²</div>
-    </div>
-    <div class="asm-rc${totalGwp?' hl':''}">
-      <div class="asm-rc-l">Total for ${area?area+' m²':'area'}</div>
-      <div class="asm-rc-v" style="${!totalGwp?'font-size:16px;color:var(--t3)':''}">${totalGwp?fv(totalGwp):'—'}</div>
-      <div class="asm-rc-u">${totalGwp?'kg CO₂e total':'enter area above'}</div>
-    </div>`;
-
-  // Bar chart
-  document.getElementById('asm-bars').innerHTML=asmLayers.map(l=>{
-    const pct=totalGwpM2>0?l.gwpPerM2/totalGwpM2*100:0;
-    const col=l.mat.isProd?'var(--b)':'var(--g)';
-    return`<div class="asm-bar">
-      <span class="asm-bar-lbl">${l.mat.n}</span>
-      <div class="asm-bar-track"><div class="asm-bar-fill" style="width:${pct.toFixed(1)}%;background:${col}"></div></div>
-      <span class="asm-bar-pct">${pct.toFixed(0)}%</span>
-    </div>`;
-  }).join('');
-
-  window._ASM={name:document.getElementById('asm-name').value||'Assembly',layers:asmLayers,totalGwpM2,totalKgM2,totalGwp,area};
-}
-
-function addAsmToProject(){
-  if(!window._ASM||!asmLayers.length){return;}
-  const a=window._ASM;
-  // Create a pseudo-material representing the whole assembly
-  const name=a.name||'Assembly';
-  const area=a.area||1;
-  const gwp=a.totalGwp||a.totalGwpM2;
-  const pseudoMat={
-    id:'asm_'+Date.now(),n:name,cat:'Assembly',ef:a.totalGwpM2,
-    den:null,du:'m2',db:'FastLCA Assembly',yr:new Date().getFullYear().toString(),
-    ref:`${asmLayers.length} layers · ${fv(a.totalKgM2)} kg/m²`,url:'',
-    isProd:false,eol:{landfill:{c1:0,c2:0,c3:0,c4:0,d:0},incineration:{c1:0,c2:0,c3:0,c4:0,d:0},recycling:{c1:0,c2:0,c3:0,c4:0,d:0},reuse:{c1:0,c2:0,c3:0,c4:0,d:0}}
-  };
-  const qty=area;
-  items.push({mat:pseudoMat,qty,u:'m2',qkg:a.totalKgM2*area,gwp:a.totalGwpM2*area,eol:'landfill',id:Date.now(),isProd:false});
-  sw('mat');renderAll();scheduleSave();
-  alert(`✓ "${name}" added to project (${fv(area)} m² · ${fv(gwp)} kg CO₂e total).`);
-}
-
-function clearAsm(){
-  asmLayers=[];
-  document.getElementById('asm-name').value='';
-  document.getElementById('asm-area').value='';
-  renderAsm();
-}
-
-// ── SHARE CARD ────────────────────────────────────────────────
-function showShareCard(){
-  if(!window._R){alert('Run a calculation first.');return;}
-  const r=window._R;
-  document.getElementById('sc-proj').textContent=r.proj||'Embodied carbon estimate';
-  document.getElementById('sc-total').textContent=fv(r.grand);
-  document.getElementById('sc-breakdown').innerHTML=`
-    <div class="share-card-stage"><div class="share-card-stage-v">${fv(r.a13)}</div><div class="share-card-stage-l">A1–A3</div></div>
-    <div class="share-card-stage"><div class="share-card-stage-v">${fv(r.a4+r.a5)}</div><div class="share-card-stage-l">A4–A5</div></div>
-    <div class="share-card-stage"><div class="share-card-stage-v">${fv(r.cTot)}</div><div class="share-card-stage-l">C1–C4</div></div>
-    <div class="share-card-stage" style="border-left:1px dashed var(--brd);padding-left:16px"><div class="share-card-stage-v" style="color:var(--gd)">${fv(r.d)}</div><div class="share-card-stage-l">Module D*</div></div>`;
-  document.getElementById('share-card-wrap').classList.add('show');
-  document.getElementById('share-card-wrap').scrollIntoView({behavior:'smooth',block:'nearest'});
-}
-
-function copyShareImg(){
-  if(!window._R)return;
-  const r=window._R;
-  const txt=`📊 Embodied carbon estimate — ${r.proj||'FastLCA Result'}
-
-Total A1–C4: ${fv(r.grand)} kg CO₂e (${fv(r.grand/1000)} t CO₂e)
-
-  A1–A3 Product stage:  ${fv(r.a13)} kg CO₂e
-  A4–A5 Construction:   ${fv(r.a4+r.a5)} kg CO₂e
-  C1–C4 End of life:    ${fv(r.cTot)} kg CO₂e
-  Module D (separate):  ${fv(r.d)} kg CO₂e
-
-Calculated with FastLCA — free embodied carbon calculat
+// ── INIT ───────────────────────────────────────────────────────
+filterM();renderML();
+loadSheetProds();
+restoreProject();
+</script>
+</body>
+</html>
