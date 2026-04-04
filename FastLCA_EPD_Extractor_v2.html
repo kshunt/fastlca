@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FastLCA — EPD Extractor for Google Sheet</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+:root{
+  --g:#1B5E20;--gm:#2E7D32;--gl:#E8F5E9;--ga:#A5D6A7;--gd:#1B5E20;
+  --b:#1565C0;--bl:#E3F2FD;--bm:#90CAF9;
+  --am:#E65100;--al:#FFF3E0;--a2:#FFCC80;
+  --rd:#B71C1C;--rl:#FFEBEE;
+  --surf:#fff;--surf2:#F8F9FA;--surf3:#F1F3F4;
+  --brd:#E0E0E0;--brd2:#EEEEEE;
+  --t1:#212121;--t2:#5F6368;--t3:#9AA0A6;
+  --r:6px;--sh:0 1px 3px rgba(0,0,0,.1);--shl:0 4px 16px rgba(0,0,0,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--surf2);color:var(--t1);font-size:14px}
+
+/* HEADER */
+.hdr{background:#1B5E20;padding:12px 20px;display:flex;align-items:center;gap:14px}
+.hdr-icon{width:36px;height:36px;flex-shrink:0}
+.hdr-text h1{font-size:16px;font-weight:700;color:#fff;letter-spacing:-.2px}
+.hdr-text p{font-size:11px;color:rgba(255,255,255,.65);margin-top:2px}
+
+/* LAYOUT */
+.wrap{max-width:1320px;margin:0 auto;padding:16px;display:grid;grid-template-columns:320px 1fr;gap:14px;align-items:start}
+@media(max-width:860px){.wrap{grid-template-columns:1fr}}
+
+/* PANELS */
+.panel{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r);overflow:hidden}
+.pnl-hdr{padding:8px 14px;border-bottom:1px solid var(--brd);background:var(--surf3);font-size:11px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;justify-content:space-between}
+.pnl-body{padding:14px}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.step{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid var(--brd);border-radius:var(--r);background:var(--surf)}
+.step.active{border-color:var(--ga);background:var(--gl)}
+.step.done{border-color:var(--gm);background:#F1F8F1}
+.step-n{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;background:var(--surf3);color:var(--t3);border:2px solid var(--brd);margin-top:1px}
+.step.active .step-n{background:var(--gm);color:#fff;border-color:var(--g)}
+.step.done .step-n{background:var(--g);color:#fff;border-color:var(--g);font-size:13px}
+.step-info h4{font-size:12px;font-weight:700;color:var(--t1);margin-bottom:2px}
+.step-info p{font-size:11px;color:var(--t2);line-height:1.4}
+
+/* DROP */
+.drop{border:2px dashed var(--brd);border-radius:var(--r);background:var(--surf3);padding:22px 14px;text-align:center;cursor:pointer;position:relative;transition:.15s}
+.drop:hover,.drop.over{border-color:var(--gm);background:var(--gl)}
+.drop.has-file{border-color:var(--gm);border-style:solid;background:var(--gl)}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.drop h3{font-size:13px;font-weight:700;color:var(--t1);margin:6px 0 3px}
+.drop p{font-size:11px;color:var(--t2)}
+
+/* PROG + LOG */
+.prog-wrap{display:none;margin:8px 0}
+.prog-track{height:4px;background:var(--brd);border-radius:2px;overflow:hidden}
+.prog-bar{height:100%;background:var(--gm);width:0%;transition:width .3s}
+.prog-lbl{font-size:10px;color:var(--t2);margin-top:3px;font-family:monospace}
+.log{display:none;font-family:monospace;font-size:.67rem;background:#1a1a2e;color:#7ec8a4;padding:7px 10px;border-radius:var(--r);max-height:90px;overflow-y:auto;margin:6px 0;white-space:pre}
+.log .w{color:#ffc107}.log .e{color:#ff8080}
+
+/* FORM */
+.f-sec{margin-top:12px}
+.f-sec-title{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:7px;padding-bottom:4px;border-bottom:1px solid var(--brd2)}
+.field{margin-bottom:8px}
+.field label{display:block;font-size:11px;font-weight:600;color:var(--t2);margin-bottom:3px}
+.field label .req{color:var(--rd)}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--brd);border-radius:5px;padding:5px 8px;font-family:inherit;font-size:13px;color:var(--t1);background:var(--surf);transition:border-color .15s}
+.field input:focus,.field select:focus{outline:none;border-color:var(--gm);box-shadow:0 0 0 2px rgba(46,125,50,.1)}
+.field .hint{font-size:10px;color:var(--t3);margin-top:3px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+
+/* BUTTONS */
+.btn{border:1px solid var(--brd);background:var(--surf3);color:var(--t1);padding:6px 13px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;border-radius:var(--r);display:inline-flex;align-items:center;gap:5px;transition:.15s;white-space:nowrap}
+.btn:hover{background:var(--brd)}
+.btn-g{background:var(--gm);border-color:var(--g);color:#fff}.btn-g:hover{background:var(--g)}
+.btn-b{background:var(--b);border-color:#0a3680;color:#fff}.btn-b:hover{background:#0a3680}
+.btn-lg{padding:9px 18px;font-size:13px;font-weight:700;width:100%;justify-content:center}
+.btn-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:10px}
+
+/* BOXES */
+.ib{font-size:12px;color:var(--t2);padding:.625rem .875rem;background:var(--bl);border-radius:var(--r);border:1px solid var(--bm);line-height:1.6;margin-bottom:10px}
+.wb{font-size:12px;color:var(--am);padding:.625rem .875rem;background:var(--al);border-radius:var(--r);border:1px solid var(--a2);line-height:1.6;margin-bottom:10px}
+.gb{font-size:12px;color:var(--g);padding:.625rem .875rem;background:var(--gl);border-radius:var(--r);border:1px solid var(--ga);line-height:1.6;margin-bottom:10px}
+
+/* RIGHT PANEL EMPTY */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 20px;color:var(--t3);text-align:center;min-height:360px}
+.empty-icon{font-size:2.5rem;margin-bottom:14px;opacity:.4}
+.empty h3{font-size:15px;color:var(--t2);margin-bottom:6px}
+.empty p{font-size:13px;line-height:1.6;max-width:340px}
+.col-guide{text-align:left;background:var(--surf3);border:1px solid var(--brd);border-radius:var(--r);padding:12px 14px;font-size:12px;color:var(--t2);line-height:1.8;max-width:360px;margin-top:16px}
+.col-guide code{font-family:monospace;font-size:11px;background:var(--surf);padding:1px 4px;border-radius:3px}
+
+/* RESULTS PANEL */
+.res-panel{display:none}
+.res-panel.show{display:block}
+
+/* INDICATOR TABS */
+.ind-tabs{display:flex;gap:2px;padding:0 14px;border-bottom:2px solid var(--brd);background:var(--surf3)}
+.ind-tab{padding:8px 13px;font-size:12px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;color:var(--t2);transition:.15s}
+.ind-tab:hover{color:var(--t1)}
+.ind-tab.active{color:var(--g);border-bottom-color:var(--g)}
+
+/* RAW EXTRACTED TABLE */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--brd);border-radius:var(--r)}
+.rtbl{width:100%;border-collapse:collapse;font-size:12px;font-family:monospace}
+.rtbl th{background:var(--surf3);padding:6px 9px;text-align:center;font-size:10px;font-weight:700;color:var(--t2);border-bottom:2px solid var(--brd);white-space:nowrap;text-transform:uppercase;letter-spacing:.05em}
+.rtbl th.left{text-align:left;font-family:'Segoe UI',sans-serif}
+.rtbl th.ga{background:#E3F2FD;color:#0D47A1}
+.rtbl th.gb{background:#E8F5E9;color:#1B5E20}
+.rtbl th.gc{background:#F3E5F5;color:#4A148C}
+.rtbl th.gd{background:#FFF3E0;color:#E65100}
+.rtbl td{padding:6px 9px;border-bottom:1px solid var(--brd2);text-align:center;white-space:nowrap}
+.rtbl td.left{text-align:left;font-weight:600;color:var(--t1);font-family:'Segoe UI',sans-serif}
+.rtbl tr:last-child td{border-bottom:none}
+.rtbl td.neg{color:var(--am);font-weight:700}
+.rtbl td.nd{color:var(--t3);font-style:italic}
+.rtbl td.miss{color:var(--brd)}
+.rtbl td.sum{background:#C8E6C9;font-weight:800;color:#1B5E20}
+.rtbl td[contenteditable]:focus{outline:2px solid var(--gm);background:#fffde7}
+
+/* SHEET PREVIEW TABLE */
+.sheet-wrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--brd)}
+.stbl{width:100%;border-collapse:collapse;font-size:12px}
+.stbl th{padding:6px 9px;font-size:10px;font-weight:700;text-align:left;white-space:nowrap;border-bottom:2px solid var(--brd);border-right:1px solid var(--brd2)}
+.stbl th:last-child{border-right:none}
+.stbl th.h-id{background:#37474F;color:#fff}
+.stbl th.h-meta{background:#1B5E20;color:#fff}
+.stbl th.h-src{background:#1565C0;color:#fff}
+.stbl th.h-prop{background:#6A1B9A;color:#fff}
+.stbl th.h-ef{background:#E65100;color:#fff;font-weight:800}
+.stbl th.h-eol{background:#BF360C;color:#fff}
+.stbl th.h-d{background:#37474F;color:#fff;border-left:2px dashed #90A4AE}
+.stbl th.h-adm{background:#546E7A;color:#fff}
+.stbl td{padding:6px 9px;border-bottom:1px solid var(--brd2);border-right:1px solid var(--brd2);white-space:nowrap;font-size:12px}
+.stbl td:last-child{border-right:none}
+.stbl tr:hover td{background:#FFFDE7}
+.stbl td.filled{background:#F1F8E9;font-weight:600;color:#1B5E20}
+.stbl td.extracted{background:#E8F5E9;font-weight:700;color:#1B5E20;font-family:monospace}
+.stbl td.neg{color:var(--am)}
+.stbl td.nd-c{color:var(--t3);font-style:italic;font-family:monospace}
+.stbl td.empty-c{color:var(--brd)}
+.stbl td.pending{background:#FFF3E0;color:#E65100;font-size:11px;font-style:italic}
+
+/* COPY PREVIEW */
+.copy-pre{font-family:monospace;font-size:11px;background:#1a1a2e;color:#a8d8a8;padding:9px 11px;border-radius:var(--r);white-space:pre;overflow-x:auto;max-height:90px;overflow-y:auto;margin:8px 0}
+
+/* TOAST */
+.toast{position:fixed;bottom:18px;right:18px;background:#1B5E20;color:#fff;padding:8px 15px;border-radius:var(--r);font-size:12px;font-weight:600;transform:translateY(60px);transition:.25s;z-index:999;box-shadow:var(--shl)}
+.toast.show{transform:translateY(0)}
+.toast.err{background:var(--rd)}
+
+/* DIV */
+.divlbl{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin:12px 0 7px;padding-bottom:4px;border-bottom:1px solid var(--brd2)}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <svg class="hdr-icon" viewBox="0 0 36 36" fill="none">
+    <circle cx="18" cy="18" r="18" fill="#155228"/>
+    <path d="M18 28V17" stroke="#A5D6A7" stroke-width="1.7" stroke-linecap="round"/>
+    <path d="M18 21 C15 21 12 19 12 15 C15 15 18 17 18 21Z" fill="#4CAF50"/>
+    <path d="M18 23 C21 23 24 21 24 17 C21 17 18 19 18 23Z" fill="#66BB6A"/>
+    <path d="M18 18 C18 15 20 12 23 11 C23 14 21 17 18 18Z" fill="#81C784"/>
+  </svg>
+  <div class="hdr-text">
+    <h1>FastLCA — EPD Extractor for Google Sheet</h1>
+    <p>Upload an EN 15804 EPD PDF · fill product metadata · copy one row directly into your FastLCA database sheet</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- LEFT: Upload + Metadata -->
+  <div>
+    <div class="steps" id="steps">
+      <div class="step active" id="s1">
+        <div class="step-n">1</div>
+        <div class="step-info"><h4>Upload EPD PDF</h4><p>EPDHub, IBU, EPD Norway, Environdec — any EN 15804 EPD with selectable text</p></div>
+      </div>
+      <div class="step" id="s2">
+        <div class="step-n">2</div>
+        <div class="step-info"><h4>Fill product metadata</h4><p>Name, category, manufacturer, declared unit, EPD URL</p></div>
+      </div>
+      <div class="step" id="s3">
+        <div class="step-n">3</div>
+        <div class="step-info"><h4>Review extracted values</h4><p>Click any cell to correct. GWP-total A1–A3 becomes <code style="font-family:monospace">ef</code> in your sheet.</p></div>
+      </div>
+      <div class="step" id="s4">
+        <div class="step-n">4</div>
+        <div class="step-info"><h4>Copy row → Google Sheet</h4><p>One click · open Sheet · Ctrl+V · done</p></div>
+      </div>
+    </div>
+
+    <div class="drop" id="dz">
+      <input type="file" id="fi" accept=".pdf"/>
+      <div style="font-size:2rem">📄</div>
+      <h3>Click or drag an EPD PDF here</h3>
+      <p>Requires selectable text — most EPDHub &amp; EPD Norway PDFs work</p>
+    </div>
+    <p style="font-size:10px;color:var(--t3);margin-top:5px;line-height:1.5">⚠ Image-only PDFs need OCR first — try ilovepdf.com or Adobe Acrobat.</p>
+
+    <div class="prog-wrap" id="pw">
+      <div class="prog-track"><div class="prog-bar" id="pb"></div></div>
+      <div class="prog-lbl" id="pl">Loading…</div>
+    </div>
+    <div class="log" id="lb"></div>
+
+    <!-- Metadata form -->
+    <div id="meta-form" style="display:none">
+
+      <div class="f-sec">
+        <div class="f-sec-title">Identity — columns A–D</div>
+        <div class="field">
+          <label>id <span class="req">*</span></label>
+          <input type="text" id="f-id" placeholder="e.g. paroc_extra_100"/>
+          <div class="hint">Unique key, no spaces. Used as internal FastLCA reference.</div>
+        </div>
+        <div class="field">
+          <label>Product name <span class="req">*</span></label>
+          <input type="text" id="f-n" placeholder="e.g. Paroc Extra — stone wool slab (100mm)"/>
+        </div>
+        <div class="g2">
+          <div class="field">
+            <label>Category</label>
+            <select id="f-cat">
+              <option>Insulation</option><option>Concrete</option><option>Steel</option>
+              <option>Timber</option><option>Masonry</option><option>Metals</option>
+              <option>Glass</option><option>Finishes</option><option>Plastics &amp; MEP</option>
+              <option>Waterproofing</option><option>Doors &amp; Windows</option>
+              <option>Aggregates</option><option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Manufacturer</label>
+            <input type="text" id="f-mfr" placeholder="e.g. Paroc Group"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="f-sec">
+        <div class="f-sec-title">Data source — columns E–I</div>
+        <div class="g2">
+          <div class="field">
+            <label>Database / programme</label>
+            <input type="text" id="f-db" placeholder="e.g. EPD Norway"/>
+          </div>
+          <div class="field">
+            <label>Programme (if different)</label>
+            <input type="text" id="f-prog" placeholder="e.g. EPD Norge"/>
+          </div>
+        </div>
+        <div class="g2">
+          <div class="field">
+            <label>Year</label>
+            <input type="text" id="f-yr" placeholder="e.g. 2023"/>
+          </div>
+          <div class="field">
+            <label>EPD registration number</label>
+            <input type="text" id="f-ref" placeholder="e.g. NEPD-1234-567"/>
+          </div>
+        </div>
+        <div class="field">
+          <label>EPD URL <span class="req">*</span></label>
+          <input type="url" id="f-url" placeholder="https://www.epd-norge.no/..."/>
+        </div>
+      </div>
+
+      <div class="f-sec">
+        <div class="f-sec-title">Material properties — columns J–K</div>
+        <div class="g2">
+          <div class="field">
+            <label>Declared unit</label>
+            <select id="f-du">
+              <option value="kg">kg</option>
+              <option value="m2">m²</option>
+              <option value="m3">m³</option>
+              <option value="pcs">pcs / unit</option>
+              <option value="tonnes">tonnes</option>
+              <option value="m">m (linear)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Density (kg/m³)</label>
+            <input type="number" id="f-den" placeholder="e.g. 34"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="f-sec">
+        <div class="f-sec-title">Notes</div>
+        <div class="field">
+          <input type="text" id="f-notes" placeholder="e.g. 100mm, 34 kg/m³ — verify EPD annually"/>
+        </div>
+      </div>
+
+      <button class="btn btn-g btn-lg" onclick="buildSheet()">⬇ Build Google Sheet row</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: Results -->
+  <div>
+    <div class="panel">
+
+      <!-- Empty state -->
+      <div class="empty" id="empty-state">
+        <div class="empty-icon">📋</div>
+        <h3>Upload an EPD PDF to get started</h3>
+        <p>The extractor reads the GWP table from EN 15804 EPDs and maps values directly to your FastLCA Google Sheet columns.</p>
+        <div class="col-guide">
+          <strong style="color:var(--t1)">Columns auto-filled from PDF:</strong><br/>
+          <code>ef</code> — A1–A3 GWP (from GWP-total)<br/>
+          <code>c1 c2 c3 c4</code> — C1–C4 stage values<br/>
+          <code>d</code> — Module D net benefit<br/>
+          <br/>
+          <strong style="color:var(--t1)">You fill in:</strong> id, name, category, manufacturer, URL, declared unit, density
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="res-panel" id="res-panel">
+
+        <div class="ind-tabs">
+          <div class="ind-tab active" data-ind="GWP-total">GWP-total</div>
+          <div class="ind-tab" data-ind="GWP-fossil">GWP-fossil</div>
+          <div class="ind-tab" data-ind="GWP-biogenic">GWP-biogenic</div>
+          <div class="ind-tab" data-ind="GWP-LULUC">GWP-LULUC</div>
+        </div>
+
+        <div class="pnl-body">
+
+          <div id="ext-info" class="gb" style="display:none"></div>
+
+          <div class="divlbl">Extracted values — click any cell to correct</div>
+          <div class="tbl-wrap" id="raw-wrap"></div>
+
+          <div class="divlbl" style="margin-top:16px">FastLCA Google Sheet row preview</div>
+          <div class="wb" id="sheet-warn" style="display:none"></div>
+          <div class="sheet-wrap">
+            <table class="stbl" id="stbl">
+              <thead>
+                <tr>
+                  <th class="h-id">id</th>
+                  <th class="h-meta">n (name)</th>
+                  <th class="h-meta">cat</th>
+                  <th class="h-meta">mfr</th>
+                  <th class="h-src">db</th>
+                  <th class="h-src">prog</th>
+                  <th class="h-src">yr</th>
+                  <th class="h-src">ref</th>
+                  <th class="h-src">url</th>
+                  <th class="h-prop">du</th>
+                  <th class="h-prop">den</th>
+                  <th class="h-ef">ef (A1–A3)</th>
+                  <th class="h-eol">c1</th>
+                  <th class="h-eol">c2</th>
+                  <th class="h-eol">c3</th>
+                  <th class="h-eol">c4</th>
+                  <th class="h-d">d</th>
+                  <th class="h-adm">verified</th>
+                  <th class="h-adm">notes</th>
+                </tr>
+              </thead>
+              <tbody id="stbl-body">
+                <tr><td colspan="19" style="text-align:center;color:var(--t3);padding:16px;font-size:12px">Fill metadata and click "Build Google Sheet row"</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="divlbl" style="margin-top:14px">Export</div>
+          <div class="gb" id="copy-guide" style="display:none">
+            <strong>How to paste:</strong> Open your FastLCA Google Sheet → Section B → click first empty cell in column A → Ctrl+V (Cmd+V on Mac). All 19 columns paste at once.
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-g" id="btn-copy-row" onclick="copySheetRow()" style="display:none">📋 Copy row → paste in Google Sheet</button>
+            <button class="btn btn-b" id="btn-copy-all" onclick="copyAllTSV()" style="display:none">📥 Copy all indicators (TSV)</button>
+            <button class="btn" id="btn-reset" onclick="resetAll()" style="display:none">🔄 New PDF</button>
+          </div>
+          <div id="copy-pre-wrap" style="display:none">
+            <div class="divlbl" style="margin-top:10px">Row preview (tab-separated)</div>
+            <div class="copy-pre" id="copy-pre"></div>
+          </div>
+
+          <!-- All indicators reference -->
+          <div id="all-ind-section" style="display:none;margin-top:14px">
+            <div class="divlbl">All extracted indicators (reference)</div>
+            <p style="font-size:11px;color:var(--t2);margin-bottom:7px">FastLCA uses <strong>GWP-total</strong> only. The table below shows all indicators for your reference.</p>
+            <div class="tbl-wrap" id="all-ind-wrap"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+// ── Google Sheet columns ──────────────────────────────────────────────────
+const SHEET_COLS=['id','n','cat','mfr','db','prog','yr','ref','url','du','den','ef','c1','c2','c3','c4','d','verified','notes'];
+const STEPS=['A1-A3','A4','A5','B2','C1','C2','C3','C4','D'];
+const ALL_IND=['GWP-total','GWP-fossil','GWP-biogenic','GWP-LULUC'];
+
+let extracted={};  // {ind: {'A1-A3':val, A4:val, ...}}
+let activeInd='GWP-total';
+let sheetBuilt=false;
+
+// ── Utilities ─────────────────────────────────────────────────────────────
+function log(msg,cls){const el=document.getElementById('lb');el.style.display='block';el.innerHTML+=`<span class="${cls||''}">${msg}\n</span>`;el.scrollTop=el.scrollHeight;}
+function prog(pct,msg){document.getElementById('pw').style.display='block';document.getElementById('pb').style.width=pct+'%';document.getElementById('pl').textContent=msg;}
+function toast(msg,err){const t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(err?' err':'')+' show';setTimeout(()=>t.className='toast',2800);}
+
+function fmt(v){
+  if(v===null||v===undefined)return'';
+  if(v==='ND')return'ND';
+  if(typeof v!=='number')return String(v);
+  if(v===0)return'0';
+  // Plain decimal, up to 6 sig figs, no scientific notation for reasonable values
+  const abs=Math.abs(v);
+  if(abs>0&&abs<0.0001)return v.toExponential(4);
+  return parseFloat(v.toPrecision(6)).toString();
+}
+function fmtD(v){
+  if(v===null||v===undefined)return'—';
+  if(v==='ND')return'ND';
+  if(typeof v!=='number')return String(v);
+  if(v===0)return'0.000';
+  const abs=Math.abs(v);
+  if(abs<0.001)return v.toExponential(3);
+  return v.toPrecision(4);
+}
+
+// ── EPD Studio extraction engine (proven, direct copy) ────────────────────
+const X_TOL=3;
+function pNum(s){
+  if(!s)return null; s=String(s).trim();
+  if(/^(ND|MND|MNR|INA|NA|\u2014|--)$/i.test(s))return'ND';
+  s=s.replace(/[\u2010\u2011\u2012\u2013\u2014\u2212\uFE58\uFE63\uFF0D]/g,'-').replace(/,(\d)/g,'.$1');
+  s=s.replace(/[Ee]([+-]?\d+)$/,(_,e)=>'e'+e).replace(/[Ee](\d+)$/,'e+$1');
+  const n=parseFloat(s); return isFinite(n)?n:null;
+}
+
+async function extractEPD(file){
+  const buf=await file.arrayBuffer();
+  const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+  const pWords=[];
+  for(let p=1;p<=pdf.numPages;p++){
+    prog(5+(p/pdf.numPages)*35,`Reading page ${p}/${pdf.numPages}…`);
+    const pg=await pdf.getPage(p);
+    const H=pg.getViewport({scale:1}).height;
+    const tc=await pg.getTextContent({normalizeWhitespace:false});
+    const rm=new Map();
+    for(const it of tc.items){
+      if(!it.str||!it.str.trim())continue;
+      const x=it.transform[4],y=H-it.transform[5],xe=x+(it.width||0);
+      let k=null;for(const[kk]of rm){if(Math.abs(kk-y)<=3){k=kk;break;}}
+      if(k===null){rm.set(y,[]);k=y;}
+      rm.get(k).push({str:it.str,x,xe,y,page:p});
+    }
+    for(const[,items]of rm){
+      items.sort((a,b)=>a.x-b.x);
+      let cs=items[0].str,cx=items[0].x,ce=items[0].xe;
+      for(let i=1;i<items.length;i++){
+        const it=items[i];
+        if(it.x-ce<=X_TOL){cs+=it.str;ce=Math.max(ce,it.xe);}
+        else{if(cs.trim())pWords.push({str:cs.trim(),x:cx,xe:ce,y:items[0].y,page:p});cs=it.str;cx=it.x;ce=it.xe;}
+      }
+      if(cs.trim())pWords.push({str:cs.trim(),x:cx,xe:ce,y:items[0].y,page:p});
+    }
+  }
+  // Build rows
+  const byPg=new Map();
+  for(const w of pWords){if(!byPg.has(w.page))byPg.set(w.page,[]);byPg.get(w.page).push(w);}
+  const rows=[];
+  for(const[pn,pw]of[...byPg.entries()].sort((a,b)=>a[0]-b[0])){
+    const rm2=new Map();
+    for(const w of pw){const yk=Math.round(w.y*2)/2;let k=null;for(const[kk]of rm2){if(Math.abs(kk-yk)<=3){k=kk;break;}}if(k===null){rm2.set(yk,[]);k=yk;}rm2.get(k).push(w);}
+    for(const[y,ws]of[...rm2.entries()].sort((a,b)=>a[0]-b[0]))rows.push({y,page:pn,words:ws.sort((a,b)=>a.x-b.x)});
+  }
+  const aText=pWords.map(w=>w.str).join(' ');
+  // Auto-detect metadata
+  const hub=(aText.match(/(?:NEPD|EPD|HUB)-[\w\-]{4,}/i)||[])[0]||'';
+  const yrM=aText.match(/(?:published|valid|year|issue)[^\d]*(\d{4})/i)||aText.match(/\b(202[0-9])\b/);
+  // Mass
+  let mass=null;
+  for(const row of rows){
+    const rt=row.words.map(w=>w.str).join(' ');
+    const m=rt.match(/[Dd]eclared\s+unit\s+mass\s+([\d,\.]+)\s*kg/)||rt.match(/[Mm]ass\s+per\s+declared\s+unit[^\d]*([\d,\.]+)\s*kg/);
+    if(m){const v=parseFloat(m[1].replace(',','.'));if(isFinite(v)&&v>0){mass=v;break;}}
+  }
+  // Stage header
+  const ALL_SL=new Set([...STEPS,'A1','A2','A3','B1','B3','B4','B5','B6','B7','A1-A3','A1\u2013A3']);
+  let hRow=null;
+  for(let i=0;i<rows.length;i++){
+    const ts=new Set(rows[i].words.map(w=>w.str.trim().replace('\u2013','-').toUpperCase()));
+    if(!ts.has('A1')||!ts.has('A2')||!ts.has('A4')||!ts.has('D'))continue;
+    for(let j=i+1;j<Math.min(i+25,rows.length);j++){const jn=rows[j].words.map(w=>w.str).join(' ');if(/GWP.{0,10}total/i.test(jn)&&/\d/.test(jn)){hRow=rows[i];break;}}
+    if(hRow)break;
+  }
+  if(!hRow)throw new Error('Stage header not found — check debug info');
+  const cMap={};
+  for(const w of hRow.words){const t=w.str.trim().replace('\u2013','-').toUpperCase();if(ALL_SL.has(t))cMap[t]=w.x;}
+  log(`  Cols: ${Object.keys(cMap).join(' ')}`);
+  const sc=Object.entries(cMap).sort((a,b)=>a[1]-b[1]);
+  const minX=Math.min(...Object.values(cMap))-5;
+  const bounds={};
+  for(let i=0;i<sc.length;i++){const[n,x]=sc[i];bounds[n]=[i===0?-Infinity:(x+sc[i-1][1])/2,i===sc.length-1?Infinity:(x+sc[i+1][1])/2];}
+  function ac(x){for(const[c,[l,r]]of Object.entries(bounds)){if(l<=x&&x<r)return c;}return null;}
+  function cir(x0,x1){return sc.filter(([,cx])=>cx>=x0-10&&cx<=x1+10);}
+  const IMAP={'GWP-total':[/GWP.{0,10}total/i],'GWP-fossil':[/GWP.{0,10}fossil/i],'GWP-biogenic':[/GWP.{0,10}biogenic/i,/GWP.{0,10}bio\b/i],'GWP-LULUC':[/GWP.{0,10}LULUC/i,/\bLULUC\b/i]};
+  const result={hub,yr:yrM?yrM[1]:'',mass_kg:mass,indicators:{}};
+  const cands=rows.filter(r=>r.page>=hRow.page);
+  for(const[ind,pats]of Object.entries(IMAP)){
+    let dr=null;
+    for(const row of cands){const jn=row.words.map(w=>w.str).join(' ');if(pats.some(p=>p.test(jn))&&/\d/.test(jn)){dr=row;break;}}
+    if(!dr){log(`⚠ "${ind}" not found`,'w');continue;}
+    const sv={};
+    for(const w of dr.words){
+      if(w.x<minX)continue;
+      const col=ac(w.x);if(!col)continue;
+      const subs=w.str.trim().split(/\s+/);
+      if(subs.length>1){const rc=cir(w.x,w.xe);subs.forEach((tok,j)=>{if(j<rc.length&&!(rc[j][0]in sv)){const v=pNum(tok);if(v!==null)sv[rc[j][0]]=v;}});}
+      else{if(!(col in sv)){const v=pNum(w.str);if(v!==null)sv[col]=v;}}
+    }
+    if(!('A1'in sv)&&'A1-A3'in sv){sv.A1=sv['A1-A3'];sv.A2=null;sv.A3=null;}
+    delete sv['A1-A3'];
+    const a13=(sv.A1!=null&&sv.A1!=='ND'&&sv.A2!=null&&sv.A2!=='ND'&&sv.A3!=null&&sv.A3!=='ND')?(sv.A1+sv.A2+sv.A3):sv.A1??null;
+    result.indicators[ind]={'A1-A3':a13,'A4':sv.A4??null,'A5':sv.A5??null,'B2':sv.B2??null,'C1':sv.C1??null,'C2':sv.C2??null,'C3':sv.C3??null,'C4':sv.C4??null,'D':sv.D??null};
+    const preview=Object.entries(sv).slice(0,5).map(([k,v])=>`${k}=${v==='ND'?'ND':typeof v==='number'?v.toExponential(2):v}`).join(' ');
+    log(`✓ "${ind}": ${preview}…`);
+  }
+  return result;
+}
+
+// ── Render extracted table ─────────────────────────────────────────────────
+const DISP_STGS=['A1-A3','A4','A5','C1','C2','C3','C4','D'];
+const GRP=[
+  {l:'A1–A3',ss:['A1-A3'],c:'gb'},
+  {l:'A4–A5 Construction',ss:['A4','A5'],c:'ga'},
+  {l:'C1–C4 End of Life',ss:['C1','C2','C3','C4'],c:'gc'},
+  {l:'D Beyond',ss:['D'],c:'gd'},
+];
+
+function renderRaw(ind){
+  const d=extracted[ind]||{};
+  let h='<table class="rtbl"><thead><tr><th class="left" style="min-width:120px">Indicator</th>';
+  for(const g of GRP)h+=`<th colspan="${g.ss.length}" class="${g.c}">${g.l}</th>`;
+  h+='</tr><tr><th class="left"></th>';
+  for(const g of GRP)for(const s of g.ss)h+=`<th class="${g.c}">${s}</th>`;
+  h+='</tr></thead><tbody><tr>';
+  h+=`<td class="left" style="font-size:11px;font-weight:700">${ind} <span style="color:var(--t3);font-weight:400">[kg CO₂e]</span></td>`;
+  for(const g of GRP)for(const s of g.ss){
+    const v=d[s];
+    const cls=v===null||v===undefined?'miss':v==='ND'?'nd':v<0?'neg':'';
+    const disp=v===null||v===undefined?'—':v==='ND'?'ND':fmtD(v);
+    h+=`<td class="${cls}" contenteditable="true" data-ind="${ind}" data-stg="${s}">${disp}</td>`;
+  }
+  h+='</tr></tbody></table>';
+  document.getElementById('raw-wrap').innerHTML=h;
+  document.querySelectorAll('[contenteditable]').forEach(td=>{
+    td.addEventListener('blur',()=>{
+      const raw=td.textContent.trim();
+      const ind2=td.dataset.ind,stg=td.dataset.stg;
+      if(!raw||raw==='—'){extracted[ind2][stg]=null;td.className='miss';td.textContent='—';}
+      else if(/^(nd|mnd)$/i.test(raw)){extracted[ind2][stg]='ND';td.className='nd';td.textContent='ND';}
+      else{const v=pNum(raw);if(v!==null){extracted[ind2][stg]=v;td.className=v<0?'neg':'';td.textContent=fmtD(v);}}
+      if(sheetBuilt)buildSheet();
+    });
+  });
+}
+
+function renderAllInd(){
+  let h='<table class="rtbl"><thead><tr><th class="left">Indicator</th>';
+  for(const s of DISP_STGS)h+=`<th>${s}</th>`;
+  h+='</tr></thead><tbody>';
+  for(const ind of ALL_IND){
+    const d=extracted[ind]||{};
+    h+=`<tr><td class="left" style="font-size:11px;font-weight:700">${ind}</td>`;
+    for(const s of DISP_STGS){
+      const v=d[s];
+      h+=`<td class="${v===null||v===undefined?'miss':v==='ND'?'nd':v<0?'neg':''}">${v===null||v===undefined?'—':v==='ND'?'ND':fmtD(v)}</td>`;
+    }
+    h+='</tr>';
+  }
+  h+='</tbody></table>';
+  document.getElementById('all-ind-wrap').innerHTML=h;
+}
+
+// ── Build sheet row ────────────────────────────────────────────────────────
+function buildSheet(){
+  const tot=extracted['GWP-total']||{};
+  const ef=tot['A1-A3'],c1=tot.C1,c2=tot.C2,c3=tot.C3,c4=tot.C4,d=tot.D;
+  const M={
+    id:document.getElementById('f-id').value.trim(),
+    n:document.getElementById('f-n').value.trim(),
+    cat:document.getElementById('f-cat').value,
+    mfr:document.getElementById('f-mfr').value.trim(),
+    db:document.getElementById('f-db').value.trim(),
+    prog:document.getElementById('f-prog').value.trim(),
+    yr:document.getElementById('f-yr').value.trim(),
+    ref:document.getElementById('f-ref').value.trim(),
+    url:document.getElementById('f-url').value.trim(),
+    du:document.getElementById('f-du').value,
+    den:document.getElementById('f-den').value.trim(),
+    notes:document.getElementById('f-notes').value.trim(),
+  };
+
+  const P='pending';
+  const row=[
+    {v:M.id,c:M.id?'filled':P},{v:M.n,c:M.n?'filled':P},{v:M.cat,c:'filled'},{v:M.mfr,c:M.mfr?'filled':'empty-c'},
+    {v:M.db,c:M.db?'filled':P},{v:M.prog,c:M.prog?'filled':'empty-c'},{v:M.yr,c:M.yr?'filled':P},{v:M.ref,c:M.ref?'filled':'empty-c'},{v:M.url,c:M.url?'filled':P},
+    {v:M.du,c:'filled'},{v:M.den,c:M.den?'filled':'empty-c'},
+    {v:fmt(ef),c:ef!=null&&ef!=='ND'?'extracted'+(typeof ef==='number'&&ef<0?' neg':''):ef==='ND'?'nd-c':P},
+    {v:fmt(c1),c:c1!=null&&c1!=='ND'?'extracted'+(typeof c1==='number'&&c1<0?' neg':''):c1==='ND'?'nd-c':'empty-c'},
+    {v:fmt(c2),c:c2!=null&&c2!=='ND'?'extracted'+(typeof c2==='number'&&c2<0?' neg':''):c2==='ND'?'nd-c':'empty-c'},
+    {v:fmt(c3),c:c3!=null&&c3!=='ND'?'extracted'+(typeof c3==='number'&&c3<0?' neg':''):c3==='ND'?'nd-c':'empty-c'},
+    {v:fmt(c4),c:c4!=null&&c4!=='ND'?'extracted'+(typeof c4==='number'&&c4<0?' neg':''):c4==='ND'?'nd-c':'empty-c'},
+    {v:fmt(d),c:d!=null&&d!=='ND'?'extracted'+(typeof d==='number'&&d<0?' neg':''):d==='ND'?'nd-c':'empty-c'},
+    {v:'PENDING',c:P},{v:M.notes,c:M.notes?'filled':'empty-c'},
+  ];
+
+  document.getElementById('stbl-body').innerHTML='<tr>'+row.map(({v,c})=>`<td class="${c}">${v||''}</td>`).join('')+'</tr>';
+
+  // Warnings
+  const w=[];
+  if(!M.id)w.push('id required');
+  if(!M.n)w.push('product name required');
+  if(ef===null||ef===undefined)w.push('ef (A1–A3) not extracted — check values above');
+  if(!M.url)w.push('EPD URL missing');
+  const we=document.getElementById('sheet-warn');
+  if(w.length){we.style.display='block';we.innerHTML='⚠ '+w.join(' · ');}else{we.style.display='none';}
+
+  // Copy preview
+  const tsvRow=row.map(({v})=>v||'').join('\t');
+  document.getElementById('copy-pre').textContent=SHEET_COLS.join('\t')+'\n'+tsvRow;
+  document.getElementById('copy-pre-wrap').style.display='block';
+  document.getElementById('copy-guide').style.display='block';
+  document.getElementById('btn-copy-row').style.display='inline-flex';
+  document.getElementById('btn-copy-all').style.display='inline-flex';
+  sheetBuilt=true;
+  setStep(4);
+}
+
+function getRowVals(){
+  const tot=extracted['GWP-total']||{};
+  const M={
+    id:document.getElementById('f-id').value.trim(),n:document.getElementById('f-n').value.trim(),
+    cat:document.getElementById('f-cat').value,mfr:document.getElementById('f-mfr').value.trim(),
+    db:document.getElementById('f-db').value.trim(),prog:document.getElementById('f-prog').value.trim(),
+    yr:document.getElementById('f-yr').value.trim(),ref:document.getElementById('f-ref').value.trim(),
+    url:document.getElementById('f-url').value.trim(),du:document.getElementById('f-du').value,
+    den:document.getElementById('f-den').value.trim(),notes:document.getElementById('f-notes').value.trim(),
+  };
+  return[M.id,M.n,M.cat,M.mfr,M.db,M.prog,M.yr,M.ref,M.url,M.du,M.den,
+    fmt(tot['A1-A3']),fmt(tot.C1),fmt(tot.C2),fmt(tot.C3),fmt(tot.C4),fmt(tot.D),'PENDING',M.notes];
+}
+
+function copySheetRow(){
+  const txt=getRowVals().join('\t');
+  navigator.clipboard.writeText(txt)
+    .then(()=>toast('✅ Row copied — open Google Sheet → next empty row → Ctrl+V'))
+    .catch(()=>{const ta=Object.assign(document.createElement('textarea'),{value:txt});document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('✅ Row copied');});
+}
+
+function copyAllTSV(){
+  const hdr=SHEET_COLS.join('\t');
+  const sheetRow=getRowVals().join('\t');
+  const lines=[hdr,sheetRow,'','--- All extracted GWP indicators (reference) ---',
+    ['Indicator','A1-A3','A4','A5','C1','C2','C3','C4','D'].join('\t')];
+  for(const ind of ALL_IND){
+    const d=extracted[ind]||{};
+    lines.push([ind,fmt(d['A1-A3']),fmt(d.A4),fmt(d.A5),fmt(d.C1),fmt(d.C2),fmt(d.C3),fmt(d.C4),fmt(d.D)].join('\t'));
+  }
+  const txt=lines.join('\n');
+  navigator.clipboard.writeText(txt).then(()=>toast('✅ Full TSV copied')).catch(()=>toast('Copy failed',true));
+}
+
+// ── Step management ────────────────────────────────────────────────────────
+function setStep(n){
+  for(let i=1;i<=4;i++){
+    const el=document.getElementById('s'+i);
+    const sn=el.querySelector('.step-n');
+    if(i<n){el.className='step done';sn.textContent='✓';}
+    else if(i===n){el.className='step active';sn.textContent=i;}
+    else{el.className='step';sn.textContent=i;}
+  }
+}
+
+function showResults(r){
+  document.getElementById('empty-state').style.display='none';
+  document.getElementById('res-panel').classList.add('show');
+  const found=ALL_IND.filter(ind=>Object.values(extracted[ind]||{}).some(v=>v!==null&&v!=='ND'));
+  const info=document.getElementById('ext-info');
+  info.style.display='block';
+  if(found.length===4){info.className='gb';info.innerHTML=`✅ All 4 GWP indicators extracted. <strong>GWP-total A1–A3</strong> → <code style="font-family:monospace">ef</code> column in your Google Sheet.`;}
+  else if(found.length>0){info.className='wb';info.innerHTML=`⚠ ${found.length}/4 indicators found: <strong>${found.join(', ')}</strong>. Check values below.`;}
+  else{info.className='wb';info.innerHTML=`⚠ No GWP data found. PDF may be image-only (needs OCR) or the table structure isn't supported.`;}
+  // Auto-fill year and ref from PDF
+  if(r.yr&&!document.getElementById('f-yr').value)document.getElementById('f-yr').value=r.yr;
+  if(r.hub&&!document.getElementById('f-ref').value)document.getElementById('f-ref').value=r.hub;
+  document.getElementById('meta-form').style.display='block';
+  document.getElementById('btn-reset').style.display='inline-flex';
+  document.getElementById('all-ind-section').style.display='block';
+  renderRaw('GWP-total');
+  renderAllInd();
+  setStep(2);
+}
+
+function resetAll(){
+  extracted={};activeInd='GWP-total';sheetBuilt=false;
+  document.getElementById('empty-state').style.display='flex';
+  document.getElementById('res-panel').classList.remove('show');
+  document.getElementById('meta-form').style.display='none';
+  document.getElementById('lb').innerHTML='';document.getElementById('lb').style.display='none';
+  document.getElementById('pw').style.display='none';document.getElementById('pb').style.width='0%';
+  document.getElementById('fi').value='';document.getElementById('dz').classList.remove('has-file');
+  ['btn-copy-row','btn-copy-all','btn-reset'].forEach(id=>document.getElementById(id).style.display='none');
+  ['copy-guide','copy-pre-wrap','sheet-warn','all-ind-section'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('stbl-body').innerHTML='<tr><td colspan="19" style="text-align:center;color:var(--t3);padding:16px;font-size:12px">Fill metadata and click "Build Google Sheet row"</td></tr>';
+  setStep(1);
+}
+
+// ── Main run ───────────────────────────────────────────────────────────────
+async function run(file){
+  if(!file?.name?.toLowerCase().endsWith('.pdf')){toast('❌ Upload a .pdf file',true);return;}
+  document.getElementById('dz').classList.add('has-file');
+  document.getElementById('lb').innerHTML='';
+  log(`File: ${file.name}  (${(file.size/1024).toFixed(1)} KB)`);
+  prog(5,'Loading PDF…');
+  try{
+    const r=await extractEPD(file);
+    // Store extracted indicators
+    extracted={};
+    for(const[ind,vals]of Object.entries(r.indicators))extracted[ind]=vals;
+    const found=ALL_IND.filter(ind=>Object.values(extracted[ind]||{}).some(v=>v!==null&&v!=='ND')).length;
+    prog(100,`Done — ${found}/4 GWP indicators found`);
+    log(`─── ${found}/4 indicators ───`);
+    showResults(r);
+    if(found>0)toast(`✅ ${found}/4 indicators extracted — fill metadata below`);
+    else toast('⚠ No data found — check log',true);
+  }catch(err){
+    log(`Error: ${err.message}`,'e');
+    prog(100,'Error');
+    toast('❌ Extraction failed — '+err.message,true);
+    console.error(err);
+  }
+}
+
+// ── Event listeners ────────────────────────────────────────────────────────
+document.getElementById('fi').addEventListener('change',e=>{if(e.target.files[0])run(e.target.files[0]);});
+const dz=document.getElementById('dz');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('over');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('over'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('over');if(e.dataTransfer.files[0])run(e.dataTransfer.files[0]);});
+
+document.querySelectorAll('.ind-tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.ind-tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');activeInd=t.dataset.ind;
+    if(Object.keys(extracted).length)renderRaw(activeInd);
+  });
+});
+
+document.querySelectorAll('#meta-form input,#meta-form select').forEach(el=>{
+  el.addEventListener('input',()=>{if(sheetBuilt)buildSheet();});
+});
+</script>
+</body>
+</html>
