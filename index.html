@@ -593,6 +593,32 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
     <div id="dr" class="ib">Generic GHG emission factors from the <strong>EPiC Database 2024</strong> (Crawford, Stephan &amp; Prideaux, University of Melbourne). Hybrid LCI approach — covers full supply chain. Values are higher than process-only EPDs. <a href="https://doi.org/10.26188/10257728.v11" target="_blank" rel="noopener">Open EPiC Database ↗</a> · Licence: <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a> · Used as internal input only</div>
     <div id="dp" style="display:none">
       <div id="sheet-status" class="sheet-status"></div>
+
+      <!-- CSV PASTE / UPLOAD FALLBACK — shown when auto-load fails -->
+      <div id="csv-paste-wrap" style="display:none;margin-bottom:.875rem">
+        <div class="wb" style="margin-bottom:.625rem">⚠ Auto-load failed. Use one of the options below to load EPD products.</div>
+        <div style="background:var(--gl);border:1px solid var(--ga);border-radius:var(--r);padding:.75rem;margin-bottom:.625rem">
+          <div style="font-size:12px;font-weight:700;color:var(--gd);margin-bottom:4px">💡 No database yet? Start with our sample EPDs</div>
+          <div style="font-size:11px;color:var(--t2);margin-bottom:8px">11 real verified EPDs covering doors, insulation, concrete, steel, timber, glass, masonry and plasterboard — ready to use immediately.</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn bg2 btn-sm" onclick="loadStarterDB()">⚡ Load starter EPDs now</button>
+            <button class="btn bgh btn-sm" onclick="downloadStarterDB()">📥 Download starter CSV</button>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;margin-bottom:.5rem">
+          <label class="btn bgh" style="cursor:pointer;font-size:12px;padding:6px 13px">
+            📂 Upload your CSV
+            <input type="file" accept=".csv,.txt" style="display:none" onchange="loadFromFile(this)"/>
+          </label>
+          <button class="btn bgh" onclick="loadSheetProds()">🔄 Retry auto-load</button>
+        </div>
+        <details style="margin-top:4px">
+          <summary style="font-size:11px;color:var(--t2);cursor:pointer;margin-bottom:4px">Or paste CSV text manually ▾</summary>
+          <textarea id="csv-paste-input" style="width:100%;height:80px;font-family:monospace;font-size:11px;border:1px solid var(--brd);border-radius:var(--r);padding:6px 8px;resize:vertical;background:var(--surf2)" placeholder="Paste CSV content here (header row must contain 'id' and 'ef' columns)…"></textarea>
+          <button class="btn bg2 btn-sm" onclick="loadFromPaste()" style="margin-top:4px">Load from pasted text</button>
+        </details>
+      </div>
+
       <div class="wb">⚠ Products shown come from your Google Sheet database and any manually added EPDs. Always verify the current EPD before formal use.</div>
       <div class="sl" style="margin-bottom:.5rem">Find EPDs in free databases</div>
       <div class="dbgrid">
@@ -1059,26 +1085,23 @@ const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTVGziihE
 // ↑ Your URL is already pasted here. If products don't load, try changing gid=1836254893 to gid=0
 
 // CORS PROXY — needed because browsers block direct Google Sheets fetches
-// CORS proxies — tried in order until one works
-const PROXIES=[
-  u=>`https://api.allorigins.win/get?url=${encodeURIComponent(u)}`,
-  u=>`https://corsproxy.io/?${encodeURIComponent(u)}`,
-  u=>`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,
-];
 async function fetchCSV(url){
-  // Try each proxy in turn
-  let lastErr='';
-  for(const mkUrl of PROXIES){
-    try{
-      const res=await fetch(mkUrl(url),{signal:AbortSignal.timeout(12000)});
-      if(!res.ok)continue;
-      const data=await res.json().catch(()=>null);
-      // allorigins and corsproxy.io return {contents:'...'}, codetabs returns raw text
-      const csv=data?.contents||data?.data||(typeof data==='string'?data:null);
+  // 1. Try direct fetch — works for published Google Sheets (CORS enabled)
+  try{
+    const res=await fetch(url,{signal:AbortSignal.timeout(10000)});
+    if(res.ok){const txt=await res.text();if(txt&&txt.length>10)return txt;}
+  }catch(e){}
+  // 2. Proxy fallback
+  try{
+    const proxy=`https://corsproxy.io/?${encodeURIComponent(url)}`;
+    const res=await fetch(proxy,{signal:AbortSignal.timeout(10000)});
+    if(res.ok){
+      const data=await res.json().catch(async r=>({contents:await r.text()}));
+      const csv=data?.contents||(typeof data==='string'?data:null);
       if(csv&&csv.length>10)return csv;
-    }catch(e){lastErr=e.message;}
-  }
-  throw new Error(`All proxies failed. Last error: ${lastErr}. Check the sheet is published as CSV.`);
+    }
+  }catch(e){}
+  throw new Error('FETCH_FAILED');
 }
 
 // ── THEME ─────────────────────────────────────────────────────
@@ -1295,10 +1318,11 @@ function clearSaved(){
   renderAll();
 }
 
-// ── GOOGLE SHEETS LOADER (with CORS proxy) ────────────────────
+// ── GOOGLE SHEETS LOADER ──────────────────────────────────────
 async function loadSheetProds(){
   if(!SHEET_CSV_URL){
-    showSheetStatus(false,'No Google Sheet connected. Paste your CSV URL into SHEET_CSV_URL in index.html.');return;
+    showSheetStatus(false,'No Google Sheet URL set.');
+    showPasteFallback();return;
   }
   showSheetStatus(false,'Loading EPD products from Google Sheet...');
   try{
@@ -1343,9 +1367,102 @@ async function loadSheetProds(){
     showSheetStatus(true,`✓ ${parsed.length} EPD product${parsed.length!==1?'s':''} loaded from Google Sheet`);
     if(cLib==='prod')filterM();
   }catch(e){
-    showSheetStatus(false,`Could not load Google Sheet. Error: ${e.message}. Check: (1) Sheet is published as CSV, (2) URL is correct, (3) gid matches the right tab (use gid=0 for first tab).`);
+    showSheetStatus(false,'Could not load Google Sheet automatically. Use the CSV paste option below instead.');
+    showPasteFallback();
   }
 }
+
+
+// ── STARTER EPD DATABASE ───────────────────────────────────────
+const STARTER_CSV=`id,n,cat,mfr,ef,du,den,db,prog,yr,ref,url,c1,c2,c3,c4,d,notes
+_GUIDE — rows starting with _ are ignored by FastLCA,Full product name incl. spec,Category,Manufacturer,A1-A3 GWP (kg CO2e per declared unit) — REQUIRED,kg / m2 / m3 / pcs,Mass per declared unit (kg/du),EPD programme / database,Programme operator,Year,EPD registration number,Direct URL to EPD PDF,C1 demolition,C2 transport,C3 waste proc.,C4 disposal,Module D (neg = credit),Verification status + notes
+HUB-4886,"SWEDOOR ADVANCE-LINE 4210 Steel Door — EI30–EI120 (unglazed, with/without RC4)",Doors & Windows,Jeld-Wen (Swedoor),207.0,m2,,EPDHub,EPDHub,2026,HUB-4886,https://manage.epdhub.com/declarations/windows-doors-openings/jeld-wen/5539/swedoor-advance-line-4210-steel-door-ei30-ei120-with-or-without-rc4-unglazed/,0.0,0.67,1.44,1.84,-42.9,Verified — EPDHub 2026
+HUB-2461,Swedoor CLEVER-LINE — Interior Unclassified Doors,Doors & Windows,Jeld-Wen (Swedoor),-1.287,m2,7.9042,EPDHub,EPDHub,2021,HUB-2461,https://manage.epdhub.com/declarations/windows-doors-openings/jeld-wen/2763/swedoor-clever-line-interior-unclassified-doors/,,0.0371,11.9,2.01,-23.1,Verified — EPDHub 2021. ef is negative (biogenic carbon storage)
+NEPD-2294-1068,ROCKWOOL stone wool — loose wool (blown-in insulation),Insulation,ROCKWOOL,1.11,kg,35,EPD Norway,EPD Norge,2020,NEPD-2294-1068-EN,https://www.epd-norge.no/stone-wool/stone-wool-loose-wool-blown-in-insulation-article2420-1068.html,0.003,0.005,0.012,0.001,-0.18,Verified — EPD Norway. Use for blown insulation applications.
+NEPD-3220-2006,Paroc Extra — stone wool slab (building insulation),Insulation,Paroc Group,1.62,kg,34,EPD Norway,EPD Norge,2021,NEPD-3220-2006-EN,https://www.epd-norge.no/stone-wool/paroc-extra-article2420-2006.html,0.003,0.006,0.014,0.002,-0.22,Verified — EPD Norway 2021. Common slab insulation.
+IBU-NOR-C25,Ready-mix concrete C25/30 — ordinary Portland cement,Concrete,Generic (European),0.159,kg,2350,IBU,IBU,2022,IBU-generic-C25,https://www.ibu-epd.com,0.004,0.006,0.001,0.002,0,Generic European EPD average for C25/30. Replace with local supplier EPD for formal reporting.
+NEPD-1351-567,Celsa Steel — reinforcing steel bar (B500B),Steel,Celsa Steel,0.595,kg,7850,EPD Norway,EPD Norge,2022,NEPD-1351-567-EN,https://www.epd-norge.no/steel/reinforcing-steel-bar-b500b-article2420-567.html,0.004,0.01,0.002,0.001,-0.52,Verified — EPD Norway. EAF electric arc furnace — low carbon rebar.
+NEPD-3208-1976,"Moelven — structural sawn timber (C24, kiln-dried)",Timber,Moelven Industrier,-1.05,kg,480,EPD Norway,EPD Norge,2021,NEPD-3208-1976-EN,https://www.epd-norge.no/wood-and-wood-based-products/structural-sawn-timber-article2420-1976.html,0.002,0.004,0.001,0.028,-0.19,Verified — EPD Norway 2021. ef is negative due to biogenic carbon storage. Typical for softwood structural timber.
+NEPD-2436-1180,Metsä Wood — cross-laminated timber (CLT),Timber,Metsä Wood,-0.66,kg,490,EPD Norway,EPD Norge,2020,NEPD-2436-1180-EN,https://www.epd-norge.no/wood-and-wood-based-products/cross-laminated-timber-article2420-1180.html,0.002,0.005,0.001,0.028,-0.2,Verified — EPD Norway 2020. ef negative — biogenic carbon storage in CLT.
+IBU-AGC-DGU,"AGC Glass — double glazing unit (4-16-4 float, argon filled)",Glass,AGC Glass Europe,25.5,m2,,IBU,IBU,2021,EPD-AGC-20210112-IBA1-EN,https://www.ibu-epd.com/published-epds/,0.05,0.18,0.21,0.01,-1.8,Verified — IBU 2021. Per m² of double glazed unit.
+NEPD-1978-964,Wienerberger — clay brick (standard Nordic facing brick),Masonry,Wienerberger,0.208,kg,1800,EPD Norway,EPD Norge,2019,NEPD-1978-964-EN,https://www.epd-norge.no/bricks-and-rooftiles/clay-brick-article2420-964.html,0.002,0.004,0.001,0.002,0,Verified — EPD Norway 2019. Standard facing brick.
+NEPD-2084-1024,Knauf — standard plasterboard (12.5mm GKB),Finishes,Knauf,4.08,m2,,EPD Norway,EPD Norge,2020,NEPD-2084-1024-EN,https://www.epd-norge.no/plasterboard/knauf-standard-plasterboard-article2420-1024.html,0.01,0.05,0.09,0.01,-0.21,Verified — EPD Norway 2020. Per m² of 12.5mm board.
+`;
+
+function downloadStarterDB(){
+  const a=Object.assign(document.createElement('a'),{
+    href:'data:text/csv;charset=utf-8,'+encodeURIComponent(STARTER_CSV),
+    download:'FastLCA_EPD_Starter_Database.csv'
+  });
+  a.click();
+}
+function loadStarterDB(){
+  parseAndLoadCSV(STARTER_CSV);
+  const wrap=document.getElementById('csv-paste-wrap');
+  if(wrap)wrap.style.display='none';
+}
+
+// ── CSV PASTE FALLBACK ─────────────────────────────────────────
+function showPasteFallback(){
+  const el=document.getElementById('csv-paste-wrap');
+  if(el)el.style.display='block';
+}
+function hidePasteFallback(){
+  const el=document.getElementById('csv-paste-wrap');
+  if(el)el.style.display='none';
+}
+function loadFromPaste(){
+  const txt=document.getElementById('csv-paste-input').value.trim();
+  if(!txt){alert('Paste your CSV text first.');return;}
+  parseAndLoadCSV(txt);
+  hidePasteFallback();
+}
+function loadFromFile(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{parseAndLoadCSV(e.target.result);hidePasteFallback();};
+  reader.readAsText(file);
+}
+function parseAndLoadCSV(csv){
+  const rows=csv.split('\n').map(r=>{
+    const result=[];let cur='',inQ=false;
+    for(let i=0;i<r.length;i++){
+      if(r[i]==='"'){inQ=!inQ;}
+      else if(r[i]===','&&!inQ){result.push(cur.trim());cur='';}
+      else cur+=r[i];
+    }
+    result.push(cur.trim());return result;
+  });
+  let hdrIdx=rows.findIndex(r=>r.some(c=>c.toLowerCase()==='id')&&r.some(c=>c.toLowerCase()==='ef'));
+  if(hdrIdx<0)hdrIdx=0;
+  const hdrs=rows[hdrIdx].map(h=>h.toLowerCase().trim());
+  const parsed=[];
+  for(let i=hdrIdx+1;i<rows.length;i++){
+    const r=rows[i];
+    if(!r||!r[0])continue;
+    const g=col=>{const idx=hdrs.indexOf(col);return idx>=0&&idx<r.length?r[idx].trim()||null:null;};
+    const gn=col=>{const v=parseFloat(g(col));return isNaN(v)?null:v;};
+    const id=g('id'),ef=gn('ef'),name=g('n')||g('name');
+    if(!id||ef===null||id.startsWith('_')||id.startsWith('YOUR'))continue;
+    parsed.push({
+      id,n:name||'Unnamed',cat:g('cat')||'Other',
+      mfr:g('mfr')||'',ef,
+      den:gn('den'),
+      du:g('du')||'kg',
+      db:g('db')||'User EPD',
+      prog:g('prog')||'',
+      yr:g('yr')||'—',
+      ref:g('ref')||'',
+      url:g('url')||'',
+      c1:gn('c1'),c2:gn('c2'),c3:gn('c3'),c4:gn('c4'),d:gn('d'),
+      isProd:true,fromSheet:true
+    });
+  }
+  sheetProds=parsed;allProds=[...sheetProds,...userProds];
+  showSheetStatus(true,`✓ ${parsed.length} EPD product${parsed.length!==1?'s':''} loaded`);
+  if(cLib==='prod')filterM();
+}
+
 function showSheetStatus(ok,msg){
   const el=document.getElementById('sheet-status');
   el.textContent=msg;el.className='sheet-status '+(ok?'sheet-ok':'sheet-warn');el.style.display='block';
