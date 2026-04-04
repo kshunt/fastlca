@@ -435,6 +435,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
   <div class="nr">
     <span class="nbdg">Free · EN 15804</span>
     <a href="/about.html" class="bnav bnav-hide-sm" style="text-decoration:none">About</a>
+    <a href="/epd-guide.html" class="bnav bnav-hide-sm" style="text-decoration:none">EPD Guide</a>
     <button class="bnav bnav-hide-sm" onclick="openFB('general')">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0 3.5c.3 0 .5.2.5.5v4a.5.5 0 0 1-1 0V8c0-.3.2-.5.5-.5z"/></svg>
       Feedback
@@ -471,7 +472,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
 <div class="hero">
   <div class="hero-tag">Embodied carbon calculator</div>
   <h1>Quick LCA insights,<br><span>Smarter Decisions.</span></h1>
-  <p>Calculate the GWP (kg CO₂e) of construction materials and assemblies across all life cycle stages. Free, transparent, EN 15804 compliant — no login required.</p>
+  <p>Calculate <strong>embodied GWP</strong> (kg CO₂e) of construction materials and assemblies across all EN 15804 life cycle stages. Generic materials use EPiC 2024 hybrid LCI; user EPDs use GWP-total. Free, transparent — no login required.</p>
   <div class="hbdgs">
     <span class="hb hbg">✓ EN 15804+A2:2019</span>
     <span class="hb hbg">✓ ISO 14040/14044</span>
@@ -491,7 +492,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
     <span class="meth-a" id="methArr">▼</span>
   </div>
   <div class="meth-b" id="methB">
-    <div class="ib" style="margin-top:.75rem">FastLCA calculates <strong>Global Warming Potential (GWP)</strong> in <strong>kg CO₂e</strong> following the module structure of <strong>EN 15804+A2:2019</strong> and methodology of <strong>ISO 14040/14044</strong>. Results are indicative estimates — not a certified LCA or EPD.</div>
+    <div class="ib" style="margin-top:.75rem">FastLCA calculates <strong>GWP in kg CO₂e</strong> following the module structure of <strong>EN 15804+A2:2019</strong>. For user-entered EPD products: <strong>GWP-total</strong> (fossil + biogenic + LULUC per EN 15804+A2). For generic EPiC materials: <strong>Embodied Greenhouse Gas Emissions</strong> — a hybrid LCI aggregate equivalent to GWP-total but derived from a different methodology (process + input-output) and methodology of <strong>ISO 14040/14044</strong>. Results are indicative estimates — not a certified LCA or EPD.</div>
     <div class="wb" style="margin-top:.5rem">⚠ <strong>Important — EPiC is an Australian database.</strong> Generic values use Australian input-output data and manufacturing conditions. The hybrid method (process + input-output) gives <strong>higher values than European EPDs</strong> because it captures indirect supply chain processes that process-only methods miss. For European/UK projects: use values as upper-bound estimates and replace with local EPDs (EPD Norway, IBU, Environdec) for formal reporting. EPD Database licence: <strong>CC BY-NC-ND 4.0</strong> — used as internal calculation input only; raw data not exported · Cite as: Crawford, R.H., Stephan, A. &amp; Prideaux, F. (2024), University of Melbourne · DOI: <a href="https://doi.org/10.26188/10257728.v11" target="_blank" rel="noopener">10.26188/10257728.v11</a></div>
     <div class="meth-grid">
       <div class="meth-i"><div class="meth-it">A1–A3 Generic materials</div><div class="meth-id"><strong>EPiC Database 2024</strong> (Crawford, Stephan &amp; Prideaux, University of Melbourne). Hybrid LCI — Australian supply chain data. Licence: CC BY-NC-ND 4.0. Values are higher than EU EPDs due to full supply chain coverage. <a href="https://doi.org/10.26188/10257728.v11" target="_blank" rel="noopener">Open EPiC Database ↗</a></div></div>
@@ -632,7 +633,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
     <div id="empt" class="empt">Select a material above, enter a quantity, then click Add.</div>
     <div style="overflow-x:auto">
       <table class="tbl" id="ptbl" style="display:none">
-        <thead><tr><th>Material / product</th><th>Qty</th><th>A1–A3 GWP</th><th>Source</th><th>EOL scenario</th><th></th></tr></thead>
+        <thead><tr><th>Material / product</th><th>Qty</th><th>A1–A3 GWP-total</th><th>Source</th><th>EOL scenario</th><th></th></tr></thead>
         <tbody id="ptbd"></tbody>
       </table>
     </div>
@@ -640,7 +641,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
 
   <!-- A4-A5 TAB -->
   <div id="tab-a45" style="display:none">
-    <div class="wb">A4 and A5 require project-specific data. Sources: ECTA 2011; IEA 2023.</div>
+    <div class="wb">⚠ <strong>A4 & A5 are indicative only.</strong> A4 applies one transport mode to all materials at a single distance — real projects have mixed supply chains. A5 site energy is project-specific. These should be replaced with actual data for any formal reporting. Transport emission factors from <a href="https://ecta.com" target="_blank" rel="noopener">ECTA (2011)</a> and EN 15804+A2 defaults. Grid factors from IEA 2023.</div>
     <div class="sl">A4 — Transport to site</div>
     <div class="g2" style="margin-bottom:1rem">
       <div class="fl"><label>Distance (km)</label><input type="number" id="a4d" value="50" min="0" oninput="calcAll()"/></div>
@@ -670,7 +671,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
       </div>
       <div class="fl"><label>Site waste (%)</label><input type="number" id="a5w" value="5" min="0" max="50" oninput="calcAll()"/></div>
     </div>
-    <div class="ib">Waste factor adds % of A1–A3 GWP for material cut-offs, breakage and over-ordering. Typical: 2–10%.</div>
+    <div class="ib">Waste factor accounts for material cut-offs, breakage and over-ordering on site. It adds that percentage of A1–A3 GWP as A5 waste. Typical range: 2–5% for steel, 5–10% for timber and insulation, 10–15% for tiles. A5 site energy covers machinery and equipment power on site.</div>
   </div>
 
   <!-- EOL TAB -->
@@ -736,7 +737,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
 
   <!-- CUSTOM EPD TAB -->
   <div id="tab-epd" style="display:none">
-    <div class="ib">Enter GWP values exactly as declared in a verified EPD. The declared unit must match the quantity you enter. <strong>Module D:</strong> Only enter if your EPD explicitly declares it.</div>
+    <div class="ib">Enter <strong>GWP-total</strong> values from a verified EPD (EN 15804+A2 reports four GWP indicators — use the <strong>GWP-total</strong> row, not GWP-fossil or GWP-biogenic). The declared unit must match the quantity you enter. <strong>Module D:</strong> Only enter if your EPD explicitly declares it.</div>
     <div class="g2"><div class="fl"><label>Product name *</label><input type="text" id="en" placeholder="e.g. Paroc Extra 100mm stone wool slab"/></div><div class="fl"><label>Manufacturer</label><input type="text" id="em" placeholder="e.g. Paroc Group"/></div></div>
     <div class="g2"><div class="fl"><label>EPD link *</label><input type="url" id="eu" placeholder="https://..."/></div><div class="fl"><label>EPD year</label><input type="text" id="ey" placeholder="e.g. 2023"/></div></div>
     <div class="g2">
@@ -744,7 +745,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
       <div class="fl"><label>Declared unit *</label><select id="edu"><option value="kg">kg</option><option value="tonnes">tonne</option><option value="m3">m³</option><option value="m2">m²</option><option value="pcs">piece / unit</option><option value="m">m (linear)</option></select></div>
     </div>
     <div class="g2"><div class="fl"><label>Density kg/m³ (for unit conversion)</label><input type="number" id="ede" placeholder="optional"/></div><div class="fl"><label>EPD programme / verifier</label><input type="text" id="ep" placeholder="e.g. EPD Norway, IBU, Environdec"/></div></div>
-    <div class="sl" style="margin-bottom:.4rem">GWP values (kg CO₂e per declared unit) — leave blank for undeclared modules</div>
+    <div class="sl" style="margin-bottom:.4rem">GWP-total values (kg CO₂e per declared unit) — use the <strong>GWP-total</strong> row from your EPD, not GWP-fossil. Leave blank for undeclared modules.</div>
     <div class="wb" style="margin-bottom:.5rem">Only enter 0 if EPD explicitly states zero. Empty = not declared ≠ zero.</div>
     <div class="g4"><div class="fl"><label>A1–A3 *</label><input type="number" id="ea1" placeholder="required" step="any"/></div><div class="fl"><label>A4</label><input type="number" id="ea4" placeholder="optional" step="any"/></div><div class="fl"><label>A5</label><input type="number" id="ea5" placeholder="optional" step="any"/></div><div class="fl"><label>C1</label><input type="number" id="ec1" placeholder="optional" step="any"/></div></div>
     <div class="g4" style="margin-bottom:.875rem"><div class="fl"><label>C2</label><input type="number" id="ec2" placeholder="optional" step="any"/></div><div class="fl"><label>C3</label><input type="number" id="ec3" placeholder="optional" step="any"/></div><div class="fl"><label>C4</label><input type="number" id="ec4" placeholder="optional" step="any"/></div><div class="fl"><label>D (beyond boundary)</label><input type="number" id="ed" placeholder="optional" step="any"/></div></div>
@@ -771,18 +772,19 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
     <button onclick="openFB('missing')">Request it →</button>
   </div>
   <div class="card">
-    <div class="sl">Results — GWP by life cycle stage</div>
+    <div class="sl">Results — <strong>GWP</strong> by life cycle stage <span style="font-size:10px;font-weight:400;color:var(--t3)">(GWP-total for EPDs · Embodied GHG for EPiC generic materials · both in kg CO₂e)</span></div>
     <div id="stgbd" style="margin-bottom:1.25rem"></div>
     <div class="rgrid" id="rgd"></div>
 
     <!-- FLOOR AREA METRIC -->
     <div class="fa-row">
-      <label for="fa-input">kg CO₂e per m² floor area:</label>
-      <input type="number" id="fa-input" placeholder="e.g. 150" min="0" step="any" oninput="updateFA()" style="max-width:110px;height:32px"/>
+      <label for="fa-input" title="Gross Floor Area — total enclosed floor area of the building, measured to external walls. Enter the project GFA to calculate embodied carbon intensity." style="cursor:help">Intensity — divide by GFA: <span style="font-size:10px;font-weight:400;color:var(--t3)">(Gross Floor Area — total m² of building)</span></label>
+      <input type="number" id="fa-input" placeholder="e.g. 1500 m²" min="0" step="any" oninput="updateFA()" style="max-width:120px;height:32px"/>
       <span style="font-size:12px;color:var(--t2)">m² GFA</span>
       <span class="fa-intensity" id="fa-out">—</span>
       <span style="font-size:11px;color:var(--t3)">kg CO₂e/m²</span>
     </div>
+    <div style="font-size:11px;color:var(--t3);margin-top:5px;line-height:1.5">GFA = Gross Floor Area — total enclosed floor area measured to external walls. Dividing total project GWP by GFA gives kg CO₂e/m², the standard intensity metric for RICS, RIBA and LETI benchmarking.</div>
 
     <div class="sl" style="margin-top:1.25rem;margin-bottom:.5rem">Material contribution to A1–A3</div>
     <div id="barbd"></div>
@@ -987,7 +989,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
   </div>
 </div>
 
-<div class="disc">⚠ <strong>Disclaimer:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. Generic A1–A3: EPiC Database 2024 (Crawford, Stephan &amp; Prideaux, University of Melbourne; <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a>; used as internal calculation input). Hybrid values — systematically higher than process-only EPDs. Transport: ECTA (2011). Generic C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. For compliance, commission a certified LCA practitioner. &nbsp;·&nbsp; © 2026 FastLCA. All rights reserved. &nbsp;·&nbsp; FastLCA v0.7 &nbsp;·&nbsp; <a href="https://fastlca.com">fastlca.com</a> &nbsp;·&nbsp; <a href="mailto:hello@fastlca.com">hello@fastlca.com</a> &nbsp;·&nbsp; <a href="/about.html">Methodology</a> &nbsp;·&nbsp; <button onclick="openPrivacy()" style="background:none;border:none;color:var(--b);cursor:pointer;font-family:inherit;font-size:11px;padding:0;text-decoration:underline">Privacy Policy</button></div>
+<div class="disc">⚠ <strong>Disclaimer:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. Generic A1–A3: EPiC Database 2024 (Crawford, Stephan &amp; Prideaux, University of Melbourne; <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a>; used as internal calculation input). Hybrid values — systematically higher than process-only EPDs. Transport: ECTA (2011). Generic materials: EPiC "Embodied GHG Emissions" (hybrid LCI, kg CO₂e — equivalent to GWP-total but not EN 15804 process-based). User EPDs: GWP-total per EN 15804+A2. Generic C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. For compliance, commission a certified LCA practitioner. &nbsp;·&nbsp; © 2026 FastLCA. All rights reserved. &nbsp;·&nbsp; FastLCA v0.8 &nbsp;·&nbsp; <a href="https://fastlca.com">fastlca.com</a> &nbsp;·&nbsp; <a href="mailto:hello@fastlca.com">hello@fastlca.com</a> &nbsp;·&nbsp; <a href="/about.html">Methodology</a> &nbsp;·&nbsp; <button onclick="openPrivacy()" style="background:none;border:none;color:var(--b);cursor:pointer;font-family:inherit;font-size:11px;padding:0;text-decoration:underline">Privacy Policy</button></div>
 </div>
 
 <!-- PRIVACY MODAL -->
@@ -1679,7 +1681,7 @@ tr:nth-child(even) td{background:#FAFAFA}
 <div class="ptitle">${r.proj}</div>
 <div class="pmeta">Generated by FastLCA · ${r.date} · Indicative estimates only — see disclaimer</div>
 <h2>Materials &amp; Products — A1–A3</h2>
-<table><thead><tr><th>Material / Product</th><th>Type</th><th>Qty</th><th>Unit</th><th>Mass (kg)</th><th>EF (per unit)</th><th>A1–A3 GWP (kg CO₂e)</th></tr></thead><tbody>
+<table><thead><tr><th>Material / Product</th><th>Type</th><th>Qty</th><th>Unit</th><th>Mass (kg)</th><th>EF (per unit)</th><th>A1–A3 GWP-total (kg CO₂e)</th></tr></thead><tbody>
 ${r.items.map(i=>`<tr><td><strong>${i.mat.n}</strong><br><span style="color:#9E9E9E;font-size:9px">${i.mat.cat}</span></td><td>${i.isProd?'<span class="bdg">EPD</span>':'Generic (EPiC 2024)'}</td><td>${fv(i.qty)}</td><td>${i.u}</td><td>${fv(i.qkg)}</td><td>${i.mat.ef} / ${i.mat.du}</td><td><strong>${fv(i.gwp)}</strong></td></tr>`).join('')}
 </tbody></table>
 <h2>Calculation Verification</h2>
@@ -1690,7 +1692,7 @@ ${r.items.map(i=>`  ${i.mat.n}: ${fv(i.qty)} ${i.u} × ${i.mat.ef} kg CO₂e/${i
   C1–C4 total = ${fv(r.cTot)} kg CO₂e · Module D = ${fv(r.d)} kg CO₂e
   TOTAL: ${fv(r.a13)} + ${fv(r.a4)} + ${fv(r.a5)} + ${fv(r.cTot)} = ${fv(r.grand)} kg CO₂e ✓
 </div>
-<h2>GWP Results by Life Cycle Stage</h2>
+<h2>GWP-total Results by Life Cycle Stage</h2>
 <div class="sgrid">
   <div class="sc hl"><div class="scl">Total A1–C4</div><div class="scv">${fv(r.grand)}</div><div class="scu">kg CO₂e</div></div>
   <div class="sc"><div class="scl">Total A1–C4</div><div class="scv">${fv(r.grand/1000)}</div><div class="scu">tonnes CO₂e</div></div>
@@ -1710,7 +1712,7 @@ ${r.items.map(i=>`  ${i.mat.n}: ${fv(i.qty)} ${i.u} × ${i.mat.ef} kg CO₂e/${i
 ${src.map(m=>`<tr><td>${m.db||'EPiC 2024'}${m.prog&&m.prog!==m.db?' / '+m.prog:''}</td><td>${m.yr||'—'}</td><td>${m.ref||'—'}</td><td>${m.url&&m.url.startsWith('http')?`<a href="${m.url}" style="color:#1565C0;font-size:10px">${m.url}</a>`:'—'}</td></tr>`).join('')}
 </tbody></table>
 <div class="disc"><strong>DISCLAIMER:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. A1–A3: EPiC Database 2024 (Crawford et al., Univ. Melbourne; CC BY-NC-ND 4.0; internal use only). Hybrid values — higher than process-only EPDs. Transport: ECTA (2011). C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. Commission a certified LCA practitioner for compliance use.</div>
-<div class="ftr"><span>FastLCA v0.6 · fastlca.com · hello@fastlca.com</span><span>Generated ${r.date}</span></div>
+<div class="ftr"><span>FastLCA v0.8 · fastlca.com · hello@fastlca.com</span><span>Generated ${r.date}</span></div>
 </div><script>setTimeout(()=>window.print(),500);<\/script></body></html>`;
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
   const a=document.createElement('a');
@@ -1722,7 +1724,7 @@ ${src.map(m=>`<tr><td>${m.db||'EPiC 2024'}${m.prog&&m.prog!==m.db?' / '+m.prog:'
 
 function copySm(){
   if(!window._R)return;const r=window._R;
-  const txt=`FastLCA — Embodied Carbon Report\nProject: ${r.proj} | ${r.date}\nBoundary: A1–C4 + Module D | EN 15804+A2:2019\n\nMATERIALS:\n${r.items.map(i=>`  ${i.mat.n}: ${fv(i.qty)} ${i.u} → ${fv(i.gwp)} kg CO₂e`).join('\n')}\n\nRESULTS:\n  A1–A3: ${fv(r.a13)} kg CO₂e\n  A4: ${fv(r.a4)} kg CO₂e\n  A5: ${fv(r.a5)} kg CO₂e\n  C1–C4: ${fv(r.cTot)} kg CO₂e\n  TOTAL A1–C4: ${fv(r.grand)} kg CO₂e | ${fv(r.grand/1000)} t CO₂e\n  Module D (beyond boundary, separate): ${fv(r.d)} kg CO₂e\n\nFastLCA v0.6 · fastlca.com`;
+  const txt=`FastLCA — Embodied Carbon Report\nProject: ${r.proj} | ${r.date}\nBoundary: A1–C4 + Module D | EN 15804+A2:2019\n\nMATERIALS:\n${r.items.map(i=>`  ${i.mat.n}: ${fv(i.qty)} ${i.u} → ${fv(i.gwp)} kg CO₂e`).join('\n')}\n\nRESULTS:\n  A1–A3: ${fv(r.a13)} kg CO₂e\n  A4: ${fv(r.a4)} kg CO₂e\n  A5: ${fv(r.a5)} kg CO₂e\n  C1–C4: ${fv(r.cTot)} kg CO₂e\n  TOTAL A1–C4: ${fv(r.grand)} kg CO₂e | ${fv(r.grand/1000)} t CO₂e\n  Module D (beyond boundary, separate): ${fv(r.d)} kg CO₂e\n\nFastLCA v0.8 · fastlca.com`;
   navigator.clipboard.writeText(txt).then(()=>alert('Summary copied.'));
 }
 
@@ -1817,7 +1819,7 @@ function calcAsm(){
   const totalGwp=area?totalGwpM2*area:null;
   document.getElementById('asm-result').style.display='block';
   document.getElementById('asm-cards').innerHTML=`
-    <div class="asm-rc hl"><div class="asm-rc-l">A1–A3 GWP</div><div class="asm-rc-v">${fv(totalGwpM2)}</div><div class="asm-rc-u">kg CO₂e / m²</div></div>
+    <div class="asm-rc hl"><div class="asm-rc-l">A1–A3 GWP-total</div><div class="asm-rc-v">${fv(totalGwpM2)}</div><div class="asm-rc-u">kg CO₂e / m²</div></div>
     <div class="asm-rc"><div class="asm-rc-l">Total mass</div><div class="asm-rc-v">${fv(totalKgM2)}</div><div class="asm-rc-u">kg / m²</div></div>
     <div class="asm-rc${totalGwp?' hl':''}"><div class="asm-rc-l">Total for ${area?area+' m²':'area'}</div><div class="asm-rc-v" style="${!totalGwp?'font-size:16px;color:var(--t3)':''}">${totalGwp?fv(totalGwp):'—'}</div><div class="asm-rc-u">${totalGwp?'kg CO₂e total':'enter area above'}</div></div>`;
   document.getElementById('asm-bars').innerHTML=asmLayers.map(l=>{

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="How to find, read, and use EPDs for embodied carbon analysis. A practical guide for sustainability professionals using FastLCA."/>
+<meta name="keywords" content="EPD guide, Environmental Product Declaration, embodied carbon, LCA data, EPD Norway, IBU, Environdec, EPDHub, BoM, bill of materials, GWP A1-A3"/>
+<meta property="og:title" content="EPD Guide — How to Gather and Use EPD Data | FastLCA"/>
+<meta property="og:description" content="A practical guide to finding, reading, and using EPDs for early-stage embodied carbon analysis and bill of materials."/>
+<meta property="og:url" content="https://fastlca.com/epd-guide.html"/>
+<meta property="og:type" content="article"/>
+<link rel="canonical" href="https://fastlca.com/epd-guide.html"/>
+<title>EPD Guide — How to Gather & Use EPD Data | FastLCA</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%231B5E20'/><path d='M16 26V15' stroke='%23A5D6A7' stroke-width='1.5' stroke-linecap='round'/><path d='M16 19 C13 19 10 17 10 13 C13 13 16 15 16 19Z' fill='%234CAF50'/><path d='M16 21 C19 21 22 19 22 15 C19 15 16 17 16 21Z' fill='%2366BB6A'/><path d='M16 16 C16 13 18 10 21 9 C21 12 19 15 16 16Z' fill='%2381C784'/></svg>"/>
+<style>
+:root{
+  --bg:#F5F5F5;--surf:#fff;--surf2:#FAFAFA;--brd:#E0E0E0;--brd2:#EEEEEE;
+  --t1:#212121;--t2:#616161;--t3:#9E9E9E;
+  --g:#2E7D32;--gl:#E8F5E9;--gm:#A5D6A7;--gd:#1B5E20;
+  --b:#1565C0;--bl:#E3F2FD;--bm:#BBDEFB;--bd:#0D47A1;
+  --am:#E65100;--al:#FFF3E0;--a2:#FFCC80;
+  --pur:#4A148C;--purl:#F3E5F5;--purm:#CE93D8;
+  --sh:0 1px 3px rgba(0,0,0,.08);--shl:0 8px 24px rgba(0,0,0,.1);
+  --r:8px;--rl2:12px;
+}
+[data-theme=dark]{
+  --bg:#0F172A;--surf:#1E293B;--surf2:#0F172A;--brd:#334155;--brd2:#1E293B;
+  --t1:#F1F5F9;--t2:#CBD5E1;--t3:#64748B;
+  --g:#4ADE80;--gl:#052E16;--gm:#166534;--gd:#86EFAC;
+  --b:#60A5FA;--bl:#1E3A5F;--bm:#1E40AF;--bd:#93C5FD;
+  --am:#FB923C;--al:#431407;--a2:#7C2D12;
+  --pur:#CE93D8;--purl:#1A0533;--purm:#4A148C;
+  --sh:0 1px 3px rgba(0,0,0,.4);--shl:0 8px 24px rgba(0,0,0,.5);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:var(--t1);background:var(--bg);font-size:15px;line-height:1.7;min-height:100vh;transition:background .2s,color .2s}
+a{color:var(--b)}
+a:hover{text-decoration:underline}
+
+/* NAV */
+nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:100;box-shadow:var(--sh)}
+.nl{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.ni{width:34px;height:34px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nn{font-size:20px;font-weight:800;color:var(--gd);letter-spacing:-.5px}
+.nn em{color:var(--gd);font-style:normal;font-weight:800}
+[data-theme=dark] .nn{color:var(--g)}[data-theme=dark] .nn em{color:var(--g)}
+.nr{display:flex;align-items:center;gap:8px}
+.bnav{font-size:12px;padding:5px 10px;border-radius:var(--r);border:1px solid var(--brd);background:transparent;cursor:pointer;color:var(--t2);font-family:inherit;display:flex;align-items:center;gap:5px;transition:background .15s;text-decoration:none}
+.bnav:hover{background:var(--surf2)}
+.bnav.active{background:var(--gl);color:var(--gd);border-color:var(--gm);font-weight:600}
+.tbtn{width:32px;height:32px;padding:0;justify-content:center;font-size:16px}
+.btn-cta{background:var(--g);border-color:var(--gd);color:#fff;font-weight:700;height:38px;padding:0 18px;border-radius:var(--r);font-size:13px;cursor:pointer;font-family:inherit;border:1px solid;display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:filter .15s}
+.btn-cta:hover{filter:brightness(1.08)}
+
+/* LAYOUT */
+.page{max-width:760px;margin:0 auto;padding:3rem 1.25rem 5rem}
+
+/* HERO */
+.hero{margin-bottom:3rem}
+.hero-tag{font-size:11px;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem}
+.hero h1{font-size:32px;font-weight:800;color:var(--t1);line-height:1.2;letter-spacing:-.5px;margin-bottom:1rem}
+.hero h1 em{color:var(--gd);font-style:normal}
+[data-theme=dark] .hero h1 em{color:var(--g)}
+.hero p{font-size:16px;color:var(--t2);line-height:1.7;max-width:600px;margin-bottom:1.5rem}
+.hero-badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
+.hb{font-size:11px;padding:4px 12px;border-radius:999px;font-weight:600;border:1px solid}
+.hbg{background:var(--gl);color:var(--gd);border-color:var(--gm)}
+.hbb{background:var(--bl);color:var(--bd);border-color:var(--bm)}
+.hbp{background:var(--purl);color:var(--pur);border-color:var(--purm)}
+
+/* SECTIONS */
+.section{margin-bottom:3rem}
+.section h2{font-size:22px;font-weight:800;color:var(--t1);letter-spacing:-.3px;margin-bottom:.5rem;padding-top:2rem;border-top:2px solid var(--brd)}
+.section h3{font-size:16px;font-weight:700;color:var(--t1);margin:1.5rem 0 .625rem}
+.section p{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:.875rem}
+.section p:last-child{margin-bottom:0}
+.section ul,.section ol{font-size:14px;color:var(--t2);line-height:1.7;padding-left:1.5rem;margin-bottom:.875rem}
+.section li{margin-bottom:.375rem}
+.section strong{color:var(--t1)}
+
+/* TABLE OF CONTENTS */
+.toc{background:var(--surf);border:1px solid var(--brd);border-radius:var(--rl2);padding:1.5rem;margin-bottom:3rem}
+.toc-title{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.875rem}
+.toc ol{padding-left:1.25rem;font-size:14px;line-height:2}
+.toc a{color:var(--b);text-decoration:none;font-weight:500}
+.toc a:hover{text-decoration:underline}
+
+/* CALLOUT BOXES */
+.cb{border-radius:var(--rl2);padding:1.25rem 1.5rem;margin:1.5rem 0;font-size:14px;line-height:1.7}
+.cb-green{background:var(--gl);border:1px solid var(--gm)}
+.cb-green strong{color:var(--gd)}
+.cb-blue{background:var(--bl);border:1px solid var(--bm)}
+.cb-blue strong{color:var(--bd)}
+.cb-amber{background:var(--al);border:1px solid var(--a2)}
+.cb-amber strong{color:var(--am)}
+.cb-pur{background:var(--purl);border:1px solid var(--purm)}
+.cb-pur strong{color:var(--pur)}
+[data-theme=dark] .cb-green strong{color:var(--g)}
+[data-theme=dark] .cb-blue strong{color:var(--b)}
+
+/* SOURCE CARDS */
+.source-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1.5rem 0}
+@media(max-width:500px){.source-grid{grid-template-columns:1fr}}
+.source-card{background:var(--surf);border:1px solid var(--brd);border-radius:var(--rl2);padding:1.125rem;transition:border-color .15s}
+.source-card:hover{border-color:var(--gm)}
+.sc-name{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:3px}
+.sc-desc{font-size:12px;color:var(--t2);line-height:1.5;margin-bottom:.625rem}
+.sc-tag{font-size:10px;padding:2px 8px;border-radius:999px;font-weight:700;border:1px solid;display:inline-block;margin-right:4px}
+.sc-tag.global{background:var(--bl);color:var(--bd);border-color:var(--bm)}
+.sc-tag.europe{background:var(--gl);color:var(--gd);border-color:var(--gm)}
+.sc-tag.nordic{background:var(--purl);color:var(--pur);border-color:var(--purm)}
+.sc-tag.aus{background:var(--al);color:var(--am);border-color:var(--a2)}
+.sc-link{font-size:12px;color:var(--b);text-decoration:none;font-weight:600}
+.sc-link:hover{text-decoration:underline}
+
+/* EPD ANATOMY */
+.epd-table{width:100%;border-collapse:collapse;font-size:13px;margin:1rem 0 1.5rem;border:1px solid var(--brd);border-radius:var(--r);overflow:hidden}
+.epd-table th{background:var(--gd);color:#fff;padding:8px 12px;text-align:left;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.epd-table td{padding:9px 12px;border-bottom:1px solid var(--brd2);vertical-align:top;font-size:13px;color:var(--t1)}
+.epd-table tr:last-child td{border-bottom:none}
+.epd-table tr:nth-child(even) td{background:var(--surf2)}
+.epd-table td:first-child{font-weight:700;white-space:nowrap;width:130px}
+.epd-table td code{font-family:monospace;font-size:12px;background:var(--surf3,#eee);padding:1px 5px;border-radius:3px}
+.tag-req{display:inline-block;font-size:10px;padding:1px 6px;border-radius:999px;font-weight:700;background:var(--gl);color:var(--gd);border:1px solid var(--gm);margin-left:4px}
+.tag-opt{display:inline-block;font-size:10px;padding:1px 6px;border-radius:999px;font-weight:700;background:var(--al);color:var(--am);border:1px solid var(--a2);margin-left:4px}
+
+/* STAGE TABLE */
+.stage-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:1.25rem 0 1.5rem}
+@media(max-width:500px){.stage-grid{grid-template-columns:1fr}}
+.stage-card{padding:.875rem 1rem;border-radius:var(--r);border:1px solid var(--brd)}
+.stage-card.green{background:var(--gl);border-color:var(--gm)}
+.stage-card.blue{background:var(--bl);border-color:var(--bm)}
+.stage-card.grey{background:var(--surf2);border-color:var(--brd)}
+.stage-card.amber{background:var(--al);border-color:var(--a2)}
+.stage-card.pur{background:var(--purl);border-color:var(--purm)}
+.sc-stage{font-size:11px;font-weight:700;letter-spacing:.05em;margin-bottom:4px}
+.green .sc-stage{color:var(--gd)}[data-theme=dark] .green .sc-stage{color:var(--g)}
+.blue .sc-stage{color:var(--bd)}[data-theme=dark] .blue .sc-stage{color:var(--b)}
+.grey .sc-stage{color:var(--t2)}
+.amber .sc-stage{color:var(--am)}
+.pur .sc-stage{color:var(--pur)}
+.sc-sdesc{font-size:12px;color:var(--t2);line-height:1.4}
+
+/* WORKFLOW STEPS */
+.workflow{display:flex;flex-direction:column;gap:0;margin:1.5rem 0}
+.wf-step{display:flex;gap:16px;align-items:flex-start;padding:1rem 0;border-bottom:1px solid var(--brd2)}
+.wf-step:last-child{border-bottom:none}
+.wf-num{width:36px;height:36px;border-radius:50%;background:var(--gd);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex-shrink:0;margin-top:2px}
+.wf-content h4{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:4px}
+.wf-content p{font-size:13px;color:var(--t2);line-height:1.6;margin:0}
+
+/* COMPARISON TABLE */
+.comp-table{width:100%;border-collapse:collapse;font-size:13px;margin:1.25rem 0 1.5rem}
+.comp-table th{padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid var(--brd)}
+.comp-table td{padding:9px 12px;border-bottom:1px solid var(--brd2);vertical-align:top;color:var(--t1)}
+.comp-table tr:last-child td{border-bottom:none}
+.comp-table td:first-child{font-weight:700;color:var(--t1)}
+.comp-table .good{color:var(--gd);font-weight:600}[data-theme=dark] .comp-table .good{color:var(--g)}
+.comp-table .ok{color:var(--am);font-weight:600}
+.comp-table .bad{color:#C62828;font-weight:600}
+
+/* CITE BOX */
+.cite-box{background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);padding:1rem 1.25rem;font-size:13px;color:var(--t2);line-height:1.6;margin:1.5rem 0}
+
+/* CTA STRIP */
+.cta-strip{background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 60%,#388E3C 100%);border-radius:var(--rl2);padding:2rem 1.75rem;margin-top:3rem;position:relative;overflow:hidden}
+.cta-strip::before{content:'';position:absolute;right:-30px;top:-30px;width:160px;height:160px;background:rgba(255,255,255,.05);border-radius:50%}
+.cta-strip h3{font-size:20px;font-weight:800;color:#fff;margin-bottom:.5rem}
+.cta-strip p{font-size:14px;color:rgba(255,255,255,.8);margin-bottom:1.25rem;max-width:480px}
+.cta-strip .btn-white{background:#fff;color:var(--gd);border:none;height:38px;padding:0 20px;border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:opacity .15s}
+.cta-strip .btn-white:hover{opacity:.9}
+.cta-strip .btn-outline-w{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.35);height:38px;padding:0 18px;border-radius:var(--r);font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:background .15s;margin-left:8px}
+.cta-strip .btn-outline-w:hover{background:rgba(255,255,255,.2)}
+
+/* FOOTER */
+.disc{font-size:11px;color:var(--t3);padding:1.5rem 0;border-top:1px solid var(--brd);line-height:1.6;margin-top:3rem}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nl" href="/">
+    <div class="ni">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+        <circle cx="17" cy="17" r="17" fill="#1B5E20"/>
+        <path d="M17 27V16" stroke="#A5D6A7" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M17 20 C14 20 11 18 11 14 C14 14 17 16 17 20Z" fill="#4CAF50"/>
+        <path d="M17 22 C20 22 23 20 23 16 C20 16 17 18 17 22Z" fill="#66BB6A"/>
+        <path d="M17 17 C17 14 19 11 22 10 C22 13 20 16 17 17Z" fill="#81C784"/>
+      </svg>
+    </div>
+    <span class="nn">Fast<em>LCA</em></span>
+  </a>
+  <div class="nr">
+    <a href="/" class="bnav">Calculator</a>
+    <a href="/about.html" class="bnav">Methodology</a>
+    <a href="/epd-guide.html" class="bnav active">EPD Guide</a>
+    <button class="bnav tbtn" id="tbtn" onclick="toggleTheme()">🌙</button>
+    <a href="/" class="btn-cta">Open calculator ↗</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">Practical Guide</div>
+    <h1>How to gather and use <em>EPD data</em> for embodied carbon analysis</h1>
+    <p>A practical guide for sustainability professionals: where to find EPDs, what data to extract, how to read a GWP table, and when to use generic factors vs manufacturer-specific values.</p>
+    <div class="hero-badges">
+      <span class="hb hbg">EN 15804+A2</span>
+      <span class="hb hbb">BoM analysis</span>
+      <span class="hb hbg">Early-stage design</span>
+      <span class="hb hbp">FastLCA workflow</span>
+    </div>
+    <a href="/" class="btn-cta">Try FastLCA ↗</a>
+  </div>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <ol>
+      <li><a href="#what-is-epd">What is an EPD and what data do you need?</a></li>
+      <li><a href="#where-to-find">Where to find EPDs</a></li>
+      <li><a href="#how-to-read">How to read an EPD table</a></li>
+      <li><a href="#generic-vs-specific">Generic factors vs manufacturer EPDs</a></li>
+      <li><a href="#bom-workflow">Building a BoM for embodied carbon analysis</a></li>
+      <li><a href="#using-extractor">Using the FastLCA EPD Extractor</a></li>
+      <li><a href="#common-mistakes">Common mistakes to avoid</a></li>
+    </ol>
+  </div>
+
+
+  <!-- 1. WHAT IS AN EPD -->
+  <div class="section" id="what-is-epd">
+    <h2>1. What is an EPD and what data do you need?</h2>
+    <p>An <strong>Environmental Product Declaration (EPD)</strong> is a standardised document that quantifies the environmental impact of a product across its life cycle. For embodied carbon analysis, EPDs following <strong>EN 15804+A2:2019</strong> are the gold standard — they report impacts across all life cycle modules using a consistent methodology.</p>
+
+    <p>For most early-stage BoM analysis, you need three things from an EPD:</p>
+
+    <table class="epd-table">
+      <thead><tr><th>Data point</th><th>What it is</th><th>Where to find it in the EPD</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>GWP A1–A3 <span class="tag-req">required</span></td>
+          <td>Global Warming Potential for the production stage — manufacturing, raw material extraction, and transport to factory gate. The most important number for BoM analysis.</td>
+          <td>Results table, row labelled "GWP-total" or "GWP", column "A1–A3" or "A1-A3 sum". Units: <code>kg CO₂e</code> per declared unit.</td>
+        </tr>
+        <tr>
+          <td>Declared unit <span class="tag-req">required</span></td>
+          <td>The unit the EPD is expressed per. Usually <code>kg</code>, <code>m²</code>, <code>m³</code>, or <code>piece</code>. Critical for unit conversion in your BoM.</td>
+          <td>Product description section, often near the top of the EPD. Look for "Declared unit" or "Functional unit".</td>
+        </tr>
+        <tr>
+          <td>Density <span class="tag-opt">useful</span></td>
+          <td>Product density in kg/m³. Needed if the declared unit is m² or m³ and your BoM quantities are in kg, or vice versa.</td>
+          <td>Product description section. May be labelled "bulk density", "apparent density", or given as mass per declared unit (e.g. "16 kg per m²").</td>
+        </tr>
+        <tr>
+          <td>C1–C4 & Module D <span class="tag-opt">optional</span></td>
+          <td>End-of-life stage impacts and net benefits beyond system boundary. Not needed for A1–A3 analysis but useful for whole-life carbon.</td>
+          <td>Same results table as A1–A3, columns C1, C2, C3, C4, and D.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="cb cb-amber">
+      <strong>⚠ Watch out for the indicator name.</strong> EN 15804+A2 reports <strong>GWP-total</strong>, GWP-fossil, GWP-biogenic, and GWP-LULUC separately. FastLCA uses <strong>GWP-total</strong> as the <code>ef</code> value. Older EPDs following EN 15804+A1 report a single "GWP" value — this is equivalent to GWP-total for most materials.
+    </div>
+  </div>
+
+
+  <!-- 2. WHERE TO FIND EPDs -->
+  <div class="section" id="where-to-find">
+    <h2>2. Where to find EPDs</h2>
+    <p>EPDs are published by <strong>EPD programme operators</strong> — independent organisations that verify EPDs against ISO 14025 and EN 15804. The main registries are:</p>
+
+    <div class="source-grid">
+      <div class="source-card">
+        <div class="sc-name">EPD Norway (EPD Norge)</div>
+        <div class="sc-desc">One of Europe's largest EPD databases. Strong coverage of insulation, timber, concrete, steel, and building products. Well-structured PDFs with clear GWP tables.</div>
+        <span class="sc-tag nordic">Nordic</span><span class="sc-tag europe">Europe</span><br/><br/>
+        <a href="https://www.epd-norge.no" target="_blank" rel="noopener" class="sc-link">epd-norge.no ↗</a>
+      </div>
+      <div class="source-card">
+        <div class="sc-name">IBU (Institut Bauen und Umwelt)</div>
+        <div class="sc-desc">Major German programme operator with extensive EPD coverage for construction products across Europe. EN 15804+A2 compliant. Includes major European manufacturers.</div>
+        <span class="sc-tag europe">Europe</span><br/><br/>
+        <a href="https://www.ibu-epd.com" target="_blank" rel="noopener" class="sc-link">ibu-epd.com ↗</a>
+      </div>
+      <div class="source-card">
+        <div class="sc-name">Environdec</div>
+        <div class="sc-desc">Global Swedish-based programme. Good search functionality. Strong for Scandinavian manufacturers but covers worldwide products including doors, windows, and MEP.</div>
+        <span class="sc-tag global">Global</span><br/><br/>
+        <a href="https://www.environdec.com" target="_blank" rel="noopener" class="sc-link">environdec.com ↗</a>
+      </div>
+      <div class="source-card">
+        <div class="sc-name">EPDHub / One Click LCA</div>
+        <div class="sc-desc">Aggregator that hosts EPDs from multiple programmes. Useful for searching across sources in one place. PDF format is well-structured and the FastLCA extractor works well with it.</div>
+        <span class="sc-tag global">Global</span><br/><br/>
+        <a href="https://www.oneclicklca.com/epd-hub" target="_blank" rel="noopener" class="sc-link">oneclicklca.com/epd-hub ↗</a>
+      </div>
+      <div class="source-card">
+        <div class="sc-name">BRE / BREEAM EPDs</div>
+        <div class="sc-desc">UK-focused programme. Particularly relevant for projects targeting BREEAM or using UK Green Building Council methods.</div>
+        <span class="sc-tag europe">UK/EU</span><br/><br/>
+        <a href="https://www.bre.co.uk/epd" target="_blank" rel="noopener" class="sc-link">bre.co.uk/epd ↗</a>
+      </div>
+      <div class="source-card">
+        <div class="sc-name">INIES (France)</div>
+        <div class="sc-desc">French national database for construction products. Required for RE2020 compliance in France. Covers FDES (French EPDs) and profil environnemental produit.</div>
+        <span class="sc-tag europe">France</span><br/><br/>
+        <a href="https://www.inies.fr" target="_blank" rel="noopener" class="sc-link">inies.fr ↗</a>
+      </div>
+    </div>
+
+    <h3>Manufacturer websites</h3>
+    <p>Many major manufacturers now publish EPDs directly on their product pages. Rockwool, Paroc, Saint-Gobain, BASF, Kingspan, ArcelorMittal, Holcim, and others maintain dedicated EPD libraries. If you can't find an EPD via a programme registry, check the manufacturer's sustainability or technical documentation section. Search for "[product name] EPD PDF" and you will often find it.</p>
+
+    <div class="cb cb-green">
+      <strong>💡 Search tip.</strong> Most EPD registries support search by product type, manufacturer name, or EPD registration number. When searching, try both the generic product name ("stone wool", "autoclaved aerated concrete") and the brand name ("Rockwool Frontrock", "Ytong"). The declared unit and GWP value should always be verified against the PDF itself rather than the registry's summary — data entry errors do occur.
+    </div>
+  </div>
+
+
+  <!-- 3. HOW TO READ AN EPD TABLE -->
+  <div class="section" id="how-to-read">
+    <h2>3. How to read an EPD table</h2>
+    <p>EN 15804 EPDs follow a standardised results table structure. Here is what each column means:</p>
+
+    <div class="stage-grid">
+      <div class="stage-card green">
+        <div class="sc-stage">A1–A3: Product stage</div>
+        <div class="sc-sdesc"><strong>The number you need most.</strong> Raw material extraction (A1), transport to factory (A2), and manufacturing (A3). Usually reported as a combined A1–A3 sum. This is what FastLCA stores as <code>ef</code>.</div>
+      </div>
+      <div class="stage-card blue">
+        <div class="sc-stage">A4–A5: Construction</div>
+        <div class="sc-sdesc">Transport to site (A4) and installation/construction waste (A5). Often small relative to A1–A3 for most materials. FastLCA estimates A4 from transport distance.</div>
+      </div>
+      <div class="stage-card grey">
+        <div class="sc-stage">B1–B7: Use stage</div>
+        <div class="sc-sdesc">Emissions during building use: carbonation (B1), maintenance (B2), repair, replacement, refurbishment, operational energy, operational water. Most structural materials declare ND for B1–B7.</div>
+      </div>
+      <div class="stage-card pur">
+        <div class="sc-stage">C1–C4: End of life</div>
+        <div class="sc-sdesc">Demolition (C1), transport to waste (C2), waste processing (C3), disposal (C4). Increasingly required in EPDs. FastLCA stores these as <code>c1</code>–<code>c4</code>.</div>
+      </div>
+      <div class="stage-card amber">
+        <div class="sc-stage">D: Beyond boundary</div>
+        <div class="sc-sdesc">Net benefits from reuse, recovery, or recycling potential — <em>beyond the system boundary</em>. Usually negative (a credit). Not added to totals per EN 15804+A2. FastLCA stores as <code>d</code> but excludes from project totals.</div>
+      </div>
+    </div>
+
+    <h3>Understanding ND values</h3>
+    <p><strong>ND</strong> (Not Declared) means the manufacturer has not provided data for that module — not that the impact is zero. For early-stage analysis, you can treat ND as zero with a note in your assumptions. For formal reporting, ND modules must be handled according to the project's assessment rules.</p>
+
+    <h3>Understanding negative values</h3>
+    <p>Negative GWP values are valid and correct. They most often appear in Module D (recycling credit), and occasionally in biogenic carbon-storing materials like timber (where carbon sequestered during growth is released or stored). A negative value in A1–A3 for a timber product typically means the product stores more carbon than is emitted during manufacturing — this is real but contested in how it should be counted.</p>
+
+    <div class="cb cb-blue">
+      <strong>ℹ Unit conversion note.</strong> If the EPD's declared unit is <code>m²</code> or <code>m³</code> and your BoM quantities are in <code>kg</code>, you need the product density. Multiply: <em>GWP (kg CO₂e/m²) ÷ (density kg/m² or kg/m³ × thickness)</em> to get kg CO₂e/kg. Alternatively, keep quantities in m² or m³ to match the EPD's declared unit — this is often cleaner.
+    </div>
+  </div>
+
+
+  <!-- 4. GENERIC VS SPECIFIC -->
+  <div class="section" id="generic-vs-specific">
+    <h2>4. Generic factors vs manufacturer EPDs</h2>
+    <p>Two types of GWP data are available for embodied carbon analysis. Understanding the difference is essential for knowing when to use each.</p>
+
+    <table class="comp-table">
+      <thead><tr><th></th><th>Generic factors (e.g. EPiC 2024)</th><th>Manufacturer EPDs</th></tr></thead>
+      <tbody>
+        <tr><td>Accuracy</td><td class="ok">Industry average — correct order of magnitude</td><td class="good">Product-specific — most accurate available</td></tr>
+        <tr><td>Availability</td><td class="good">Immediate — no searching required</td><td class="ok">Requires finding and reading each EPD</td></tr>
+        <tr><td>Geographic scope</td><td class="ok">Country/region average (EPiC = Australian supply chain)</td><td class="good">Specific to manufacturer's plant and supply chain</td></tr>
+        <tr><td>Time to use</td><td class="good">Seconds</td><td class="ok">5–15 minutes per product</td></tr>
+        <tr><td>Accepted for formal reporting</td><td class="bad">Generally not — indicative only</td><td class="good">Yes, when verified and current</td></tr>
+        <tr><td>Useful for</td><td>Early design, material comparison, budget estimates, design decisions</td><td>BREEAM credits, planning conditions, contractor BoMs, procurement specifications</td></tr>
+        <tr><td>Risk</td><td class="ok">Can over- or under-estimate by 30–200% for specific products</td><td class="good">Low if EPD is current and scope matches your application</td></tr>
+      </tbody>
+    </table>
+
+    <div class="cb cb-amber">
+      <strong>⚠ EPiC Database note.</strong> FastLCA uses the EPiC Database 2024 (University of Melbourne) for generic factors. EPiC uses a <strong>hybrid LCI methodology</strong> that combines process-based data with input-output data, capturing indirect supply chain impacts that process-only EPDs miss. This systematically produces <strong>higher values than European manufacturer EPDs</strong> — not because EPiC is wrong, but because it's measuring more. Use EPiC values as conservative upper bounds and replace with local EPDs for formal work.
+    </div>
+
+    <h3>Decision guide: which to use?</h3>
+    <p>Use generic factors when: you are comparing material options at concept stage, you don't yet have a confirmed specification, you need a quick order-of-magnitude check, or no relevant EPD exists for the product.</p>
+    <p>Use manufacturer EPDs when: the product specification is confirmed, you are preparing documentation for BREEAM, LEED, or a planning condition, you want to reward a supplier's low-carbon product with accurate numbers, or the project brief requires product-specific data.</p>
+  </div>
+
+
+  <!-- 5. BoM WORKFLOW -->
+  <div class="section" id="bom-workflow">
+    <h2>5. Building a BoM for embodied carbon analysis</h2>
+    <p>A practical step-by-step workflow for assembling embodied carbon data for a bill of materials at early design stage.</p>
+
+    <div class="workflow">
+      <div class="wf-step">
+        <div class="wf-num">1</div>
+        <div class="wf-content">
+          <h4>Extract quantities from the design</h4>
+          <p>From drawings, specifications, or engineer's schedule: list each material/product with its quantity. Use the units that match the EPD declared unit where possible (m² for boards and insulation, m³ for concrete, kg for steel, pcs for windows and doors). At concept stage, area and volume from the model is usually enough.</p>
+        </div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">2</div>
+        <div class="wf-content">
+          <h4>Identify priority materials</h4>
+          <p>Concrete, steel, timber, and insulation typically account for 80–90% of embodied carbon in a building. Start with these. Finishes, services, and fit-out can follow. Use a 20/80 rule: find EPDs for the 20% of materials that represent 80% of mass or expected carbon.</p>
+        </div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">3</div>
+        <div class="wf-content">
+          <h4>Search for EPDs, fall back to generic factors</h4>
+          <p>For each priority material: check EPD programme registries first. If no relevant EPD exists or the specification isn't finalised, use the equivalent FastLCA generic factor and note it as "generic — EPiC 2024". Record the source and date for every value.</p>
+        </div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">4</div>
+        <div class="wf-content">
+          <h4>Extract the GWP A1–A3 value and declared unit</h4>
+          <p>For each EPD: open the PDF, find the results table, read the GWP-total A1–A3 value, and note the declared unit. Use the FastLCA EPD Extractor to do this quickly and format it for your database. Check the units carefully — an error here flows through all calculations.</p>
+        </div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">5</div>
+        <div class="wf-content">
+          <h4>Convert units if needed and calculate</h4>
+          <p>If your BoM quantity is in kg but the EPD is in m²: multiply GWP/m² by the number of m², or convert using density × thickness. FastLCA handles unit conversion automatically when density is provided. For manual calculations: <em>total GWP = quantity × GWP per declared unit</em>.</p>
+        </div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">6</div>
+        <div class="wf-content">
+          <h4>Document and flag assumptions</h4>
+          <p>Note which values are generic vs product-specific, the date you retrieved the EPD, and any assumptions on density or unit conversion. This is essential for audit trails and allows others to verify or update the analysis. FastLCA stores source references for every line item.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 6. USING THE EXTRACTOR -->
+  <div class="section" id="using-extractor">
+    <h2>6. Using the FastLCA EPD Extractor</h2>
+    <p>The FastLCA EPD Extractor reads GWP values directly from EN 15804 EPD PDFs and formats them for your FastLCA Google Sheet database — no manual copying of numbers.</p>
+
+    <div class="cb cb-green">
+      <strong>✅ Works well with:</strong> EPDHub / One Click LCA PDFs, EPD Norway (EPD Norge) PDFs, IBU PDFs, most Environdec PDFs — any EN 15804 EPD with a selectable text layer (i.e. not scanned).<br/><br/>
+      <strong>⚠ Needs OCR first:</strong> Scanned PDFs where text is an image. Run through ilovepdf.com OCR or Adobe Acrobat "Recognise Text" before uploading to the extractor.
+    </div>
+
+    <div class="workflow">
+      <div class="wf-step">
+        <div class="wf-num">1</div>
+        <div class="wf-content">
+          <h4>Upload the EPD PDF</h4>
+          <p>Drag and drop or click to upload. The extractor reads the PDF in your browser — the file is not sent to any server. Processing takes 2–5 seconds.</p>
+        </div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">2</div>
+        <div class="wf-content">
+          <h4>Review extracted values</h4>
+          <p>The extractor shows GWP-total A1–A3, C1–C4, and Module D. The EPD registration number and publication year are auto-filled where found in the PDF text. Click any cell to correct a value if needed.</p>
+        </div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">3</div>
+        <div class="wf-content">
+          <h4>Fill the metadata form</h4>
+          <p>Add product name, ID, category, manufacturer, declared unit, density, and the EPD URL. This becomes the full database row. The ID is a short unique key you choose (e.g. <code>paroc_extra_100mm</code>).</p>
+        </div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">4</div>
+        <div class="wf-content">
+          <h4>Copy row → paste in Google Sheet</h4>
+          <p>Click "Build Google Sheet row" to preview all 19 columns, then "Copy row to clipboard". Open your FastLCA Google Sheet → Section B → click first empty cell in column A of the next empty row → Ctrl+V. All 19 columns paste at once.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:1rem">
+      <a href="/FastLCA_EPD_Extractor_v2.html" class="btn-cta">Open EPD Extractor ↗</a>
+    </div>
+  </div>
+
+
+  <!-- 7. COMMON MISTAKES -->
+  <div class="section" id="common-mistakes">
+    <h2>7. Common mistakes to avoid</h2>
+
+    <h3>Using the wrong GWP indicator</h3>
+    <p>EN 15804+A2 reports four GWP indicators: GWP-total, GWP-fossil, GWP-biogenic, and GWP-LULUC. <strong>Always use GWP-total</strong> unless the project brief specifically requires a different indicator. GWP-fossil alone understates total impact for biogenic materials; GWP-biogenic alone can be negative and misleading out of context.</p>
+
+    <h3>Ignoring the declared unit</h3>
+    <p>This is the most common numerical error. An EPD may say "2.3 kg CO₂e" — but per what? Per kg? Per m²? Per piece? Always read the declared unit and convert your BoM quantities accordingly before multiplying. A 12mm plasterboard EPD declared per m² cannot be directly multiplied by a weight in kg without conversion.</p>
+
+    <h3>Using an expired EPD</h3>
+    <p>EN 15804 EPDs are valid for 5 years. After expiry, the EPD is no longer verified as current. Check the "valid until" date in the EPD document. For formal reporting, expired EPDs should be flagged and the project team should seek an updated version.</p>
+
+    <h3>Confusing A1–A3 with total life cycle GWP</h3>
+    <p>A1–A3 covers production only. Whole-life carbon includes A4 (transport), A5 (construction), B-stages (use), C-stages (end of life), and Module D. For embodied carbon BoMs at design stage, A1–A3 is standard — but be explicit about this scope boundary in any reporting.</p>
+
+    <h3>Treating ND as zero</h3>
+    <p>ND (Not Declared) means the manufacturer chose not to report that module — it does not mean the impact is zero. For sensitivity analysis, consider testing with estimated values for key ND modules. For formal reporting, follow the project's Assessment Methodology Rules.</p>
+
+    <h3>Mixing EPD systems and methodologies</h3>
+    <p>EPiC values (hybrid LCI) and EN 15804 EPD values (process-based LCI) are not directly comparable. Hybrid values are systematically higher because they capture more of the supply chain. If your BoM mixes both, note which values come from which source and be consistent in how you present comparisons.</p>
+
+    <div class="cb cb-blue">
+      <strong>ℹ FastLCA shows the data source for every material.</strong> In the calculator, click any material row to see the EPD reference, year, and URL. This makes it easy to distinguish generic EPiC values from product-specific EPDs in your analysis.
+    </div>
+  </div>
+
+
+  <!-- CTA STRIP -->
+  <div class="cta-strip">
+    <h3>Ready to start your analysis?</h3>
+    <p>Use FastLCA to calculate GWP for construction assemblies — add your own EPDs or use the built-in EPiC 2024 generic factors.</p>
+    <a href="/" class="btn-white">Open FastLCA calculator</a>
+    <a href="/FastLCA_EPD_Extractor_v2.html" class="btn-outline-w">Open EPD Extractor</a>
+  </div>
+
+
+  <!-- FOOTER -->
+  <div class="disc">
+    FastLCA is a free, open tool for early-stage embodied carbon analysis. Results are indicative — not a certified LCA or EPD. Generic material factors: EPiC Database 2024 (Crawford, Stephan &amp; Prideaux, University of Melbourne; <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a>; used as internal calculation input only). · © 2026 FastLCA. All rights reserved. · <a href="/">fastlca.com</a> · <a href="/about.html">Methodology</a>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+function toggleTheme(){
+  const d=document.documentElement;
+  const t=d.getAttribute('data-theme')==='dark'?'light':'dark';
+  d.setAttribute('data-theme',t);
+  document.getElementById('tbtn').textContent=t==='dark'?'☀️':'🌙';
+  try{localStorage.setItem('flca-t',t);}catch(e){}
+}
+(()=>{
+  try{
+    const t=localStorage.getItem('flca-t')||'light';
+    document.documentElement.setAttribute('data-theme',t);
+    document.addEventListener('DOMContentLoaded',()=>{
+      document.getElementById('tbtn').textContent=t==='dark'?'☀️':'🌙';
+    });
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

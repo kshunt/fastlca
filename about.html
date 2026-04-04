@@ -153,6 +153,7 @@ footer a{color:var(--b)}
   </a>
   <div class="nr">
     <a href="/about.html" class="bnav active">About</a>
+    <a href="/epd-guide.html" class="bnav">EPD Guide</a>
     <a href="/" class="btn-cta">Open calculator →</a>
     <button class="bnav tbtn" onclick="toggleTheme()" id="tbtn" title="Toggle dark/light">🌙</button>
   </div>
@@ -403,7 +404,7 @@ function toggleTheme(){
   const d=document.documentElement;
   const t=d.getAttribute('data-theme')==='dark'?'light':'dark';
   d.setAttribute('data-theme',t);
-  document.getElementById('tbtn').textContent=t==='dark'?'\u2600\ufe0f':'\U0001f319';
+  document.getElementById('tbtn').textContent=t==='dark'?'☀️':'🌙';
   try{localStorage.setItem('flca-t',t);}catch(e){}
 }
 (()=>{
@@ -411,7 +412,7 @@ function toggleTheme(){
     const t=localStorage.getItem('flca-t')||'light';
     document.documentElement.setAttribute('data-theme',t);
     document.addEventListener('DOMContentLoaded',()=>{
-      document.getElementById('tbtn').textContent=t==='dark'?'\u2600\ufe0f':'\U0001f319';
+      document.getElementById('tbtn').textContent=t==='dark'?'☀️':'🌙';
     });
   }catch(e){}
 })();
