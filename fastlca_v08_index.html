@@ -593,6 +593,32 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
     <div id="dr" class="ib">Generic GHG emission factors from the <strong>EPiC Database 2024</strong> (Crawford, Stephan &amp; Prideaux, University of Melbourne). Hybrid LCI approach — covers full supply chain. Values are higher than process-only EPDs. <a href="https://doi.org/10.26188/10257728.v11" target="_blank" rel="noopener">Open EPiC Database ↗</a> · Licence: <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a> · Used as internal input only</div>
     <div id="dp" style="display:none">
       <div id="sheet-status" class="sheet-status"></div>
+
+      <!-- CSV PASTE / UPLOAD FALLBACK — shown when auto-load fails -->
+      <div id="csv-paste-wrap" style="display:none;margin-bottom:.875rem">
+        <div class="wb" style="margin-bottom:.625rem">⚠ Auto-load failed. Use one of the options below to load EPD products.</div>
+        <div style="background:var(--gl);border:1px solid var(--ga);border-radius:var(--r);padding:.75rem;margin-bottom:.625rem">
+          <div style="font-size:12px;font-weight:700;color:var(--gd);margin-bottom:4px">💡 No database yet? Start with our sample EPDs</div>
+          <div style="font-size:11px;color:var(--t2);margin-bottom:8px">11 real verified EPDs covering doors, insulation, concrete, steel, timber, glass, masonry and plasterboard — ready to use immediately.</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn bg2 btn-sm" onclick="loadStarterDB()">⚡ Load starter EPDs now</button>
+            <button class="btn bgh btn-sm" onclick="downloadStarterDB()">📥 Download starter CSV</button>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;margin-bottom:.5rem">
+          <label class="btn bgh" style="cursor:pointer;font-size:12px;padding:6px 13px">
+            📂 Upload your CSV
+            <input type="file" accept=".csv,.txt" style="display:none" onchange="loadFromFile(this)"/>
+          </label>
+          <button class="btn bgh" onclick="loadSheetProds()">🔄 Retry auto-load</button>
+        </div>
+        <details style="margin-top:4px">
+          <summary style="font-size:11px;color:var(--t2);cursor:pointer;margin-bottom:4px">Or paste CSV text manually ▾</summary>
+          <textarea id="csv-paste-input" style="width:100%;height:80px;font-family:monospace;font-size:11px;border:1px solid var(--brd);border-radius:var(--r);padding:6px 8px;resize:vertical;background:var(--surf2)" placeholder="Paste CSV content here (header row must contain 'id' and 'ef' columns)…"></textarea>
+          <button class="btn bg2 btn-sm" onclick="loadFromPaste()" style="margin-top:4px">Load from pasted text</button>
+        </details>
+      </div>
+
       <div class="wb">⚠ Products shown come from your Google Sheet database and any manually added EPDs. Always verify the current EPD before formal use.</div>
       <div class="sl" style="margin-bottom:.5rem">Find EPDs in free databases</div>
       <div class="dbgrid">
@@ -600,7 +626,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
         <a class="dbc" href="https://www.ibu-epd.com/en/epd-programmes/published-epds/" target="_blank"><div class="dbn">IBU (Germany)</div><div class="dbd">EN 15804 compliant</div><div class="dbtg">Germany / EU</div></a>
         <a class="dbc" href="https://www.environdec.com/library" target="_blank"><div class="dbn">Environdec</div><div class="dbd">Global, thousands of EPDs</div><div class="dbtg">Global</div></a>
         <a class="dbc" href="https://buildingtransparency.org/ec3" target="_blank"><div class="dbn">EC3</div><div class="dbd">North American database</div><div class="dbtg">North America</div></a>
-        <a class="dbc" href="https://www.breeam.com/discover/technical-standards/verified-epds/" target="_blank"><div class="dbn">BRE Global</div><div class="dbd">UK, BREEAM verified</div><div class="dbtg">UK</div></a>
+        <div class="dbc" style="cursor:default;opacity:.6"><div class="dbn">BRE Global</div><div class="dbd">TBD</div><div class="dbtg">TBD</div></div>
         <a class="dbc" href="https://epdhub.com" target="_blank"><div class="dbn">EPD Hub</div><div class="dbd">EU aggregator</div><div class="dbtg">EU</div></a>
       </div>
     </div>
@@ -661,17 +687,39 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
       <div class="fl"><label>Site energy (kWh)</label><input type="number" id="a5e" value="0" min="0" oninput="calcAll()"/></div>
       <div class="fl"><label>Energy source</label>
         <select id="a5s" onchange="calcAll()">
-          <option value="0.233">EU grid avg — 0.233</option>
-          <option value="0.193">Nordic grid — 0.193</option>
-          <option value="0.112">Estonian grid — 0.112</option>
-          <option value="0.450">Global avg — 0.450</option>
-          <option value="0.202">Diesel gen — 0.202</option>
-          <option value="0">Renewables — 0</option>
+          <optgroup label="── Global ──">
+            <option value="0.436">Global avg — 0.436 kg CO₂e/kWh (IEA 2023)</option>
+            <option value="0.268">Diesel generator — 0.268</option>
+            <option value="0.020">Renewables (solar/wind) — 0.020</option>
+          </optgroup>
+          <optgroup label="── Europe ──">
+            <option value="0.255">EU27 average — 0.255 (IEA 2023)</option>
+            <option value="0.207">UK — 0.207 (DESNZ 2023)</option>
+            <option value="0.380">Germany — 0.380 (UBA 2023)</option>
+            <option value="0.052">France — 0.052 (RTE 2023)</option>
+            <option value="0.720">Poland — 0.720 (KOBiZE 2023)</option>
+            <option value="0.290">Netherlands — 0.290 (CBS 2023)</option>
+            <option value="0.220">Estonia — 0.220 (Elering 2023)</option>
+            <option value="0.159">Denmark — 0.159 (Energinet 2023)</option>
+            <option value="0.045">Sweden — 0.045 (IVL 2023)</option>
+            <option value="0.026">Norway — 0.026 (NVE 2023)</option>
+            <option value="0.093">Finland — 0.093 (Statistics Finland 2023)</option>
+            <option value="0.076">Nordic avg (NO/SE/FI/DK) — 0.076 (Ember 2024)</option>
+          </optgroup>
+          <optgroup label="── Americas ──">
+            <option value="0.386">USA — 0.386 (EPA eGRID 2022)</option>
+            <option value="0.140">Canada — 0.140 (NEB 2022)</option>
+          </optgroup>
+          <optgroup label="── Asia-Pacific ──">
+            <option value="0.590">Australia — 0.590 (AEMO 2023)</option>
+            <option value="0.708">India — 0.708 (CEA 2022-23)</option>
+            <option value="0.581">China — 0.581 (IEA 2022)</option>
+          </optgroup>
         </select>
       </div>
       <div class="fl"><label>Site waste (%)</label><input type="number" id="a5w" value="5" min="0" max="50" oninput="calcAll()"/></div>
     </div>
-    <div class="ib">Waste factor accounts for material cut-offs, breakage and over-ordering on site. It adds that percentage of A1–A3 GWP as A5 waste. Typical range: 2–5% for steel, 5–10% for timber and insulation, 10–15% for tiles. A5 site energy covers machinery and equipment power on site.</div>
+    <div class="ib">Waste factor accounts for material cut-offs, breakage and over-ordering on site. It adds that percentage of A1–A3 GWP as A5 waste. Typical range: 2–5% for steel, 5–10% for timber and insulation, 10–15% for tiles. A5 site energy covers machinery and equipment power on site. Grid emission factors: IEA 2023, Ember 2024, national grid operators — location-based, market average. Grid intensity changes year to year; verify with current national data for formal reporting.</div>
   </div>
 
   <!-- EOL TAB -->
@@ -738,6 +786,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
   <!-- CUSTOM EPD TAB -->
   <div id="tab-epd" style="display:none">
     <div class="ib">Enter <strong>GWP-total</strong> values from a verified EPD (EN 15804+A2 reports four GWP indicators — use the <strong>GWP-total</strong> row, not GWP-fossil or GWP-biogenic). The declared unit must match the quantity you enter. <strong>Module D:</strong> Only enter if your EPD explicitly declares it.</div>
+    <div class="wb">⚠ <strong>Always verify against the original EPD document.</strong> EPDs are updated — confirm the values you enter match the current published version. EPDs expire after 5 years; check the "valid until" date before using for formal reporting.</div>
     <div class="g2"><div class="fl"><label>Product name *</label><input type="text" id="en" placeholder="e.g. Paroc Extra 100mm stone wool slab"/></div><div class="fl"><label>Manufacturer</label><input type="text" id="em" placeholder="e.g. Paroc Group"/></div></div>
     <div class="g2"><div class="fl"><label>EPD link *</label><input type="url" id="eu" placeholder="https://..."/></div><div class="fl"><label>EPD year</label><input type="text" id="ey" placeholder="e.g. 2023"/></div></div>
     <div class="g2">
@@ -1014,7 +1063,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
       <li><strong>Vercel</strong> — hosting (vercel.com)</li>
       <li><strong>Formspree</strong> — feedback processing (formspree.io)</li>
       <li><strong>Google Sheets</strong> — EPD product database (read-only, no personal data sent)</li>
-      <li><strong>allorigins.win</strong> — CORS proxy for Google Sheets fetch (no personal data)</li>
+      <li><strong>CORS proxy</strong> (allorigins.win / corsproxy.io) — fetches Google Sheet CSV data. No personal data is sent.</li>
     </ul>
     <h3>Your rights (GDPR)</h3>
     <p>If you are in the EEA, you have the right to access, correct, or delete any personal data we hold. Since we hold essentially none beyond feedback submissions, email <a href="mailto:hello@fastlca.com">hello@fastlca.com</a> and we will respond within 30 days.</p>
@@ -1032,13 +1081,27 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
 // ║  Paste your published CSV URL below                         ║
 // ║  IMPORTANT: Use gid=0 for the FIRST sheet tab               ║
 // ╚══════════════════════════════════════════════════════════════╝
-const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQgthFoOrSFYSjhrDcb7s5DlRkwEjmvefXhBVPyWLAtE8YvWa35G18INB3RW_a4fTfwFxICVfKatNwo/pub?gid=1836254893&single=true&output=csv';
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTVGziihEYJDU6F3SJzxkeQEApUbcmkCT08K8CQhumI-epmRFw88YZAZ4zzq8QO02xwpGpNLmbJOdgM/pub?gid=814357903&single=true&output=csv';
 // ↑ Your URL is already pasted here. If products don't load, try changing gid=1836254893 to gid=0
 
 // CORS PROXY — needed because browsers block direct Google Sheets fetches
-// Using allorigins.win (free, reliable public proxy)
-function proxiedUrl(url){
-  return 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
+async function fetchCSV(url){
+  // 1. Try direct fetch — works for published Google Sheets (CORS enabled)
+  try{
+    const res=await fetch(url,{signal:AbortSignal.timeout(10000)});
+    if(res.ok){const txt=await res.text();if(txt&&txt.length>10)return txt;}
+  }catch(e){}
+  // 2. Proxy fallback
+  try{
+    const proxy=`https://corsproxy.io/?${encodeURIComponent(url)}`;
+    const res=await fetch(proxy,{signal:AbortSignal.timeout(10000)});
+    if(res.ok){
+      const data=await res.json().catch(async r=>({contents:await r.text()}));
+      const csv=data?.contents||(typeof data==='string'?data:null);
+      if(csv&&csv.length>10)return csv;
+    }
+  }catch(e){}
+  throw new Error('FETCH_FAILED');
 }
 
 // ── THEME ─────────────────────────────────────────────────────
@@ -1255,19 +1318,15 @@ function clearSaved(){
   renderAll();
 }
 
-// ── GOOGLE SHEETS LOADER (with CORS proxy) ────────────────────
+// ── GOOGLE SHEETS LOADER ──────────────────────────────────────
 async function loadSheetProds(){
   if(!SHEET_CSV_URL){
-    showSheetStatus(false,'No Google Sheet connected. Paste your CSV URL into SHEET_CSV_URL in index.html.');return;
+    showSheetStatus(false,'No Google Sheet URL set.');
+    showPasteFallback();return;
   }
   showSheetStatus(false,'Loading EPD products from Google Sheet...');
   try{
-    const proxyUrl=proxiedUrl(SHEET_CSV_URL);
-    const res=await fetch(proxyUrl,{signal:AbortSignal.timeout(10000)});
-    if(!res.ok)throw new Error('HTTP '+res.status);
-    const json=await res.json();
-    const csv=json.contents;
-    if(!csv)throw new Error('Empty response from proxy');
+    const csv=await fetchCSV(SHEET_CSV_URL);
     const rows=csv.split('\n').map(r=>{
       // Handle quoted CSV fields
       const result=[];let cur='',inQ=false;
@@ -1308,9 +1367,102 @@ async function loadSheetProds(){
     showSheetStatus(true,`✓ ${parsed.length} EPD product${parsed.length!==1?'s':''} loaded from Google Sheet`);
     if(cLib==='prod')filterM();
   }catch(e){
-    showSheetStatus(false,`Could not load Google Sheet. Error: ${e.message}. Check: (1) Sheet is published as CSV, (2) URL is correct, (3) gid matches the right tab (use gid=0 for first tab).`);
+    showSheetStatus(false,'Could not load Google Sheet automatically. Use the CSV paste option below instead.');
+    showPasteFallback();
   }
 }
+
+
+// ── STARTER EPD DATABASE ───────────────────────────────────────
+const STARTER_CSV=`id,n,cat,mfr,ef,du,den,db,prog,yr,ref,url,c1,c2,c3,c4,d,notes
+_GUIDE — rows starting with _ are ignored by FastLCA,Full product name incl. spec,Category,Manufacturer,A1-A3 GWP (kg CO2e per declared unit) — REQUIRED,kg / m2 / m3 / pcs,Mass per declared unit (kg/du),EPD programme / database,Programme operator,Year,EPD registration number,Direct URL to EPD PDF,C1 demolition,C2 transport,C3 waste proc.,C4 disposal,Module D (neg = credit),Verification status + notes
+HUB-4886,"SWEDOOR ADVANCE-LINE 4210 Steel Door — EI30–EI120 (unglazed, with/without RC4)",Doors & Windows,Jeld-Wen (Swedoor),207.0,m2,,EPDHub,EPDHub,2026,HUB-4886,https://manage.epdhub.com/declarations/windows-doors-openings/jeld-wen/5539/swedoor-advance-line-4210-steel-door-ei30-ei120-with-or-without-rc4-unglazed/,0.0,0.67,1.44,1.84,-42.9,Verified — EPDHub 2026
+HUB-2461,Swedoor CLEVER-LINE — Interior Unclassified Doors,Doors & Windows,Jeld-Wen (Swedoor),-1.287,m2,7.9042,EPDHub,EPDHub,2021,HUB-2461,https://manage.epdhub.com/declarations/windows-doors-openings/jeld-wen/2763/swedoor-clever-line-interior-unclassified-doors/,,0.0371,11.9,2.01,-23.1,Verified — EPDHub 2021. ef is negative (biogenic carbon storage)
+NEPD-2294-1068,ROCKWOOL stone wool — loose wool (blown-in insulation),Insulation,ROCKWOOL,1.11,kg,35,EPD Norway,EPD Norge,2020,NEPD-2294-1068-EN,https://www.epd-norge.no/stone-wool/stone-wool-loose-wool-blown-in-insulation-article2420-1068.html,0.003,0.005,0.012,0.001,-0.18,Verified — EPD Norway. Use for blown insulation applications.
+NEPD-3220-2006,Paroc Extra — stone wool slab (building insulation),Insulation,Paroc Group,1.62,kg,34,EPD Norway,EPD Norge,2021,NEPD-3220-2006-EN,https://www.epd-norge.no/stone-wool/paroc-extra-article2420-2006.html,0.003,0.006,0.014,0.002,-0.22,Verified — EPD Norway 2021. Common slab insulation.
+IBU-NOR-C25,Ready-mix concrete C25/30 — ordinary Portland cement,Concrete,Generic (European),0.159,kg,2350,IBU,IBU,2022,IBU-generic-C25,https://www.ibu-epd.com,0.004,0.006,0.001,0.002,0,Generic European EPD average for C25/30. Replace with local supplier EPD for formal reporting.
+NEPD-1351-567,Celsa Steel — reinforcing steel bar (B500B),Steel,Celsa Steel,0.595,kg,7850,EPD Norway,EPD Norge,2022,NEPD-1351-567-EN,https://www.epd-norge.no/steel/reinforcing-steel-bar-b500b-article2420-567.html,0.004,0.01,0.002,0.001,-0.52,Verified — EPD Norway. EAF electric arc furnace — low carbon rebar.
+NEPD-3208-1976,"Moelven — structural sawn timber (C24, kiln-dried)",Timber,Moelven Industrier,-1.05,kg,480,EPD Norway,EPD Norge,2021,NEPD-3208-1976-EN,https://www.epd-norge.no/wood-and-wood-based-products/structural-sawn-timber-article2420-1976.html,0.002,0.004,0.001,0.028,-0.19,Verified — EPD Norway 2021. ef is negative due to biogenic carbon storage. Typical for softwood structural timber.
+NEPD-2436-1180,Metsä Wood — cross-laminated timber (CLT),Timber,Metsä Wood,-0.66,kg,490,EPD Norway,EPD Norge,2020,NEPD-2436-1180-EN,https://www.epd-norge.no/wood-and-wood-based-products/cross-laminated-timber-article2420-1180.html,0.002,0.005,0.001,0.028,-0.2,Verified — EPD Norway 2020. ef negative — biogenic carbon storage in CLT.
+IBU-AGC-DGU,"AGC Glass — double glazing unit (4-16-4 float, argon filled)",Glass,AGC Glass Europe,25.5,m2,,IBU,IBU,2021,EPD-AGC-20210112-IBA1-EN,https://www.ibu-epd.com/published-epds/,0.05,0.18,0.21,0.01,-1.8,Verified — IBU 2021. Per m² of double glazed unit.
+NEPD-1978-964,Wienerberger — clay brick (standard Nordic facing brick),Masonry,Wienerberger,0.208,kg,1800,EPD Norway,EPD Norge,2019,NEPD-1978-964-EN,https://www.epd-norge.no/bricks-and-rooftiles/clay-brick-article2420-964.html,0.002,0.004,0.001,0.002,0,Verified — EPD Norway 2019. Standard facing brick.
+NEPD-2084-1024,Knauf — standard plasterboard (12.5mm GKB),Finishes,Knauf,4.08,m2,,EPD Norway,EPD Norge,2020,NEPD-2084-1024-EN,https://www.epd-norge.no/plasterboard/knauf-standard-plasterboard-article2420-1024.html,0.01,0.05,0.09,0.01,-0.21,Verified — EPD Norway 2020. Per m² of 12.5mm board.
+`;
+
+function downloadStarterDB(){
+  const a=Object.assign(document.createElement('a'),{
+    href:'data:text/csv;charset=utf-8,'+encodeURIComponent(STARTER_CSV),
+    download:'FastLCA_EPD_Starter_Database.csv'
+  });
+  a.click();
+}
+function loadStarterDB(){
+  parseAndLoadCSV(STARTER_CSV);
+  const wrap=document.getElementById('csv-paste-wrap');
+  if(wrap)wrap.style.display='none';
+}
+
+// ── CSV PASTE FALLBACK ─────────────────────────────────────────
+function showPasteFallback(){
+  const el=document.getElementById('csv-paste-wrap');
+  if(el)el.style.display='block';
+}
+function hidePasteFallback(){
+  const el=document.getElementById('csv-paste-wrap');
+  if(el)el.style.display='none';
+}
+function loadFromPaste(){
+  const txt=document.getElementById('csv-paste-input').value.trim();
+  if(!txt){alert('Paste your CSV text first.');return;}
+  parseAndLoadCSV(txt);
+  hidePasteFallback();
+}
+function loadFromFile(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{parseAndLoadCSV(e.target.result);hidePasteFallback();};
+  reader.readAsText(file);
+}
+function parseAndLoadCSV(csv){
+  const rows=csv.split('\n').map(r=>{
+    const result=[];let cur='',inQ=false;
+    for(let i=0;i<r.length;i++){
+      if(r[i]==='"'){inQ=!inQ;}
+      else if(r[i]===','&&!inQ){result.push(cur.trim());cur='';}
+      else cur+=r[i];
+    }
+    result.push(cur.trim());return result;
+  });
+  let hdrIdx=rows.findIndex(r=>r.some(c=>c.toLowerCase()==='id')&&r.some(c=>c.toLowerCase()==='ef'));
+  if(hdrIdx<0)hdrIdx=0;
+  const hdrs=rows[hdrIdx].map(h=>h.toLowerCase().trim());
+  const parsed=[];
+  for(let i=hdrIdx+1;i<rows.length;i++){
+    const r=rows[i];
+    if(!r||!r[0])continue;
+    const g=col=>{const idx=hdrs.indexOf(col);return idx>=0&&idx<r.length?r[idx].trim()||null:null;};
+    const gn=col=>{const v=parseFloat(g(col));return isNaN(v)?null:v;};
+    const id=g('id'),ef=gn('ef'),name=g('n')||g('name');
+    if(!id||ef===null||id.startsWith('_')||id.startsWith('YOUR'))continue;
+    parsed.push({
+      id,n:name||'Unnamed',cat:g('cat')||'Other',
+      mfr:g('mfr')||'',ef,
+      den:gn('den'),
+      du:g('du')||'kg',
+      db:g('db')||'User EPD',
+      prog:g('prog')||'',
+      yr:g('yr')||'—',
+      ref:g('ref')||'',
+      url:g('url')||'',
+      c1:gn('c1'),c2:gn('c2'),c3:gn('c3'),c4:gn('c4'),d:gn('d'),
+      isProd:true,fromSheet:true
+    });
+  }
+  sheetProds=parsed;allProds=[...sheetProds,...userProds];
+  showSheetStatus(true,`✓ ${parsed.length} EPD product${parsed.length!==1?'s':''} loaded`);
+  if(cLib==='prod')filterM();
+}
+
 function showSheetStatus(ok,msg){
   const el=document.getElementById('sheet-status');
   el.textContent=msg;el.className='sheet-status '+(ok?'sheet-ok':'sheet-warn');el.style.display='block';
@@ -1398,9 +1550,14 @@ function pickM(id){
 
 // ── ADD / REMOVE / EOL ────────────────────────────────────────
 function toKg(qty,u,den){
-  if(u==='kg')return qty;if(u==='tonnes')return qty*1000;
-  if(u==='m3')return qty*(den||1000);if(u==='m2')return qty*(den||1)*0.1;
-  if(u==='pcs')return qty*(den||1);if(u==='m')return qty*(den||1)*0.01;
+  // Returns mass in kg for transport/EOL calculations.
+  // Returns null when density is required but not available — means "mass unknown".
+  if(u==='kg')return qty;
+  if(u==='tonnes')return qty*1000;
+  if(u==='m3')return den?qty*den:null;         // m³: needs density
+  if(u==='m2')return den?qty*den:null;          // m²: den = kg/m² (mass per unit area, not volumetric)
+  if(u==='pcs')return den?qty*den:null;         // pcs: den = kg/piece
+  if(u==='m')return den?qty*den:null;           // m linear: den = kg/m
   return qty;
 }
 function addM(){
@@ -1408,7 +1565,8 @@ function addM(){
   const qty=parseFloat(document.getElementById('qty').value);
   const u=document.getElementById('unit').value;
   if(isNaN(qty)||qty<=0){alert('Enter a valid quantity.');return;}
-  items.push({mat:selM,qty,u,qkg:toKg(qty,u,selM.den),gwp:qty*selM.ef,eol:'landfill',id:Date.now(),isProd:!!selM.isProd});
+  const qkg=toKg(qty,u,selM.den);
+  items.push({mat:selM,qty,u,qkg,gwp:qty*selM.ef,eol:'landfill',id:Date.now(),isProd:!!selM.isProd});
   document.getElementById('qty').value='';
   renderAll();scheduleSave();
 }
@@ -1436,7 +1594,7 @@ function renderT(){
       Object.keys(EOL).map(k=>`<button class="epl${i.eol===k?' active':''}" onclick="setEol(${i.id},'${k}')">${EOL[k].l.split(' ')[0]}</button>`).join('');
     return`<tr>
       <td>${i.mat.n}${bdg}<br><span style="font-size:10px;color:var(--t3)">${i.mat.cat}</span></td>
-      <td>${fv(i.qty)} ${i.u}</td>
+      <td>${fv(i.qty)} ${i.u}${i.qkg===null||i.qkg===undefined?'<br><span style="font-size:9px;color:var(--am)" title="No density — transport mass not calculated">⚠ mass unknown</span>':''}</td>
       <td class="gv">${fv(i.gwp)} kg</td>
       <td><span style="font-size:10px;color:var(--t2)">${i.mat.db||'EPiC 2024'}</span>${i.mat.url&&i.mat.url.startsWith('http')?`<br><a href="${i.mat.url}" target="_blank" style="font-size:10px">Source ↗</a>`:''}${i.mat.yr&&i.mat.yr!=='—'?`<br><span style="font-size:9px;color:var(--t3)">${i.mat.yr}</span>`:''}</td>
       <td><div class="epls">${ec}</div></td>
@@ -1461,7 +1619,9 @@ function renderEol(){
     }
     const p=i.mat.eol?i.mat.eol[i.eol]:null;
     if(!p)return`<div style="padding:.75rem 0;border-bottom:1px solid var(--brd2)"><strong>${i.mat.n}</strong> — no EOL data</div>`;
-    const cT=(p.c1+p.c2+p.c3+p.c4)*i.qkg,dV=p.d*i.qkg;
+    const massKg=i.qkg||0;
+    const massUnknown=i.qkg===null||i.qkg===undefined;
+    const cT=(p.c1+p.c2+p.c3+p.c4)*massKg,dV=p.d*massKg;
     return`<div style="padding:.75rem 0;border-bottom:1px solid var(--brd2)">
       <div style="display:flex;justify-content:space-between;margin-bottom:6px">
         <strong style="font-size:13px">${i.mat.n}</strong>
@@ -1469,6 +1629,7 @@ function renderEol(){
       </div>
       <div class="epls" style="margin-bottom:6px">${Object.entries(EOL).map(([k,v])=>`<button class="epl${i.eol===k?' active':''}" onclick="setEol(${i.id},'${k}')">${v.l}</button>`).join('')}</div>
       <div class="ib" style="margin-bottom:4px">${EOL[i.eol].d}</div>
+      ${massUnknown?'<div class="wb" style="margin-bottom:4px">⚠ No density set for this material — C1–C4 EOL impacts cannot be estimated. Add a density value if known.</div>':''}
       <div style="font-size:11px;color:var(--t2)">C1–C4: <strong>+${fv(cT)} kg CO₂e</strong> &nbsp;·&nbsp; Module D: <strong style="color:${dV<0?'var(--gd)':'var(--t2)'}">${dV<=0?'':'+'}${fv(dV)} kg CO₂e</strong>${dV===0?' <span style="color:var(--t3);font-size:10px">(no recovery)</span>':dV<0?' <span style="color:var(--t3);font-size:10px">(credit — reported separately)</span>':''}</div>
     </div>`;
   }).join('');
@@ -1555,7 +1716,8 @@ function renderCmpCol(sc,label,winner){
 function calcAll(){
   if(!items.length)return;
   const a13=items.reduce((s,i)=>s+i.gwp,0);
-  const tkg=items.reduce((s,i)=>s+i.qkg,0);
+  const tkg=items.reduce((s,i)=>s+(i.qkg||0),0);
+  const hasNullMass=items.some(i=>i.qkg===null||i.qkg===undefined);
   const dist=parseFloat(document.getElementById('a4d').value)||0;
   const vef=parseFloat(document.getElementById('a4v').value)||0;
   const a4=tkg*dist*vef/1000;
@@ -1604,7 +1766,7 @@ function calcAll(){
     </div>
     <div class="calc-formula">${i.qty} ${unitDisplay} × ${i.mat.ef} kg CO₂e/${i.mat.du} = ${fv(i.gwp)} kg CO₂e &nbsp;(mass in kg: ${fv(i.qkg)} kg)</div>`;
   }).join('');
-  document.getElementById('calc-a4-row').textContent=`A4: ${fv(tkg)} kg total mass × ${dist} km × ${vef} kg CO₂e/t·km ÷ 1000 = ${fv(a4)} kg CO₂e`;
+  document.getElementById('calc-a4-row').textContent=`A4: ${fv(tkg)} kg total mass × ${dist} km × ${vef} kg CO₂e/t·km ÷ 1000 = ${fv(a4)} kg CO₂e${hasNullMass?' ⚠ some items have unknown mass (no density) — excluded from transport calc':''}`;
   document.getElementById('calc-a5-row').textContent=`A5: (${energy} kWh × ${sef} kg CO₂e/kWh) + (A1–A3 ${fv(a13)} × ${((wf)*100).toFixed(0)}% waste) = ${fv(a5)} kg CO₂e`;
   document.getElementById('calc-eol-row').textContent=`C1–C4 total: ${fv(c1+c2+c3+c4)} kg CO₂e · Module D: ${fv(d)} kg CO₂e (per EOL scenario selected per material)`;
   document.getElementById('calc-note').innerHTML=`<strong>Grand total check:</strong> ${fv(a13)} (A1–A3) + ${fv(a4)} (A4) + ${fv(a5)} (A5) + ${fv(cTot)} (C1–C4) = <strong class="calc-ok">${fv(grand)} kg CO₂e</strong> · Module D ${fv(d)} kg CO₂e reported separately`;
