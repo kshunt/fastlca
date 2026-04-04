@@ -255,14 +255,18 @@ footer a{color:var(--b)}
     <table class="data-table">
       <thead><tr><th>Material</th><th>EPiC 2024 value</th><th>Unit</th><th>Typical EU EPD range</th><th>Note</th></tr></thead>
       <tbody>
-        <tr><td>Concrete 25 MPa</td><td class="ef-val">0.150</td><td>kg CO₂e/kg</td><td>0.10–0.16</td><td>Confirmed from peer-reviewed literature citing Crawford et al. 2024</td></tr>
-        <tr><td>Reinforcing steel</td><td class="ef-val">3.70</td><td>kg CO₂e/kg</td><td>0.5–2.5 (varies by EAF vs BF)</td><td>Higher due to full supply chain hybrid coverage</td></tr>
-        <tr><td>Aluminium (primary)</td><td class="ef-val">29.40</td><td>kg CO₂e/kg</td><td>6–12 (EU average)</td><td>Confirmed from peer-reviewed literature citing Crawford et al. 2024</td></tr>
-        <tr><td>Sawn softwood timber</td><td class="ef-val">0.86</td><td>kg CO₂e/kg</td><td>0.2–0.5</td><td>Higher due to transport path share in hybrid model</td></tr>
-        <tr><td>Glass wool insulation</td><td class="ef-val">2.40</td><td>kg CO₂e/kg</td><td>1.0–1.8</td><td>Hybrid supply chain coverage</td></tr>
-        <tr><td>EPS insulation</td><td class="ef-val">3.40</td><td>kg CO₂e/kg</td><td>2.5–4.0</td><td>Consistent with EU EPD ranges</td></tr>
-        <tr><td>Float glass</td><td class="ef-val">1.50</td><td>kg CO₂e/kg</td><td>0.8–1.5</td><td>Consistent with EU EPD ranges</td></tr>
-        <tr><td>Portland cement</td><td class="ef-val">1.40</td><td>kg CO₂e/kg</td><td>0.7–0.9</td><td>Higher due to hybrid method</td></tr>
+        <tr><td>Concrete 25 MPa</td><td class="ef-val">0.153</td><td>kg CO₂e/kg</td><td>0.10–0.16</td><td>368 kg CO₂e/m³ ÷ 2400 kg/m³</td></tr>
+        <tr><td>Concrete 40 MPa</td><td class="ef-val">0.207</td><td>kg CO₂e/kg</td><td>0.14–0.22</td><td>497 kg CO₂e/m³ ÷ 2400 kg/m³</td></tr>
+        <tr><td>Reinforcing steel (bar)</td><td class="ef-val">2.10</td><td>kg CO₂e/kg</td><td>0.5–2.5 (EAF vs BF)</td><td>Steel bar direct value; hot rolled sections = 2.90</td></tr>
+        <tr><td>Aluminium extruded</td><td class="ef-val">29.40</td><td>kg CO₂e/kg</td><td>6–12 (EU recycled content avg)</td><td>Primary production; EPiC captures full global supply chain</td></tr>
+        <tr><td>Sawn softwood (kiln-dried)</td><td class="ef-val">1.215</td><td>kg CO₂e/kg</td><td>0.2–0.5</td><td>583 kg CO₂e/m³ ÷ 480 kg/m³; hybrid captures processing chain</td></tr>
+        <tr><td>Glulam (indoor)</td><td class="ef-val">3.436</td><td>kg CO₂e/kg</td><td>0.4–1.0</td><td>1718 kg CO₂e/m³ ÷ 500 kg/m³; adhesives included in hybrid</td></tr>
+        <tr><td>Glass wool insulation</td><td class="ef-val">4.00</td><td>kg CO₂e/kg</td><td>1.0–2.0</td><td>Direct EPiC value; melting energy-intensive</td></tr>
+        <tr><td>EPS/XPS insulation</td><td class="ef-val">8.00</td><td>kg CO₂e/kg</td><td>3.0–5.0</td><td>EPiC combines EPS and XPS; petrochemical feedstock included</td></tr>
+        <tr><td>Polyurethane rigid foam</td><td class="ef-val">17.50</td><td>kg CO₂e/kg</td><td>4.0–8.0</td><td>MDI/polyol feedstocks energy-intensive; hybrid captures full chain</td></tr>
+        <tr><td>Float glass</td><td class="ef-val">2.00</td><td>kg CO₂e/kg</td><td>0.8–1.5</td><td>Direct EPiC value; high-temp melting process</td></tr>
+        <tr><td>Clay brick</td><td class="ef-val">0.32</td><td>kg CO₂e/kg</td><td>0.20–0.35</td><td>Direct EPiC value; consistent with EU ranges</td></tr>
+        <tr><td>Portland cement</td><td class="ef-val">1.30</td><td>kg CO₂e/kg</td><td>0.70–0.90</td><td>Direct EPiC value; higher than EU avg due to Australian grid</td></tr>
       </tbody>
     </table>
   </div>

@@ -661,17 +661,39 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
       <div class="fl"><label>Site energy (kWh)</label><input type="number" id="a5e" value="0" min="0" oninput="calcAll()"/></div>
       <div class="fl"><label>Energy source</label>
         <select id="a5s" onchange="calcAll()">
-          <option value="0.233">EU grid avg — 0.233</option>
-          <option value="0.193">Nordic grid — 0.193</option>
-          <option value="0.112">Estonian grid — 0.112</option>
-          <option value="0.450">Global avg — 0.450</option>
-          <option value="0.202">Diesel gen — 0.202</option>
-          <option value="0">Renewables — 0</option>
+          <optgroup label="── Global ──">
+            <option value="0.436">Global avg — 0.436 kg CO₂e/kWh (IEA 2023)</option>
+            <option value="0.268">Diesel generator — 0.268</option>
+            <option value="0.020">Renewables (solar/wind) — 0.020</option>
+          </optgroup>
+          <optgroup label="── Europe ──">
+            <option value="0.255">EU27 average — 0.255 (IEA 2023)</option>
+            <option value="0.207">UK — 0.207 (DESNZ 2023)</option>
+            <option value="0.380">Germany — 0.380 (UBA 2023)</option>
+            <option value="0.052">France — 0.052 (RTE 2023)</option>
+            <option value="0.720">Poland — 0.720 (KOBiZE 2023)</option>
+            <option value="0.290">Netherlands — 0.290 (CBS 2023)</option>
+            <option value="0.220">Estonia — 0.220 (Elering 2023)</option>
+            <option value="0.159">Denmark — 0.159 (Energinet 2023)</option>
+            <option value="0.045">Sweden — 0.045 (IVL 2023)</option>
+            <option value="0.026">Norway — 0.026 (NVE 2023)</option>
+            <option value="0.093">Finland — 0.093 (Statistics Finland 2023)</option>
+            <option value="0.076">Nordic avg (NO/SE/FI/DK) — 0.076 (Ember 2024)</option>
+          </optgroup>
+          <optgroup label="── Americas ──">
+            <option value="0.386">USA — 0.386 (EPA eGRID 2022)</option>
+            <option value="0.140">Canada — 0.140 (NEB 2022)</option>
+          </optgroup>
+          <optgroup label="── Asia-Pacific ──">
+            <option value="0.590">Australia — 0.590 (AEMO 2023)</option>
+            <option value="0.708">India — 0.708 (CEA 2022-23)</option>
+            <option value="0.581">China — 0.581 (IEA 2022)</option>
+          </optgroup>
         </select>
       </div>
       <div class="fl"><label>Site waste (%)</label><input type="number" id="a5w" value="5" min="0" max="50" oninput="calcAll()"/></div>
     </div>
-    <div class="ib">Waste factor accounts for material cut-offs, breakage and over-ordering on site. It adds that percentage of A1–A3 GWP as A5 waste. Typical range: 2–5% for steel, 5–10% for timber and insulation, 10–15% for tiles. A5 site energy covers machinery and equipment power on site.</div>
+    <div class="ib">Waste factor accounts for material cut-offs, breakage and over-ordering on site. It adds that percentage of A1–A3 GWP as A5 waste. Typical range: 2–5% for steel, 5–10% for timber and insulation, 10–15% for tiles. A5 site energy covers machinery and equipment power on site. Grid emission factors: IEA 2023, Ember 2024, national grid operators — location-based, market average. Grid intensity changes year to year; verify with current national data for formal reporting.</div>
   </div>
 
   <!-- EOL TAB -->
@@ -738,6 +760,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
   <!-- CUSTOM EPD TAB -->
   <div id="tab-epd" style="display:none">
     <div class="ib">Enter <strong>GWP-total</strong> values from a verified EPD (EN 15804+A2 reports four GWP indicators — use the <strong>GWP-total</strong> row, not GWP-fossil or GWP-biogenic). The declared unit must match the quantity you enter. <strong>Module D:</strong> Only enter if your EPD explicitly declares it.</div>
+    <div class="wb">⚠ <strong>Always verify against the original EPD document.</strong> EPDs are updated — confirm the values you enter match the current published version. EPDs expire after 5 years; check the "valid until" date before using for formal reporting.</div>
     <div class="g2"><div class="fl"><label>Product name *</label><input type="text" id="en" placeholder="e.g. Paroc Extra 100mm stone wool slab"/></div><div class="fl"><label>Manufacturer</label><input type="text" id="em" placeholder="e.g. Paroc Group"/></div></div>
     <div class="g2"><div class="fl"><label>EPD link *</label><input type="url" id="eu" placeholder="https://..."/></div><div class="fl"><label>EPD year</label><input type="text" id="ey" placeholder="e.g. 2023"/></div></div>
     <div class="g2">

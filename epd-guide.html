@@ -299,13 +299,13 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;
         <div class="sc-name">EPDHub</div>
         <div class="sc-desc">Aggregator that hosts EPDs from multiple programmes. Useful for searching across sources in one place. PDF format is well-structured and the FastLCA extractor works well with it.</div>
         <span class="sc-tag global">Global</span><br/><br/>
-        <a href="https://manage.epdhub.com/" target="_blank" rel="noopener" class="sc-link">manage.epdhub.com/ ↗</a>
+        <a href="https://manage.epdhub.com/" target="_blank" rel="noopener" class="sc-link">manage.epdhub.com ↗</a>
       </div>
       <div class="source-card">
         <div class="sc-name">TBD</div>
         <div class="sc-desc">TBD</div>
         <span class="sc-tag europe">TBD</span><br/><br/>
-        <a href="TBD" target="_blank" rel="noopener" class="sc-link">TBD ↗</a>
+        <a href="#" class="sc-link">TBD ↗</a>
       </div>
       <div class="source-card">
         <div class="sc-name">INIES (France)</div>
@@ -441,6 +441,9 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;
         </div>
       </div>
     </div>
+    <div class="cb cb-amber">
+      <strong>⚠ Always cross-check results against the live EPD document.</strong> EPDs are updated — a new version may have been published since you last checked. Values in FastLCA reflect the EPD at the time of entry. Before submitting any carbon assessment or report, confirm the EPD is still current (check the "valid until" date), and that the GWP value in FastLCA matches the current published document. EPDs expire after 5 years and updated versions can have significantly different values.
+    </div>
   </div>
 
 
@@ -448,6 +451,9 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;
   <div class="section" id="using-extractor">
     <h2>6. Using the FastLCA EPD Extractor</h2>
     <p>The FastLCA EPD Extractor reads GWP values directly from EN 15804 EPD PDFs and formats them for your FastLCA Google Sheet database — no manual copying of numbers.</p>
+    <div class="cb cb-amber">
+      <strong>⚠ Always verify extracted values against the original EPD PDF.</strong> Automatic extraction can miss values in unusual table layouts, misread numbers with subscripts, or fail on scanned PDFs. Before using any extracted value in a project, open the original EPD document and confirm the GWP-total A1–A3 figure matches what was extracted. The source EPD is the authoritative document — FastLCA's extractor is a time-saving tool, not a substitute for reading the EPD.
+    </div>
 
     <div class="cb cb-green">
       <strong>✅ Works well with:</strong> EPDHub / One Click LCA PDFs, EPD Norway (EPD Norge) PDFs, IBU PDFs, most Environdec PDFs — any EN 15804 EPD with a selectable text layer (i.e. not scanned).<br/><br/>
@@ -487,6 +493,7 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;
 
     <div style="margin-top:1rem">
       <a href="/FastLCA_EPD_Extractor_v2.html" class="btn-cta">Open EPD Extractor ↗</a>
+      <p style="font-size:12px;color:var(--t2);margin-top:8px;">The EPD Extractor is a separate tool hosted at <code style="font-family:monospace;font-size:11px">/FastLCA_EPD_Extractor_v2.html</code>. Upload it to your GitHub repo alongside index.html to make it available.</p>
     </div>
   </div>
 
