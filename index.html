@@ -783,6 +783,10 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
   <div id="tab-epd" style="display:none">
     <div class="ib">Enter <strong>GWP-total</strong> values from a verified EPD (EN 15804+A2 reports four GWP indicators — use the <strong>GWP-total</strong> row, not GWP-fossil or GWP-biogenic). The declared unit must match the quantity you enter. <strong>Module D:</strong> Only enter if your EPD explicitly declares it.</div>
     <div class="wb">⚠ <strong>Always verify against the original EPD document.</strong> EPDs are updated — confirm the values you enter match the current published version. EPDs expire after 5 years; check the "valid until" date before using for formal reporting.</div>
+    <div class="ob" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <span>📄 Have an EPD PDF? Use the <strong>EPD Extractor</strong> to pull values automatically — then paste them here.</span>
+      <a href="/FastLCA_EPD_Extractor_v2.html" target="_blank" class="btn bgh" style="font-size:12px;padding:5px 12px;text-decoration:none;white-space:nowrap">Open EPD Extractor ↗</a>
+    </div>
     <div class="g2"><div class="fl"><label>Product name *</label><input type="text" id="en" placeholder="e.g. Paroc Extra 100mm stone wool slab"/></div><div class="fl"><label>Manufacturer</label><input type="text" id="em" placeholder="e.g. Paroc Group"/></div></div>
     <div class="g2"><div class="fl"><label>EPD link *</label><input type="url" id="eu" placeholder="https://..."/></div><div class="fl"><label>EPD year</label><input type="text" id="ey" placeholder="e.g. 2023"/></div></div>
     <div class="g2">
@@ -1295,7 +1299,7 @@ function restoreProject(){
         let mat=RAW.find(m=>m.id===saved.matId)||allProds.find(m=>m.id===saved.matId)||saved.matDef;
         if(!mat)return null;
         const qkg=toKg(saved.qty,saved.u,mat.den);
-        return{mat,qty:saved.qty,u:saved.u,qkg,gwp:saved.qty*mat.ef,eol:saved.eol||'landfill',id:Date.now()+Math.random(),isProd:saved.isProd};
+        return{mat,qty:saved.qty,u:saved.u,qkg,gwp:toGWP(saved.qty,saved.u,mat),eol:saved.eol||'landfill',id:Date.now()+Math.random(),isProd:saved.isProd};
       }).filter(Boolean);
       renderAll();
     }
@@ -1541,7 +1545,8 @@ function pickM(id){
   const lr=document.getElementById('slr');
   if(selM.url&&selM.url.startsWith('http')){lr.style.display='flex';document.getElementById('slnk').href=selM.url;}
   else lr.style.display='none';
-  document.getElementById('unit').value=selM.du||'kg';
+  // Suggest the declared unit as default
+  document.getElementById('unit').value = selM.du||'kg';
 }
 
 // ── ADD / REMOVE / EOL ────────────────────────────────────────
@@ -1561,13 +1566,54 @@ function addM(){
   const qty=parseFloat(document.getElementById('qty').value);
   const u=document.getElementById('unit').value;
   if(isNaN(qty)||qty<=0){alert('Enter a valid quantity.');return;}
+  // Warn on unconvertible unit mismatches
+  const du=selM.du||'kg';
+  const den=selM.den||null;
+  const canConvert=(
+    (u==='tonnes'&&du==='kg')||(u==='kg'&&du==='tonnes')||  // mass↔mass
+    (u==='m3'&&(du==='kg'||du==='tonnes')&&den)||            // m³ with density
+    u===du                                                    // same unit
+  );
+  if(!canConvert){
+    const ok=confirm('⚠ Unit mismatch: the EF for this material is per "'+du+'" but you selected "'+u+'".\n'+(u==='m3'&&!den?'No density available for m³ conversion.\n':'')+'Results will be incorrect unless the EF matches your unit.\nContinue anyway?');
+    if(!ok)return;
+  }
   const qkg=toKg(qty,u,selM.den);
-  items.push({mat:selM,qty,u,qkg,gwp:qty*selM.ef,eol:'landfill',id:Date.now(),isProd:!!selM.isProd});
+  items.push({mat:selM,qty,u,qkg,gwp:toGWP(qty,u,selM),eol:'landfill',id:Date.now(),isProd:!!selM.isProd});
   document.getElementById('qty').value='';
   renderAll();scheduleSave();
 }
 function rem(id){items=items.filter(i=>i.id!==id);renderAll();scheduleSave();}
 function setEol(id,sc){const it=items.find(i=>i.id===id);if(it){it.eol=sc;renderAll();scheduleSave();}}
+function toGWP(qty, inputUnit, mat){
+  // Convert input qty to the material's declared unit, then multiply by ef.
+  // All EPiC materials have du='kg' and a density (kg/m³).
+  // EPD products may have any declared unit.
+  const du = mat.du || 'kg';
+  const den = mat.den || null;
+  let qInDU = qty;
+
+  if(inputUnit === du){
+    // No conversion needed
+    qInDU = qty;
+  } else if(inputUnit === 'tonnes' && du === 'kg'){
+    qInDU = qty * 1000;
+  } else if(inputUnit === 'kg' && du === 'tonnes'){
+    qInDU = qty / 1000;
+  } else if(inputUnit === 'm3' && du === 'kg' && den){
+    qInDU = qty * den;          // m³ × kg/m³ = kg
+  } else if(inputUnit === 'm3' && du === 'tonnes' && den){
+    qInDU = qty * den / 1000;   // m³ × kg/m³ ÷ 1000 = tonnes
+  } else if(inputUnit === 'kg' && du === 'kg'){
+    qInDU = qty;
+  } else {
+    // m², pcs, m — no automatic conversion possible without more data
+    // Use qty as-is and let the mismatch warning handle it
+    qInDU = qty;
+  }
+  return qInDU * mat.ef;
+}
+
 
 function fv(n){
   if(Math.abs(n)>=10000)return n.toLocaleString('en',{maximumFractionDigits:0});
@@ -1755,7 +1801,7 @@ function calcAll(){
   // Calculation transparency rows
   document.getElementById('calc-rows').innerHTML=items.map(i=>{
     const unitDisplay=i.u==='m3'?'m³':i.u==='m2'?'m²':i.u;
-    const check=Math.abs(i.qty*i.mat.ef-i.gwp)<0.001;
+    const check=Math.abs(toGWP(i.qty,i.u,i.mat)-i.gwp)<0.01;
     return`<div class="calc-row">
       <div class="calc-cell">${i.mat.n}</div>
       <div class="calc-cell">${fv(i.qty)} ${unitDisplay}</div>
