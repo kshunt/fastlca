@@ -109,6 +109,9 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
 .disclosure{background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);padding:1rem;font-size:11px;font-family:monospace;white-space:pre-wrap;line-height:1.8;max-height:280px;overflow-y:auto}
 .disc{font-size:11px;color:var(--t3);line-height:1.7;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--brd2)}
 .disc a{color:var(--b)}
+.calc-row{font-size:11px;font-family:monospace;color:var(--t2);background:var(--surf2);padding:6px 10px;border-bottom:1px solid var(--brd2);line-height:1.6}
+.calc-row strong{color:var(--gd)}
+.show-calc{background:none;border:none;cursor:pointer;font-size:10px;color:var(--b);font-family:inherit;padding:0;text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
 /* Category badge colours */
 .b1{background:#E8F5E9;color:#1B5E20;border:1px solid #A5D6A7}
 .b2{background:#E3F2FD;color:#0D47A1;border:1px solid #90CAF9}
@@ -207,17 +210,17 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
       <label>Material type</label>
       <select id="c1-mat" onchange="c1UpdateFactor()">
         <option value="">— select material —</option>
-        <option value="7.79306|tonnes">Aggregates · 7.79 kg CO₂e/t</option>
-        <option value="39.21249|tonnes">Asphalt · 39.21 kg CO₂e/t</option>
-        <option value="241.79306|tonnes">Bricks · 241.79 kg CO₂e/t</option>
-        <option value="118.79306|tonnes">Concrete · 118.79 kg CO₂e/t</option>
-        <option value="1861.79306|tonnes">Insulation · 1,861.79 kg CO₂e/t</option>
-        <option value="3824.09335|tonnes">Metals (avg) · 3,824.09 kg CO₂e/t</option>
-        <option value="120.05|tonnes">Plasterboard · 120.05 kg CO₂e/t</option>
-        <option value="269.50416|tonnes">Wood / timber · 269.50 kg CO₂e/t</option>
-        <option value="1402.76667|tonnes">Glass · 1,402.77 kg CO₂e/t</option>
-        <option value="3172.49932|tonnes">Plastics (avg) · 3,172.50 kg CO₂e/t</option>
-        <option value="|custom">Custom / EPD-based →</option>
+        <option value="7.79306|tonnes|1600">Aggregates · 7.79 kg CO₂e/t</option>
+        <option value="39.21249|tonnes|2300">Asphalt · 39.21 kg CO₂e/t</option>
+        <option value="241.79306|tonnes|1700">Bricks · 241.79 kg CO₂e/t</option>
+        <option value="118.79306|tonnes|2400">Concrete · 118.79 kg CO₂e/t</option>
+        <option value="1861.79306|tonnes|30">Insulation · 1,861.79 kg CO₂e/t</option>
+        <option value="3824.09335|tonnes|7850">Metals (avg) · 3,824.09 kg CO₂e/t</option>
+        <option value="120.05|tonnes|900">Plasterboard · 120.05 kg CO₂e/t</option>
+        <option value="269.50416|tonnes|500">Wood / timber · 269.50 kg CO₂e/t</option>
+        <option value="1402.76667|tonnes|2500">Glass · 1,402.77 kg CO₂e/t</option>
+        <option value="3172.49932|tonnes|950">Plastics (avg) · 3,172.50 kg CO₂e/t</option>
+        <option value="|custom|">Custom / EPD-based →</option>
       </select>
     </div>
     <div class="fl"><label>Description</label><input id="c1-desc" placeholder="e.g. Structural steel from Supplier A"/></div>
@@ -226,9 +229,11 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
     <div class="fl"><label>Quantity</label><input type="number" id="c1-qty" placeholder="e.g. 50" min="0" step="any" oninput="c1Preview()"/></div>
     <div class="fl"><label>Unit</label>
       <select id="c1-unit" onchange="c1Preview()">
-        <option value="tonnes">tonnes</option><option value="kg">kg</option>
-        <option value="m3">m³</option><option value="m2">m²</option><option value="pcs">pieces</option>
+        <option value="tonnes">tonnes</option>
+        <option value="kg">kg</option>
+        <option value="m3">m³ (auto-converts via density)</option>
       </select>
+      <div class="hint" id="c1-den-hint" style="display:none"></div>
     </div>
     <div class="fl">
       <label>Emission factor <span class="ef-badge" id="c1-ef-src">DESNZ 2025</span></label>
@@ -271,7 +276,7 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
   </div>
   <div class="g3">
     <div class="fl"><label>Quantity</label><input type="number" id="c2-qty" min="0" step="any" placeholder="e.g. 3.2" oninput="c2Preview()"/></div>
-    <div class="fl"><label>Unit</label><select id="c2-unit" onchange="c2Preview()"><option value="tonnes">tonnes</option><option value="kg">kg</option><option value="pcs">pieces</option></select></div>
+    <div class="fl"><label>Unit</label><select id="c2-unit" onchange="c2Preview()"><option value="tonnes">tonnes</option><option value="kg">kg</option></select></div>
     <div class="fl">
       <label>Factor <span class="ef-badge">DESNZ 2025</span></label>
       <input type="number" id="c2-ef" step="any" oninput="c2Preview()"/>
@@ -525,6 +530,7 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
   <div class="btn-row" style="margin-top:.75rem">
     <button class="btn bg2" onclick="copyDisc()">📋 Copy disclosure</button>
     <button class="btn bgh" onclick="exportCSV()">📥 Export CSV</button>
+    <button class="btn" onclick="window.print()">🖨 Print / PDF</button>
   </div>
 </div>
 
@@ -570,7 +576,7 @@ function showCat(n){
 function c1UpdateFactor(){
   const v=document.getElementById('c1-mat').value;
   if(!v)return;
-  const [ef,unit]=v.split('|');
+  const [ef,unit,den]=v.split('|');
   if(ef){
     document.getElementById('c1-ef').value=ef;
     if(unit)document.getElementById('c1-unit').value=unit;
@@ -579,11 +585,19 @@ function c1UpdateFactor(){
     const sel=document.getElementById('c1-mat');
     if(!document.getElementById('c1-src').value)
       document.getElementById('c1-src').value='DESNZ 2025 — '+sel.options[sel.selectedIndex].text.split('·')[0].trim();
+    // Store density for m³ conversion
+    document.getElementById('c1-mat').dataset.den=den||'';
+    const hint=document.getElementById('c1-den-hint');
+    if(hint&&den){hint.textContent='Density: '+den+' kg/m³ (used for m³ conversion)';hint.style.display='block';}
+    else if(hint){hint.style.display='none';}
   } else {
     document.getElementById('c1-ef').value='';
     document.getElementById('c1-ef-src').textContent='Custom';
     document.getElementById('c1-ef-hint').textContent='Enter your EPD A1–A3 GWP-total value';
     document.getElementById('c1-src').value='';
+    document.getElementById('c1-mat').dataset.den='';
+    const hint=document.getElementById('c1-den-hint');
+    if(hint)hint.style.display='none';
   }
   c1Preview();
 }
@@ -638,8 +652,20 @@ function c1Preview(){
   const qty=parseFloat(document.getElementById('c1-qty').value)||0;
   const ef=parseFloat(document.getElementById('c1-ef').value)||0;
   const unit=document.getElementById('c1-unit').value;
-  const kg=qty*(unit==='kg'?0.001:1)*ef;
-  showPrev('c1',kg,qty&&ef?`${qty} ${unit} × ${fv(ef,3)} kg CO₂e/t = ${fv(kg,1)} kg`:'');
+  const den=parseFloat(document.getElementById('c1-mat').dataset.den)||null;
+  const kg=s3GWP(qty,unit,ef,den);
+  let calc='';
+  if(qty&&ef){
+    if(unit==='m3'&&den){
+      const t=qty*den/1000;
+      calc=`${qty} m³ × ${den} kg/m³ ÷ 1000 = ${fv(t,3)} t → ${fv(t,3)} t × ${fv(ef,3)} kg CO₂e/t = ${fv(kg,1)} kg CO₂e`;
+    } else if(unit==='kg'){
+      calc=`${qty} kg ÷ 1000 = ${fv(qty/1000,4)} t → ${fv(qty/1000,4)} t × ${fv(ef,3)} kg CO₂e/t = ${fv(kg,1)} kg CO₂e`;
+    } else {
+      calc=`${qty} t × ${fv(ef,3)} kg CO₂e/t = ${fv(kg,1)} kg CO₂e`;
+    }
+  }
+  showPrev('c1',kg,calc);
 }
 function c2Preview(){
   const qty=parseFloat(document.getElementById('c2-qty').value)||0;
@@ -682,7 +708,9 @@ function calcEntry(cat){
     const qty=parseFloat(document.getElementById('c'+cat+'-qty').value)||0;
     const ef=parseFloat(document.getElementById('c'+cat+'-ef').value)||0;
     const unit=document.getElementById('c'+cat+'-unit').value;
-    return{kg:qty*(unit==='kg'?0.001:1)*ef, qty:`${qty} ${unit}`, ef:`${ef} kg CO₂e/t`};
+    const den=cat===1?parseFloat(document.getElementById('c1-mat').dataset.den)||null:null;
+    const kg=s3GWP(qty,unit,ef,den);
+    return{kg, qty:`${qty} ${unit}`, ef:`${ef} kg CO₂e/t`};
   }
   if(cat===3){
     const qty=parseFloat(document.getElementById('c3-qty').value)||0;
@@ -720,7 +748,9 @@ function addEntry(cat){
   if(!desc){alert('Please add a description.');return;}
   const data=calcEntry(cat);
   if(!data||!(data.kg>0)){alert('Please fill in quantity and factor — result must be > 0.');return;}
-  entries.push({id:Date.now(),cat,desc,qty:data.qty,ef:data.ef,kg:data.kg,src:getSrc(cat)});
+  const den1 = cat===1 ? (parseFloat(document.getElementById('c1-mat').dataset.den)||null) : null;
+  const unit1 = cat===1 ? document.getElementById('c1-unit').value : null;
+  entries.push({id:Date.now(),cat,desc,qty:data.qty,ef:data.ef,kg:data.kg,src:getSrc(cat),den:den1,unit:unit1});
   renderAll();
   s3ScheduleSave();
   const el=document.getElementById('c'+cat+'-desc');
@@ -733,19 +763,55 @@ function clearAll(){if(!entries.length)return;if(!confirm('Clear all entries?'))
 // ── RENDER ────────────────────────────────────────────────────────────────
 function renderAll(){renderEntries();renderResults();}
 
+function buildCalcStr(e){
+  // Derive unit from e.qty string (e.g. "5555 m3" → "m3")
+  const qtyParts = e.qty.trim().split(' ');
+  const qtyVal = parseFloat(qtyParts[0]) || 0;
+  const unit = e.unit || (qtyParts.length > 1 ? qtyParts[qtyParts.length-1] : 'tonnes');
+  const ef = parseFloat(e.ef) || 0;
+
+  if(e.cat===1 || e.cat===2){
+    if(unit==='m3'){
+      // tonnes = kg / ef; density = tonnes*1000 / qtyVal
+      const tonnes = ef > 0 ? e.kg / ef : 0;
+      const den = qtyVal > 0 ? Math.round(tonnes * 1000 / qtyVal) : (e.den||'?');
+      return `${qtyVal} m³ × ${den} kg/m³ ÷ 1000 = ${fv(tonnes,3)} t  →  ${fv(tonnes,3)} t × ${e.ef} = <strong>${fv(e.kg,2)} kg CO₂e</strong>`;
+    }
+    if(unit==='kg'){
+      const tonnes = qtyVal / 1000;
+      return `${qtyVal} kg ÷ 1000 = ${fv(tonnes,4)} t  →  ${fv(tonnes,4)} t × ${e.ef} = <strong>${fv(e.kg,2)} kg CO₂e</strong>`;
+    }
+    // tonnes — direct
+    return `${qtyVal} t × ${e.ef} = <strong>${fv(e.kg,2)} kg CO₂e</strong>`;
+  }
+  return `${e.qty} × ${e.ef} = <strong>${fv(e.kg,2)} kg CO₂e</strong>`;
+}
+
 function renderEntries(){
   const panel=document.getElementById('entries-panel');
   if(!entries.length){panel.style.display='none';return;}
   panel.style.display='block';
-  document.getElementById('entries-body').innerHTML=entries.map(e=>`<tr>
+  document.getElementById('entries-body').innerHTML=entries.map(e=>{
+    const calcId='calc-'+e.id;
+    return `<tr>
     <td><span class="cbdg ${CAT[e.cat].b}">${CAT[e.cat].n.split('—')[0].trim()}</span></td>
     <td><strong>${e.desc}</strong><br><span style="font-size:10px;color:var(--t3)">${e.src}</span></td>
     <td style="font-size:11px;font-family:monospace;color:var(--t2)">${e.qty}</td>
     <td style="font-size:11px;font-family:monospace;color:var(--t2)">${e.ef}</td>
     <td class="gv">${fv(e.kg,1)}</td>
     <td class="gv">${fv(e.kg/1000,4)}</td>
-    <td><button class="bdel" onclick="removeEntry(${e.id})">×</button></td>
-  </tr>`).join('');
+    <td style="white-space:nowrap">
+      <button class="show-calc" onclick="toggleCalc('${calcId}')">working</button>
+      <button class="bdel" onclick="removeEntry(${e.id})">×</button>
+    </td>
+  </tr>
+  <tr id="${calcId}" style="display:none">
+    <td colspan="7" class="calc-row">
+      <strong>Calc:</strong> ${buildCalcStr(e)} = ${fv(e.kg/1000,5)} tCO₂e<br/>
+      <strong>Source:</strong> ${e.src} &nbsp;·&nbsp; <strong>Cat:</strong> ${CAT[e.cat].n}
+    </td>
+  </tr>`;
+  }).join('');
 }
 
 function renderResults(){
@@ -829,6 +895,16 @@ function exportCSV(){
   a.click();
 }
 
+// ── UNIT CONVERSION ──────────────────────────────────────────────────────
+function s3GWP(qty, inputUnit, efPerTonne, den){
+  // DESNZ factors are per tonne. Convert qty to tonnes then multiply.
+  let qTonnes = qty;
+  if(inputUnit === 'tonnes') qTonnes = qty;
+  if(inputUnit === 'kg')     qTonnes = qty / 1000;
+  if(inputUnit === 'm3' && den) qTonnes = qty * den / 1000; // m³ × kg/m³ ÷ 1000 = tonnes
+  return qTonnes * efPerTonne;
+}
+
 // ── LOCALSTORAGE ─────────────────────────────────────────────────────────
 const S3_KEY = 'flca_scope3_v1';
 let s3SaveTimer = null;
@@ -881,6 +957,11 @@ function s3ClearSaved() {
   document.getElementById('yr').value = '';
   document.getElementById('s3-save-label').textContent = 'Project cleared';
   renderAll();
+}
+
+function toggleCalc(id){
+  const el=document.getElementById(id);
+  if(el)el.style.display=el.style.display==='none'?'table-row':'none';
 }
 
 // Init
