@@ -45,10 +45,11 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
 .hbg{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.2)}
 .hbb{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.1)}
 .cat-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:1rem}
-.cat-tab{padding:7px 14px;border:1px solid var(--brd);border-radius:999px;background:var(--surf);font-family:inherit;font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;transition:.15s;white-space:nowrap}
+.cat-tab{padding:7px 14px;border:1px solid var(--brd);border-radius:var(--r);background:var(--surf);font-family:inherit;font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;transition:.15s;text-align:left;line-height:1.3}
 .cat-tab:hover{border-color:var(--gm);color:var(--gd);background:var(--gl)}
 .cat-tab.active{background:var(--gd);border-color:var(--gd);color:#fff}
 .cat-num{font-size:10px;opacity:.7;margin-right:3px}
+.cat-sub{display:block;font-size:9px;font-weight:400;opacity:.7;margin-top:1px;line-height:1}
 .panel{background:var(--surf);border:1px solid var(--brd);border-radius:var(--rl2);padding:1.25rem;margin-bottom:1rem;box-shadow:var(--sh)}
 .panel-title{font-size:14px;font-weight:700;margin-bottom:.25rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .panel-desc{font-size:12px;color:var(--t2);margin-bottom:1rem;line-height:1.6;max-width:680px}
@@ -141,8 +142,8 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
 
 <div class="hero">
   <div class="hero-tag">Scope 3 Emissions Calculator</div>
-  <h1>Measure your <span>value chain emissions</span></h1>
-  <p>Calculate Scope 3 emissions across Categories 1–6. Emission factors auto-fill from DESNZ 2025 — the UK Government's official conversion factors. Override any value if you have better data.</p>
+  <h1>Turn your Bill of Materials<br><span>into a Scope 3 inventory.</span></h1>
+  <p>Get a fast estimate using DESNZ 2025 government factors — or use real supplier EPD data for greater accuracy. Add sources by category, see your biggest hotspots, export a GHG Protocol disclosure summary.</p>
   <div class="hbdgs">
     <span class="hb hbg">✓ DESNZ 2025 factors</span>
     <span class="hb hbg">✓ Cat 1–6 covered</span>
@@ -152,13 +153,17 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
 </div>
 
 <!-- ENTITY -->
+<div class="ib" style="margin-bottom:1rem;display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+  <span style="font-size:16px">📊</span>
+  <div><strong style="color:var(--t1)">What you get:</strong> total tCO₂e broken down by category · identify your biggest hotspot · GHG Protocol disclosure text ready to copy · CSV export. Use government averages or paste in your own EPD data for any line item.</div>
+</div>
 <div class="panel">
   <div class="sl">Reporting entity</div>
   <div class="g3">
-    <div class="fl"><label>Company / project</label><input id="co" placeholder="Acme Ltd" oninput="refreshDisclosure()"/></div>
-    <div class="fl"><label>Reporting year</label><input id="yr" placeholder="2024" oninput="refreshDisclosure()"/></div>
+    <div class="fl"><label>Company / project</label><input id="co" placeholder="Acme Ltd" oninput="refreshDisclosure();s3ScheduleSave()"/></div>
+    <div class="fl"><label>Reporting year</label><input id="yr" placeholder="2024" oninput="refreshDisclosure();s3ScheduleSave()"/></div>
     <div class="fl"><label>Currency</label>
-      <select id="cur">
+      <select id="cur" onchange="s3ScheduleSave()">
         <option value="GBP">£ GBP</option><option value="EUR">€ EUR</option>
         <option value="USD">$ USD</option><option value="SEK">kr SEK</option><option value="NOK">kr NOK</option>
       </select>
@@ -166,20 +171,29 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
   </div>
 </div>
 
+<!-- SAVE STATUS BAR -->
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;padding:.5rem .875rem;background:var(--surf);border:1px solid var(--brd);border-radius:var(--r);font-size:11px;color:var(--t3)">
+  <span id="s3-save-label">Project auto-saves to your browser</span>
+  <div style="display:flex;gap:8px;align-items:center">
+    <span id="s3-save-status" style="display:none;color:var(--gd);font-weight:600"></span>
+    <button class="btn" style="font-size:11px;padding:3px 10px;color:var(--rd)" onclick="s3ClearSaved()">Clear saved</button>
+  </div>
+</div>
+
 <!-- CATEGORY TABS -->
 <div class="sl">Add emissions by category</div>
 <div class="cat-tabs" id="cat-tabs">
-  <button class="cat-tab active" onclick="showCat(1)"><span class="cat-num">Cat 1</span>Purchased goods</button>
-  <button class="cat-tab" onclick="showCat(2)"><span class="cat-num">Cat 2</span>Capital goods</button>
-  <button class="cat-tab" onclick="showCat(3)"><span class="cat-num">Cat 3</span>Fuel &amp; energy</button>
-  <button class="cat-tab" onclick="showCat(4)"><span class="cat-num">Cat 4</span>Upstream transport</button>
-  <button class="cat-tab" onclick="showCat(5)"><span class="cat-num">Cat 5</span>Waste</button>
-  <button class="cat-tab" onclick="showCat(6)"><span class="cat-num">Cat 6</span>Business travel</button>
+  <button class="cat-tab active" onclick="showCat(1)"><span class="cat-num">Cat 1</span>Purchased goods<span class="cat-sub">materials you buy</span></button>
+  <button class="cat-tab" onclick="showCat(2)"><span class="cat-num">Cat 2</span>Capital goods<span class="cat-sub">machines &amp; equipment</span></button>
+  <button class="cat-tab" onclick="showCat(3)"><span class="cat-num">Cat 3</span>Fuel &amp; energy<span class="cat-sub">upstream of Scope 1/2</span></button>
+  <button class="cat-tab" onclick="showCat(4)"><span class="cat-num">Cat 4</span>Upstream transport<span class="cat-sub">delivering goods to you</span></button>
+  <button class="cat-tab" onclick="showCat(5)"><span class="cat-num">Cat 5</span>Waste<span class="cat-sub">from your operations</span></button>
+  <button class="cat-tab" onclick="showCat(6)"><span class="cat-num">Cat 6</span>Business travel<span class="cat-sub">flights, rail, car</span></button>
 </div>
 
 <!-- ── CAT 1 ── -->
 <div id="c1-panel" class="panel">
-  <div class="panel-title">📦 Category 1 — Purchased goods &amp; services <span class="acc-badge acc-high">Activity-based</span></div>
+  <div class="panel-title">📦 Category 1 — Purchased goods &amp; services <span class="acc-badge acc-high">Activity-based</span> <span style="font-size:11px;font-weight:500;color:var(--b);background:var(--bl);border:1px solid var(--bm);padding:2px 8px;border-radius:999px">✦ Use real EPD data for precision</span></div>
   <div class="panel-desc">All upstream emissions from materials and goods you purchase. Factors are from DESNZ 2025 primary material production (kg CO₂e per tonne). Use EPD A1–A3 values for greater accuracy — override the factor field with your EPD value.</div>
   <button class="help-btn" onclick="toggleHelp('h1')">ℹ What's the difference between DESNZ and EPD factors?</button>
   <div class="help-box" id="h1">
@@ -227,7 +241,7 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
     <div class="rp-calc" id="c1-pc"></div>
   </div>
   <div class="fl" style="margin-bottom:.75rem"><label>Source / EPD reference</label><input id="c1-src" placeholder="e.g. NEPD-1351-567 or DESNZ 2025 Metals"/></div>
-  <button class="btn bg2" onclick="addEntry(1)">+ Add to Cat 1</button>
+  <button class="btn bg2" onclick="addEntry(1)">+ Add emission source</button>
 </div>
 
 <!-- ── CAT 2 ── -->
@@ -268,7 +282,7 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
     <div style="color:var(--t3);font-size:12px">= <span id="c2-pt"></span> tCO₂e</div>
   </div>
   <div class="fl" style="margin-bottom:.75rem"><label>Source</label><input id="c2-src" placeholder="e.g. DESNZ 2025 Metals, supplier data"/></div>
-  <button class="btn bg2" onclick="addEntry(2)">+ Add to Cat 2</button>
+  <button class="btn bg2" onclick="addEntry(2)">+ Add asset</button>
 </div>
 
 <!-- ── CAT 3 ── -->
@@ -313,7 +327,7 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
     <div><div class="rp-val" id="c3-pv">—</div><div class="rp-unit">kg CO₂e</div></div>
     <div style="color:var(--t3);font-size:12px">= <span id="c3-pt"></span> tCO₂e</div>
   </div>
-  <button class="btn bg2" onclick="addEntry(3)">+ Add to Cat 3</button>
+  <button class="btn bg2" onclick="addEntry(3)">+ Add energy source</button>
 </div>
 
 <!-- ── CAT 4 ── -->
@@ -364,7 +378,7 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
     <div style="color:var(--t3);font-size:12px">= <span id="c4-pt"></span> tCO₂e</div>
     <div class="rp-calc" id="c4-pc"></div>
   </div>
-  <button class="btn bg2" onclick="addEntry(4)">+ Add to Cat 4</button>
+  <button class="btn bg2" onclick="addEntry(4)">+ Add transport leg</button>
 </div>
 
 <!-- ── CAT 5 ── -->
@@ -418,7 +432,7 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
     <div><div class="rp-val" id="c5-pv">—</div><div class="rp-unit">kg CO₂e</div></div>
     <div style="color:var(--t3);font-size:12px">= <span id="c5-pt"></span> tCO₂e</div>
   </div>
-  <button class="btn bg2" onclick="addEntry(5)">+ Add to Cat 5</button>
+  <button class="btn bg2" onclick="addEntry(5)">+ Add waste stream</button>
 </div>
 
 <!-- ── CAT 6 ── -->
@@ -475,7 +489,7 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
     <div style="color:var(--t3);font-size:12px">= <span id="c6-pt"></span> tCO₂e</div>
     <div class="rp-calc" id="c6-pc"></div>
   </div>
-  <button class="btn bg2" onclick="addEntry(6)">+ Add to Cat 6</button>
+  <button class="btn bg2" onclick="addEntry(6)">+ Add trip</button>
 </div>
 
 <!-- ENTRIES -->
@@ -707,11 +721,12 @@ function addEntry(cat){
   if(!data||!(data.kg>0)){alert('Please fill in quantity and factor — result must be > 0.');return;}
   entries.push({id:Date.now(),cat,desc,qty:data.qty,ef:data.ef,kg:data.kg,src:getSrc(cat)});
   renderAll();
+  s3ScheduleSave();
   const el=document.getElementById('c'+cat+'-desc');
   if(el)el.value='';
 }
 
-function removeEntry(id){entries=entries.filter(e=>e.id!==id);renderAll();}
+function removeEntry(id){entries=entries.filter(e=>e.id!==id);renderAll();s3ScheduleSave();}
 function clearAll(){if(!entries.length)return;if(!confirm('Clear all entries?'))return;entries=[];renderAll();}
 
 // ── RENDER ────────────────────────────────────────────────────────────────
@@ -813,8 +828,63 @@ function exportCSV(){
   a.click();
 }
 
+// ── LOCALSTORAGE ─────────────────────────────────────────────────────────
+const S3_KEY = 'flca_scope3_v1';
+let s3SaveTimer = null;
+
+function s3ScheduleSave() {
+  clearTimeout(s3SaveTimer);
+  s3SaveTimer = setTimeout(s3Save, 1000);
+}
+
+function s3Save() {
+  try {
+    const data = {
+      co: document.getElementById('co').value,
+      yr: document.getElementById('yr').value,
+      cur: document.getElementById('cur').value,
+      entries: entries,
+      saved: new Date().toLocaleTimeString(),
+    };
+    localStorage.setItem(S3_KEY, JSON.stringify(data));
+    const ss = document.getElementById('s3-save-status');
+    ss.style.display = 'inline';
+    ss.textContent = '✓ Saved at ' + data.saved;
+    setTimeout(() => ss.style.display = 'none', 2500);
+  } catch(e) {}
+}
+
+function s3Restore() {
+  try {
+    const raw = localStorage.getItem(S3_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (data.co) document.getElementById('co').value = data.co;
+    if (data.yr) document.getElementById('yr').value = data.yr;
+    if (data.cur) document.getElementById('cur').value = data.cur;
+    if (data.entries && data.entries.length) {
+      entries = data.entries;
+      renderAll();
+    }
+    if (data.saved) {
+      document.getElementById('s3-save-label').textContent = 'Restored from ' + data.saved;
+    }
+  } catch(e) { console.warn('Scope 3 restore failed:', e); }
+}
+
+function s3ClearSaved() {
+  if (!confirm('Clear saved Scope 3 project? This cannot be undone.')) return;
+  try { localStorage.removeItem(S3_KEY); } catch(e) {}
+  entries = [];
+  document.getElementById('co').value = '';
+  document.getElementById('yr').value = '';
+  document.getElementById('s3-save-label').textContent = 'Project cleared';
+  renderAll();
+}
+
 // Init
 c1UpdateFactor();c2UpdateFactor();c3UpdateFactor();c4UpdateFactor();c5UpdateFactor();c6UpdateFactor();
+s3Restore();
 </script>
 </body>
 </html>

@@ -1034,7 +1034,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
   </div>
 </div>
 
-<div class="disc">⚠ <strong>Disclaimer:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. Generic A1–A3: EPiC Database 2024 (Crawford, Stephan &amp; Prideaux, University of Melbourne; <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a>; used as internal calculation input). Hybrid values — systematically higher than process-only EPDs. Transport: ECTA (2011). Generic materials: EPiC "Embodied GHG Emissions" (hybrid LCI, kg CO₂e — equivalent to GWP-total but not EN 15804 process-based). User EPDs: GWP-total per EN 15804+A2. Generic C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. For compliance, commission a certified LCA practitioner. &nbsp;·&nbsp; © 2026 FastLCA. All rights reserved. &nbsp;·&nbsp; FastLCA v0.9 &nbsp;·&nbsp; <a href="https://fastlca.com">fastlca.com</a> &nbsp;·&nbsp; <a href="/cdn-cgi/l/email-protection#cea6aba2a2a18ea8afbdbaa2adafe0ada1a3"><span class="__cf_email__" data-cfemail="066e636a6a6946606775726a65672865696b">[email&#160;protected]</span></a> &nbsp;·&nbsp; <a href="/about.html">Methodology</a> &nbsp;·&nbsp; <button onclick="openPrivacy()" style="background:none;border:none;color:var(--b);cursor:pointer;font-family:inherit;font-size:11px;padding:0;text-decoration:underline">Privacy Policy</button></div>
+<div class="disc">⚠ <strong>Disclaimer:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. Generic A1–A3: EPiC Database 2024 (Crawford, Stephan &amp; Prideaux, University of Melbourne; <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a>; used as internal calculation input). Hybrid values — systematically higher than process-only EPDs. Transport: ECTA (2011). Generic materials: EPiC "Embodied GHG Emissions" (hybrid LCI, kg CO₂e — equivalent to GWP-total but not EN 15804 process-based). User EPDs: GWP-total per EN 15804+A2. Generic C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. For compliance, commission a certified LCA practitioner. &nbsp;·&nbsp; © 2026 FastLCA. All rights reserved. &nbsp;·&nbsp; FastLCA v0.9 &nbsp;·&nbsp; <a href="https://fastlca.com">fastlca.com</a> &nbsp;·&nbsp; <a href="/cdn-cgi/l/email-protection#6a020f0606052a0c0b191e06090b44090507"><span class="__cf_email__" data-cfemail="e58d8089898aa583849691898684cb868a88">[email&#160;protected]</span></a> &nbsp;·&nbsp; <a href="/about.html">Methodology</a> &nbsp;·&nbsp; <button onclick="openPrivacy()" style="background:none;border:none;color:var(--b);cursor:pointer;font-family:inherit;font-size:11px;padding:0;text-decoration:underline">Privacy Policy</button></div>
 </div>
 
 <!-- PRIVACY MODAL -->
@@ -1044,7 +1044,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
     <h2>Privacy Policy</h2>
     <p class="pm-date">Last updated: April 2026</p>
     <h3>Who we are</h3>
-    <p>FastLCA is a free embodied carbon calculator at <a href="https://fastlca.com">fastlca.com</a>. Contact: <a href="/cdn-cgi/l/email-protection#79111c151516391f180a0d151a18571a1614"><span class="__cf_email__" data-cfemail="8be3eee7e7e4cbedeaf8ffe7e8eaa5e8e4e6">[email&#160;protected]</span></a></p>
+    <p>FastLCA is a free embodied carbon calculator at <a href="https://fastlca.com">fastlca.com</a>. Contact: <a href="/cdn-cgi/l/email-protection#fe969b929291be989f8d8a929d9fd09d9193"><span class="__cf_email__" data-cfemail="224a474e4e4d62444351564e41430c414d4f">[email&#160;protected]</span></a></p>
     <h3>What data we collect</h3>
     <p>FastLCA is designed to collect as little data as possible.</p>
     <ul>
@@ -1062,7 +1062,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
       <li><strong>CORS proxy</strong> (allorigins.win / corsproxy.io) — fetches Google Sheet CSV data. No personal data is sent.</li>
     </ul>
     <h3>Your rights (GDPR)</h3>
-    <p>If you are in the EEA, you have the right to access, correct, or delete any personal data we hold. Since we hold essentially none beyond feedback submissions, email <a href="/cdn-cgi/l/email-protection#9af2fff6f6f5dafcfbe9eef6f9fbb4f9f5f7"><span class="__cf_email__" data-cfemail="0a626f6666654a6c6b797e66696b24696567">[email&#160;protected]</span></a> and we will respond within 30 days.</p>
+    <p>If you are in the EEA, you have the right to access, correct, or delete any personal data we hold. Since we hold essentially none beyond feedback submissions, email <a href="/cdn-cgi/l/email-protection#d4bcb1b8b8bb94b2b5a7a0b8b7b5fab7bbb9"><span class="__cf_email__" data-cfemail="472f222b2b2807212634332b24266924282a">[email&#160;protected]</span></a> and we will respond within 30 days.</p>
     <h3>Data retention</h3>
     <p>Feedback submissions are deleted within 12 months. Your project data in localStorage is under your sole control.</p>
     <div style="margin-top:1.5rem">
@@ -1370,6 +1370,33 @@ async function loadSheetProds(){
 
 
 // ── STARTER EPD DATABASE ───────────────────────────────────────
+const STARTER_CSV=`id,n,cat,mfr,ef,du,den,db,prog,yr,ref,url,c1,c2,c3,c4,d,notes
+_GUIDE — rows starting with _ are ignored by FastLCA,Full product name incl. spec,Category,Manufacturer,A1-A3 GWP (kg CO2e per declared unit) — REQUIRED,kg / m2 / m3 / pcs,Mass per declared unit (kg/du),EPD programme / database,Programme operator,Year,EPD registration number,Direct URL to EPD PDF,C1 demolition,C2 transport,C3 waste proc.,C4 disposal,Module D (neg = credit),Verification status + notes
+HUB-4886,"SWEDOOR ADVANCE-LINE 4210 Steel Door — EI30–EI120 (unglazed, with/without RC4)",Doors & Windows,Jeld-Wen (Swedoor),207.0,m2,,EPDHub,EPDHub,2026,HUB-4886,https://manage.epdhub.com/declarations/windows-doors-openings/jeld-wen/5539/swedoor-advance-line-4210-steel-door-ei30-ei120-with-or-without-rc4-unglazed/,0.0,0.67,1.44,1.84,-42.9,Verified — EPDHub 2026
+HUB-2461,Swedoor CLEVER-LINE — Interior Unclassified Doors,Doors & Windows,Jeld-Wen (Swedoor),-1.287,m2,7.9042,EPDHub,EPDHub,2021,HUB-2461,https://manage.epdhub.com/declarations/windows-doors-openings/jeld-wen/2763/swedoor-clever-line-interior-unclassified-doors/,,0.0371,11.9,2.01,-23.1,Verified — EPDHub 2021. ef is negative (biogenic carbon storage)
+NEPD-2294-1068,ROCKWOOL stone wool — loose wool (blown-in insulation),Insulation,ROCKWOOL,1.11,kg,35,EPD Norway,EPD Norge,2020,NEPD-2294-1068-EN,https://www.epd-norge.no/stone-wool/stone-wool-loose-wool-blown-in-insulation-article2420-1068.html,0.003,0.005,0.012,0.001,-0.18,Verified — EPD Norway. Use for blown insulation applications.
+NEPD-3220-2006,Paroc Extra — stone wool slab (building insulation),Insulation,Paroc Group,1.62,kg,34,EPD Norway,EPD Norge,2021,NEPD-3220-2006-EN,https://www.epd-norge.no/stone-wool/paroc-extra-article2420-2006.html,0.003,0.006,0.014,0.002,-0.22,Verified — EPD Norway 2021. Common slab insulation.
+IBU-NOR-C25,Ready-mix concrete C25/30 — ordinary Portland cement,Concrete,Generic (European),0.159,kg,2350,IBU,IBU,2022,IBU-generic-C25,https://www.ibu-epd.com,0.004,0.006,0.001,0.002,0,Generic European EPD average for C25/30. Replace with local supplier EPD for formal reporting.
+NEPD-1351-567,Celsa Steel — reinforcing steel bar (B500B),Steel,Celsa Steel,0.595,kg,7850,EPD Norway,EPD Norge,2022,NEPD-1351-567-EN,https://www.epd-norge.no/steel/reinforcing-steel-bar-b500b-article2420-567.html,0.004,0.01,0.002,0.001,-0.52,Verified — EPD Norway. EAF electric arc furnace — low carbon rebar.
+NEPD-3208-1976,"Moelven — structural sawn timber (C24, kiln-dried)",Timber,Moelven Industrier,-1.05,kg,480,EPD Norway,EPD Norge,2021,NEPD-3208-1976-EN,https://www.epd-norge.no/wood-and-wood-based-products/structural-sawn-timber-article2420-1976.html,0.002,0.004,0.001,0.028,-0.19,Verified — EPD Norway 2021. ef is negative due to biogenic carbon storage. Typical for softwood structural timber.
+NEPD-2436-1180,Metsä Wood — cross-laminated timber (CLT),Timber,Metsä Wood,-0.66,kg,490,EPD Norway,EPD Norge,2020,NEPD-2436-1180-EN,https://www.epd-norge.no/wood-and-wood-based-products/cross-laminated-timber-article2420-1180.html,0.002,0.005,0.001,0.028,-0.2,Verified — EPD Norway 2020. ef negative — biogenic carbon storage in CLT.
+IBU-AGC-DGU,"AGC Glass — double glazing unit (4-16-4 float, argon filled)",Glass,AGC Glass Europe,25.5,m2,,IBU,IBU,2021,EPD-AGC-20210112-IBA1-EN,https://www.ibu-epd.com/published-epds/,0.05,0.18,0.21,0.01,-1.8,Verified — IBU 2021. Per m² of double glazed unit.
+NEPD-1978-964,Wienerberger — clay brick (standard Nordic facing brick),Masonry,Wienerberger,0.208,kg,1800,EPD Norway,EPD Norge,2019,NEPD-1978-964-EN,https://www.epd-norge.no/bricks-and-rooftiles/clay-brick-article2420-964.html,0.002,0.004,0.001,0.002,0,Verified — EPD Norway 2019. Standard facing brick.
+NEPD-2084-1024,Knauf — standard plasterboard (12.5mm GKB),Finishes,Knauf,4.08,m2,,EPD Norway,EPD Norge,2020,NEPD-2084-1024-EN,https://www.epd-norge.no/plasterboard/knauf-standard-plasterboard-article2420-1024.html,0.01,0.05,0.09,0.01,-0.21,Verified — EPD Norway 2020. Per m² of 12.5mm board.
+`;
+
+function downloadStarterDB(){
+  const a=Object.assign(document.createElement('a'),{
+    href:'data:text/csv;charset=utf-8,'+encodeURIComponent(STARTER_CSV),
+    download:'FastLCA_EPD_Starter_Database.csv'
+  });
+  a.click();
+}
+function loadStarterDB(){
+  parseAndLoadCSV(STARTER_CSV);
+  const wrap=document.getElementById('csv-paste-wrap');
+  if(wrap)wrap.style.display='none';
+}
 
 // ── CSV PASTE FALLBACK ─────────────────────────────────────────
 function showPasteFallback(){
@@ -1564,13 +1591,16 @@ function renderT(){
     return`<tr>
       <td>${i.mat.n}${bdg}<br><span style="font-size:10px;color:var(--t3)">${i.mat.cat}</span></td>
       <td>${fv(i.qty)} ${i.u}${i.qkg===null||i.qkg===undefined?'<br><span style="font-size:9px;color:var(--am)" title="No density — transport mass not calculated">⚠ mass unknown</span>':''}</td>
-      <td class="gv">${fv(i.gwp)} kg</td>
+      <td class="gv" style="white-space:nowrap">${i.mat.ef<0?`<span style="color:var(--b)" title="Negative A1\u20133: this product stores more biogenic carbon (from plant growth) than is emitted in its production. Typical for timber, CLT, and wood products per EN 15804.">${fv(i.gwp)} kg \u24d8</span>`:`${fv(i.gwp)} kg`}</td>
       <td><span style="font-size:10px;color:var(--t2)">${i.mat.db||'EPiC 2024'}</span>${i.mat.url&&i.mat.url.startsWith('http')?`<br><a href="${i.mat.url}" target="_blank" style="font-size:10px">Source ↗</a>`:''}${i.mat.yr&&i.mat.yr!=='—'?`<br><span style="font-size:9px;color:var(--t3)">${i.mat.yr}</span>`:''}</td>
       <td><div class="epls">${ec}</div></td>
       <td><button class="bdel" onclick="rem(${i.id})">×</button></td>
     </tr>`;
   }).join('');
   document.getElementById('mbn').style.display='block';
+  const hasNeg=items.some(i=>i.mat.ef<0);
+  const negNote=document.getElementById('neg-ef-note');
+  if(negNote)negNote.style.display=hasNeg?'block':'none';
 }
 
 function renderEol(){
