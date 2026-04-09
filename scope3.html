@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FastLCA — Scope 3 Calculator</title>
+<meta name="description" content="Calculate Scope 3 emissions across Categories 1–6 using real DESNZ 2025 conversion factors. Free, GHG Protocol aligned."/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#F5F5F5;--surf:#fff;--surf2:#FAFAFA;--brd:#E0E0E0;--brd2:#EEEEEE;
+  --t1:#212121;--t2:#616161;--t3:#9E9E9E;
+  --g:#2E7D32;--gl:#E8F5E9;--gm:#A5D6A7;--gd:#1B5E20;
+  --b:#1565C0;--bl:#E3F2FD;--bm:#BBDEFB;--bd:#0D47A1;
+  --am:#E65100;--al:#FFF3E0;--a2:#FFCC80;
+  --rd:#C62828;--rl:#FFEBEE;
+  --sh:0 1px 3px rgba(0,0,0,.08);--shl:0 8px 24px rgba(0,0,0,.12);
+  --r:8px;--rl2:12px;
+}
+[data-theme="dark"]{
+  --bg:#121212;--surf:#1E1E1E;--surf2:#252525;--brd:#333;--brd2:#2A2A2A;
+  --t1:#E0E0E0;--t2:#9E9E9E;--t3:#616161;
+  --gl:#1B2E1C;--gm:#2E7D32;--bl:#0D1B2E;--bm:#1565C0;--al:#2E1A00;--rl:#2E0A0A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t1);font-size:14px;line-height:1.5}
+nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:100;box-shadow:var(--sh)}
+.nl{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--t1)}
+.nn{font-weight:800;font-size:16px;letter-spacing:-.4px}
+.nr{display:flex;align-items:center;gap:4px}
+.nbdg{font-size:10px;font-weight:700;background:var(--gl);color:var(--gd);padding:3px 8px;border-radius:999px;border:1px solid var(--gm);margin-right:6px}
+.bnav{background:none;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:500;color:var(--t2);padding:6px 10px;border-radius:var(--r);transition:.15s;text-decoration:none;display:inline-flex;align-items:center}
+.bnav:hover,.bnav.active{background:var(--gl);color:var(--gd)}
+.bnav-sm{display:none}@media(min-width:600px){.bnav-sm{display:inline-flex}}
+.tbtn{background:none;border:1px solid var(--brd);cursor:pointer;font-family:inherit;font-size:12px;color:var(--t2);padding:4px 9px;border-radius:var(--r)}
+.cont{max-width:960px;margin:0 auto;padding:1.25rem 1rem 3rem}
+.hero{background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 60%,#388E3C 100%);border-radius:var(--rl2);padding:2rem 1.75rem;margin-bottom:1rem;box-shadow:0 4px 20px rgba(27,94,32,.25);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(255,255,255,.04);border-radius:50%}
+.hero-tag{font-size:11px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem}
+.hero h1{font-size:clamp(20px,4vw,30px);font-weight:800;color:#fff;letter-spacing:-.5px;line-height:1.2;margin-bottom:.6rem}
+.hero h1 span{color:#A5D6A7}
+.hero p{font-size:13px;color:rgba(255,255,255,.8);max-width:560px;line-height:1.6;margin-bottom:1rem}
+.hbdgs{display:flex;flex-wrap:wrap;gap:6px}
+.hb{font-size:10px;font-weight:600;padding:3px 9px;border-radius:999px}
+.hbg{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.2)}
+.hbb{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.1)}
+.cat-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:1rem}
+.cat-tab{padding:7px 14px;border:1px solid var(--brd);border-radius:999px;background:var(--surf);font-family:inherit;font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;transition:.15s;white-space:nowrap}
+.cat-tab:hover{border-color:var(--gm);color:var(--gd);background:var(--gl)}
+.cat-tab.active{background:var(--gd);border-color:var(--gd);color:#fff}
+.cat-num{font-size:10px;opacity:.7;margin-right:3px}
+.panel{background:var(--surf);border:1px solid var(--brd);border-radius:var(--rl2);padding:1.25rem;margin-bottom:1rem;box-shadow:var(--sh)}
+.panel-title{font-size:14px;font-weight:700;margin-bottom:.25rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.panel-desc{font-size:12px;color:var(--t2);margin-bottom:1rem;line-height:1.6;max-width:680px}
+.sl{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem}
+.ib{font-size:12px;color:var(--t2);padding:.625rem .875rem;background:var(--bl);border-radius:var(--r);border:1px solid var(--bm);line-height:1.6;margin-bottom:.75rem}
+.wb{font-size:12px;color:var(--am);padding:.625rem .875rem;background:var(--al);border-radius:var(--r);border:1px solid var(--a2);line-height:1.6;margin-bottom:.75rem}
+.help-btn{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--b);cursor:pointer;border:none;background:none;font-family:inherit;padding:0;margin-bottom:.625rem;text-decoration:underline;text-underline-offset:2px}
+.help-box{display:none;font-size:11px;color:var(--t2);background:var(--surf2);border:1px solid var(--brd);border-left:3px solid var(--b);border-radius:var(--r);padding:.75rem 1rem;line-height:1.7;margin-bottom:.75rem}
+.help-box.open{display:block}
+.help-box strong{color:var(--t1)}
+.help-box a{color:var(--b)}
+.fl{display:flex;flex-direction:column;gap:4px}
+.fl label{font-size:12px;font-weight:600;color:var(--t2);display:flex;align-items:center;gap:5px}
+.fl input,.fl select{border:1px solid var(--brd);border-radius:var(--r);padding:8px 11px;font-family:inherit;font-size:13px;color:var(--t1);background:var(--surf);transition:border-color .15s;width:100%}
+.fl input:focus,.fl select:focus{outline:none;border-color:var(--g);box-shadow:0 0 0 2px rgba(46,125,50,.1)}
+.fl .hint{font-size:10px;color:var(--t3);line-height:1.4;margin-top:2px}
+.ef-badge{font-size:9px;background:var(--gl);color:var(--gd);padding:2px 5px;border-radius:4px;font-weight:700;white-space:nowrap;border:1px solid var(--gm)}
+.acc-badge{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px}
+.acc-high{background:#E8F5E9;color:#1B5E20;border:1px solid #A5D6A7}
+.acc-med{background:#FFF3E0;color:#E65100;border:1px solid #FFCC80}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:.75rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:.75rem}
+@media(max-width:580px){.g2,.g3{grid-template-columns:1fr 1fr}}
+@media(max-width:380px){.g2,.g3{grid-template-columns:1fr}}
+.result-prev{display:none;align-items:center;gap:14px;background:var(--gl);border:1px solid var(--gm);border-radius:var(--r);padding:10px 16px;margin-bottom:.75rem}
+.rp-val{font-weight:800;font-size:22px;color:var(--gd);font-family:monospace}
+.rp-unit{font-size:11px;color:var(--t3)}
+.rp-calc{font-size:11px;color:var(--t2);margin-left:auto}
+.btn{border:1px solid var(--brd);background:var(--surf);color:var(--t1);padding:8px 16px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;border-radius:var(--r);display:inline-flex;align-items:center;gap:6px;transition:.15s}
+.btn:hover{background:var(--surf2)}
+.bg2{background:var(--gd);border-color:var(--gd);color:#fff}.bg2:hover{background:var(--g)}
+.bgh{background:var(--gl);border-color:var(--gm);color:var(--gd)}.bgh:hover{background:var(--gm)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:.5rem}
+.tbl-wrap{overflow-x:auto;margin-bottom:.75rem}
+.itbl{width:100%;border-collapse:collapse;font-size:12px}
+.itbl th{background:var(--surf2);padding:7px 10px;text-align:left;font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--brd);white-space:nowrap}
+.itbl td{padding:7px 10px;border-bottom:1px solid var(--brd2);vertical-align:middle}
+.itbl tr:last-child td{border-bottom:none}
+.itbl tr:hover td{background:var(--surf2)}
+.gv{font-weight:700;color:var(--gd);font-family:monospace}
+.cbdg{font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;white-space:nowrap}
+.bdel{background:none;border:none;cursor:pointer;color:var(--t3);font-size:16px;padding:2px 6px;border-radius:4px;line-height:1}.bdel:hover{color:var(--rd);background:var(--rl)}
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
+@media(max-width:480px){.res-grid{grid-template-columns:1fr 1fr}}
+.rcard{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r);padding:1rem;text-align:center}
+.rcard.main{background:var(--gl);border-color:var(--gm)}
+.rcard-val{font-size:26px;font-weight:800;color:var(--gd);letter-spacing:-.5px;line-height:1}
+.rcard-unit{font-size:10px;color:var(--t3);margin-top:2px}
+.rcard-lbl{font-size:11px;font-weight:600;color:var(--t2);margin-top:5px}
+.bar-list{display:flex;flex-direction:column;gap:5px;margin-bottom:1rem}
+.bar-row{display:grid;grid-template-columns:140px 1fr 80px;gap:8px;align-items:center}
+.bar-lbl{font-size:12px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+.bar-track{height:8px;background:var(--surf2);border-radius:4px;overflow:hidden;border:1px solid var(--brd2)}
+.bar-fill{height:100%;border-radius:4px;transition:width .4s}
+.bar-val{font-size:11px;text-align:right;font-weight:700;color:var(--gd);font-family:monospace}
+.disclosure{background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);padding:1rem;font-size:11px;font-family:monospace;white-space:pre-wrap;line-height:1.8;max-height:280px;overflow-y:auto}
+.disc{font-size:11px;color:var(--t3);line-height:1.7;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--brd2)}
+.disc a{color:var(--b)}
+/* Category badge colours */
+.b1{background:#E8F5E9;color:#1B5E20;border:1px solid #A5D6A7}
+.b2{background:#E3F2FD;color:#0D47A1;border:1px solid #90CAF9}
+.b3{background:#FFF3E0;color:#E65100;border:1px solid #FFCC80}
+.b4{background:#F3E5F5;color:#4A148C;border:1px solid #CE93D8}
+.b5{background:#EFEBE9;color:#4E342E;border:1px solid #BCAAA4}
+.b6{background:#E0F7FA;color:#006064;border:1px solid #80DEEA}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nl" href="/">
+    <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+      <circle cx="17" cy="17" r="17" fill="#1B5E20"/>
+      <path d="M17 27V16" stroke="#A5D6A7" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M17 20 C14 20 11 18 11 14 C14 14 17 16 17 20Z" fill="#4CAF50"/>
+      <path d="M17 22 C20 22 23 20 23 16 C20 16 17 18 17 22Z" fill="#66BB6A"/>
+      <path d="M17 17 C17 14 19 11 22 10 C22 13 20 16 17 17Z" fill="#81C784"/>
+    </svg>
+    <span class="nn">FastLCA</span>
+  </a>
+  <div class="nr">
+    <span class="nbdg">Free · GHG Protocol</span>
+    <a href="/" class="bnav bnav-sm">Calculator</a>
+    <a href="/about.html" class="bnav bnav-sm">About</a>
+    <a href="/scope3.html" class="bnav bnav-sm active">Scope 3</a>
+    <button class="tbtn" id="tbtn" onclick="toggleTheme()">🌙</button>
+  </div>
+</nav>
+
+<div class="cont">
+
+<div class="hero">
+  <div class="hero-tag">Scope 3 Emissions Calculator</div>
+  <h1>Measure your <span>value chain emissions</span></h1>
+  <p>Calculate Scope 3 emissions across Categories 1–6. Emission factors auto-fill from DESNZ 2025 — the UK Government's official conversion factors. Override any value if you have better data.</p>
+  <div class="hbdgs">
+    <span class="hb hbg">✓ DESNZ 2025 factors</span>
+    <span class="hb hbg">✓ Cat 1–6 covered</span>
+    <span class="hb hbb">GHG Protocol aligned</span>
+    <span class="hb hbb">All factors editable</span>
+  </div>
+</div>
+
+<!-- ENTITY -->
+<div class="panel">
+  <div class="sl">Reporting entity</div>
+  <div class="g3">
+    <div class="fl"><label>Company / project</label><input id="co" placeholder="Acme Ltd" oninput="refreshDisclosure()"/></div>
+    <div class="fl"><label>Reporting year</label><input id="yr" placeholder="2024" oninput="refreshDisclosure()"/></div>
+    <div class="fl"><label>Currency</label>
+      <select id="cur">
+        <option value="GBP">£ GBP</option><option value="EUR">€ EUR</option>
+        <option value="USD">$ USD</option><option value="SEK">kr SEK</option><option value="NOK">kr NOK</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORY TABS -->
+<div class="sl">Add emissions by category</div>
+<div class="cat-tabs" id="cat-tabs">
+  <button class="cat-tab active" onclick="showCat(1)"><span class="cat-num">Cat 1</span>Purchased goods</button>
+  <button class="cat-tab" onclick="showCat(2)"><span class="cat-num">Cat 2</span>Capital goods</button>
+  <button class="cat-tab" onclick="showCat(3)"><span class="cat-num">Cat 3</span>Fuel &amp; energy</button>
+  <button class="cat-tab" onclick="showCat(4)"><span class="cat-num">Cat 4</span>Upstream transport</button>
+  <button class="cat-tab" onclick="showCat(5)"><span class="cat-num">Cat 5</span>Waste</button>
+  <button class="cat-tab" onclick="showCat(6)"><span class="cat-num">Cat 6</span>Business travel</button>
+</div>
+
+<!-- ── CAT 1 ── -->
+<div id="c1-panel" class="panel">
+  <div class="panel-title">📦 Category 1 — Purchased goods &amp; services <span class="acc-badge acc-high">Activity-based</span></div>
+  <div class="panel-desc">All upstream emissions from materials and goods you purchase. Factors are from DESNZ 2025 primary material production (kg CO₂e per tonne). Use EPD A1–A3 values for greater accuracy — override the factor field with your EPD value.</div>
+  <button class="help-btn" onclick="toggleHelp('h1')">ℹ What's the difference between DESNZ and EPD factors?</button>
+  <div class="help-box" id="h1">
+    <strong>DESNZ 2025 material factors</strong> (auto-filled) are average UK production figures covering all upstream emissions per tonne. Source: UK Government DESNZ 2025 "Material use" sheet, Open Government Licence.<br/><br/>
+    <strong>EPD A1–A3 factors</strong> are product-specific values from a verified Environmental Product Declaration. More accurate. Enter them by overriding the factor field — make sure units match (if your EPD is per kg, either convert to tonnes or change the quantity accordingly).<br/><br/>
+    <strong>Accuracy note:</strong> DESNZ material factors can be ±50% from specific products. The 2022 DESNZ update changed the concrete/cement factor by +119% due to a methodology revision. Always check which factor year you're using when tracking trends year-on-year.
+  </div>
+  <div class="g2">
+    <div class="fl">
+      <label>Material type</label>
+      <select id="c1-mat" onchange="c1UpdateFactor()">
+        <option value="">— select material —</option>
+        <option value="7.79306|tonnes">Aggregates · 7.79 kg CO₂e/t</option>
+        <option value="39.21249|tonnes">Asphalt · 39.21 kg CO₂e/t</option>
+        <option value="241.79306|tonnes">Bricks · 241.79 kg CO₂e/t</option>
+        <option value="118.79306|tonnes">Concrete · 118.79 kg CO₂e/t</option>
+        <option value="1861.79306|tonnes">Insulation · 1,861.79 kg CO₂e/t</option>
+        <option value="3824.09335|tonnes">Metals (avg) · 3,824.09 kg CO₂e/t</option>
+        <option value="120.05|tonnes">Plasterboard · 120.05 kg CO₂e/t</option>
+        <option value="269.50416|tonnes">Wood / timber · 269.50 kg CO₂e/t</option>
+        <option value="1402.76667|tonnes">Glass · 1,402.77 kg CO₂e/t</option>
+        <option value="3172.49932|tonnes">Plastics (avg) · 3,172.50 kg CO₂e/t</option>
+        <option value="|custom">Custom / EPD-based →</option>
+      </select>
+    </div>
+    <div class="fl"><label>Description</label><input id="c1-desc" placeholder="e.g. Structural steel from Supplier A"/></div>
+  </div>
+  <div class="g3">
+    <div class="fl"><label>Quantity</label><input type="number" id="c1-qty" placeholder="e.g. 50" min="0" step="any" oninput="c1Preview()"/></div>
+    <div class="fl"><label>Unit</label>
+      <select id="c1-unit" onchange="c1Preview()">
+        <option value="tonnes">tonnes</option><option value="kg">kg</option>
+        <option value="m3">m³</option><option value="m2">m²</option><option value="pcs">pieces</option>
+      </select>
+    </div>
+    <div class="fl">
+      <label>Emission factor <span class="ef-badge" id="c1-ef-src">DESNZ 2025</span></label>
+      <input type="number" id="c1-ef" placeholder="kg CO₂e per unit" step="any" oninput="c1Preview()"/>
+      <div class="hint" id="c1-ef-hint">Auto-filled — edit to use EPD A1–A3 GWP-total value</div>
+    </div>
+  </div>
+  <div class="result-prev" id="c1-prev">
+    <div><div class="rp-val" id="c1-pv">—</div><div class="rp-unit">kg CO₂e</div></div>
+    <div style="color:var(--t3);font-size:12px">= <span id="c1-pt"></span> tCO₂e</div>
+    <div class="rp-calc" id="c1-pc"></div>
+  </div>
+  <div class="fl" style="margin-bottom:.75rem"><label>Source / EPD reference</label><input id="c1-src" placeholder="e.g. NEPD-1351-567 or DESNZ 2025 Metals"/></div>
+  <button class="btn bg2" onclick="addEntry(1)">+ Add to Cat 1</button>
+</div>
+
+<!-- ── CAT 2 ── -->
+<div id="c2-panel" class="panel" style="display:none">
+  <div class="panel-title">🏗 Category 2 — Capital goods <span class="acc-badge acc-med">Activity-based</span></div>
+  <div class="panel-desc">Upstream emissions from purchased capital goods: machinery, equipment, vehicles, buildings, IT hardware. Report all emissions in the year of acquisition — GHG Protocol does not spread them over asset life.</div>
+  <button class="help-btn" onclick="toggleHelp('h2')">ℹ What counts as a capital good vs a purchased good?</button>
+  <div class="help-box" id="h2">
+    <strong>Capital goods (Cat 2)</strong> are assets with useful life &gt;1 year used in your operations: manufacturing machinery, computers, company vehicles, cranes, office fit-out.<br/>
+    <strong>Purchased goods (Cat 1)</strong> are consumables: raw materials, components, packaging, maintenance supplies.<br/><br/>
+    For equipment, use the relevant material factor as a proxy — e.g. a steel machine → metals factor. For precision, ask the supplier for an EPD or lifecycle assessment. Electronics have very high factors (24,865 kg CO₂e/t for IT equipment per DESNZ 2025).
+  </div>
+  <div class="g2">
+    <div class="fl">
+      <label>Asset type</label>
+      <select id="c2-type" onchange="c2UpdateFactor()">
+        <option value="3824.09335|tonnes">Metal machinery / equipment</option>
+        <option value="3824.09335|tonnes">Construction equipment</option>
+        <option value="3824.09335|tonnes">Company vehicles</option>
+        <option value="24865.47556|tonnes">IT equipment / electronics</option>
+        <option value="269.50416|tonnes">Office furniture (timber)</option>
+        <option value="|custom">Custom →</option>
+      </select>
+    </div>
+    <div class="fl"><label>Description</label><input id="c2-desc" placeholder="e.g. CNC machine, 3.2 t"/></div>
+  </div>
+  <div class="g3">
+    <div class="fl"><label>Quantity</label><input type="number" id="c2-qty" min="0" step="any" placeholder="e.g. 3.2" oninput="c2Preview()"/></div>
+    <div class="fl"><label>Unit</label><select id="c2-unit" onchange="c2Preview()"><option value="tonnes">tonnes</option><option value="kg">kg</option><option value="pcs">pieces</option></select></div>
+    <div class="fl">
+      <label>Factor <span class="ef-badge">DESNZ 2025</span></label>
+      <input type="number" id="c2-ef" step="any" oninput="c2Preview()"/>
+      <div class="hint">kg CO₂e per unit</div>
+    </div>
+  </div>
+  <div class="result-prev" id="c2-prev">
+    <div><div class="rp-val" id="c2-pv">—</div><div class="rp-unit">kg CO₂e</div></div>
+    <div style="color:var(--t3);font-size:12px">= <span id="c2-pt"></span> tCO₂e</div>
+  </div>
+  <div class="fl" style="margin-bottom:.75rem"><label>Source</label><input id="c2-src" placeholder="e.g. DESNZ 2025 Metals, supplier data"/></div>
+  <button class="btn bg2" onclick="addEntry(2)">+ Add to Cat 2</button>
+</div>
+
+<!-- ── CAT 3 ── -->
+<div id="c3-panel" class="panel" style="display:none">
+  <div class="panel-title">⚡ Category 3 — Fuel &amp; energy activities <span class="acc-badge acc-high">Activity-based</span></div>
+  <div class="panel-desc">Upstream (well-to-tank) emissions from producing the fuels and electricity you consume. This is separate from and additional to your Scope 1 (combustion) and Scope 2 (purchased electricity) emissions.</div>
+  <button class="help-btn" onclick="toggleHelp('h3')">ℹ Why report this if I already report Scope 1 and 2?</button>
+  <div class="help-box" id="h3">
+    Your Scope 1 covers the combustion of fuel (e.g. diesel burning = 2.57 kg CO₂e/litre). But extracting, refining and transporting that diesel to you also emits carbon — that's the <strong>well-to-tank (WTT)</strong> factor (~0.58 kg CO₂e/litre for diesel). WTT goes in Cat 3.<br/><br/>
+    Similarly, the UK grid loses ~7.5% of electricity in transmission — those losses (T&amp;D, 0.020 kg CO₂e/kWh) and the upstream emissions from generating electricity (WTT, 0.029 kg CO₂e/kWh) are also Cat 3.<br/><br/>
+    Source: DESNZ 2025 WTT-fuels and Transmission and distribution sheets.
+  </div>
+  <div class="g2">
+    <div class="fl">
+      <label>Energy source</label>
+      <select id="c3-fuel" onchange="c3UpdateFactor()">
+        <optgroup label="Fuels — WTT upstream">
+          <option value="0.58425|litres">Diesel WTT · 0.584 kg CO₂e/litre</option>
+          <option value="0.54189|litres">Petrol WTT · 0.542 kg CO₂e/litre</option>
+          <option value="0.04285|kWh">Natural gas WTT · 0.043 kg CO₂e/kWh</option>
+          <option value="0.04901|litres">LPG WTT · 0.049 kg CO₂e/litre</option>
+        </optgroup>
+        <optgroup label="Electricity">
+          <option value="0.01968|kWh">UK electricity T&amp;D losses · 0.020 kg CO₂e/kWh</option>
+          <option value="0.02853|kWh">UK electricity WTT generation · 0.029 kg CO₂e/kWh</option>
+        </optgroup>
+        <option value="|custom">Custom →</option>
+      </select>
+    </div>
+    <div class="fl"><label>Description</label><input id="c3-desc" placeholder="e.g. Site diesel 2024 — WTT portion"/></div>
+  </div>
+  <div class="g3">
+    <div class="fl"><label>Quantity</label><input type="number" id="c3-qty" min="0" step="any" placeholder="e.g. 5000" oninput="c3Preview()"/></div>
+    <div class="fl"><label>Unit</label><select id="c3-unit" onchange="c3Preview()"><option value="litres">litres</option><option value="kWh">kWh</option><option value="m3">m³</option><option value="tonnes">tonnes</option></select></div>
+    <div class="fl">
+      <label>WTT factor <span class="ef-badge">DESNZ 2025</span></label>
+      <input type="number" id="c3-ef" step="any" oninput="c3Preview()"/>
+      <div class="hint">kg CO₂e per unit — WTT/upstream only</div>
+    </div>
+  </div>
+  <div class="result-prev" id="c3-prev">
+    <div><div class="rp-val" id="c3-pv">—</div><div class="rp-unit">kg CO₂e</div></div>
+    <div style="color:var(--t3);font-size:12px">= <span id="c3-pt"></span> tCO₂e</div>
+  </div>
+  <button class="btn bg2" onclick="addEntry(3)">+ Add to Cat 3</button>
+</div>
+
+<!-- ── CAT 4 ── -->
+<div id="c4-panel" class="panel" style="display:none">
+  <div class="panel-title">🚛 Category 4 — Upstream transport <span class="acc-badge acc-high">Activity-based</span></div>
+  <div class="panel-desc">Emissions from transporting purchased goods to your facilities. Enter weight, distance, and vehicle type — the tonne-km calculation is automatic.</div>
+  <button class="help-btn" onclick="toggleHelp('h4')">ℹ How to estimate tonne-km and choose vehicle type</button>
+  <div class="help-box" id="h4">
+    <strong>Tonne-km</strong> = weight of goods (tonnes) × distance travelled (km).<br/>
+    Example: 20 tonnes of steel delivered 150 km = 3,000 tonne-km × 0.211 kg CO₂e/t·km = 633 kg CO₂e.<br/><br/>
+    <strong>Typical distances:</strong> Local UK delivery ~50 km · National UK ~300 km · European road ~1,500 km · Sea freight ~10,000–20,000 km.<br/><br/>
+    <strong>Vehicle choice:</strong> Most heavy construction deliveries = HGV rigid &gt;17t (0.211 kg/t·km). General HGV average = 0.122. Sea bulk = 0.016. Air freight is ~50× more carbon-intensive than sea.<br/><br/>
+    Source: DESNZ 2025 Freighting goods sheet.
+  </div>
+  <div class="g2">
+    <div class="fl">
+      <label>Transport mode</label>
+      <select id="c4-mode" onchange="c4UpdateFactor()">
+        <optgroup label="Road — HGV">
+          <option value="0.21116">HGV rigid &gt;17t · 0.211 kg CO₂e/t·km</option>
+          <option value="0.12226">HGV all average · 0.122 kg CO₂e/t·km</option>
+          <option value="0.09675">HGV artic &gt;33t · 0.097 kg CO₂e/t·km</option>
+          <option value="0.6313">Van ≤3.5t average · 0.631 kg CO₂e/t·km</option>
+        </optgroup>
+        <optgroup label="Rail &amp; Sea">
+          <option value="0.024">Rail freight · 0.024 kg CO₂e/t·km</option>
+          <option value="0.016">Sea freight bulk · 0.016 kg CO₂e/t·km</option>
+        </optgroup>
+        <optgroup label="Air">
+          <option value="0.89939">Air freight long-haul · 0.899 kg CO₂e/t·km</option>
+        </optgroup>
+        <option value="">Custom →</option>
+      </select>
+    </div>
+    <div class="fl"><label>Description</label><input id="c4-desc" placeholder="e.g. Timber delivery from Sweden"/></div>
+  </div>
+  <div class="g3">
+    <div class="fl"><label>Weight (tonnes)</label><input type="number" id="c4-wt" min="0" step="any" placeholder="e.g. 20" oninput="c4Preview()"/></div>
+    <div class="fl"><label>Distance (km)</label><input type="number" id="c4-dist" min="0" step="any" placeholder="e.g. 1500" oninput="c4Preview()"/></div>
+    <div class="fl">
+      <label>Factor <span class="ef-badge">DESNZ 2025</span></label>
+      <input type="number" id="c4-ef" step="any" oninput="c4Preview()"/>
+      <div class="hint" id="c4-tkm-hint">kg CO₂e per tonne·km</div>
+    </div>
+  </div>
+  <div class="result-prev" id="c4-prev">
+    <div><div class="rp-val" id="c4-pv">—</div><div class="rp-unit">kg CO₂e</div></div>
+    <div style="color:var(--t3);font-size:12px">= <span id="c4-pt"></span> tCO₂e</div>
+    <div class="rp-calc" id="c4-pc"></div>
+  </div>
+  <button class="btn bg2" onclick="addEntry(4)">+ Add to Cat 4</button>
+</div>
+
+<!-- ── CAT 5 ── -->
+<div id="c5-panel" class="panel" style="display:none">
+  <div class="panel-title">🗑 Category 5 — Waste in operations <span class="acc-badge acc-high">Activity-based</span></div>
+  <div class="panel-desc">Emissions from treating waste generated by your operations. The emissions occur at the waste facility — these are Scope 3, not Scope 1. Note: wood sent to landfill has an extremely high factor (925 kg CO₂e/t) due to methane from decomposition.</div>
+  <button class="help-btn" onclick="toggleHelp('h5')">ℹ Which disposal route should I choose?</button>
+  <div class="help-box" id="h5">
+    <strong>Recycling / closed-loop</strong> (1.01 kg CO₂e/t): Best option for inert construction materials. Only transport emissions.<br/>
+    <strong>Landfill</strong>: Very low for inert materials (1.26 kg CO₂e/t), but extremely high for organic materials — wood (925 kg/t), plasterboard (72 kg/t) due to methane generation.<br/>
+    <strong>Incineration with energy recovery</strong>: ~4.69 kg CO₂e/t for most materials — better than landfill for organic waste but worse than recycling.<br/><br/>
+    If you don't know the split, use "Average construction — landfill" as a conservative estimate.<br/><br/>
+    Source: DESNZ 2025 Waste disposal sheet.
+  </div>
+  <div class="g2">
+    <div class="fl">
+      <label>Waste stream &amp; route</label>
+      <select id="c5-type" onchange="c5UpdateFactor()">
+        <optgroup label="Construction — Recycling (low impact)">
+          <option value="1.00835">Aggregates / concrete / metals — recycling · 1.01 kg CO₂e/t</option>
+        </optgroup>
+        <optgroup label="Construction — Landfill">
+          <option value="1.26338">Aggregates / concrete / bricks — landfill · 1.26 kg CO₂e/t</option>
+          <option value="1.26435">Metals — landfill · 1.26 kg CO₂e/t</option>
+          <option value="71.95">Plasterboard — landfill · 71.95 kg CO₂e/t ⚠</option>
+          <option value="925.34348">Wood — landfill · 925 kg CO₂e/t ⚠ HIGH</option>
+          <option value="1.00835">Average construction — landfill · 1.01 kg CO₂e/t</option>
+        </optgroup>
+        <optgroup label="Construction — Incineration">
+          <option value="4.68568">Average construction — incineration · 4.69 kg CO₂e/t</option>
+          <option value="4.68568">Wood — incineration · 4.69 kg CO₂e/t</option>
+        </optgroup>
+        <optgroup label="General waste">
+          <option value="520.5327">Commercial &amp; industrial — landfill · 520.53 kg CO₂e/t</option>
+          <option value="4.68568">Commercial &amp; industrial — incineration · 4.69 kg CO₂e/t</option>
+        </optgroup>
+        <option value="">Custom →</option>
+      </select>
+    </div>
+    <div class="fl"><label>Description</label><input id="c5-desc" placeholder="e.g. Concrete rubble to recycling"/></div>
+  </div>
+  <div class="g2">
+    <div class="fl"><label>Quantity (tonnes)</label><input type="number" id="c5-qty" min="0" step="any" placeholder="e.g. 5" oninput="c5Preview()"/></div>
+    <div class="fl">
+      <label>Factor <span class="ef-badge">DESNZ 2025</span></label>
+      <input type="number" id="c5-ef" step="any" oninput="c5Preview()"/>
+      <div class="hint">kg CO₂e per tonne</div>
+    </div>
+  </div>
+  <div class="result-prev" id="c5-prev">
+    <div><div class="rp-val" id="c5-pv">—</div><div class="rp-unit">kg CO₂e</div></div>
+    <div style="color:var(--t3);font-size:12px">= <span id="c5-pt"></span> tCO₂e</div>
+  </div>
+  <button class="btn bg2" onclick="addEntry(5)">+ Add to Cat 5</button>
+</div>
+
+<!-- ── CAT 6 ── -->
+<div id="c6-panel" class="panel" style="display:none">
+  <div class="panel-title">✈ Category 6 — Business travel <span class="acc-badge acc-high">Activity-based</span></div>
+  <div class="panel-desc">Emissions from employee travel in vehicles not owned by your company. Flight factors include radiative forcing (RF) — the additional warming effect of contrails at altitude, which roughly doubles the climate impact of flying.</div>
+  <button class="help-btn" onclick="toggleHelp('h6')">ℹ What is radiative forcing and should I include it?</button>
+  <div class="help-box" id="h6">
+    <strong>Radiative forcing (RF)</strong> accounts for the fact that aircraft contrails and high-altitude emissions warm the climate beyond just their CO₂. The IPCC estimates RF roughly doubles the effective warming of flights. The GHG Protocol and DESNZ recommend including RF for completeness — these factors do.<br/><br/>
+    Some organisations report with and without RF side-by-side. If you need both, enter the flight without RF factor from the DESNZ sheet and note it separately.<br/><br/>
+    <strong>Example distances:</strong> London–Edinburgh 630 km · London–Amsterdam 370 km · London–New York 5,540 km · London–Sydney 17,000 km.<br/><br/>
+    Source: DESNZ 2025 Business travel-air and Business travel-land sheets (incl. RF).
+  </div>
+  <div class="g2">
+    <div class="fl">
+      <label>Travel type</label>
+      <select id="c6-mode" onchange="c6UpdateFactor()">
+        <optgroup label="Flights (with radiative forcing)">
+          <option value="0.22928|pass·km">Domestic UK flight · 0.229 kg CO₂e/pass·km</option>
+          <option value="0.12786|pass·km">Short-haul avg · 0.128 kg CO₂e/pass·km</option>
+          <option value="0.11704|pass·km">Long-haul economy · 0.117 kg CO₂e/pass·km</option>
+          <option value="0.3394|pass·km">Long-haul business · 0.339 kg CO₂e/pass·km</option>
+          <option value="0.15282|pass·km">Long-haul average · 0.153 kg CO₂e/pass·km</option>
+        </optgroup>
+        <optgroup label="Rail">
+          <option value="0.03546|pass·km">National rail · 0.035 kg CO₂e/pass·km</option>
+          <option value="0.00446|pass·km">International rail / Eurostar · 0.004 kg CO₂e/pass·km</option>
+        </optgroup>
+        <optgroup label="Car (rental / own)">
+          <option value="0.17304|km">Car average · 0.173 kg CO₂e/km</option>
+          <option value="0.1434|km">Car small · 0.143 kg CO₂e/km</option>
+          <option value="0.21007|km">Car large · 0.210 kg CO₂e/km</option>
+        </optgroup>
+        <optgroup label="Other">
+          <option value="0.14861|pass·km">Taxi · 0.149 kg CO₂e/pass·km</option>
+          <option value="0.10385|pass·km">Local bus avg · 0.104 kg CO₂e/pass·km</option>
+        </optgroup>
+        <option value="|custom">Custom →</option>
+      </select>
+    </div>
+    <div class="fl"><label>Description</label><input id="c6-desc" placeholder="e.g. Site visits — Tallinn to Helsinki"/></div>
+  </div>
+  <div class="g3">
+    <div class="fl"><label>No. of travellers</label><input type="number" id="c6-pax" min="1" step="1" value="1" oninput="c6Preview()"/></div>
+    <div class="fl"><label>Distance (km)</label><input type="number" id="c6-dist" min="0" step="any" placeholder="e.g. 630" oninput="c6Preview()"/></div>
+    <div class="fl">
+      <label>Factor <span class="ef-badge">DESNZ 2025</span></label>
+      <input type="number" id="c6-ef" step="any" oninput="c6Preview()"/>
+      <div class="hint" id="c6-unit-hint">kg CO₂e per pass·km</div>
+    </div>
+  </div>
+  <div class="result-prev" id="c6-prev">
+    <div><div class="rp-val" id="c6-pv">—</div><div class="rp-unit">kg CO₂e</div></div>
+    <div style="color:var(--t3);font-size:12px">= <span id="c6-pt"></span> tCO₂e</div>
+    <div class="rp-calc" id="c6-pc"></div>
+  </div>
+  <button class="btn bg2" onclick="addEntry(6)">+ Add to Cat 6</button>
+</div>
+
+<!-- ENTRIES -->
+<div id="entries-panel" class="panel" style="display:none">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.625rem">
+    <div class="sl" style="margin-bottom:0">All entries</div>
+    <button class="btn" style="font-size:11px;padding:4px 10px" onclick="clearAll()">🗑 Clear all</button>
+  </div>
+  <div class="tbl-wrap">
+    <table class="itbl">
+      <thead><tr>
+        <th>Category</th><th>Description</th><th>Quantity</th>
+        <th>Factor</th><th>kg CO₂e</th><th>tCO₂e</th><th></th>
+      </tr></thead>
+      <tbody id="entries-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results-panel" class="panel" style="display:none">
+  <div class="sl">Results — Scope 3 emissions</div>
+  <div class="res-grid">
+    <div class="rcard main"><div class="rcard-val" id="r-tot">—</div><div class="rcard-unit">tCO₂e</div><div class="rcard-lbl">Total Scope 3</div></div>
+    <div class="rcard"><div class="rcard-val" id="r-kg">—</div><div class="rcard-unit">kg CO₂e</div><div class="rcard-lbl">Total (kg)</div></div>
+    <div class="rcard"><div class="rcard-val" id="r-n">—</div><div class="rcard-unit">entries</div><div class="rcard-lbl">Data points</div></div>
+  </div>
+  <div class="sl">By category</div>
+  <div class="bar-list" id="bar-list"></div>
+  <div class="sl" style="margin-top:.75rem">GHG Protocol disclosure summary</div>
+  <div class="disclosure" id="disclosure"></div>
+  <div class="btn-row" style="margin-top:.75rem">
+    <button class="btn bg2" onclick="copyDisc()">📋 Copy disclosure</button>
+    <button class="btn bgh" onclick="exportCSV()">📥 Export CSV</button>
+  </div>
+</div>
+
+<div class="disc">
+  ⚠ <strong>Disclaimer:</strong> Emission factors from <a href="https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2025" target="_blank" rel="noopener">DESNZ 2025 GHG Conversion Factors</a> (UK Government, Open Government Licence v3.0). Activity-based factors (fuels, transport, waste, travel) are generally ±10–20% accurate. Material factors (Cat 1/2) can be ±50% from specific products — use EPD A1–A3 values for greater precision. Not a verified GHG inventory. For formal Scope 3 disclosure under GHG Protocol, CDP, or SECR, have results reviewed by a qualified practitioner. &nbsp;·&nbsp; © 2026 FastLCA &nbsp;·&nbsp; <a href="/">fastlca.com</a> &nbsp;·&nbsp; FastLCA v0.9
+</div>
+</div>
+
+<script>
+const CAT = {
+  1:{n:'Cat 1 — Purchased goods',  c:'#2E7D32',b:'b1'},
+  2:{n:'Cat 2 — Capital goods',    c:'#1565C0',b:'b2'},
+  3:{n:'Cat 3 — Fuel & energy',    c:'#E65100',b:'b3'},
+  4:{n:'Cat 4 — Transport',        c:'#4A148C',b:'b4'},
+  5:{n:'Cat 5 — Waste',            c:'#6D4C41',b:'b5'},
+  6:{n:'Cat 6 — Business travel',  c:'#006064',b:'b6'},
+};
+
+let entries = [];
+
+function fv(n,dp){
+  if(!n&&n!==0||isNaN(n))return'—';
+  dp=dp===undefined?2:dp;
+  if(Math.abs(n)>=10000)return n.toLocaleString('en',{maximumFractionDigits:0});
+  if(Math.abs(n)>=100)return n.toLocaleString('en',{maximumFractionDigits:1});
+  return n.toLocaleString('en',{maximumFractionDigits:dp});
+}
+
+function toggleTheme(){
+  const t=document.documentElement.dataset.theme==='dark'?'light':'dark';
+  document.documentElement.dataset.theme=t;
+  document.getElementById('tbtn').textContent=t==='dark'?'☀️':'🌙';
+}
+
+function toggleHelp(id){document.getElementById(id).classList.toggle('open');}
+
+function showCat(n){
+  [1,2,3,4,5,6].forEach(i=>document.getElementById('c'+i+'-panel').style.display=i===n?'block':'none');
+  document.querySelectorAll('.cat-tab').forEach((t,i)=>t.classList.toggle('active',i===n-1));
+}
+
+// ── FACTOR AUTO-FILL ──────────────────────────────────────────────────────
+function c1UpdateFactor(){
+  const v=document.getElementById('c1-mat').value;
+  if(!v)return;
+  const [ef,unit]=v.split('|');
+  if(ef){
+    document.getElementById('c1-ef').value=ef;
+    if(unit)document.getElementById('c1-unit').value=unit;
+    document.getElementById('c1-ef-src').textContent='DESNZ 2025';
+    document.getElementById('c1-ef-hint').textContent='Auto-filled — edit to use EPD A1–A3 GWP-total';
+    const sel=document.getElementById('c1-mat');
+    if(!document.getElementById('c1-src').value)
+      document.getElementById('c1-src').value='DESNZ 2025 — '+sel.options[sel.selectedIndex].text.split('·')[0].trim();
+  } else {
+    document.getElementById('c1-ef').value='';
+    document.getElementById('c1-ef-src').textContent='Custom';
+    document.getElementById('c1-ef-hint').textContent='Enter your EPD A1–A3 GWP-total value';
+    document.getElementById('c1-src').value='';
+  }
+  c1Preview();
+}
+
+function c2UpdateFactor(){
+  const v=document.getElementById('c2-type').value;
+  const [ef,unit]=v.split('|');
+  document.getElementById('c2-ef').value=ef||'';
+  if(unit)document.getElementById('c2-unit').value=unit;
+  c2Preview();
+}
+
+function c3UpdateFactor(){
+  const v=document.getElementById('c3-fuel').value;
+  const [ef,unit]=v.split('|');
+  document.getElementById('c3-ef').value=ef||'';
+  if(unit)document.getElementById('c3-unit').value=unit==='kWh'?'kWh':'litres';
+  c3Preview();
+}
+
+function c4UpdateFactor(){
+  document.getElementById('c4-ef').value=document.getElementById('c4-mode').value||'';
+  c4Preview();
+}
+
+function c5UpdateFactor(){
+  document.getElementById('c5-ef').value=document.getElementById('c5-type').value||'';
+  c5Preview();
+}
+
+function c6UpdateFactor(){
+  const v=document.getElementById('c6-mode').value;
+  const [ef,unit]=(v||'|').split('|');
+  document.getElementById('c6-ef').value=ef||'';
+  if(unit)document.getElementById('c6-unit-hint').textContent='kg CO₂e per '+unit;
+  c6Preview();
+}
+
+// ── LIVE PREVIEW ──────────────────────────────────────────────────────────
+function showPrev(id,kg,calc){
+  const el=document.getElementById(id+'-prev');
+  if(kg>0){
+    el.style.display='flex';
+    document.getElementById(id+'-pv').textContent=fv(kg,1);
+    document.getElementById(id+'-pt').textContent=fv(kg/1000,4);
+    const pc=document.getElementById(id+'-pc');
+    if(pc)pc.textContent=calc||'';
+  } else el.style.display='none';
+}
+
+function c1Preview(){
+  const qty=parseFloat(document.getElementById('c1-qty').value)||0;
+  const ef=parseFloat(document.getElementById('c1-ef').value)||0;
+  const unit=document.getElementById('c1-unit').value;
+  const kg=qty*(unit==='kg'?0.001:1)*ef;
+  showPrev('c1',kg,qty&&ef?`${qty} ${unit} × ${fv(ef,3)} kg CO₂e/t = ${fv(kg,1)} kg`:'');
+}
+function c2Preview(){
+  const qty=parseFloat(document.getElementById('c2-qty').value)||0;
+  const ef=parseFloat(document.getElementById('c2-ef').value)||0;
+  const unit=document.getElementById('c2-unit').value;
+  showPrev('c2',qty*(unit==='kg'?0.001:1)*ef,'');
+}
+function c3Preview(){
+  const qty=parseFloat(document.getElementById('c3-qty').value)||0;
+  const ef=parseFloat(document.getElementById('c3-ef').value)||0;
+  showPrev('c3',qty*ef,'');
+}
+function c4Preview(){
+  const w=parseFloat(document.getElementById('c4-wt').value)||0;
+  const d=parseFloat(document.getElementById('c4-dist').value)||0;
+  const ef=parseFloat(document.getElementById('c4-ef').value)||0;
+  const tkm=w*d;
+  const kg=tkm*ef;
+  const hint=document.getElementById('c4-tkm-hint');
+  if(w&&d)hint.textContent=`${fv(tkm,0)} tonne·km (${w}t × ${d}km) × factor`;
+  else hint.textContent='kg CO₂e per tonne·km';
+  showPrev('c4',kg,w&&d&&ef?`${fv(tkm,0)} t·km × ${ef} = ${fv(kg,1)} kg CO₂e`:'');
+}
+function c5Preview(){
+  const qty=parseFloat(document.getElementById('c5-qty').value)||0;
+  const ef=parseFloat(document.getElementById('c5-ef').value)||0;
+  showPrev('c5',qty*ef,'');
+}
+function c6Preview(){
+  const pax=parseFloat(document.getElementById('c6-pax').value)||1;
+  const dist=parseFloat(document.getElementById('c6-dist').value)||0;
+  const ef=parseFloat(document.getElementById('c6-ef').value)||0;
+  const kg=pax*dist*ef;
+  showPrev('c6',kg,pax&&dist&&ef?`${pax} pax × ${dist}km × ${ef} = ${fv(kg,1)} kg CO₂e`:'');
+}
+
+// ── ADD ENTRIES ───────────────────────────────────────────────────────────
+function calcEntry(cat){
+  if(cat===1||cat===2){
+    const qty=parseFloat(document.getElementById('c'+cat+'-qty').value)||0;
+    const ef=parseFloat(document.getElementById('c'+cat+'-ef').value)||0;
+    const unit=document.getElementById('c'+cat+'-unit').value;
+    return{kg:qty*(unit==='kg'?0.001:1)*ef, qty:`${qty} ${unit}`, ef:`${ef} kg CO₂e/t`};
+  }
+  if(cat===3){
+    const qty=parseFloat(document.getElementById('c3-qty').value)||0;
+    const ef=parseFloat(document.getElementById('c3-ef').value)||0;
+    const unit=document.getElementById('c3-unit').value;
+    return{kg:qty*ef, qty:`${qty} ${unit}`, ef:`${ef} kg CO₂e/${unit}`};
+  }
+  if(cat===4){
+    const w=parseFloat(document.getElementById('c4-wt').value)||0;
+    const d=parseFloat(document.getElementById('c4-dist').value)||0;
+    const ef=parseFloat(document.getElementById('c4-ef').value)||0;
+    return{kg:w*d*ef, qty:`${fv(w*d,0)} t·km (${w}t×${d}km)`, ef:`${ef} kg CO₂e/t·km`};
+  }
+  if(cat===5){
+    const qty=parseFloat(document.getElementById('c5-qty').value)||0;
+    const ef=parseFloat(document.getElementById('c5-ef').value)||0;
+    return{kg:qty*ef, qty:`${qty} tonnes`, ef:`${ef} kg CO₂e/t`};
+  }
+  if(cat===6){
+    const pax=parseFloat(document.getElementById('c6-pax').value)||1;
+    const dist=parseFloat(document.getElementById('c6-dist').value)||0;
+    const ef=parseFloat(document.getElementById('c6-ef').value)||0;
+    return{kg:pax*dist*ef, qty:`${pax}×${dist}km`, ef:`${ef} kg CO₂e/pass·km`};
+  }
+}
+
+function getDesc(cat){return(document.getElementById('c'+cat+'-desc')||{}).value||'';}
+function getSrc(cat){
+  const el=document.getElementById('c'+cat+'-src');
+  return el?el.value||'DESNZ 2025':'DESNZ 2025';
+}
+
+function addEntry(cat){
+  const desc=getDesc(cat);
+  if(!desc){alert('Please add a description.');return;}
+  const data=calcEntry(cat);
+  if(!data||!(data.kg>0)){alert('Please fill in quantity and factor — result must be > 0.');return;}
+  entries.push({id:Date.now(),cat,desc,qty:data.qty,ef:data.ef,kg:data.kg,src:getSrc(cat)});
+  renderAll();
+  const el=document.getElementById('c'+cat+'-desc');
+  if(el)el.value='';
+}
+
+function removeEntry(id){entries=entries.filter(e=>e.id!==id);renderAll();}
+function clearAll(){if(!entries.length)return;if(!confirm('Clear all entries?'))return;entries=[];renderAll();}
+
+// ── RENDER ────────────────────────────────────────────────────────────────
+function renderAll(){renderEntries();renderResults();}
+
+function renderEntries(){
+  const panel=document.getElementById('entries-panel');
+  if(!entries.length){panel.style.display='none';return;}
+  panel.style.display='block';
+  document.getElementById('entries-body').innerHTML=entries.map(e=>`<tr>
+    <td><span class="cbdg ${CAT[e.cat].b}">${CAT[e.cat].n.split('—')[0].trim()}</span></td>
+    <td><strong>${e.desc}</strong><br><span style="font-size:10px;color:var(--t3)">${e.src}</span></td>
+    <td style="font-size:11px;font-family:monospace;color:var(--t2)">${e.qty}</td>
+    <td style="font-size:11px;font-family:monospace;color:var(--t2)">${e.ef}</td>
+    <td class="gv">${fv(e.kg,1)}</td>
+    <td class="gv">${fv(e.kg/1000,4)}</td>
+    <td><button class="bdel" onclick="removeEntry(${e.id})">×</button></td>
+  </tr>`).join('');
+}
+
+function renderResults(){
+  const panel=document.getElementById('results-panel');
+  if(!entries.length){panel.style.display='none';return;}
+  panel.style.display='block';
+  const total=entries.reduce((s,e)=>s+e.kg,0);
+  document.getElementById('r-tot').textContent=fv(total/1000,2);
+  document.getElementById('r-kg').textContent=fv(total,0);
+  document.getElementById('r-n').textContent=entries.length;
+
+  const byCat={};
+  entries.forEach(e=>{if(!byCat[e.cat])byCat[e.cat]=0;byCat[e.cat]+=e.kg;});
+  const max=Math.max(...Object.values(byCat));
+  document.getElementById('bar-list').innerHTML=
+    Object.entries(byCat).sort((a,b)=>b[1]-a[1]).map(([cat,val])=>`
+      <div class="bar-row">
+        <div class="bar-lbl">${CAT[cat].n.replace('Cat '+cat+' — ','')}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${max>0?val/max*100:0}%;background:${CAT[cat].c}"></div></div>
+        <div class="bar-val">${fv(val/1000,3)}t</div>
+      </div>`).join('');
+
+  refreshDisclosure();
+}
+
+function refreshDisclosure(){
+  if(!entries.length)return;
+  const co=document.getElementById('co').value||'[Company]';
+  const yr=document.getElementById('yr').value||'[Year]';
+  const total=entries.reduce((s,e)=>s+e.kg,0);
+  const byCat={};
+  entries.forEach(e=>{if(!byCat[e.cat])byCat[e.cat]=0;byCat[e.cat]+=e.kg;});
+  document.getElementById('disclosure').textContent=
+`GHG Protocol — Scope 3 Emissions Inventory
+Organisation: ${co}
+Reporting year: ${yr}
+Calculation date: ${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}
+Conversion factors: DESNZ 2025 (UK Government, Open Government Licence v3.0)
+
+TOTAL SCOPE 3 (categories reported): ${fv(total/1000,2)} tCO₂e
+
+Breakdown by category:
+${Object.entries(byCat).sort((a,b)=>Number(a[0])-Number(b[0])).map(([cat,val])=>
+  `  ${CAT[cat].n.padEnd(36)} ${fv(val/1000,3)} tCO₂e`).join('\n')}
+
+Calculation boundary: Upstream Scope 3 only
+Methodology: Activity-based (DESNZ 2025). Cat 1/2: Material use sheet.
+  Cat 3: WTT-fuels + Transmission and distribution sheets.
+  Cat 4: Freighting goods sheet. Cat 5: Waste disposal sheet.
+  Cat 6: Business travel-air/land (flights include radiative forcing).
+
+Not reported: Categories not listed (insufficient data or not material)
+Calculated using FastLCA v0.9 — fastlca.com`;
+}
+
+function copyDisc(){
+  const txt=document.getElementById('disclosure').textContent;
+  navigator.clipboard.writeText(txt).then(()=>alert('Copied.')).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('Copied.');
+  });
+}
+
+function exportCSV(){
+  if(!entries.length){alert('No entries.');return;}
+  const co=document.getElementById('co').value||'';
+  const yr=document.getElementById('yr').value||'';
+  const rows=[
+    ['Company',co,'Year',yr],
+    [],
+    ['Category','Description','Quantity','Emission factor','kg CO2e','tCO2e','Source'],
+    ...entries.map(e=>[CAT[e.cat].n,e.desc,e.qty,e.ef,e.kg.toFixed(2),(e.kg/1000).toFixed(4),e.src]),
+    [],
+    ['TOTAL','','','',
+      entries.reduce((s,e)=>s+e.kg,0).toFixed(2),
+      (entries.reduce((s,e)=>s+e.kg,0)/1000).toFixed(4),''],
+  ];
+  const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download=`Scope3_${co.replace(/[^a-z0-9]/gi,'_')}_${yr}.csv`;
+  a.click();
+}
+
+// Init
+c1UpdateFactor();c2UpdateFactor();c3UpdateFactor();c4UpdateFactor();c5UpdateFactor();c6UpdateFactor();
+</script>
+</body>
+</html>
