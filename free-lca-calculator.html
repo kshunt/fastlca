@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Free LCA Calculator — No Login, Browser-Based | FastLCA</title>
+<meta name="description" content="FastLCA is a free browser-based LCA calculator. Calculate embodied carbon (GWP) across A1–C4 life cycle stages using EPiC 2024 and your own EPDs. No login, no installation required."/>
+<meta name="keywords" content="free LCA calculator, life cycle assessment calculator online, embodied carbon calculator free, GWP calculator construction, EPiC database calculator, no login LCA tool"/>
+<link rel="canonical" href="https://fastlca.com/free-lca-calculator"/>
+<meta property="og:title" content="Free LCA Calculator — No Login | FastLCA"/>
+<meta property="og:description" content="Calculate embodied carbon for construction materials. Free, browser-based, no login. Uses EPiC 2024 and EN 15804."/>
+<meta property="og:url" content="https://fastlca.com/free-lca-calculator"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%231B5E20'/><path d='M16 26V15' stroke='%23A5D6A7' stroke-width='1.5' stroke-linecap='round'/><path d='M16 19 C13 19 10 17 10 13 C13 13 16 15 16 19Z' fill='%234CAF50'/><path d='M16 21 C19 21 22 19 22 15 C19 15 16 17 16 21Z' fill='%2366BB6A'/></svg>"/>
+<style>
+:root{--bg:#F5F5F5;--surf:#fff;--surf2:#FAFAFA;--brd:#E0E0E0;--brd2:#EEEEEE;--t1:#212121;--t2:#616161;--t3:#9E9E9E;--g:#2E7D32;--gl:#E8F5E9;--gm:#A5D6A7;--gd:#1B5E20;--b:#1565C0;--bl:#E3F2FD;--bm:#BBDEFB;--am:#E65100;--al:#FFF3E0;--a2:#FFCC80;--r:8px;--sh:0 1px 3px rgba(0,0,0,.08)}
+
+[data-theme=dark]{
+  --bg:#0F172A;--surf:#1E293B;--surf2:#0F172A;--brd:#334155;--brd2:#1E293B;
+  --t1:#F1F5F9;--t2:#CBD5E1;--t3:#64748B;
+  --g:#4ADE80;--gl:#052E16;--gm:#166534;--gd:#86EFAC;
+  --b:#60A5FA;--bl:#1E3A5F;--bm:#1E40AF;--bd:#93C5FD;
+  --am:#FB923C;--al:#431407;--a2:#7C2D12;
+  --sh:0 1px 3px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--t1);font-size:15px;line-height:1.7}
+a{color:var(--b)}
+nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:100;box-shadow:var(--sh)}
+.nl{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nn{font-size:20px;font-weight:800;color:var(--gd);letter-spacing:-.5px}
+.nr{display:flex;align-items:center;gap:8px}
+.bnav{font-size:12px;padding:5px 10px;border-radius:var(--r);border:1px solid var(--brd);background:transparent;color:var(--t2);text-decoration:none;display:inline-flex;align-items:center}
+.bnav:hover{background:var(--surf2)}
+.tbtn{background:none;border:1px solid var(--brd);cursor:pointer;font-family:inherit;font-size:12px;color:var(--t2);padding:4px 9px;border-radius:var(--r);margin-left:4px}
+.btn-cta{background:var(--g);border:1px solid var(--gd);color:#fff;font-weight:700;height:38px;padding:0 18px;border-radius:var(--r);font-size:13px;display:inline-flex;align-items:center;text-decoration:none}
+.page{max-width:760px;margin:0 auto;padding:3rem 1.25rem 5rem}
+h1{font-size:30px;font-weight:800;color:var(--t1);letter-spacing:-.5px;line-height:1.2;margin-bottom:1rem}
+h1 em{color:var(--gd);font-style:normal}
+h2{font-size:20px;font-weight:800;color:var(--t1);margin:2.5rem 0 .75rem;padding-top:2rem;border-top:2px solid var(--brd)}
+h3{font-size:16px;font-weight:700;color:var(--t1);margin:1.5rem 0 .5rem}
+p{font-size:14px;color:var(--t2);line-height:1.75;margin-bottom:1rem}
+ul,ol{font-size:14px;color:var(--t2);line-height:1.75;padding-left:1.5rem;margin-bottom:1rem}
+li{margin-bottom:.375rem}
+strong{color:var(--t1)}
+.lead{font-size:17px;color:var(--t2);line-height:1.7;margin-bottom:2rem;max-width:640px}
+.tag{font-size:11px;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem}
+.callout{padding:1rem 1.25rem;border-radius:var(--r);margin:1.5rem 0;border:1px solid}
+.callout-green{background:var(--gl);border-color:var(--gm)}
+.callout-green p{color:var(--gd);font-size:13px;margin:0}
+.callout-amber{background:var(--al);border-color:var(--a2)}
+.callout-amber p{color:var(--am);font-size:13px;margin:0}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1.5rem 0}
+@media(max-width:500px){.feature-grid{grid-template-columns:1fr}}
+.feature-card{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r);padding:1rem 1.125rem}
+.feature-card h4{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:.375rem}
+.feature-card p{font-size:12px;color:var(--t2);line-height:1.5;margin:0}
+.compare-table{width:100%;border-collapse:collapse;font-size:13px;margin:1rem 0 1.5rem}
+.compare-table th{background:var(--surf2);padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--brd)}
+.compare-table td{padding:9px 12px;border-bottom:1px solid var(--brd2);color:var(--t1);font-size:13px}
+.compare-table tr:last-child td{border-bottom:none}
+.tick{color:var(--g);font-weight:700}
+.cross{color:var(--t3)}
+.cta-block{background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 100%);border-radius:12px;padding:2rem 1.75rem;margin:3rem 0;text-align:center}
+.cta-block h3{color:#fff;font-size:20px;margin-bottom:.5rem}
+.cta-block p{color:rgba(255,255,255,.8);font-size:14px;margin-bottom:1.25rem}
+.btn-white{background:#fff;color:var(--gd);font-weight:700;height:42px;padding:0 22px;border-radius:var(--r);font-size:14px;display:inline-flex;align-items:center;text-decoration:none}
+footer{border-top:1px solid var(--brd);padding:1.5rem 1.25rem;max-width:760px;margin:0 auto;font-size:12px;color:var(--t3)}
+footer a{color:var(--b)}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nl" href="/">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#1B5E20"/><path d="M16 26V15" stroke="#A5D6A7" stroke-width="1.5" stroke-linecap="round"/><path d="M16 19 C13 19 10 17 10 13 C13 13 16 15 16 19Z" fill="#4CAF50"/><path d="M16 21 C19 21 22 19 22 15 C19 15 16 17 16 21Z" fill="#66BB6A"/></svg>
+    <span class="nn">FastLCA</span>
+  </a>
+  <div class="nr">
+    <a href="/about.html" class="bnav">About</a>
+    <a href="/scope3" class="bnav">Scope 3</a>
+    <a href="/" class="btn-cta">Open calculator →</a>
+    <button class="tbtn" id="tbtn" onclick="toggleTheme()">🌙</button>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="tag">Free Tool · No Login · Browser-Based</div>
+  <h1><em>Free LCA calculator</em> — no login, no installation</h1>
+  <p class="lead">FastLCA is a free, browser-based life cycle assessment calculator for construction materials. Calculate GWP across all EN 15804 life cycle stages — A1 through C4 plus Module D — using the EPiC Database 2024 or your own verified EPDs. Nothing to install, no account required.</p>
+
+  <div class="cta-block">
+    <h3>Try FastLCA now — free, instant, no signup</h3>
+    <p>Calculate embodied carbon for any construction material or assembly. Results in seconds.</p>
+    <a href="/" class="btn-white">Open the calculator →</a>
+  </div>
+
+  <h2>What FastLCA calculates</h2>
+  <p>FastLCA performs a streamlined life cycle assessment focused on Global Warming Potential (GWP), expressed in kg CO₂e. It covers the full EN 15804+A2:2019 module structure:</p>
+  <ul>
+    <li><strong>A1–A3 Product stage</strong> — raw material extraction, transport to factory, and manufacturing. The primary focus of most early-stage LCA work.</li>
+    <li><strong>A4–A5 Construction stage</strong> — transport to site and on-site construction energy and waste.</li>
+    <li><strong>C1–C4 End of life</strong> — demolition, waste transport, processing, and disposal.</li>
+    <li><strong>Module D</strong> — net benefit from recycling or reuse, always reported separately per EN 15804.</li>
+  </ul>
+
+  <div class="callout callout-amber">
+    <p>⚠ FastLCA provides indicative estimates for early-stage design decisions — not a certified LCA or EPD. For formal compliance reporting, engage a certified LCA practitioner.</p>
+  </div>
+
+  <h2>What makes it different from other free tools</h2>
+  <table class="compare-table">
+    <thead><tr><th>Feature</th><th>FastLCA</th><th>Most free tools</th></tr></thead>
+    <tbody>
+      <tr><td>No login required</td><td class="tick">✓</td><td class="cross">Often required</td></tr>
+      <tr><td>Works in browser — nothing to install</td><td class="tick">✓</td><td class="cross">Often Excel or desktop</td></tr>
+      <tr><td>Full A1–C4 + Module D coverage</td><td class="tick">✓</td><td class="cross">Usually A1–A3 only</td></tr>
+      <tr><td>Add your own EPD products</td><td class="tick">✓</td><td class="cross">Rarely</td></tr>
+      <tr><td>Shows full calculation for verification</td><td class="tick">✓</td><td class="cross">Black box results</td></tr>
+      <tr><td>Assembly calculator (kg CO₂e/m²)</td><td class="tick">✓</td><td class="cross">Uncommon</td></tr>
+      <tr><td>Scope 3 calculator included</td><td class="tick">✓</td><td class="cross">Separate tool</td></tr>
+      <tr><td>Dark mode</td><td class="tick">✓</td><td class="cross">No</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Key features</h2>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h4>📦 EPiC Database 2024</h4>
+      <p>39 generic construction materials using the hybrid LCI approach from the University of Melbourne. Covers concrete, steel, timber, insulation, masonry, glass, and more.</p>
+    </div>
+    <div class="feature-card">
+      <h4>🏷 Custom EPD products</h4>
+      <p>Add product-specific EPD values from any EN 15804 EPD. The EPD Extractor tool reads values directly from PDF documents.</p>
+    </div>
+    <div class="feature-card">
+      <h4>🏗 Assembly calculator</h4>
+      <p>Build wall, floor, and roof assemblies layer by layer. Get kg CO₂e/m² results — the standard metric for RICS and RIBA reporting.</p>
+    </div>
+    <div class="feature-card">
+      <h4>🔍 Full calculation transparency</h4>
+      <p>Every result shows the complete calculation chain — quantity × factor = result — so you can verify every number independently.</p>
+    </div>
+    <div class="feature-card">
+      <h4>📊 Scope 3 calculator</h4>
+      <p>Turn your Bill of Materials into a Scope 3 Category 1–6 inventory using DESNZ 2025 factors. GHG Protocol aligned.</p>
+    </div>
+    <div class="feature-card">
+      <h4>⬇ PDF report</h4>
+      <p>Download a formatted PDF report with full methodology disclosure, data sources, and calculation breakdown.</p>
+    </div>
+  </div>
+
+  <h2>Data sources</h2>
+  <h3>EPiC Database 2024 — generic materials</h3>
+  <p>Generic material factors come from the <strong>Environmental Performance in Construction (EPiC) Database 2024</strong>, published by Crawford, Stephan and Prideaux at the University of Melbourne (DOI: <a href="https://doi.org/10.26188/10257728.v11" target="_blank" rel="noopener">10.26188/10257728.v11</a>). EPiC uses a hybrid life cycle inventory (LCI) approach combining process data and input-output data, which captures upstream indirect supply chain emissions that process-only EPDs miss. This makes EPiC values systematically higher than European manufacturer EPDs — not because EPiC is wrong, but because it's measuring more of the supply chain.</p>
+  <p>Licence: CC BY-NC-ND 4.0. Used as internal calculation input only.</p>
+
+  <h3>EN 15804+A2:2019 — life cycle module structure</h3>
+  <p>FastLCA follows the modular structure of EN 15804+A2:2019. Module D is always reported separately and never added to the A1–C4 total, per clause 6.4.3.4.</p>
+
+  <h3>DESNZ 2025 — Scope 3 factors</h3>
+  <p>The Scope 3 calculator uses UK Government DESNZ 2025 GHG conversion factors for fuel WTT, transport, waste disposal, and business travel. Open Government Licence v3.0.</p>
+
+  <h2>Who is it for?</h2>
+  <p>FastLCA is designed for sustainability professionals, architects, engineers, and contractors who need a quick, transparent embodied carbon estimate at early design stage — without the cost or complexity of certified LCA software. It is also useful for:</p>
+  <ul>
+    <li>Students and academics learning LCA methodology</li>
+    <li>Manufacturers wanting to understand the embodied carbon of their products before commissioning a formal EPD</li>
+    <li>Sustainability consultants doing rapid screening before recommending formal LCA studies</li>
+    <li>Anyone comparing material options — is CLT or concrete lower carbon for this application?</li>
+  </ul>
+
+  <h2>Limitations</h2>
+  <p>FastLCA is a screening tool, not a certified LCA platform. Key limitations:</p>
+  <ul>
+    <li>EPiC values reflect Australian manufacturing conditions — use European EPDs for formal European project reporting</li>
+    <li>Only GWP is calculated — a full LCA includes acidification, eutrophication, resource use, and more</li>
+    <li>Use phase (B1–B7) is not included</li>
+    <li>Generic C1–C4 end-of-life factors are estimated, not from a single verified source</li>
+  </ul>
+
+</div>
+
+<footer>
+  <p>© 2026 FastLCA · <a href="/">fastlca.com</a> · <a href="/about.html">Methodology</a> · <a href="/scope3">Scope 3 Calculator</a> · <a href="/epd-guide.html">EPD Guide</a> · FastLCA v0.9</p>
+</footer>
+<script>
+function toggleTheme(){
+  const d=document.documentElement;
+  const t=d.getAttribute('data-theme')==='dark'?'light':'dark';
+  d.setAttribute('data-theme',t);
+  document.getElementById('tbtn').textContent=t==='dark'?'☀️':'🌙';
+  try{localStorage.setItem('flca-t',t);}catch(e){}
+}
+(()=>{
+  try{
+    const t=localStorage.getItem('flca-t')||'light';
+    document.documentElement.setAttribute('data-theme',t);
+    document.addEventListener('DOMContentLoaded',()=>{
+      const btn=document.getElementById('tbtn');
+      if(btn)btn.textContent=t==='dark'?'☀️':'🌙';
+    });
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

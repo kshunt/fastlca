@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Scope 3 Category 1 Calculator — Bill of Materials | FastLCA</title>
+<meta name="description" content="Free Scope 3 Category 1 calculator for construction. Turn your Bill of Materials into a Scope 3 inventory using DESNZ 2025 factors. No login, no installation."/>
+<meta name="keywords" content="scope 3 category 1 calculator, bill of materials scope 3, construction scope 3, DESNZ 2025, embodied carbon scope 3"/>
+<link rel="canonical" href="https://fastlca.com/scope3-category-1-calculator"/>
+<meta property="og:title" content="Scope 3 Category 1 Calculator — Bill of Materials | FastLCA"/>
+<meta property="og:description" content="Free calculator: turn your Bill of Materials into a Scope 3 Category 1 inventory using DESNZ 2025 factors."/>
+<meta property="og:url" content="https://fastlca.com/scope3-category-1-calculator"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%231B5E20'/><path d='M16 26V15' stroke='%23A5D6A7' stroke-width='1.5' stroke-linecap='round'/><path d='M16 19 C13 19 10 17 10 13 C13 13 16 15 16 19Z' fill='%234CAF50'/><path d='M16 21 C19 21 22 19 22 15 C19 15 16 17 16 21Z' fill='%2366BB6A'/><path d='M16 16 C16 13 18 10 21 9 C21 12 19 15 16 16Z' fill='%2381C784'/></svg>"/>
+<style>
+:root{--bg:#F5F5F5;--surf:#fff;--surf2:#FAFAFA;--brd:#E0E0E0;--brd2:#EEEEEE;--t1:#212121;--t2:#616161;--t3:#9E9E9E;--g:#2E7D32;--gl:#E8F5E9;--gm:#A5D6A7;--gd:#1B5E20;--b:#1565C0;--bl:#E3F2FD;--bm:#BBDEFB;--am:#E65100;--al:#FFF3E0;--a2:#FFCC80;--r:8px;--sh:0 1px 3px rgba(0,0,0,.08)}
+
+[data-theme=dark]{
+  --bg:#0F172A;--surf:#1E293B;--surf2:#0F172A;--brd:#334155;--brd2:#1E293B;
+  --t1:#F1F5F9;--t2:#CBD5E1;--t3:#64748B;
+  --g:#4ADE80;--gl:#052E16;--gm:#166534;--gd:#86EFAC;
+  --b:#60A5FA;--bl:#1E3A5F;--bm:#1E40AF;--bd:#93C5FD;
+  --am:#FB923C;--al:#431407;--a2:#7C2D12;
+  --sh:0 1px 3px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--t1);font-size:15px;line-height:1.7}
+a{color:var(--b)}
+nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:100;box-shadow:var(--sh)}
+.nl{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nn{font-size:20px;font-weight:800;color:var(--gd);letter-spacing:-.5px}
+.nr{display:flex;align-items:center;gap:8px}
+.bnav{font-size:12px;padding:5px 10px;border-radius:var(--r);border:1px solid var(--brd);background:transparent;color:var(--t2);text-decoration:none;display:inline-flex;align-items:center}
+.bnav:hover{background:var(--surf2)}
+.tbtn{background:none;border:1px solid var(--brd);cursor:pointer;font-family:inherit;font-size:12px;color:var(--t2);padding:4px 9px;border-radius:var(--r);margin-left:4px}
+.btn-cta{background:var(--g);border:1px solid var(--gd);color:#fff;font-weight:700;height:38px;padding:0 18px;border-radius:var(--r);font-size:13px;display:inline-flex;align-items:center;text-decoration:none}
+.page{max-width:760px;margin:0 auto;padding:3rem 1.25rem 5rem}
+h1{font-size:30px;font-weight:800;color:var(--t1);letter-spacing:-.5px;line-height:1.2;margin-bottom:1rem}
+h1 em{color:var(--gd);font-style:normal}
+h2{font-size:20px;font-weight:800;color:var(--t1);margin:2.5rem 0 .75rem;padding-top:2rem;border-top:2px solid var(--brd)}
+h3{font-size:16px;font-weight:700;color:var(--t1);margin:1.5rem 0 .5rem}
+p{font-size:14px;color:var(--t2);line-height:1.75;margin-bottom:1rem}
+ul,ol{font-size:14px;color:var(--t2);line-height:1.75;padding-left:1.5rem;margin-bottom:1rem}
+li{margin-bottom:.375rem}
+strong{color:var(--t1)}
+.lead{font-size:17px;color:var(--t2);line-height:1.7;margin-bottom:2rem;max-width:640px}
+.tag{font-size:11px;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem}
+.callout{padding:1rem 1.25rem;border-radius:var(--r);margin:1.5rem 0;border:1px solid}
+.callout-green{background:var(--gl);border-color:var(--gm)}
+.callout-green p{color:var(--gd);font-size:13px;margin:0}
+.callout-amber{background:var(--al);border-color:var(--a2)}
+.callout-amber p{color:var(--am);font-size:13px;margin:0}
+.callout-blue{background:var(--bl);border-color:var(--bm)}
+.callout-blue p{color:var(--b);font-size:13px;margin:0}
+.factor-table{width:100%;border-collapse:collapse;font-size:13px;margin:1rem 0 1.5rem}
+.factor-table th{background:var(--surf2);padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--brd)}
+.factor-table td{padding:9px 12px;border-bottom:1px solid var(--brd2);color:var(--t1)}
+.factor-table tr:last-child td{border-bottom:none}
+.factor-table td:nth-child(2){font-family:monospace;font-weight:700;color:var(--gd)}
+.cta-block{background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 100%);border-radius:12px;padding:2rem 1.75rem;margin:3rem 0;text-align:center}
+.cta-block h3{color:#fff;font-size:20px;margin-bottom:.5rem}
+.cta-block p{color:rgba(255,255,255,.8);font-size:14px;margin-bottom:1.25rem}
+.btn-white{background:#fff;color:var(--gd);font-weight:700;height:42px;padding:0 22px;border-radius:var(--r);font-size:14px;display:inline-flex;align-items:center;text-decoration:none}
+footer{border-top:1px solid var(--brd);padding:1.5rem 1.25rem;max-width:760px;margin:0 auto;font-size:12px;color:var(--t3)}
+footer a{color:var(--b)}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nl" href="/">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#1B5E20"/><path d="M16 26V15" stroke="#A5D6A7" stroke-width="1.5" stroke-linecap="round"/><path d="M16 19 C13 19 10 17 10 13 C13 13 16 15 16 19Z" fill="#4CAF50"/><path d="M16 21 C19 21 22 19 22 15 C19 15 16 17 16 21Z" fill="#66BB6A"/></svg>
+    <span class="nn">FastLCA</span>
+  </a>
+  <div class="nr">
+    <a href="/about.html" class="bnav">About</a>
+    <a href="/scope3" class="bnav">Scope 3</a>
+    <a href="/" class="btn-cta">Open calculator →</a>
+    <button class="tbtn" id="tbtn" onclick="toggleTheme()">🌙</button>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="tag">Scope 3 · Category 1 · Guide</div>
+  <h1>How to calculate <em>Scope 3 Category 1</em> from a Bill of Materials</h1>
+  <p class="lead">Category 1 — purchased goods and services — is where most construction and manufacturing companies have their largest Scope 3 footprint. This guide explains how to calculate it from a Bill of Materials using activity-based factors, and where FastLCA's free calculator fits in.</p>
+
+  <h2>What is Scope 3 Category 1?</h2>
+  <p>Under the <strong>GHG Protocol Corporate Value Chain (Scope 3) Standard</strong>, Category 1 covers all upstream emissions from goods and services you purchase — everything your suppliers emit to produce the materials that arrive at your door.</p>
+  <p>For a construction company, this typically means: concrete, steel, timber, insulation, glass, and every other material in your bill of materials. For a manufacturer, it means your raw material and component inputs.</p>
+  <p>Category 1 is almost always the <strong>largest Scope 3 category</strong> for material-intensive businesses — often 60–90% of total Scope 3 emissions. Yet it's frequently underreported because calculating it requires either spend-based estimates (inaccurate) or activity-based calculations (more work, but far more accurate).</p>
+
+  <div class="callout callout-green">
+    <p>💡 <strong>The key insight:</strong> You can optimise Scope 1 and 2 (energy, fleet, buildings) for years and still have 80%+ of your total carbon footprint sitting untouched in the materials you purchase. Cat 1 is where the real leverage is.</p>
+  </div>
+
+  <h2>Two approaches: spend-based vs activity-based</h2>
+  <h3>Spend-based (quick but inaccurate)</h3>
+  <p>Multiply spend (£) by an emissions intensity factor (kg CO₂e/£). Works when you have no other data. Accuracy is typically ±300–500% because prices vary enormously and tell you nothing about the actual carbon content of what you bought. The GHG Protocol accepts this as a starting point but recommends moving to activity-based as soon as possible.</p>
+
+  <h3>Activity-based (recommended)</h3>
+  <p>Multiply physical quantities (kg, tonnes, m³) by an emission factor (kg CO₂e per unit). This is what FastLCA does. Accuracy is typically ±10–50% depending on whether you use generic industry averages (DESNZ 2025) or product-specific EPD values.</p>
+
+  <div class="callout callout-amber">
+    <p>⚠ <strong>DESNZ material factors vs EPD values:</strong> DESNZ 2025 material factors are UK industry averages — accurate to ±50% for specific products. For formal Scope 3 disclosure, replace average factors with supplier EPD A1–A3 GWP-total values where available. EPD values are product-specific and typically accurate to ±10–20%.</p>
+  </div>
+
+  <h2>DESNZ 2025 Category 1 emission factors</h2>
+  <p>The UK Government's DESNZ 2025 conversion factors provide activity-based Category 1 factors for common construction materials, expressed as kg CO₂e per tonne of primary production:</p>
+
+  <table class="factor-table">
+    <thead><tr><th>Material</th><th>kg CO₂e / tonne</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Aggregates</td><td>7.79</td><td>DESNZ 2025 Material use</td></tr>
+      <tr><td>Asphalt</td><td>39.21</td><td>DESNZ 2025 Material use</td></tr>
+      <tr><td>Bricks</td><td>241.79</td><td>DESNZ 2025 Material use</td></tr>
+      <tr><td>Concrete</td><td>118.79</td><td>DESNZ 2025 Material use</td></tr>
+      <tr><td>Insulation</td><td>1,861.79</td><td>DESNZ 2025 Material use</td></tr>
+      <tr><td>Metals (avg)</td><td>3,824.09</td><td>DESNZ 2025 Material use</td></tr>
+      <tr><td>Plasterboard</td><td>120.05</td><td>DESNZ 2025 Material use</td></tr>
+      <tr><td>Wood / timber</td><td>269.50</td><td>DESNZ 2025 Material use</td></tr>
+      <tr><td>Glass</td><td>1,402.77</td><td>DESNZ 2025 Material use</td></tr>
+      <tr><td>Plastics (avg)</td><td>3,172.50</td><td>DESNZ 2025 Material use</td></tr>
+    </tbody>
+  </table>
+
+  <p>Note that metals and insulation have very high factors relative to their weight — even small quantities can dominate your Category 1 total. Steel in particular deserves attention: 1 tonne of structural steel produces roughly 3,824 kg CO₂e upstream, compared to 119 kg for concrete. On a typical construction project, steel often accounts for 40–60% of total Category 1 emissions despite being a fraction of the total mass.</p>
+
+  <h2>Step-by-step: calculating Cat 1 from a BoM</h2>
+  <ol>
+    <li><strong>Extract quantities from your BoM</strong> — you need physical quantities (kg, tonnes, or m³), not spend. If your BoM is in m³, you'll need density to convert to tonnes.</li>
+    <li><strong>Match each material to a factor</strong> — use the DESNZ 2025 factors above as a starting point, or use supplier EPD A1–A3 values for greater accuracy.</li>
+    <li><strong>Calculate:</strong> quantity (tonnes) × factor (kg CO₂e/t) = kg CO₂e per line item.</li>
+    <li><strong>Sum all line items</strong> — this is your total Category 1 footprint in kg CO₂e.</li>
+    <li><strong>Identify hotspots</strong> — which materials dominate? This tells you where to focus reduction efforts and where to prioritise finding lower-carbon suppliers with verified EPDs.</li>
+  </ol>
+
+  <div class="callout callout-blue">
+    <p>ℹ <strong>Unit conversions:</strong> DESNZ factors are per tonne. If your BoM has quantities in kg, divide by 1,000. If in m³, multiply by the material's density (kg/m³) then divide by 1,000. FastLCA handles these conversions automatically — including m³ to tonnes via built-in densities for each material.</p>
+  </div>
+
+  <h2>When to use EPD values instead of DESNZ averages</h2>
+  <p>DESNZ factors are industry averages — they're a reasonable starting point but can be significantly off for specific products. For example, electric arc furnace (EAF) steel has roughly 70% lower emissions than blast furnace steel, but both are averaged together in the DESNZ metals factor.</p>
+  <p>Use supplier EPD values when:</p>
+  <ul>
+    <li>Your specification is confirmed and you know which specific products you're buying</li>
+    <li>You're preparing formal Scope 3 disclosure for CDP, SECR, or similar frameworks</li>
+    <li>You want to reward low-carbon suppliers with accurate reporting</li>
+    <li>A specific material dominates your Category 1 total and precision matters</li>
+  </ul>
+  <p>EPD A1–A3 GWP-total values are available from <a href="https://www.epd-norge.no" target="_blank" rel="noopener">EPD Norway</a>, <a href="https://www.ibu-epd.com" target="_blank" rel="noopener">IBU</a>, <a href="https://www.environdec.com" target="_blank" rel="noopener">Environdec</a>, and <a href="https://manage.epdhub.com" target="_blank" rel="noopener">EPDHub</a>.</p>
+
+  <div class="cta-block">
+    <h3>Calculate Category 1 free — no login required</h3>
+    <p>FastLCA's Scope 3 calculator covers Cat 1–6 using DESNZ 2025 factors. Enter quantities in kg, tonnes, or m³ — unit conversion is automatic. Override any factor with your own EPD data.</p>
+    <a href="/scope3" class="btn-white">Open Scope 3 calculator →</a>
+  </div>
+
+  <h2>Frequently asked questions</h2>
+
+  <h3>Do I need to include all purchased materials or just the major ones?</h3>
+  <p>The GHG Protocol requires you to include all Category 1 emissions that are material — typically defined as anything contributing more than 1% of total Scope 3. In practice, concrete, steel, timber and insulation cover 80–90% of Category 1 for most construction businesses. Start with these and add other materials as data becomes available.</p>
+
+  <h3>What's the difference between Scope 3 Cat 1 and embodied carbon?</h3>
+  <p>Embodied carbon (A1–A3 in EN 15804 terms) refers to the production-stage GWP of construction materials — which is exactly what Category 1 captures. They measure the same thing from different reporting frameworks: Scope 3 is a corporate emissions accounting framework, while embodied carbon / LCA is a product-level assessment framework. FastLCA covers both.</p>
+
+  <h3>Can I use FastLCA results for formal CDP or SECR reporting?</h3>
+  <p>FastLCA provides indicative estimates suitable for early-stage screening and internal tracking. For formal regulatory disclosure, results should be reviewed by a qualified sustainability professional and ideally supported by supplier EPD data rather than generic DESNZ averages.</p>
+
+  <h3>How often do the DESNZ factors change?</h3>
+  <p>DESNZ publishes updated conversion factors annually, usually in June. The concrete/cement factor changed significantly between 2021 and 2022 (up ~119%) due to a methodology revision. FastLCA uses the 2025 edition — always check the factor year when comparing results year-on-year.</p>
+</div>
+
+<footer>
+  <p>© 2026 FastLCA · <a href="/">fastlca.com</a> · <a href="/about.html">Methodology</a> · <a href="/scope3">Scope 3 Calculator</a> · FastLCA v0.9</p>
+</footer>
+<script>
+function toggleTheme(){
+  const d=document.documentElement;
+  const t=d.getAttribute('data-theme')==='dark'?'light':'dark';
+  d.setAttribute('data-theme',t);
+  document.getElementById('tbtn').textContent=t==='dark'?'☀️':'🌙';
+  try{localStorage.setItem('flca-t',t);}catch(e){}
+}
+(()=>{
+  try{
+    const t=localStorage.getItem('flca-t')||'light';
+    document.documentElement.setAttribute('data-theme',t);
+    document.addEventListener('DOMContentLoaded',()=>{
+      const btn=document.getElementById('tbtn');
+      if(btn)btn.textContent=t==='dark'?'☀️':'🌙';
+    });
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

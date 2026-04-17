@@ -542,6 +542,13 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1rem;dis
   </div>
 </div>
 
+<div style="font-size:11px;color:var(--t3);padding:.75rem 1rem;border-top:1px solid var(--brd2);margin-top:.5rem;line-height:1.8">
+  <strong style="color:var(--t2)">Guides &amp; resources:</strong> &nbsp;
+  <a href="/scope3-category-1-calculator" style="color:var(--b)">Scope 3 Cat 1 guide</a> &nbsp;·&nbsp;
+  <a href="/free-lca-calculator" style="color:var(--b)">About FastLCA</a> &nbsp;·&nbsp;
+  <a href="/epd-guide.html" style="color:var(--b)">EPD guide</a> &nbsp;·&nbsp;
+  <a href="/about.html" style="color:var(--b)">Methodology</a>
+</div>
 <div class="disc">
   ⚠ <strong>Disclaimer:</strong> Emission factors from <a href="https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2025" target="_blank" rel="noopener">DESNZ 2025 GHG Conversion Factors</a> (UK Government, Open Government Licence v3.0). Activity-based factors (fuels, transport, waste, travel) are generally ±10–20% accurate. Material factors (Cat 1/2) can be ±50% from specific products — use EPD A1–A3 values for greater precision. Not a verified GHG inventory. For formal Scope 3 disclosure under GHG Protocol, CDP, or SECR, have results reviewed by a qualified practitioner. &nbsp;·&nbsp; © 2026 FastLCA &nbsp;·&nbsp; <a href="/">fastlca.com</a> &nbsp;·&nbsp; FastLCA v0.9
 </div>
@@ -571,7 +578,19 @@ function toggleTheme(){
   const t=document.documentElement.dataset.theme==='dark'?'light':'dark';
   document.documentElement.dataset.theme=t;
   document.getElementById('tbtn').textContent=t==='dark'?'☀️':'🌙';
+  try{localStorage.setItem('flca-t',t);}catch(e){}
 }
+// Restore theme on load — same key as main calculator
+(()=>{
+  try{
+    const t=localStorage.getItem('flca-t')||'light';
+    document.documentElement.setAttribute('data-theme',t);
+    document.addEventListener('DOMContentLoaded',()=>{
+      const btn=document.getElementById('tbtn');
+      if(btn)btn.textContent=t==='dark'?'☀️':'🌙';
+    });
+  }catch(e){}
+})();
 
 function toggleHelp(id){document.getElementById(id).classList.toggle('open');}
 
@@ -830,7 +849,7 @@ function renderEntries(){
     <td class="gv">${fv(e.kg,1)}</td>
     <td class="gv">${fv(e.kg/1000,4)}</td>
     <td style="white-space:nowrap">
-      <button class="show-calc" onclick="toggleCalc('${calcId}')">working</button>
+      <button class="show-calc" onclick="toggleCalc('${calcId}')">How?</button>
       <button class="bdel" onclick="removeEntry(${e.id})">×</button>
     </td>
   </tr>

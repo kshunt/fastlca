@@ -366,6 +366,52 @@ footer a{color:var(--b)}
   </div>
 
   <!-- STANDARDS -->
+
+  <!-- SCOPE 3 METHODOLOGY -->
+  <div class="card" id="scope3-method" style="margin-bottom:1.5rem">
+    <div class="card-title">Scope 3 Calculator — Methodology</div>
+
+    <div class="ib" style="margin-bottom:1rem">The FastLCA Scope 3 Calculator covers Categories 1–6 of the <strong>GHG Protocol Corporate Value Chain (Scope 3) Standard</strong>. All calculations use <strong>DESNZ 2025 GHG Conversion Factors</strong> (UK Government, Open Government Licence v3.0), updated June 2025.</div>
+
+    <div style="font-size:13px;font-weight:700;margin-bottom:.5rem">Categories covered</div>
+    <div style="overflow-x:auto;margin-bottom:1rem">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead><tr style="background:var(--surf2)">
+          <th style="padding:7px 10px;text-align:left;border-bottom:2px solid var(--brd);font-size:11px;color:var(--t3);text-transform:uppercase">Category</th>
+          <th style="padding:7px 10px;text-align:left;border-bottom:2px solid var(--brd);font-size:11px;color:var(--t3);text-transform:uppercase">Description</th>
+          <th style="padding:7px 10px;text-align:left;border-bottom:2px solid var(--brd);font-size:11px;color:var(--t3);text-transform:uppercase">Method</th>
+          <th style="padding:7px 10px;text-align:left;border-bottom:2px solid var(--brd);font-size:11px;color:var(--t3);text-transform:uppercase">Factor source</th>
+        </tr></thead>
+        <tbody>
+          <tr><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)"><strong>Cat 1</strong></td><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)">Purchased goods &amp; services</td><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)">Activity-based: quantity × A1–A3 GWP-total</td><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)">DESNZ 2025 Material use; EPD override supported</td></tr>
+          <tr><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)"><strong>Cat 2</strong></td><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)">Capital goods</td><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)">Activity-based: quantity × material factor</td><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)">DESNZ 2025 Material use</td></tr>
+          <tr><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)"><strong>Cat 3</strong></td><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)">Fuel &amp; energy (WTT)</td><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)">Activity-based: quantity × well-to-tank factor</td><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)">DESNZ 2025 WTT-fuels; T&amp;D sheet</td></tr>
+          <tr><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)"><strong>Cat 4</strong></td><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)">Upstream transport</td><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)">Activity-based: tonnes × km × vehicle factor</td><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)">DESNZ 2025 Freighting goods</td></tr>
+          <tr><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)"><strong>Cat 5</strong></td><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)">Waste in operations</td><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)">Activity-based: tonnes × disposal route factor</td><td style="padding:7px 10px;border-bottom:1px solid var(--brd2)">DESNZ 2025 Waste disposal</td></tr>
+          <tr><td style="padding:7px 10px"><strong>Cat 6</strong></td><td style="padding:7px 10px">Business travel</td><td style="padding:7px 10px">Activity-based: passengers × km × mode factor</td><td style="padding:7px 10px">DESNZ 2025 Business travel-air/land (RF included for flights)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="font-size:13px;font-weight:700;margin-bottom:.5rem">Key methodological notes</div>
+    <div style="font-size:12px;color:var(--t2);line-height:1.8;margin-bottom:1rem">
+      <strong>Boundary:</strong> Upstream Scope 3 only (Categories 1–6). Downstream categories (7–15) are not covered.<br/>
+      <strong>GWP values:</strong> GWP-total (AR5, 100-year) throughout, consistent with EN 15804+A2 and DESNZ 2025.<br/>
+      <strong>Category 1 EPD override:</strong> Users can replace DESNZ generic material factors with product-specific A1–A3 GWP-total values from a verified EPD. EPD values take precedence and are labelled accordingly in the export.<br/>
+      <strong>Category 3:</strong> Only the well-to-tank (WTT) / upstream portion is included. Scope 1 combustion emissions and Scope 2 electricity emissions are reported separately by the organisation and should not be double-counted here.<br/>
+      <strong>Category 6 flights:</strong> Radiative forcing (RF) multiplier is included in all flight factors per DESNZ 2025 and GHG Protocol guidance. RF accounts for the non-CO₂ warming effects of aviation at altitude.<br/>
+      <strong>Accuracy:</strong> Activity-based factors (fuels, transport, waste, travel) are generally ±10–20%. Material factors (Cat 1/2) can be ±50% from specific products — replace with EPD data where available.<br/>
+      <strong>Factor currency:</strong> DESNZ factors are updated annually. This tool uses the 2025 edition. Check <a href="https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting" target="_blank" rel="noopener">gov.uk</a> for the latest version when preparing formal disclosures.
+    </div>
+
+    <div style="font-size:13px;font-weight:700;margin-bottom:.5rem">Citation</div>
+    <div style="font-size:12px;color:var(--t2);background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);padding:.75rem 1rem;font-family:monospace;line-height:1.8">
+      Department for Energy Security and Net Zero (DESNZ). (2025). <em>Greenhouse gas reporting: conversion factors 2025.</em> UK Government. Open Government Licence v3.0.<br/>
+      Available at: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2025<br/><br/>
+      GHG Protocol. (2011). <em>Corporate Value Chain (Scope 3) Accounting and Reporting Standard.</em> World Resources Institute &amp; World Business Council for Sustainable Development.
+    </div>
+  </div>
+
   <div class="section">
     <h2>Standards and references</h2>
     <table class="data-table">
@@ -400,11 +446,12 @@ footer a{color:var(--b)}
 </div>
 
 <footer>
-  <p>© 2026 FastLCA. All rights reserved. · FastLCA v0.9 · <a href="https://fastlca.com">fastlca.com</a> · <a href="mailto:hello@fastlca.com">hello@fastlca.com</a></p>
+  <p>© 2026 FastLCA. All rights reserved. · FastLCA v0.9 · <a href="https://fastlca.com">fastlca.com</a> · <a href="/cdn-cgi/l/email-protection#bcd4d9d0d0d3fcdaddcfc8d0dfdd92dfd3d1"><span class="__cf_email__" data-cfemail="b0d8d5dcdcdff0d6d1c3c4dcd3d19ed3dfdd">[email&#160;protected]</span></a></p>
   <p><a href="/">Calculator</a> · <a href="/about.html">About &amp; Methodology</a></p>
-</footer>
+  <p style="width:100%;font-size:11px;color:var(--t3);padding-top:.5rem;border-top:1px solid var(--brd2)"><strong style="color:var(--t2)">Guides:</strong> <a href="/scope3-category-1-calculator">Scope 3 Cat 1</a> · <a href="/free-lca-calculator">Free LCA calculator</a> · <a href="/epd-guide.html">EPD guide</a> · <a href="/scope3">Scope 3</a></p>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script>
 function toggleTheme(){
   const d=document.documentElement;
   const t=d.getAttribute('data-theme')==='dark'?'light':'dark';
@@ -417,7 +464,8 @@ function toggleTheme(){
     const t=localStorage.getItem('flca-t')||'light';
     document.documentElement.setAttribute('data-theme',t);
     document.addEventListener('DOMContentLoaded',()=>{
-      document.getElementById('tbtn').textContent=t==='dark'?'☀️':'🌙';
+      const btn=document.getElementById('tbtn');
+      if(btn)btn.textContent=t==='dark'?'☀️':'🌙';
     });
   }catch(e){}
 })();
