@@ -9,7 +9,12 @@
 <meta property="og:description" content="How FastLCA calculates embodied carbon — EPiC Database 2024, EN 15804+A2:2019, life cycle boundaries explained."/>
 <meta property="og:url" content="https://fastlca.com/about.html"/>
 <meta property="og:type" content="website"/>
-<link rel="canonical" href="https://fastlca.com/about.html"/>
+<meta property="og:image" content="https://fastlca.com/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://fastlca.com/og-image.png"/>
+<link rel="canonical" href="https://fastlca.com/about"/>
 <title>About & Methodology — FastLCA Embodied Carbon Calculator</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%231B5E20'/><path d='M16 26V15' stroke='%23A5D6A7' stroke-width='1.5' stroke-linecap='round'/><path d='M16 19 C13 19 10 17 10 13 C13 13 16 15 16 19Z' fill='%234CAF50'/><path d='M16 21 C19 21 22 19 22 15 C19 15 16 17 16 21Z' fill='%2366BB6A'/><path d='M16 16 C16 13 18 10 21 9 C21 12 19 15 16 16Z' fill='%2381C784'/></svg>"/>
 <style>
@@ -257,7 +262,7 @@ footer a{color:var(--b)}
       <thead><tr><th>Material</th><th>EPiC 2024 value</th><th>Unit</th><th>Typical EU EPD range</th><th>Note</th></tr></thead>
       <tbody>
         <tr><td>Concrete 25 MPa</td><td class="ef-val">0.153</td><td>kg CO₂e/kg</td><td>0.10–0.16</td><td>368 kg CO₂e/m³ ÷ 2400 kg/m³</td></tr>
-        <tr><td>Concrete 40 MPa</td><td class="ef-val">0.207</td><td>kg CO₂e/kg</td><td>0.14–0.22</td><td>497 kg CO₂e/m³ ÷ 2400 kg/m³</td></tr>
+        <tr><td>Concrete 40 MPa</td><td class="ef-val">0.177</td><td>kg CO₂e/kg</td><td>0.14–0.22</td><td>497 kg CO₂e/m³ ÷ 2400 kg/m³</td></tr>
         <tr><td>Reinforcing steel (bar)</td><td class="ef-val">2.10</td><td>kg CO₂e/kg</td><td>0.5–2.5 (EAF vs BF)</td><td>Steel bar direct value; hot rolled sections = 2.90</td></tr>
         <tr><td>Aluminium extruded</td><td class="ef-val">29.40</td><td>kg CO₂e/kg</td><td>6–12 (EU recycled content avg)</td><td>Primary production; EPiC captures full global supply chain</td></tr>
         <tr><td>Sawn softwood (kiln-dried)</td><td class="ef-val">1.215</td><td>kg CO₂e/kg</td><td>0.2–0.5</td><td>583 kg CO₂e/m³ ÷ 480 kg/m³; hybrid captures processing chain</td></tr>
@@ -311,7 +316,7 @@ footer a{color:var(--b)}
     </div>
 
     <h3 style="font-size:16px;font-weight:700;margin:1.25rem 0 .5rem">Transport factors (A4)</h3>
-    <p>Source: ECTA (2011) European transport emission factors. Vehicle options: heavy truck &gt;32t (0.096 kg CO₂e/t·km), medium truck (0.114), light van (0.227), rail (0.024), sea (0.016).</p>
+    <p>Source: DESNZ (2025) European transport emission factors. Vehicle options: heavy truck &gt;32t (0.096 kg CO₂e/t·km), medium truck (0.114), light van (0.227), rail (0.024), sea (0.016).</p>
 
     <h3 style="font-size:16px;font-weight:700;margin:1.25rem 0 .5rem">Grid intensities (A5)</h3>
     <p>Source: IEA (2023). Options include EU average (0.233 kg CO₂e/kWh), Nordic grid (0.193), Estonian grid (0.112), global average (0.450), diesel generator (0.202), and renewable (0).</p>
@@ -421,7 +426,7 @@ footer a{color:var(--b)}
         <tr><td><strong>ISO 14040:2006</strong></td><td>General LCA methodology principles and framework</td></tr>
         <tr><td><strong>ISO 14044:2006</strong></td><td>LCA requirements and guidelines</td></tr>
         <tr><td><strong>EPiC Database 2024</strong> — Crawford, Stephan &amp; Prideaux, University of Melbourne</td><td>All generic A1–A3 emission factors. CC BY-NC-ND 4.0. DOI: <a href="https://doi.org/10.26188/10257728.v11" target="_blank" rel="noopener">10.26188/10257728.v11</a></td></tr>
-        <tr><td><strong>ECTA (2011)</strong></td><td>Transport emission factors for A4 (kg CO₂e per tonne·km by vehicle type)</td></tr>
+        <tr><td><strong>DESNZ (2025)</strong></td><td>Transport emission factors for A4 (kg CO₂e per tonne·km by vehicle type)</td></tr>
         <tr><td><strong>IEA (2023)</strong></td><td>Electricity grid carbon intensities for A5 site energy calculation</td></tr>
       </tbody>
     </table>
@@ -448,8 +453,9 @@ footer a{color:var(--b)}
 <footer>
   <p>© 2026 FastLCA. All rights reserved. · FastLCA v0.9 · <a href="https://fastlca.com">fastlca.com</a> · <a href="/cdn-cgi/l/email-protection#bcd4d9d0d0d3fcdaddcfc8d0dfdd92dfd3d1"><span class="__cf_email__" data-cfemail="b0d8d5dcdcdff0d6d1c3c4dcd3d19ed3dfdd">[email&#160;protected]</span></a></p>
   <p><a href="/">Calculator</a> · <a href="/about.html">About &amp; Methodology</a></p>
-  <p style="width:100%;font-size:11px;color:var(--t3);padding-top:.5rem;border-top:1px solid var(--brd2)"><strong style="color:var(--t2)">Guides:</strong> <a href="/scope3-category-1-calculator">Scope 3 Cat 1</a> · <a href="/free-lca-calculator">Free LCA calculator</a> · <a href="/epd-guide.html">EPD guide</a> · <a href="/scope3">Scope 3</a></p>
+  <p style="width:100%;font-size:11px;color:var(--t3);padding-top:.5rem;border-top:1px solid var(--brd2)"><strong style="color:var(--t2)">Guides:</strong> <a href="/scope3-category-1-calculator">Scope 3 Cat 1</a> · <a href="/free-lca-calculator">Free LCA calculator</a> · <a href="/epd-guide.html">EPD guide</a> · <a href="/cbam-construction-materials">CBAM &amp; construction materials</a> · <a href="/scope3">Scope 3</a></p>
 
+</footer>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script>
 function toggleTheme(){

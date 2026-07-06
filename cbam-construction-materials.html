@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CBAM and Construction Materials — What You Need to Know | FastLCA</title>
+<meta name="description" content="CBAM (Carbon Border Adjustment Mechanism) went live January 2026. If you import steel, cement or aluminium into the EU, here's what embedded carbon means and what data you need."/>
+<meta name="keywords" content="CBAM construction materials, carbon border adjustment mechanism steel cement aluminium, CBAM embedded carbon, CBAM 2026 construction, EU carbon border tax materials"/>
+<link rel="canonical" href="https://fastlca.com/cbam-construction-materials"/>
+<meta property="og:title" content="CBAM and Construction Materials | FastLCA"/>
+<meta property="og:description" content="CBAM went live January 2026. Steel, cement and aluminium importers now face financial obligations. Here is what embedded carbon means and what data you need."/>
+<meta property="og:url" content="https://fastlca.com/cbam-construction-materials"/>
+<meta property="og:image" content="https://fastlca.com/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://fastlca.com/og-image.png"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%231B5E20'/><path d='M16 26V15' stroke='%23A5D6A7' stroke-width='1.5' stroke-linecap='round'/><path d='M16 19 C13 19 10 17 10 13 C13 13 16 15 16 19Z' fill='%234CAF50'/><path d='M16 21 C19 21 22 19 22 15 C19 15 16 17 16 21Z' fill='%2366BB6A'/></svg>"/>
+<style>
+:root{--bg:#F5F5F5;--surf:#fff;--surf2:#FAFAFA;--brd:#E0E0E0;--brd2:#EEEEEE;--t1:#212121;--t2:#616161;--t3:#9E9E9E;--g:#2E7D32;--gl:#E8F5E9;--gm:#A5D6A7;--gd:#1B5E20;--b:#1565C0;--bl:#E3F2FD;--bm:#BBDEFB;--bd:#0D47A1;--am:#E65100;--al:#FFF3E0;--a2:#FFCC80;--r:8px}
+[data-theme=dark]{--bg:#0F172A;--surf:#1E293B;--surf2:#0F172A;--brd:#334155;--brd2:#1E293B;--t1:#F1F5F9;--t2:#CBD5E1;--t3:#64748B;--g:#4ADE80;--gl:#052E16;--gm:#166534;--gd:#86EFAC;--b:#60A5FA;--bl:#1E3A5F;--bm:#1E40AF;--bd:#93C5FD;--am:#FB923C;--al:#431407;--a2:#7C2D12}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--t1);font-size:15px;line-height:1.7}
+a{color:var(--b)}
+nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.nl{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nn{font-size:20px;font-weight:800;color:var(--gd);letter-spacing:-.5px}
+[data-theme=dark] .nn{color:var(--g)}
+.nr{display:flex;align-items:center;gap:8px}
+.bnav{font-size:12px;padding:5px 10px;border-radius:var(--r);border:1px solid var(--brd);background:transparent;color:var(--t2);text-decoration:none;display:inline-flex;align-items:center}
+.bnav:hover{background:var(--surf2)}
+.tbtn{background:none;border:1px solid var(--brd);cursor:pointer;font-family:inherit;font-size:12px;color:var(--t2);padding:4px 9px;border-radius:var(--r)}
+.btn-cta{background:var(--g);border:1px solid var(--gd);color:#fff;font-weight:700;height:38px;padding:0 18px;border-radius:var(--r);font-size:13px;display:inline-flex;align-items:center;text-decoration:none}
+.page{max-width:760px;margin:0 auto;padding:3rem 1.25rem 5rem}
+.tag{font-size:11px;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem}
+h1{font-size:clamp(26px,5vw,38px);font-weight:800;color:var(--t1);letter-spacing:-.5px;line-height:1.2;margin-bottom:1rem}
+h1 em{color:var(--gd);font-style:normal}
+[data-theme=dark] h1 em{color:var(--g)}
+.lead{font-size:16px;color:var(--t2);line-height:1.75;margin-bottom:2rem;max-width:640px}
+h2{font-size:20px;font-weight:800;color:var(--t1);margin:2.5rem 0 .75rem;padding-top:2rem;border-top:2px solid var(--brd)}
+h3{font-size:16px;font-weight:700;color:var(--t1);margin:1.5rem 0 .5rem}
+p{font-size:14px;color:var(--t2);line-height:1.75;margin-bottom:1rem}
+ul,ol{font-size:14px;color:var(--t2);line-height:1.75;padding-left:1.5rem;margin-bottom:1rem}
+li{margin-bottom:.375rem}
+strong{color:var(--t1)}
+.callout{padding:1rem 1.25rem;border-radius:var(--r);margin:1.5rem 0;border:1px solid;font-size:14px;line-height:1.7}
+.callout-amber{background:var(--al);border-color:var(--a2);color:var(--am)}
+.callout-green{background:var(--gl);border-color:var(--gm);color:var(--gd)}
+[data-theme=dark] .callout-green{color:var(--g)}
+.callout-blue{background:var(--bl);border-color:var(--bm);color:var(--bd)}
+[data-theme=dark] .callout-blue{color:var(--b)}
+.callout strong{color:inherit}
+
+/* Status banner */
+.status-banner{
+  background:var(--ink,#0A0A0A);
+  background:linear-gradient(135deg,#0A2E14 0%,#1A5C2A 100%);
+  border-radius:var(--r);
+  padding:1.5rem 1.75rem;
+  margin-bottom:2rem;
+  display:flex;
+  align-items:center;
+  gap:1.25rem;
+  flex-wrap:wrap;
+}
+.status-live{
+  font-size:11px;
+  font-weight:700;
+  color:#fff;
+  background:#E53935;
+  padding:4px 10px;
+  border-radius:999px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  white-space:nowrap;
+  animation:pulse 2s ease infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+.status-text{
+  font-size:14px;
+  color:rgba(255,255,255,.85);
+  line-height:1.5;
+}
+.status-text strong{color:#fff}
+
+/* Sectors table */
+.sector-table{width:100%;border-collapse:collapse;font-size:13px;margin:1rem 0 1.5rem}
+.sector-table th{background:var(--surf2);padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--brd)}
+.sector-table td{padding:9px 12px;border-bottom:1px solid var(--brd2);vertical-align:top}
+.sector-table tr:last-child td{border-bottom:none}
+.in-scope{color:var(--gd);font-weight:700}
+[data-theme=dark] .in-scope{color:var(--g)}
+.not-scope{color:var(--t3)}
+.tick{color:var(--gd);font-weight:700}
+[data-theme=dark] .tick{color:var(--g)}
+
+/* Timeline */
+.timeline{display:flex;flex-direction:column;gap:0;margin:1.5rem 0;position:relative}
+.timeline::before{content:'';position:absolute;left:11px;top:8px;bottom:8px;width:2px;background:var(--brd);border-radius:1px}
+.tl-item{display:flex;gap:14px;align-items:flex-start;padding:.625rem 0}
+.tl-dot{width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;z-index:1;margin-top:1px}
+.tl-done{background:var(--g);color:#fff}
+.tl-now{background:var(--am);color:#fff}
+.tl-future{background:var(--surf);border:2px solid var(--brd);color:var(--t3)}
+.tl-date{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em}
+.tl-text{font-size:13px;color:var(--t1);margin-top:2px;line-height:1.5}
+.tl-sub{font-size:11px;color:var(--t3);margin-top:3px;line-height:1.4}
+
+/* Data requirements */
+.req-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1.25rem 0}
+@media(max-width:500px){.req-grid{grid-template-columns:1fr}}
+.req-card{background:var(--surf);border:1px solid var(--brd);border-radius:var(--r);padding:1rem 1.125rem}
+.req-card h4{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:.375rem}
+.req-card p{font-size:12px;color:var(--t2);line-height:1.5;margin:0}
+
+/* CTA block */
+.cta-block{background:linear-gradient(135deg,#1B5E20 0%,#2E7D32 100%);border-radius:var(--r);padding:2rem 1.75rem;margin:3rem 0;text-align:center}
+.cta-block h3{color:#fff;font-size:20px;font-weight:800;margin-bottom:.5rem}
+.cta-block p{color:rgba(255,255,255,.8);font-size:14px;margin-bottom:1.25rem}
+.btn-white{background:#fff;color:var(--gd);font-weight:700;height:42px;padding:0 22px;border-radius:var(--r);font-size:14px;display:inline-flex;align-items:center;text-decoration:none;margin:0 6px 8px}
+.btn-white-outline{background:transparent;color:#fff;font-weight:600;height:42px;padding:0 22px;border-radius:var(--r);font-size:14px;display:inline-flex;align-items:center;text-decoration:none;border:2px solid rgba(255,255,255,.4);margin:0 6px 8px}
+
+/* FAQ */
+.faq-item{border-bottom:1px solid var(--brd2);padding:1.125rem 0}
+.faq-item:last-child{border-bottom:none}
+.faq-q{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:.5rem}
+.faq-a{font-size:13px;color:var(--t2);line-height:1.7}
+
+footer{border-top:1px solid var(--brd);padding:1.5rem 1.25rem;max-width:760px;margin:0 auto;font-size:12px;color:var(--t3)}
+footer a{color:var(--b);text-decoration:none}
+.foot-guides{margin-top:.5rem;padding-top:.5rem;border-top:1px solid var(--brd2)}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does CBAM apply to construction companies that buy steel domestically?", "acceptedAnswer": {"@type": "Answer", "text": "No — CBAM only applies to direct importers of covered goods crossing the EU border. If you buy steel from a domestic distributor or mill within the EU, CBAM is not your direct obligation. However, your supplier may pass on CBAM-related cost increases in their pricing."}}, {"@type": "Question", "name": "Does CBAM cover concrete or prefabricated concrete elements?", "acceptedAnswer": {"@type": "Answer", "text": "Cement is in scope, but concrete products (ready-mix, precast elements, blocks) are not currently covered under CBAM in its initial scope. The embedded carbon of concrete products used in construction is not directly subject to CBAM obligations at this stage, though expansion to downstream products is under discussion."}}, {"@type": "Question", "name": "What is the difference between CBAM embedded carbon and EPD A1–A3 values?", "acceptedAnswer": {"@type": "Answer", "text": "They measure similar things but use different methodologies and boundaries. EPD A1–A3 (under EN 15804) covers production-stage GWP using a process-based LCI approach. CBAM embedded carbon covers direct and indirect production emissions using facility-level data or EU default values. They are related but not identical — an EPD cannot be directly used as a CBAM declaration, though the underlying carbon intensity data overlaps significantly."}}, {"@type": "Question", "name": "How does CBAM interact with Scope 3 Category 1 reporting?", "acceptedAnswer": {"@type": "Answer", "text": "CBAM and Scope 3 Cat 1 both address upstream emissions from purchased materials — they are complementary, not the same. Scope 3 Cat 1 is corporate GHG accounting under the GHG Protocol. CBAM is a trade regulation creating financial obligations. The same underlying emission factor data can inform both, but the methodologies, boundaries, and required precision differ. See our Scope 3 Category 1 guide for more detail."}}, {"@type": "Question", "name": "Will CBAM expand to timber or other construction materials?", "acceptedAnswer": {"@type": "Answer", "text": "Not in the near term. CBAM is currently focused on the six carbon-intensive sectors. Expansion to all EU ETS sectors is expected by 2030, but timber is not currently in the EU ETS and is unlikely to be added to CBAM's scope in this period. However, the broader policy direction — carbon pricing on construction materials — is moving in that direction through other routes including national whole-life carbon requirements."}}, {"@type": "Question", "name": "Where can I find official CBAM guidance?", "acceptedAnswer": {"@type": "Answer", "text": "The European Commission's official CBAM page at taxation-customs.ec.europa.eu is the authoritative source. For compliance, consult a qualified customs or sustainability professional — CBAM obligations are complex and errors carry financial penalties."}}]}</script>
+</head>
+<body>
+<nav>
+  <a class="nl" href="/">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#1B5E20"/><path d="M16 26V15" stroke="#A5D6A7" stroke-width="1.5" stroke-linecap="round"/><path d="M16 19 C13 19 10 17 10 13 C13 13 16 15 16 19Z" fill="#4CAF50"/><path d="M16 21 C19 21 22 19 22 15 C19 15 16 17 16 21Z" fill="#66BB6A"/></svg>
+    <span class="nn">FastLCA</span>
+  </a>
+  <div class="nr">
+    <a href="/about.html" class="bnav">About</a>
+    <a href="/scope3" class="bnav">Scope 3</a>
+    <a href="/" class="btn-cta">Open calculator →</a>
+    <button class="tbtn" id="tbtn" onclick="toggleTheme()">🌙</button>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="tag">Regulation · EU · 2026</div>
+  <h1>CBAM and <em>construction materials</em> — what you need to know</h1>
+  <p class="lead">The EU Carbon Border Adjustment Mechanism entered its definitive regime in January 2026. If your business imports steel, cement, or aluminium into the EU, you now face direct financial obligations tied to the embedded carbon in those materials. This page explains what CBAM means, which materials are in scope, and what carbon data is required.</p>
+
+  <div class="status-banner">
+    <span class="status-live">● Live</span>
+    <div class="status-text"><strong>CBAM definitive regime started 1 January 2026.</strong> Importers above the 50-tonne threshold must now be authorised CBAM declarants and purchase certificates proportional to embedded emissions. Annual declarations due 30 September each year.</div>
+  </div>
+
+  <h2>What is CBAM?</h2>
+  <p>CBAM — the Carbon Border Adjustment Mechanism — is an EU regulation that puts a carbon price on certain goods imported into the European Union. It mirrors the EU Emissions Trading System (EU ETS), under which EU manufacturers already pay for every tonne of carbon they emit. CBAM ensures that importers of equivalent goods from outside the EU face the same carbon cost, preventing what regulators call "carbon leakage" — where production simply moves to countries with weaker climate regulations.</p>
+  <p>In practical terms: if you import steel into the EU, you must now purchase CBAM certificates proportional to the embedded carbon in that steel. The certificate price tracks the EU ETS carbon price, which has historically ranged between €50–€100 per tonne of CO₂e.</p>
+
+  <div class="callout callout-blue">
+    <strong>ℹ CBAM is not a tax.</strong> It is a carbon intensity equaliser — it applies the EU carbon price consistently to both domestic producers and importers. Companies in countries with equivalent carbon pricing (currently Iceland, Norway, Liechtenstein, and Switzerland) are exempt.
+  </div>
+
+  <h2>Which materials are in scope?</h2>
+  <p>CBAM currently covers six sectors. Three of them are directly relevant to construction:</p>
+
+  <table class="sector-table">
+    <thead><tr><th>Sector</th><th>In scope</th><th>Relevant to construction</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Iron &amp; steel</strong></td><td class="tick">✓ Yes</td><td class="in-scope">✓ Structural steel, rebar, sections</td><td>Most carbon-intensive common structural material</td></tr>
+      <tr><td><strong>Cement</strong></td><td class="tick">✓ Yes</td><td class="in-scope">✓ Portland cement, blended cements</td><td>Covers clinker and cement products</td></tr>
+      <tr><td><strong>Aluminium</strong></td><td class="tick">✓ Yes</td><td class="in-scope">✓ Facades, windows, cladding, MEP</td><td>Primary aluminium has very high embedded carbon</td></tr>
+      <tr><td><strong>Fertilisers</strong></td><td class="tick">✓ Yes</td><td class="not-scope">✗ Not typically relevant</td><td>Nitrogen-based fertilisers</td></tr>
+      <tr><td><strong>Electricity</strong></td><td class="tick">✓ Yes</td><td class="not-scope">✗ Indirect relevance only</td><td>Cross-border electricity imports</td></tr>
+      <tr><td><strong>Hydrogen</strong></td><td class="tick">✓ Yes</td><td class="not-scope">✗ Not typically relevant</td><td>Green and grey hydrogen</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-amber">
+    <strong>⚠ Timber, concrete, glass, insulation and most other construction materials are NOT currently in scope.</strong> CBAM in its current form applies only to the six sectors above. Expansion to all EU ETS sectors is expected by 2030, which would bring more construction materials into scope over time.
+  </div>
+
+  <h2>The 50-tonne exemption threshold</h2>
+  <p>Under the 2025 Omnibus simplification (Regulation EU 2025/2083), importers bringing less than <strong>50 tonnes per year</strong> of CBAM-covered goods into the EU are exempt from all CBAM obligations. This threshold exempts approximately 182,000 importers — mostly SMEs — while still covering over 99% of emissions in scope.</p>
+  <p>If your annual imports of steel, cement, and aluminium combined are below 50 tonnes, CBAM does not currently apply to you. Above that threshold, you must become an authorised CBAM declarant.</p>
+  <p>Note: the 50-tonne threshold does not apply to electricity and hydrogen.</p>
+
+  <h2>Timeline</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot tl-done">✓</div>
+      <div>
+        <div class="tl-date">Oct 2023 – Dec 2025</div>
+        <div class="tl-text">Transitional phase — reporting only</div>
+        <div class="tl-sub">Importers reported embedded emissions quarterly. No financial obligations. Learning period for all parties.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot tl-now">→</div>
+      <div>
+        <div class="tl-date">1 January 2026 — Now</div>
+        <div class="tl-text">Definitive regime — financial obligations begin</div>
+        <div class="tl-sub">Importers above 50t threshold must be authorised declarants, purchase CBAM certificates, and submit annual declarations by 30 September.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot tl-future">○</div>
+      <div>
+        <div class="tl-date">2027</div>
+        <div class="tl-text">EU ETS free allowances phase-out accelerates</div>
+        <div class="tl-sub">Financial pressure on covered sectors increases as free allowances are gradually removed.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot tl-future">○</div>
+      <div>
+        <div class="tl-date">2027 — UK</div>
+        <div class="tl-text">UK CBAM expected</div>
+        <div class="tl-sub">The UK government is advancing its own carbon border mechanism, mirroring key elements of the EU approach.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot tl-future">○</div>
+      <div>
+        <div class="tl-date">By 2030</div>
+        <div class="tl-text">Expansion to all EU ETS sectors</div>
+        <div class="tl-sub">CBAM expected to expand to cover all sectors under the EU ETS — potentially including more construction materials.</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>What is embedded carbon and how is it measured?</h2>
+  <p>CBAM is based on the <strong>embedded carbon</strong> in imported goods — the greenhouse gas emissions generated during their production, including both direct emissions (fuel combustion, industrial processes) and, for some sectors, indirect emissions from electricity used in manufacturing.</p>
+  <p>For CBAM compliance, embedded carbon must be calculated using one of two methods:</p>
+
+  <div class="req-grid">
+    <div class="req-card">
+      <h4>Actual emissions data</h4>
+      <p>Verified facility-level emission data provided directly by the manufacturer or producer. Most accurate. Requires the supplier in the exporting country to measure and report their actual production emissions.</p>
+    </div>
+    <div class="req-card">
+      <h4>Default values</h4>
+      <p>Where actual data is unavailable, the EU provides default embedded emission values by country and sector. These are conservative (typically higher than actual emissions) to incentivise use of real data.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-amber">
+    <strong>⚠ Important limitation for FastLCA users:</strong> FastLCA uses EPiC Database 2024 (hybrid LCI, Australian supply chain data) and DESNZ 2025 factors. These are suitable for early-stage embodied carbon estimates and Scope 3 Cat 1 screening — but they are <strong>not</strong> the verified facility-level emission data that CBAM compliance requires. For CBAM declarations, you need actual production emission data from your supplier, or the EU default values from the official CBAM registry.
+  </div>
+
+  <h2>What CBAM means for construction procurement</h2>
+  <p>Even if your company is not itself an importer, CBAM is changing the economics of construction material procurement in three ways:</p>
+
+  <h3>1. Steel pricing will increasingly reflect carbon intensity</h3>
+  <p>Electric arc furnace (EAF) steel has roughly 70–80% lower embedded carbon than blast furnace steel. Under CBAM, the carbon cost difference between these production routes is becoming a direct financial variable. Low-carbon steel from EAF producers will face lower CBAM certificate costs — creating a genuine price signal for procurement teams.</p>
+
+  <h3>2. Supplier EPD data is becoming commercially valuable</h3>
+  <p>Manufacturers who can provide verified facility-level embedded carbon data — ideally through a third-party verified EPD — will be preferred suppliers for EU importers facing CBAM obligations. Asking suppliers for EPD documentation is no longer just a sustainability best practice; it's supply chain risk management.</p>
+
+  <h3>3. Embodied carbon is moving from voluntary to mandatory</h3>
+  <p>CBAM is the first major regulation to put a direct financial price on embodied carbon in traded goods. Combined with the EU Digital Product Passport requirements and national whole-life carbon policies, the direction of travel is clear: embodied carbon will be mandatory to report and price within this decade.</p>
+
+  <div class="cta-block">
+    <h3>Calculate embodied carbon for free</h3>
+    <p>FastLCA covers steel, cement, aluminium and 36 other construction materials using EPiC Database 2024. Not a CBAM compliance tool — but useful for early-stage screening, Scope 3 Cat 1 estimates, and understanding which materials dominate your carbon exposure.</p>
+    <a href="/" class="btn-white">Open LCA calculator →</a>
+    <a href="/scope3" class="btn-white-outline">Scope 3 Cat 1 →</a>
+  </div>
+
+  <!-- ── CN CODE CHECKER ── -->
+  <h2>CN code checker — is your product in scope?</h2>
+  <p>Enter your product's CN code (8 digits) or HS heading (4 digits) to check if it falls under CBAM. Based on Annex I of Regulation (EU) 2023/956.</p>
+
+  <div style="background:var(--surf);border:1px solid var(--brd);border-radius:var(--r);padding:1.25rem;margin:1rem 0 1.5rem">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:1rem">
+      <div style="flex:1;min-width:180px">
+        <label style="display:block;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:5px">CN code or HS heading</label>
+        <input type="text" id="cn-input" placeholder="e.g. 7208 or 72081000" maxlength="10"
+          style="width:100%;border:1px solid var(--brd);border-radius:var(--r);padding:9px 12px;font-family:monospace;font-size:15px;color:var(--t1);background:var(--surf2)"
+          oninput="checkCN()"/>
+      </div>
+      <button onclick="checkCN()" style="background:var(--g);color:#fff;border:none;border-radius:var(--r);padding:10px 20px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;height:40px">Check →</button>
+    </div>
+    <div id="cn-result" style="display:none"></div>
+    <div style="font-size:11px;color:var(--t3);margin-top:.75rem;line-height:1.6">
+      ⚠ This checker covers the main HS headings from Annex I of Regulation (EU) 2023/956. For definitive confirmation, always verify against the official CBAM regulation or consult a customs professional. Some CN codes within listed HS headings may be excluded.
+    </div>
+  </div>
+
+  <!-- ── COST ESTIMATOR ── -->
+  <h2>CBAM cost estimator</h2>
+  <p>Estimate your indicative CBAM certificate cost exposure for a shipment. Uses a simplified version of the official formula: <strong>tonnes × embedded emissions (tCO₂e/t) × ETS price (€/tCO₂e) × CBAM phase-in factor</strong>.</p>
+
+  <div class="callout callout-amber">
+    <strong>⚠ Important:</strong> This is an indicative estimate only. Actual CBAM costs depend on verified facility-level emission data (or official EU default values by country and CN code), the exact ETS quarterly average price, and the applicable phase-in factor. Consult a qualified CBAM professional for compliance purposes.
+  </div>
+
+  <div style="background:var(--surf);border:1px solid var(--brd);border-radius:var(--r);padding:1.25rem;margin:1rem 0 1.5rem">
+    <div class="req-grid" style="margin-bottom:.75rem">
+      <div>
+        <label style="display:block;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:5px">Material</label>
+        <select id="est-mat" onchange="updateEstDefaults()" style="width:100%;border:1px solid var(--brd);border-radius:var(--r);padding:8px 10px;font-family:inherit;font-size:13px;color:var(--t1);background:var(--surf2)">
+          <option value="steel_bf|2.1">Steel — blast furnace (avg ~2.1 tCO₂e/t)</option>
+          <option value="steel_eaf|0.5">Steel — electric arc furnace (avg ~0.5 tCO₂e/t)</option>
+          <option value="steel_avg|1.85">Steel — global average (~1.85 tCO₂e/t)</option>
+          <option value="cement|0.83">Cement — Portland (avg ~0.83 tCO₂e/t)</option>
+          <option value="cement_clinker|0.85">Cement clinker (avg ~0.85 tCO₂e/t)</option>
+          <option value="aluminium_primary|16.5">Aluminium — primary (avg ~16.5 tCO₂e/t)</option>
+          <option value="aluminium_secondary|0.6">Aluminium — secondary/recycled (~0.6 tCO₂e/t)</option>
+          <option value="custom|">Custom — enter your own emission intensity</option>
+        </select>
+        <div style="font-size:10px;color:var(--t3);margin-top:3px">Global industry averages — actual values vary significantly by producer and country</div>
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:5px">Quantity (tonnes)</label>
+        <input type="number" id="est-qty" placeholder="e.g. 500" min="0" step="any" oninput="calcEst()"
+          style="width:100%;border:1px solid var(--brd);border-radius:var(--r);padding:9px 12px;font-family:inherit;font-size:13px;color:var(--t1);background:var(--surf2)"/>
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:5px">Embedded emissions (tCO₂e/t)</label>
+        <input type="number" id="est-ei" placeholder="auto-filled or enter custom" step="any" oninput="calcEst()"
+          style="width:100%;border:1px solid var(--brd);border-radius:var(--r);padding:9px 12px;font-family:inherit;font-size:13px;color:var(--t1);background:var(--surf2)"/>
+        <div style="font-size:10px;color:var(--t3);margin-top:3px">Use verified supplier data or EU default values for compliance</div>
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:5px">ETS carbon price (€/tCO₂e)</label>
+        <input type="number" id="est-price" value="65" step="1" oninput="calcEst()"
+          style="width:100%;border:1px solid var(--brd);border-radius:var(--r);padding:9px 12px;font-family:inherit;font-size:13px;color:var(--t1);background:var(--surf2)"/>
+        <div style="font-size:10px;color:var(--t3);margin-top:3px">Check current price at <a href="https://ember-energy.org/data/carbon-prices/" target="_blank" rel="noopener">Ember</a></div>
+      </div>
+    </div>
+
+    <div id="est-result" style="display:none;background:var(--gl);border:1px solid var(--gm);border-radius:var(--r);padding:1.125rem 1.25rem;margin-top:.75rem">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:.75rem">
+        <div>
+          <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px">Total embedded emissions</div>
+          <div id="est-total-em" style="font-size:22px;font-weight:800;color:var(--gd);font-family:monospace"></div>
+          <div style="font-size:11px;color:var(--t3)">tCO₂e</div>
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px">Indicative CBAM cost</div>
+          <div id="est-total-cost" style="font-size:22px;font-weight:800;color:var(--gd);font-family:monospace"></div>
+          <div style="font-size:11px;color:var(--t3)">EUR (2026 estimate)</div>
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px">Cost per tonne imported</div>
+          <div id="est-per-t" style="font-size:22px;font-weight:800;color:var(--gd);font-family:monospace"></div>
+          <div style="font-size:11px;color:var(--t3)">EUR/t</div>
+        </div>
+      </div>
+      <div id="est-formula" style="font-size:11px;color:var(--t2);font-family:monospace;background:var(--surf2);padding:8px 10px;border-radius:4px;line-height:1.8"></div>
+      <div style="font-size:11px;color:var(--t3);margin-top:.5rem">Phase-in factor 2026: 97.5% · Cross-sectoral correction factor 2026: 100% · Carbon price paid abroad deducted if applicable (not included here)</div>
+    </div>
+  </div>
+
+  <h2>Frequently asked questions</h2>
+
+  <div class="faq-item">
+    <div class="faq-q">Does CBAM apply to construction companies that buy steel domestically?</div>
+    <div class="faq-a">No — CBAM only applies to direct importers of covered goods crossing the EU border. If you buy steel from a domestic distributor or mill within the EU, CBAM is not your direct obligation. However, your supplier may pass on CBAM-related cost increases in their pricing.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Does CBAM cover concrete or prefabricated concrete elements?</div>
+    <div class="faq-a">Cement is in scope, but concrete products (ready-mix, precast elements, blocks) are not currently covered under CBAM in its initial scope. The embedded carbon of concrete products used in construction is not directly subject to CBAM obligations at this stage, though expansion to downstream products is under discussion.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">What is the difference between CBAM embedded carbon and EPD A1–A3 values?</div>
+    <div class="faq-a">They measure similar things but use different methodologies and boundaries. EPD A1–A3 (under EN 15804) covers production-stage GWP using a process-based LCI approach. CBAM embedded carbon covers direct and indirect production emissions using facility-level data or EU default values. They are related but not identical — an EPD cannot be directly used as a CBAM declaration, though the underlying carbon intensity data overlaps significantly.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">How does CBAM interact with Scope 3 Category 1 reporting?</div>
+    <div class="faq-a">CBAM and Scope 3 Cat 1 both address upstream emissions from purchased materials — they are complementary, not the same. Scope 3 Cat 1 is corporate GHG accounting under the GHG Protocol. CBAM is a trade regulation creating financial obligations. The same underlying emission factor data can inform both, but the methodologies, boundaries, and required precision differ. See our <a href="/scope3-category-1-calculator">Scope 3 Category 1 guide</a> for more detail.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Will CBAM expand to timber or other construction materials?</div>
+    <div class="faq-a">Not in the near term. CBAM is currently focused on the six carbon-intensive sectors. Expansion to all EU ETS sectors is expected by 2030, but timber is not currently in the EU ETS and is unlikely to be added to CBAM's scope in this period. However, the broader policy direction — carbon pricing on construction materials — is moving in that direction through other routes including national whole-life carbon requirements.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Where can I find official CBAM guidance?</div>
+    <div class="faq-a">The European Commission's official CBAM page at <a href="https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en" target="_blank" rel="noopener">taxation-customs.ec.europa.eu</a> is the authoritative source. For compliance, consult a qualified customs or sustainability professional — CBAM obligations are complex and errors carry financial penalties.</div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 FastLCA · <a href="/">fastlca.com</a> · <a href="/about.html">Methodology</a> · FastLCA v0.9</p>
+  <p style="margin-top:.25rem">This page is for informational purposes only and does not constitute legal or compliance advice. CBAM regulations are subject to change — always verify current requirements with official EU sources or a qualified professional.</p>
+  <div class="foot-guides">
+    <strong style="color:var(--t2)">Related:</strong>
+    <a href="/scope3-category-1-calculator">Scope 3 Cat 1 guide</a> ·
+    <a href="/free-lca-calculator">Free LCA calculator</a> ·
+    <a href="/scope3">Scope 3 calculator</a> ·
+    <a href="/epd-guide.html">EPD guide</a>
+  </div>
+</footer>
+
+<script>
+// ── CN CODE DATA ─────────────────────────────────────────────
+// Source: Annex I, Regulation (EU) 2023/956
+const CN_DB = [
+  // CEMENT — HS 2507, 2523
+  {hs:'2507',sector:'Cement',desc:'Kaolin and other kaolinic clays (calcined)'},
+  {hs:'2523',sector:'Cement',desc:'Portland cement, aluminous cement, slag cement, supersulphate cement and similar hydraulic cements'},
+  // IRON & STEEL — HS 72 (most), 73 (selected)
+  {hs:'7201',sector:'Iron & Steel',desc:'Pig iron and spiegeleisen in pigs, blocks or other primary forms'},
+  {hs:'7202',sector:'Iron & Steel',desc:'Ferro-alloys (selected codes only — not all 7202)',note:'Partial'},
+  {hs:'7203',sector:'Iron & Steel',desc:'Ferrous products obtained by direct reduction of iron ore'},
+  {hs:'7204',sector:'Iron & Steel',desc:'Ferrous waste and scrap; remelting scrap ingots'},
+  {hs:'7205',sector:'Iron & Steel',desc:'Granules and powders of pig iron, spiegeleisen, iron or steel'},
+  {hs:'7206',sector:'Iron & Steel',desc:'Iron and non-alloy steel in ingots or other primary forms'},
+  {hs:'7207',sector:'Iron & Steel',desc:'Semi-finished products of iron or non-alloy steel'},
+  {hs:'7208',sector:'Iron & Steel',desc:'Flat-rolled products of iron or non-alloy steel, width ≥600mm, hot-rolled'},
+  {hs:'7209',sector:'Iron & Steel',desc:'Flat-rolled products of iron or non-alloy steel, width ≥600mm, cold-rolled'},
+  {hs:'7210',sector:'Iron & Steel',desc:'Flat-rolled products of iron or non-alloy steel, width ≥600mm, clad/plated/coated'},
+  {hs:'7211',sector:'Iron & Steel',desc:'Flat-rolled products of iron or non-alloy steel, width <600mm, hot-rolled'},
+  {hs:'7212',sector:'Iron & Steel',desc:'Flat-rolled products of iron or non-alloy steel, width <600mm, clad/plated/coated'},
+  {hs:'7213',sector:'Iron & Steel',desc:'Bars and rods, hot-rolled, in irregularly wound coils, iron or non-alloy steel'},
+  {hs:'7214',sector:'Iron & Steel',desc:'Other bars and rods of iron or non-alloy steel (including rebar)'},
+  {hs:'7215',sector:'Iron & Steel',desc:'Other bars and rods of iron or non-alloy steel'},
+  {hs:'7216',sector:'Iron & Steel',desc:'Angles, shapes and sections of iron or non-alloy steel'},
+  {hs:'7217',sector:'Iron & Steel',desc:'Wire of iron or non-alloy steel'},
+  {hs:'7218',sector:'Iron & Steel',desc:'Stainless steel in ingots or other primary forms; semi-finished products'},
+  {hs:'7219',sector:'Iron & Steel',desc:'Flat-rolled products of stainless steel, width ≥600mm'},
+  {hs:'7220',sector:'Iron & Steel',desc:'Flat-rolled products of stainless steel, width <600mm'},
+  {hs:'7221',sector:'Iron & Steel',desc:'Bars and rods of stainless steel, hot-rolled, in irregularly wound coils'},
+  {hs:'7222',sector:'Iron & Steel',desc:'Other bars and rods of stainless steel; angles, shapes and sections'},
+  {hs:'7223',sector:'Iron & Steel',desc:'Wire of stainless steel'},
+  {hs:'7224',sector:'Iron & Steel',desc:'Other alloy steel in ingots or other primary forms; semi-finished products'},
+  {hs:'7225',sector:'Iron & Steel',desc:'Flat-rolled products of other alloy steel, width ≥600mm'},
+  {hs:'7226',sector:'Iron & Steel',desc:'Flat-rolled products of other alloy steel, width <600mm'},
+  {hs:'7227',sector:'Iron & Steel',desc:'Bars and rods of other alloy steel, hot-rolled, in coils'},
+  {hs:'7228',sector:'Iron & Steel',desc:'Other bars and rods of other alloy steel; angles, shapes, sections; hollow drill'},
+  {hs:'7229',sector:'Iron & Steel',desc:'Wire of other alloy steel'},
+  // HS 73 — selected
+  {hs:'7301',sector:'Iron & Steel',desc:'Sheet piling of iron or steel; welded angles, shapes and sections'},
+  {hs:'7302',sector:'Iron & Steel',desc:'Railway/tramway track construction material (rails, sleepers, fish-plates)'},
+  {hs:'7303',sector:'Iron & Steel',desc:'Tubes, pipes and hollow profiles of cast iron'},
+  {hs:'7304',sector:'Iron & Steel',desc:'Tubes, pipes and hollow profiles, seamless, of iron or steel'},
+  {hs:'7305',sector:'Iron & Steel',desc:'Other tubes and pipes (e.g. welded), circular cross-section, OD >406.4mm'},
+  {hs:'7306',sector:'Iron & Steel',desc:'Other tubes, pipes and hollow profiles of iron or steel (welded)'},
+  {hs:'7307',sector:'Iron & Steel',desc:'Tube or pipe fittings of iron or steel'},
+  {hs:'7308',sector:'Iron & Steel',desc:'Structures and parts of structures of iron or steel (bridges, towers, columns)'},
+  {hs:'7309',sector:'Iron & Steel',desc:'Reservoirs, tanks, vats of iron or steel, capacity >300L'},
+  {hs:'7310',sector:'Iron & Steel',desc:'Tanks, casks, drums, cans of iron or steel, capacity ≤300L'},
+  {hs:'7311',sector:'Iron & Steel',desc:'Containers for compressed or liquefied gas, of iron or steel'},
+  {hs:'7318',sector:'Iron & Steel',desc:'Screws, bolts, nuts, washers and similar articles of iron or steel'},
+  {hs:'7326',sector:'Iron & Steel',desc:'Other articles of iron or steel (selected)'},
+  // ALUMINIUM — HS 76
+  {hs:'7601',sector:'Aluminium',desc:'Unwrought aluminium'},
+  {hs:'7603',sector:'Aluminium',desc:'Aluminium powders and flakes'},
+  {hs:'7604',sector:'Aluminium',desc:'Aluminium bars, rods and profiles'},
+  {hs:'7605',sector:'Aluminium',desc:'Aluminium wire'},
+  {hs:'7606',sector:'Aluminium',desc:'Aluminium plates, sheets and strip, thickness >0.2mm'},
+  {hs:'7607',sector:'Aluminium',desc:'Aluminium foil, thickness ≤0.2mm'},
+  {hs:'7608',sector:'Aluminium',desc:'Aluminium tubes and pipes'},
+  {hs:'7609',sector:'Aluminium',desc:'Aluminium tube or pipe fittings'},
+  {hs:'7610',sector:'Aluminium',desc:'Aluminium structures and parts (bridges, towers, roofs, doors, windows, facades)'},
+  {hs:'7611',sector:'Aluminium',desc:'Aluminium reservoirs/tanks, capacity >300L'},
+  {hs:'7612',sector:'Aluminium',desc:'Aluminium casks, drums, cans ≤300L'},
+  {hs:'7613',sector:'Aluminium',desc:'Aluminium containers for compressed/liquefied gas'},
+  {hs:'7614',sector:'Aluminium',desc:'Stranded wire, cables, plaited bands of aluminium'},
+  {hs:'7616',sector:'Aluminium',desc:'Other articles of aluminium (nuts, bolts, netting, fencing)'},
+];
+
+const SECTOR_COLORS = {
+  'Cement':'#1565C0','Iron & Steel':'#B71C1C','Aluminium':'#E65100',
+  'Fertilisers':'#2E7D32','Electricity':'#6A1B9A','Hydrogen':'#00695C'
+};
+const SECTOR_BG = {
+  'Cement':'#E3F2FD','Iron & Steel':'#FFEBEE','Aluminium':'#FFF3E0',
+};
+
+function checkCN(){
+  const raw = document.getElementById('cn-input').value.trim().replace(/\s/g,'');
+  const result = document.getElementById('cn-result');
+  if(!raw){result.style.display='none';return;}
+
+  const hs4 = raw.substring(0,4);
+  const match = CN_DB.find(r => r.hs === hs4 || r.hs === raw.substring(0,r.hs.length));
+
+  result.style.display='block';
+
+  if(match){
+    const col = SECTOR_COLORS[match.sector]||'#2E7D32';
+    const bg = SECTOR_BG[match.sector]||'#E8F5E9';
+    const noteHtml = match.note ? `<span style="font-size:10px;background:#FFF3E0;color:#E65100;padding:2px 7px;border-radius:4px;margin-left:8px">${match.note}</span>` : '';
+    result.innerHTML = `
+      <div style="background:${bg};border:1px solid ${col}30;border-radius:var(--r);padding:1rem 1.125rem">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:.5rem">
+          <span style="font-size:13px;font-weight:800;color:${col}">✓ In scope — CBAM applies</span>
+          ${noteHtml}
+        </div>
+        <div style="font-size:13px;color:var(--t1);margin-bottom:.375rem"><strong>HS heading ${match.hs}</strong> — ${match.desc}</div>
+        <div style="font-size:12px;color:var(--t2)">Sector: <strong>${match.sector}</strong> · 50-tonne annual threshold applies${match.sector==='Electricity'||match.sector==='Hydrogen'?' (except electricity and hydrogen)':''}</div>
+        ${match.note?'<div style="font-size:11px;color:var(--am);margin-top:.375rem">⚠ Not all CN codes within this HS heading are covered. Verify against Annex I of Regulation (EU) 2023/956.</div>':''}
+      </div>`;
+  } else {
+    // Check if it could be in a not-listed sector
+    const ch = parseInt(hs4.substring(0,2));
+    let hint = '';
+    if(ch===72||ch===73) hint='HS chapters 72-73 cover iron and steel, but not all codes are in scope. Check Annex I.';
+    else if(ch===76) hint='HS chapter 76 covers aluminium, but not all codes are in scope.';
+    else if(ch===25) hint='Only headings 2507 and 2523 in chapter 25 are in scope.';
+    else if(ch===28||ch===31) hint='Only selected headings in chapters 28 and 31 (fertilisers/hydrogen) are in scope.';
+
+    result.innerHTML = `
+      <div style="background:var(--surf2);border:1px solid var(--brd);border-radius:var(--r);padding:1rem 1.125rem">
+        <div style="font-size:13px;font-weight:700;color:var(--t2);margin-bottom:.375rem">✗ Not found in CBAM scope</div>
+        <div style="font-size:12px;color:var(--t2)">CN/HS code <strong>${raw}</strong> does not match known CBAM-covered headings for construction materials.</div>
+        ${hint?`<div style="font-size:11px;color:var(--am);margin-top:.5rem">ℹ ${hint}</div>`:''}
+        <div style="font-size:11px;color:var(--t3);margin-top:.375rem">Always verify against the official <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32023R0956" target="_blank" rel="noopener">Annex I of Regulation (EU) 2023/956</a>.</div>
+      </div>`;
+  }
+}
+
+// ── COST ESTIMATOR ───────────────────────────────────────────
+function updateEstDefaults(){
+  const sel = document.getElementById('est-mat').value;
+  const [,ei] = sel.split('|');
+  if(ei) document.getElementById('est-ei').value = ei;
+  else document.getElementById('est-ei').value = '';
+  calcEst();
+}
+
+function calcEst(){
+  const qty = parseFloat(document.getElementById('est-qty').value)||0;
+  const ei = parseFloat(document.getElementById('est-ei').value)||0;
+  const price = parseFloat(document.getElementById('est-price').value)||65;
+  const result = document.getElementById('est-result');
+
+  if(!qty||!ei){result.style.display='none';return;}
+
+  const phasein = 0.975; // 2026 phase-in factor
+  const totalEm = qty * ei;
+  const cost = totalEm * price * phasein;
+  const perT = cost / qty;
+
+  result.style.display='block';
+
+  const fv=(n,dp=0)=>n.toLocaleString('en',{maximumFractionDigits:dp,minimumFractionDigits:dp});
+
+  document.getElementById('est-total-em').textContent = fv(totalEm,1);
+  document.getElementById('est-total-cost').textContent = '€' + fv(cost,0);
+  document.getElementById('est-per-t').textContent = '€' + fv(perT,1);
+  document.getElementById('est-formula').textContent =
+    `${fv(qty,1)} t × ${ei} tCO₂e/t = ${fv(totalEm,1)} tCO₂e  ×  €${price}/tCO₂e  ×  ${(phasein*100).toFixed(1)}% phase-in  =  €${fv(cost,0)}`;
+}
+
+// init
+updateEstDefaults();
+</script>
+<script>
+function toggleTheme(){
+  const d=document.documentElement;
+  const t=d.getAttribute('data-theme')==='dark'?'light':'dark';
+  d.setAttribute('data-theme',t);
+  document.getElementById('tbtn').textContent=t==='dark'?'☀️':'🌙';
+  try{localStorage.setItem('flca-t',t);}catch(e){}
+}
+(()=>{
+  try{
+    const t=localStorage.getItem('flca-t')||'light';
+    document.documentElement.setAttribute('data-theme',t);
+    document.addEventListener('DOMContentLoaded',()=>{
+      const btn=document.getElementById('tbtn');
+      if(btn)btn.textContent=t==='dark'?'☀️':'🌙';
+    });
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

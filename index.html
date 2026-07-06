@@ -9,6 +9,11 @@
 <meta property="og:description" content="Calculate the GWP of construction materials. Free, EN 15804 compliant."/>
 <meta property="og:url" content="https://fastlca.com"/>
 <meta property="og:type" content="website"/>
+<meta property="og:image" content="https://fastlca.com/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://fastlca.com/og-image.png"/>
 <link rel="canonical" href="https://fastlca.com/"/>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"FastLCA","url":"https://fastlca.com","description":"Free embodied carbon calculator for construction materials.","applicationCategory":"BusinessApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}</script>
 <title>FastLCA — Free Embodied Carbon Calculator | GWP for Construction Materials</title>
@@ -410,6 +415,21 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
 .privacy-modal p,.privacy-modal li{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:.5rem}
 .privacy-modal ul{padding-left:1.25rem;margin-bottom:.5rem}
 .privacy-close{float:right;background:none;border:none;font-size:22px;cursor:pointer;color:var(--t3);line-height:1;margin-top:-6px}
+
+@media(max-width:560px){
+  /* calc transparency panel: stack cells into labelled rows */
+  .calc-row{grid-template-columns:1fr 1fr;gap:2px 8px;padding:8px 0;border-bottom:1px solid var(--brd,#e0e0e0)}
+  .calc-row .calc-cell:nth-child(1){grid-column:1 / -1;font-weight:600}
+  .calc-cell{font-size:11px}
+  /* assembly layer rows: badge + name on top, data cells below */
+  .asm-layer{grid-template-columns:24px 1fr auto auto;grid-template-areas:"num name name del" "num k gwp unit";gap:3px 8px;align-items:center}
+  .asm-layer>*:nth-child(1){grid-area:num}
+  .asm-layer>*:nth-child(2){grid-area:name}
+  .asm-layer>*:nth-child(3){grid-area:k;text-align:left!important}
+  .asm-layer>*:nth-child(4){grid-area:gwp}
+  .asm-layer>*:nth-child(5){grid-area:unit;text-align:left!important}
+  .asm-layer>*:nth-child(6){grid-area:del}
+}
 </style>
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -499,7 +519,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
     <div class="meth-grid">
       <div class="meth-i"><div class="meth-it">A1–A3 Generic materials</div><div class="meth-id"><strong>EPiC Database 2024</strong> (Crawford, Stephan &amp; Prideaux, University of Melbourne). Hybrid LCI — Australian supply chain data. Licence: CC BY-NC-ND 4.0. Values are higher than EU EPDs due to full supply chain coverage. <a href="https://doi.org/10.26188/10257728.v11" target="_blank" rel="noopener">Open EPiC Database ↗</a></div></div>
       <div class="meth-i"><div class="meth-it">A1–A3 EPD products</div><div class="meth-id">Product-specific values from verified manufacturer EPDs, entered by the user from the original document.</div></div>
-      <div class="meth-i"><div class="meth-it">A4 Transport</div><div class="meth-id">ECTA (2011) factors per vehicle type × distance (kg CO₂e/t·km), applied to total material mass.</div></div>
+      <div class="meth-i"><div class="meth-it">A4 Transport</div><div class="meth-id">DESNZ 2025 freight factors per tonne·km × distance (kg CO₂e/t·km), applied to total material mass.</div></div>
       <div class="meth-i"><div class="meth-it">A5 Construction</div><div class="meth-id">IEA 2023 grid intensity × site energy + waste factor (%) × A1–A3 GWP.</div></div>
       <div class="meth-i"><div class="meth-it">C1–C4 End of life</div><div class="meth-id">Generic per-kg factors estimated from published EPD ranges by material and EOL scenario. EPD-declared values used where available.</div></div>
       <div class="meth-i"><div class="meth-it">Module D</div><div class="meth-id">Net recovery benefit. <strong>Always reported separately</strong> — never added to A1–C4 total per EN 15804+A2:2019 clause 6.4.3.4.</div></div>
@@ -652,6 +672,28 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
       </div>
       <div class="fl aw"><label style="visibility:hidden">x</label><button class="btn bg2" id="abtn" onclick="addM()" style="width:100%">+ Add</button></div>
     </div>
+
+    <!-- BOM IMPORT -->
+    <div style="margin:.5rem 0 0">
+      <button class="btn bgh" style="font-size:11px;height:28px" onclick="bomToggle()">📋 Paste BoM / CSV</button>
+    </div>
+    <div id="bom-panel" style="display:none;border:1px solid var(--brd);border-radius:8px;padding:12px;margin-top:8px;background:var(--surf2)">
+      <div style="font-size:12px;color:var(--t2);margin-bottom:6px;line-height:1.6">Paste rows from Excel, Sheets or a CSV — one material per line: <strong>name, quantity, unit</strong>. Header row optional; tabs, commas or semicolons all work.</div>
+      <textarea id="bom-txt" rows="6" placeholder="Concrete C32/40&#9;12.5&#9;m3&#10;Rebar&#9;800&#9;kg&#10;CLT panel&#9;3.2&#9;tonnes" style="width:100%;box-sizing:border-box;border:1px solid var(--brd);border-radius:6px;padding:8px;font-family:monospace;font-size:12px;background:var(--surf);color:var(--t1)"></textarea>
+      <button class="btn bg2" style="margin-top:8px;font-size:12px" onclick="bomParse()">Parse →</button>
+      <div id="bom-review" style="display:none;margin-top:10px">
+        <div style="font-size:12px;font-weight:700;color:var(--t1);margin-bottom:6px">Review matches before adding <span style="font-weight:400;color:var(--t3)">— check every row; fuzzy matching can be wrong</span></div>
+        <div style="overflow-x:auto">
+          <table class="tbl" style="font-size:12px">
+            <thead><tr><th>Your text</th><th>Matched material</th><th>Qty</th><th>Unit</th><th>Match</th><th></th></tr></thead>
+            <tbody id="bom-tbd"></tbody>
+          </table>
+        </div>
+        <button class="btn bg2" style="margin-top:8px;font-size:12px" id="bom-commit" onclick="bomCommit()">Add matched rows</button>
+        <button class="btn bgh" style="margin-top:8px;font-size:12px" onclick="document.getElementById('bom-review').style.display='none'">Cancel</button>
+      </div>
+    </div>
+
     <div id="empt" class="empt">Select a material above, enter a quantity, then click Add.</div>
     <div style="overflow-x:auto">
       <table class="tbl" id="ptbl" style="display:none">
@@ -663,18 +705,19 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
 
   <!-- A4-A5 TAB -->
   <div id="tab-a45" style="display:none">
-    <div class="wb">⚠ <strong>A4 & A5 are indicative only.</strong> A4 applies one transport mode to all materials at a single distance — real projects have mixed supply chains. A5 site energy is project-specific. These should be replaced with actual data for any formal reporting. Transport emission factors from <a href="https://ecta.com" target="_blank" rel="noopener">ECTA (2011)</a> and EN 15804+A2 defaults. Grid factors from IEA 2023.</div>
+    <div class="wb">⚠ <strong>A4 & A5 are indicative only.</strong> A4 applies one transport mode to all materials at a single distance — real projects have mixed supply chains. A5 site energy is project-specific. These should be replaced with actual data for any formal reporting. Transport emission factors from <a href="https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2025" target="_blank" rel="noopener">DESNZ (2025)</a> and EN 15804+A2 defaults. Grid factors from IEA 2023.</div>
     <div class="sl">A4 — Transport to site</div>
     <div class="g2" style="margin-bottom:1rem">
       <div class="fl"><label>Distance (km)</label><input type="number" id="a4d" value="50" min="0" oninput="calcAll()"/></div>
       <div class="fl"><label>Vehicle / mode</label>
         <select id="a4v" onchange="calcAll()">
-          <option value="0.0962">Heavy truck &gt;32t — 0.096 kg CO₂e/t·km</option>
-          <option value="0.1140">Medium truck 7.5–32t — 0.114</option>
-          <option value="0.2270">Light van &lt;3.5t — 0.227</option>
-          <option value="0.0240">Rail freight — 0.024</option>
-          <option value="0.0160">Sea freight — 0.016</option>
-          <option value="0.0500">Mixed / default — 0.050</option>
+          <option value="0.09675">Articulated HGV &gt;33t — 0.097 kg CO₂e/t·km</option>
+          <option value="0.12226">All HGVs (average) — 0.122</option>
+          <option value="0.22580">Rigid HGV (average) — 0.226</option>
+          <option value="0.63130">Van &lt;3.5t (average) — 0.631</option>
+          <option value="0.02779">Rail freight — 0.028</option>
+          <option value="0.00353">Sea freight — bulk carrier avg — 0.004</option>
+          <option value="0.89939">Air freight — long-haul — 0.899</option>
         </select>
       </div>
     </div>
@@ -690,7 +733,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
           </optgroup>
           <optgroup label="── Europe ──">
             <option value="0.255">EU27 average — 0.255 (IEA 2023)</option>
-            <option value="0.207">UK — 0.207 (DESNZ 2023)</option>
+            <option value="0.177">UK — 0.177 (DESNZ 2025)</option>
             <option value="0.380">Germany — 0.380 (UBA 2023)</option>
             <option value="0.052">France — 0.052 (RTE 2023)</option>
             <option value="0.720">Poland — 0.720 (KOBiZE 2023)</option>
@@ -834,6 +877,26 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
       <span style="font-size:11px;color:var(--t3)">kg CO₂e/m²</span>
     </div>
     <div style="font-size:11px;color:var(--t3);margin-top:5px;line-height:1.5">GFA = Gross Floor Area — total enclosed floor area measured to external walls. Dividing total project GWP by GFA gives kg CO₂e/m², the standard intensity metric for RICS, RIBA and LETI benchmarking.</div>
+
+    <!-- BENCHMARK BAR -->
+    <div id="bench-wrap" style="display:none;margin-top:14px">
+      <div class="sl" style="margin-bottom:.5rem">Benchmark — embodied carbon intensity</div>
+      <div style="position:relative;height:46px;margin:0 4px">
+        <div style="position:absolute;top:18px;left:0;right:0;height:10px;border-radius:5px;background:linear-gradient(90deg,#2E7D32 0%,#8BC34A 25%,#FFC107 50%,#FF7043 75%,#C62828 100%)"></div>
+        <!-- LETI 2030 marker at 300/1200 = 25% -->
+        <div style="position:absolute;left:25%;top:10px;width:2px;height:26px;background:var(--t1)"></div>
+        <div style="position:absolute;left:25%;top:38px;transform:translateX(-50%);font-size:9px;color:var(--t2);white-space:nowrap">LETI 2030 ≈300</div>
+        <!-- typical band 700-900 = 58.3% to 75% -->
+        <div style="position:absolute;left:58.3%;width:16.7%;top:16px;height:14px;border:1.5px dashed var(--t3);border-radius:3px"></div>
+        <div style="position:absolute;left:66.6%;top:38px;transform:translateX(-50%);font-size:9px;color:var(--t2);white-space:nowrap">UK typical 700–900</div>
+        <!-- you are here arrow -->
+        <div id="bench-you" style="position:absolute;top:-2px;transform:translateX(-50%);left:0;transition:left .3s;text-align:center">
+          <div id="bench-you-val" style="font-size:10px;font-weight:800;color:var(--t1);white-space:nowrap"></div>
+          <div style="font-size:10px;line-height:8px">▼</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:var(--t3);margin-top:12px;line-height:1.6">⚠ LETI/RIBA benchmarks refer to <strong>whole-building, whole-life embodied carbon</strong> (all elements: substructure, frame, envelope, MEP, finishes; modules A1–C4). If your bill of materials covers only part of the building, your intensity will read artificially low against these markers. Scale reference: 0–1,200 kg CO₂e/m². LETI 2030 design target ≈300 kg CO₂e/m² (new residential); typical current UK practice ≈700–900.</div>
+    </div>
 
     <div class="sl" style="margin-top:1.25rem;margin-bottom:.5rem">Material contribution to A1–A3</div>
     <div id="barbd"></div>
@@ -1042,10 +1105,10 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g);box-s
   <strong style="color:var(--t2)">Guides &amp; resources:</strong> &nbsp;
   <a href="/scope3-category-1-calculator">Scope 3 Cat 1 guide</a> &nbsp;·&nbsp;
   <a href="/free-lca-calculator">About FastLCA</a> &nbsp;·&nbsp;
-  <a href="/epd-guide.html">EPD guide</a> &nbsp;·&nbsp;
+  <a href="/epd-guide.html">EPD guide</a> · <a href="/cbam-construction-materials">CBAM &amp; construction materials</a> &nbsp;·&nbsp;
   <a href="/scope3">Scope 3 calculator</a>
 </div>
-<div class="disc">⚠ <strong>Disclaimer:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. Generic A1–A3: EPiC Database 2024 (Crawford, Stephan &amp; Prideaux, University of Melbourne; <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a>; used as internal calculation input). Hybrid values — systematically higher than process-only EPDs. Transport: ECTA (2011). Generic materials: EPiC "Embodied GHG Emissions" (hybrid LCI, kg CO₂e — equivalent to GWP-total but not EN 15804 process-based). User EPDs: GWP-total per EN 15804+A2. Generic C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. For compliance, commission a certified LCA practitioner. &nbsp;·&nbsp; © 2026 FastLCA. All rights reserved. &nbsp;·&nbsp; FastLCA v0.9 &nbsp;·&nbsp; <a href="https://fastlca.com">fastlca.com</a> &nbsp;·&nbsp; <a href="/cdn-cgi/l/email-protection#6a020f0606052a0c0b191e06090b44090507"><span class="__cf_email__" data-cfemail="e58d8089898aa583849691898684cb868a88">[email&#160;protected]</span></a> &nbsp;·&nbsp; <a href="/about.html">Methodology</a> &nbsp;·&nbsp; <button onclick="openPrivacy()" style="background:none;border:none;color:var(--b);cursor:pointer;font-family:inherit;font-size:11px;padding:0;text-decoration:underline">Privacy Policy</button></div>
+<div class="disc">⚠ <strong>Disclaimer:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. Generic A1–A3: EPiC Database 2024 (Crawford, Stephan &amp; Prideaux, University of Melbourne; <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a>; used as internal calculation input). Hybrid values — systematically higher than process-only EPDs. Transport: DESNZ (2025). Generic materials: EPiC "Embodied GHG Emissions" (hybrid LCI, kg CO₂e — equivalent to GWP-total but not EN 15804 process-based). User EPDs: GWP-total per EN 15804+A2. Generic C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. For compliance, commission a certified LCA practitioner. &nbsp;·&nbsp; © 2026 FastLCA. All rights reserved. &nbsp;·&nbsp; FastLCA v0.9 &nbsp;·&nbsp; <a href="https://fastlca.com">fastlca.com</a> &nbsp;·&nbsp; <a href="/cdn-cgi/l/email-protection#6a020f0606052a0c0b191e06090b44090507"><span class="__cf_email__" data-cfemail="e58d8089898aa583849691898684cb868a88">[email&#160;protected]</span></a> &nbsp;·&nbsp; <a href="/about.html">Methodology</a> &nbsp;·&nbsp; <button onclick="openPrivacy()" style="background:none;border:none;color:var(--b);cursor:pointer;font-family:inherit;font-size:11px;padding:0;text-decoration:underline">Privacy Policy</button></div>
 </div>
 
 <!-- PRIVACY MODAL -->
@@ -1194,7 +1257,7 @@ const RAW=[
   {id:"c02",n:"Concrete 32 MPa",cat:"Concrete",ef:0.173,den:2400,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"416 kg CO₂e/m³ ÷ 2400 kg/m³",url:EPIC_URL,eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.014},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.035}}},
   {id:"c03",n:"Concrete 40 MPa",cat:"Concrete",ef:0.207,den:2400,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"497 kg CO₂e/m³ ÷ 2400 kg/m³",url:EPIC_URL,eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.016},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.040}}},
   {id:"c04",n:"Concrete 50 MPa",cat:"Concrete",ef:0.261,den:2400,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"626 kg CO₂e/m³ ÷ 2400 kg/m³",url:EPIC_URL,eol:{landfill:{c1:.004,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.004,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.005,c2:.008,c3:.010,c4:0,d:-.020},reuse:{c1:.002,c2:.005,c3:.002,c4:0,d:-.050}}},
-  {id:"c05",n:"Precast concrete (est.)",cat:"Concrete",ef:0.180,den:2400,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Est. between 25–32 MPa; use project-specific EPD for formal work",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.009,c4:0,d:-.013},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.045}}},
+  {id:"c05",n:"Precast concrete (est.)",cat:"Concrete",ef:0.180,den:2400,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Est. — 32 MPa (0.173) + allowance for precasting energy; use project-specific EPD for formal work",url:EPIC_URL,eol:{landfill:{c1:.003,c2:.006,c3:.001,c4:.002,d:0},incineration:{c1:.003,c2:.006,c3:.003,c4:.001,d:0},recycling:{c1:.004,c2:.007,c3:.009,c4:0,d:-.013},reuse:{c1:.001,c2:.004,c3:.001,c4:0,d:-.045}}},
   // STEEL — EPiC direct per-kg values
   // Steel bar=2.1, Hot rolled structural=2.9, Cold rolled=3.7, Corrugated=5.5
   {id:"s01",n:"Reinforcing steel (bar)",cat:"Steel",ef:2.10,den:7850,du:"kg",db:EPIC_DB,yr:EPIC_YR,ref:"Steel bar — 2.1 kg CO₂e/kg",url:EPIC_URL,eol:{landfill:{c1:.005,c2:.010,c3:.002,c4:.003,d:0},incineration:{c1:.005,c2:.010,c3:.008,c4:.002,d:.050},recycling:{c1:.006,c2:.012,c3:.020,c4:0,d:-1.600},reuse:{c1:.002,c2:.008,c3:.003,c4:0,d:-1.900}}},
@@ -1293,7 +1356,12 @@ function restoreProject(){
     const data=JSON.parse(raw);
     if(data.pname)document.getElementById('pname').value=data.pname;
     if(data.a4d)document.getElementById('a4d').value=data.a4d;
-    if(data.a4v)document.getElementById('a4v').value=data.a4v;
+    if(data.a4v){
+      const a4map={'0.0962':'0.09675','0.1140':'0.22580','0.2270':'0.63130','0.0240':'0.02779','0.0160':'0.00353','0.0500':'0.12226','0.114':'0.22580','0.227':'0.63130','0.024':'0.02779','0.016':'0.00353','0.05':'0.12226'};
+      const el=document.getElementById('a4v');
+      el.value=a4map[data.a4v]||data.a4v;
+      if(el.selectedIndex<0)el.selectedIndex=0;
+    }
     if(data.a5e)document.getElementById('a5e').value=data.a5e;
     if(data.a5s)document.getElementById('a5s').value=data.a5s;
     if(data.a5w)document.getElementById('a5w').value=data.a5w;
@@ -1590,6 +1658,139 @@ function addM(){
   document.getElementById('qty').value='';
   renderAll();scheduleSave();
 }
+
+// ── BOM / CSV IMPORT ──────────────────────────────────────────
+const BOM_SYN={
+  'rebar':'reinforcing steel','reinforcement':'reinforcing steel','rc':'concrete',
+  'conc':'concrete','concrete':'concrete','clt':'cross laminated timber',
+  'glulam':'glued laminated timber','gyproc':'plasterboard','drywall':'plasterboard',
+  'gypsum':'plasterboard','plasterboard':'plasterboard','osb':'oriented strand board',
+  'ply':'plywood','mdf':'medium density fibreboard','steel':'steel','alu':'aluminium',
+  'aluminum':'aluminium','timber':'timber','softwood':'softwood','hardwood':'hardwood',
+  'rockwool':'rock wool','mineral wool':'rock wool','glasswool':'glass wool',
+  'eps':'expanded polystyrene','xps':'extruded polystyrene','pir':'polyisocyanurate',
+  'brick':'brick','block':'concrete block','blockwork':'concrete block'
+};
+function bomToggle(){
+  const p=document.getElementById('bom-panel');
+  p.style.display=p.style.display==='none'?'block':'none';
+}
+function bomNormUnit(u){
+  u=(u||'').toLowerCase().replace(/[^a-z0-9³²]/g,'');
+  if(['t','tonne','tonnes','ton','tons','mt'].includes(u))return 'tonnes';
+  if(['kg','kgs','kilogram','kilograms'].includes(u))return 'kg';
+  if(['m3','m³','cum','cbm'].includes(u))return 'm3';
+  if(['m2','m²','sqm'].includes(u))return 'm2';
+  if(['pcs','pc','no','nr','ea','each','unit','units'].includes(u))return 'pcs';
+  if(['m','lm','metre','meter','metres','meters'].includes(u))return 'm';
+  return null;
+}
+function bomScore(text, mat){
+  const t=text.toLowerCase();
+  const words=t.split(/[^a-z0-9]+/).filter(w=>w.length>1);
+  // expand synonyms
+  const expanded=new Set(words);
+  words.forEach(w=>{if(BOM_SYN[w])BOM_SYN[w].split(' ').forEach(x=>expanded.add(x));});
+  const mname=mat.n.toLowerCase();
+  const mwords=mname.split(/[^a-z0-9]+/).filter(w=>w.length>1);
+  const mcat=(mat.cat||'').toLowerCase();
+  let hits=0;
+  expanded.forEach(w=>{
+    if(mname.includes(w))hits+=2;
+    else if(mwords.some(mw=>mw.startsWith(w)||w.startsWith(mw)))hits+=1;
+    else if(mcat.includes(w))hits+=0.5;
+  });
+  // numeric grade match bonus e.g. 32 in "C32/40" vs "Concrete 32 MPa"
+  const nums=t.match(/\d+/g)||[];
+  nums.forEach(n=>{if(mname.includes(n))hits+=1.5;});
+  return hits/Math.max(2,mwords.length);
+}
+let _bomRows=[];
+function bomParse(){
+  const raw=document.getElementById('bom-txt').value;
+  if(!raw.trim()){alert('Paste some rows first.');return;}
+  const candidates=[...RAW,...allProds];
+  const lines=raw.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+  _bomRows=[];
+  lines.forEach((line,li)=>{
+    // delimiter detection per line: tab > semicolon > comma
+    let cells;
+    if(line.includes('\t'))cells=line.split('\t');
+    else if(line.includes(';'))cells=line.split(';');
+    else cells=line.split(',');
+    cells=cells.map(c=>c.trim()).filter(c=>c!=='');
+    if(cells.length<2)return;
+    // header row? skip if qty cell isn't numeric and row 0
+    const name=cells[0];
+    let qty=NaN,unit=null;
+    for(let i=1;i<cells.length;i++){
+      const v=parseFloat(cells[i].replace(/\s/g,'').replace(',','.'));
+      if(!isNaN(v)&&isNaN(qty)){qty=v;continue;}
+      const u=bomNormUnit(cells[i]);
+      if(u&&!unit)unit=u;
+    }
+    if(li===0&&isNaN(qty))return; // header
+    if(isNaN(qty)||qty<=0)return;
+    unit=unit||'tonnes';
+    // fuzzy match
+    let best=null,bestS=0;
+    candidates.forEach(m=>{const s=bomScore(name,m);if(s>bestS){bestS=s;best=m;}});
+    _bomRows.push({name,qty,unit,mat:bestS>=0.4?best:null,score:bestS,candidates});
+  });
+  if(!_bomRows.length){alert('No parseable rows found. Expected: name, quantity, unit.');return;}
+  bomRenderReview();
+}
+function bomRenderReview(){
+  const tb=document.getElementById('bom-tbd');
+  const candidates=[...RAW,...allProds];
+  tb.innerHTML=_bomRows.map((r,i)=>{
+    const opts='<option value="">— skip —</option>'+candidates.map((m,mi)=>
+      `<option value="${mi}" ${r.mat===m?'selected':''}>${m.n}</option>`).join('');
+    const conf=r.mat?(r.score>=1?'<span style="color:var(--gd);font-weight:700">high</span>':'<span style="color:#E65100;font-weight:700">check</span>'):'<span style="color:#C62828;font-weight:700">no match</span>';
+    return `<tr>
+      <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis">${r.name}</td>
+      <td><select onchange="bomSetMat(${i},this.value)" style="max-width:190px;font-size:11px">${opts}</select></td>
+      <td><input type="number" value="${r.qty}" step="any" min="0" onchange="_bomRows[${i}].qty=parseFloat(this.value)||0" style="width:70px;font-size:11px"/></td>
+      <td><select onchange="_bomRows[${i}].unit=this.value" style="font-size:11px">
+        ${['kg','tonnes','m3','m2','pcs','m'].map(u=>`<option value="${u}" ${r.unit===u?'selected':''}>${u==='m3'?'m³':u==='m2'?'m²':u}</option>`).join('')}
+      </select></td>
+      <td>${conf}</td>
+      <td style="font-size:10px;color:var(--t3)">${r.mat&&r.score<1?'verify':''}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('bom-review').style.display='block';
+  const matched=_bomRows.filter(r=>r.mat).length;
+  document.getElementById('bom-commit').textContent=`Add ${matched} matched row${matched===1?'':'s'}`;
+}
+function bomSetMat(i,v){
+  const candidates=[...RAW,...allProds];
+  _bomRows[i].mat=v===''?null:candidates[parseInt(v)];
+  _bomRows[i].score=v===''?0:2; // user-confirmed
+  bomRenderReview();
+}
+function bomCommit(){
+  let added=0,skippedUnit=0;
+  _bomRows.forEach((r,idx)=>{
+    if(!r.mat||!r.qty||r.qty<=0)return;
+    const du=r.mat.du||'kg', den=r.mat.den||null, u=r.unit;
+    const canConvert=(
+      (u==='tonnes'&&du==='kg')||(u==='kg'&&du==='tonnes')||
+      (u==='m3'&&(du==='kg'||du==='tonnes')&&den)||u===du
+    );
+    if(!canConvert){skippedUnit++;return;}
+    const qkg=toKg(r.qty,u,r.mat.den);
+    items.push({mat:r.mat,qty:r.qty,u,qkg,gwp:toGWP(r.qty,u,r.mat),eol:'landfill',id:Date.now()+idx,isProd:!!r.mat.isProd});
+    added++;
+  });
+  renderAll();scheduleSave();
+  document.getElementById('bom-review').style.display='none';
+  document.getElementById('bom-panel').style.display='none';
+  document.getElementById('bom-txt').value='';
+  let msg=added+' item'+(added===1?'':'s')+' added.';
+  if(skippedUnit)msg+=' '+skippedUnit+' skipped — unit could not be converted for that material (e.g. m³ without density, or m²/pcs/m against a per-kg factor). Add those manually with a matching unit.';
+  alert(msg);
+}
+
 function rem(id){items=items.filter(i=>i.id!==id);renderAll();scheduleSave();}
 function setEol(id,sc){const it=items.find(i=>i.id===id);if(it){it.eol=sc;renderAll();scheduleSave();}}
 function toGWP(qty, inputUnit, mat){
@@ -1715,9 +1916,21 @@ function renderSaved(){
 function updateFA(){
   const fa=parseFloat(document.getElementById('fa-input').value);
   const el=document.getElementById('fa-out');
+  const bw=document.getElementById('bench-wrap');
   if(window._R&&!isNaN(fa)&&fa>0){
-    el.textContent=fv(window._R.grand/fa);
-  }else{el.textContent='—';}
+    const intensity=window._R.grand/fa;
+    el.textContent=fv(intensity);
+    // benchmark bar: scale 0–1200, clamp
+    if(bw){
+      bw.style.display='block';
+      const pct=Math.max(0,Math.min(100,intensity/1200*100));
+      document.getElementById('bench-you').style.left=pct+'%';
+      document.getElementById('bench-you-val').textContent=fv(intensity)+' kg CO₂e/m²';
+    }
+  }else{
+    el.textContent='—';
+    if(bw)bw.style.display='none';
+  }
 }
 
 // ── COMPARISON ────────────────────────────────────────────────
@@ -1925,9 +2138,12 @@ ${r.items.map(i=>`  ${i.mat.n}: ${fv(i.qty)} ${i.u} × ${i.mat.ef} kg CO₂e/${i
 <table><thead><tr><th>Database / Programme</th><th>Year</th><th>Reference</th><th>Link</th></tr></thead><tbody>
 ${src.map(m=>`<tr><td>${m.db||'EPiC 2024'}${m.prog&&m.prog!==m.db?' / '+m.prog:''}</td><td>${m.yr||'—'}</td><td>${m.ref||'—'}</td><td>${m.url&&m.url.startsWith('http')?`<a href="${m.url}" style="color:#1565C0;font-size:10px">${m.url}</a>`:'—'}</td></tr>`).join('')}
 </tbody></table>
-<div class="disc"><strong>DISCLAIMER:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. A1–A3: EPiC Database 2024 (Crawford et al., Univ. Melbourne; CC BY-NC-ND 4.0; internal use only). Hybrid values — higher than process-only EPDs. Transport: ECTA (2011). C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. Commission a certified LCA practitioner for compliance use.</div>
+<div class="disc"><strong>DISCLAIMER:</strong> FastLCA provides indicative estimates only. Not a certified LCA, EPD or regulatory declaration. A1–A3: EPiC Database 2024 (Crawford et al., Univ. Melbourne; CC BY-NC-ND 4.0; internal use only). Hybrid values — higher than process-only EPDs. Transport: DESNZ (2025). C1–C4 and Module D: estimated from published EPD ranges. User EPD values not independently verified. Module D excluded from totals per EN 15804+A2:2019. B1–B7 not included. Commission a certified LCA practitioner for compliance use.</div>
 <div class="ftr"><span>FastLCA v0.9 · fastlca.com · hello@fastlca.com</span><span>Generated ${r.date}</span></div>
-</div></body></html>`;
+</div>
+
+
+</body></html>`;
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
@@ -2142,6 +2358,63 @@ function submitLead(){
 filterM();renderML();
 loadSheetProds();
 restoreProject();
+</script>
+<!-- ── FEEDBACK WIDGET ── -->
+<div id="fbw" style="position:fixed;bottom:18px;right:18px;z-index:9000;font-family:inherit">
+  <button id="fbw-tab" onclick="fbwToggle()" style="background:var(--gd,#1B5E20);color:#fff;border:none;border-radius:20px;padding:9px 16px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.25)">💬 Feedback</button>
+  <div id="fbw-box" style="display:none;position:absolute;bottom:44px;right:0;width:270px;background:var(--surf,#fff);border:1px solid var(--brd,#ddd);border-radius:10px;padding:14px;box-shadow:0 6px 24px rgba(0,0,0,.18)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <strong style="font-size:13px;color:var(--t1,#222)">Was this useful?</strong>
+      <button onclick="fbwDismiss()" title="Hide" style="background:none;border:none;cursor:pointer;font-size:14px;color:var(--t3,#999)">×</button>
+    </div>
+    <div style="display:flex;gap:6px;margin-bottom:8px">
+      <button onclick="fbwRate('yes')" id="fbw-y" style="flex:1;border:1px solid var(--brd,#ddd);background:var(--surf2,#fafafa);border-radius:6px;padding:6px;cursor:pointer;font-size:15px">👍</button>
+      <button onclick="fbwRate('no')" id="fbw-n" style="flex:1;border:1px solid var(--brd,#ddd);background:var(--surf2,#fafafa);border-radius:6px;padding:6px;cursor:pointer;font-size:15px">👎</button>
+    </div>
+    <textarea id="fbw-txt" placeholder="What's missing? What would make this more useful?" rows="3" style="width:100%;box-sizing:border-box;border:1px solid var(--brd,#ddd);border-radius:6px;padding:7px;font-family:inherit;font-size:12px;resize:vertical;background:var(--surf2,#fafafa);color:var(--t1,#222)"></textarea>
+    <input id="fbw-email" type="email" placeholder="Email (optional, if you want a reply)" style="width:100%;box-sizing:border-box;border:1px solid var(--brd,#ddd);border-radius:6px;padding:7px;font-family:inherit;font-size:12px;margin-top:6px;background:var(--surf2,#fafafa);color:var(--t1,#222)"/>
+    <button onclick="fbwSend()" id="fbw-send" style="width:100%;margin-top:8px;background:var(--gd,#1B5E20);color:#fff;border:none;border-radius:6px;padding:8px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer">Send</button>
+    <div id="fbw-msg" style="font-size:11px;margin-top:6px;color:var(--t3,#888)"></div>
+  </div>
+</div>
+<script>
+let _fbwRating=null;
+function fbwToggle(){
+  const b=document.getElementById('fbw-box');
+  b.style.display=b.style.display==='none'?'block':'none';
+}
+function fbwDismiss(){
+  document.getElementById('fbw').style.display='none';
+  try{localStorage.setItem('flca-fb-hide','1');}catch(e){}
+}
+function fbwRate(r){
+  _fbwRating=r;
+  document.getElementById('fbw-y').style.background=r==='yes'?'#C8E6C9':'var(--surf2,#fafafa)';
+  document.getElementById('fbw-n').style.background=r==='no'?'#FFCDD2':'var(--surf2,#fafafa)';
+}
+function fbwSend(){
+  const txt=document.getElementById('fbw-txt').value.trim();
+  const email=document.getElementById('fbw-email').value.trim();
+  if(!_fbwRating&&!txt){document.getElementById('fbw-msg').textContent='Pick 👍/👎 or write something first.';return;}
+  const btn=document.getElementById('fbw-send');
+  btn.disabled=true;btn.textContent='Sending…';
+  fetch('https://formspree.io/f/xnjobdgv',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({_subject:'FastLCA feedback ('+(_fbwRating||'no rating')+')',rating:_fbwRating||'',message:txt,email:email,page:location.pathname})
+  }).then(r=>{
+    if(r.ok){
+      document.getElementById('fbw-box').innerHTML='<div style="font-size:13px;color:var(--gd,#1B5E20);font-weight:600;padding:6px 2px">Thanks — genuinely helpful. 🙏</div>';
+      setTimeout(()=>{document.getElementById('fbw-box').style.display='none';},2500);
+    }else{throw new Error();}
+  }).catch(()=>{
+    btn.disabled=false;btn.textContent='Send';
+    document.getElementById('fbw-msg').textContent='Could not send — please try again.';
+  });
+}
+(function(){
+  try{if(localStorage.getItem('flca-fb-hide')==='1')document.getElementById('fbw').style.display='none';}catch(e){}
+})();
 </script>
 </body>
 </html>

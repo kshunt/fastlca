@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://fastlca.com/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://fastlca.com/scope3</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://fastlca.com/cbam-construction-materials</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fastlca.com/scope3-category-1-calculator</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://fastlca.com/free-lca-calculator</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://fastlca.com/epd-guide</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://fastlca.com/about</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+</urlset>
