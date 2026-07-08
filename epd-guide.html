@@ -179,7 +179,19 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;
 
 /* FOOTER */
 .disc{font-size:11px;color:var(--t3);padding:1.5rem 0;border-top:1px solid var(--brd);line-height:1.6;margin-top:3rem}
+
+@media(max-width:720px){
+  nav .btn-cta{display:none}
+}
+@media(max-width:480px){
+  nav{padding:0 .75rem}
+  .nr{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .nr::-webkit-scrollbar{display:none}
+  .bnav{padding:5px 7px;font-size:11px;white-space:nowrap}
+  .logo-tag,.nn+span{display:none}
+}
 </style>
+<script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("flca-t")||"light")}catch(e){}</script>
 </head>
 <body>
 
@@ -198,12 +210,12 @@ nav{background:var(--surf);border-bottom:1px solid var(--brd);padding:0 1.25rem;
     <span class="nn">Fast<em>LCA</em></span>
   </a>
   <div class="nr">
-    <a href="/" class="bnav">Calculator</a>
-    <a href="/about.html" class="bnav">Methodology</a>
-    <a href="/epd-guide.html" class="bnav active">EPD Guide</a>
+    <a href="/about" class="bnav">About</a>
+    <a href="/epd-guide" class="bnav active">EPD Guide</a>
+    <a href="/cbam-construction-materials" class="bnav">CBAM</a>
     <a href="/scope3" class="bnav">Scope 3</a>
+    <a href="/" class="btn-cta">Open calculator →</a>
     <button class="bnav tbtn" id="tbtn" onclick="toggleTheme()">🌙</button>
-    <a href="/" class="btn-cta">Open calculator ↗</a>
   </div>
 </nav>
 
