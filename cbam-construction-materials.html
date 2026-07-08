@@ -129,8 +129,38 @@ strong{color:var(--t1)}
 footer{border-top:1px solid var(--brd);padding:1.5rem 1.25rem;max-width:760px;margin:0 auto;font-size:12px;color:var(--t3)}
 footer a{color:var(--b);text-decoration:none}
 .foot-guides{margin-top:.5rem;padding-top:.5rem;border-top:1px solid var(--brd2)}
+
+@media(max-width:720px){
+  nav .btn-cta{display:none}
+}
+@media(max-width:480px){
+  nav{padding:0 .75rem}
+  .nr{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .nr::-webkit-scrollbar{display:none}
+  .bnav{padding:5px 7px;font-size:11px;white-space:nowrap}
+  .logo-tag,.nn+span{display:none}
+}
+
+/* CN checker result — theme aware */
+.cn-box{border-radius:var(--r);padding:1rem 1.125rem;border:1px solid}
+.cn-cement{background:#E3F2FD;border-color:#1565C030}
+.cn-steel{background:#FFEBEE;border-color:#B71C1C30}
+.cn-alu{background:#FFF3E0;border-color:#E6510030}
+.cn-other{background:var(--gl);border-color:var(--gm)}
+.cn-head-cement{color:#1565C0}.cn-head-steel{color:#B71C1C}.cn-head-alu{color:#E65100}.cn-head-other{color:var(--gd)}
+.cn-box .cn-t1{color:#212121}.cn-box .cn-t2{color:#5F6368}
+[data-theme=dark] .cn-cement{background:#0D2A45;border-color:#60A5FA40}
+[data-theme=dark] .cn-steel{background:#3B0D0D;border-color:#F8717140}
+[data-theme=dark] .cn-alu{background:#431407;border-color:#FB923C40}
+[data-theme=dark] .cn-head-cement{color:#93C5FD}
+[data-theme=dark] .cn-head-steel{color:#FCA5A5}
+[data-theme=dark] .cn-head-alu{color:#FDBA74}
+[data-theme=dark] .cn-head-other{color:var(--gd)}
+[data-theme=dark] .cn-box .cn-t1{color:#F1F5F9}
+[data-theme=dark] .cn-box .cn-t2{color:#CBD5E1}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does CBAM apply to construction companies that buy steel domestically?", "acceptedAnswer": {"@type": "Answer", "text": "No — CBAM only applies to direct importers of covered goods crossing the EU border. If you buy steel from a domestic distributor or mill within the EU, CBAM is not your direct obligation. However, your supplier may pass on CBAM-related cost increases in their pricing."}}, {"@type": "Question", "name": "Does CBAM cover concrete or prefabricated concrete elements?", "acceptedAnswer": {"@type": "Answer", "text": "Cement is in scope, but concrete products (ready-mix, precast elements, blocks) are not currently covered under CBAM in its initial scope. The embedded carbon of concrete products used in construction is not directly subject to CBAM obligations at this stage, though expansion to downstream products is under discussion."}}, {"@type": "Question", "name": "What is the difference between CBAM embedded carbon and EPD A1–A3 values?", "acceptedAnswer": {"@type": "Answer", "text": "They measure similar things but use different methodologies and boundaries. EPD A1–A3 (under EN 15804) covers production-stage GWP using a process-based LCI approach. CBAM embedded carbon covers direct and indirect production emissions using facility-level data or EU default values. They are related but not identical — an EPD cannot be directly used as a CBAM declaration, though the underlying carbon intensity data overlaps significantly."}}, {"@type": "Question", "name": "How does CBAM interact with Scope 3 Category 1 reporting?", "acceptedAnswer": {"@type": "Answer", "text": "CBAM and Scope 3 Cat 1 both address upstream emissions from purchased materials — they are complementary, not the same. Scope 3 Cat 1 is corporate GHG accounting under the GHG Protocol. CBAM is a trade regulation creating financial obligations. The same underlying emission factor data can inform both, but the methodologies, boundaries, and required precision differ. See our Scope 3 Category 1 guide for more detail."}}, {"@type": "Question", "name": "Will CBAM expand to timber or other construction materials?", "acceptedAnswer": {"@type": "Answer", "text": "Not in the near term. CBAM is currently focused on the six carbon-intensive sectors. Expansion to all EU ETS sectors is expected by 2030, but timber is not currently in the EU ETS and is unlikely to be added to CBAM's scope in this period. However, the broader policy direction — carbon pricing on construction materials — is moving in that direction through other routes including national whole-life carbon requirements."}}, {"@type": "Question", "name": "Where can I find official CBAM guidance?", "acceptedAnswer": {"@type": "Answer", "text": "The European Commission's official CBAM page at taxation-customs.ec.europa.eu is the authoritative source. For compliance, consult a qualified customs or sustainability professional — CBAM obligations are complex and errors carry financial penalties."}}]}</script>
+<script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("flca-t")||"light")}catch(e){}</script>
 </head>
 <body>
 <nav>
@@ -139,7 +169,9 @@ footer a{color:var(--b);text-decoration:none}
     <span class="nn">FastLCA</span>
   </a>
   <div class="nr">
-    <a href="/about.html" class="bnav">About</a>
+    <a href="/about" class="bnav">About</a>
+    <a href="/epd-guide" class="bnav">EPD Guide</a>
+    <a href="/cbam-construction-materials" class="bnav">CBAM</a>
     <a href="/scope3" class="bnav">Scope 3</a>
     <a href="/" class="btn-cta">Open calculator →</a>
     <button class="tbtn" id="tbtn" onclick="toggleTheme()">🌙</button>
@@ -471,14 +503,6 @@ const CN_DB = [
   {hs:'7616',sector:'Aluminium',desc:'Other articles of aluminium (nuts, bolts, netting, fencing)'},
 ];
 
-const SECTOR_COLORS = {
-  'Cement':'#1565C0','Iron & Steel':'#B71C1C','Aluminium':'#E65100',
-  'Fertilisers':'#2E7D32','Electricity':'#6A1B9A','Hydrogen':'#00695C'
-};
-const SECTOR_BG = {
-  'Cement':'#E3F2FD','Iron & Steel':'#FFEBEE','Aluminium':'#FFF3E0',
-};
-
 function checkCN(){
   const raw = document.getElementById('cn-input').value.trim().replace(/\s/g,'');
   const result = document.getElementById('cn-result');
@@ -490,17 +514,16 @@ function checkCN(){
   result.style.display='block';
 
   if(match){
-    const col = SECTOR_COLORS[match.sector]||'#2E7D32';
-    const bg = SECTOR_BG[match.sector]||'#E8F5E9';
-    const noteHtml = match.note ? `<span style="font-size:10px;background:#FFF3E0;color:#E65100;padding:2px 7px;border-radius:4px;margin-left:8px">${match.note}</span>` : '';
+    const cls = {'Cement':'cement','Iron & Steel':'steel','Aluminium':'alu'}[match.sector]||'other';
+    const noteHtml = match.note ? `<span style="font-size:10px;background:var(--al);color:var(--am);padding:2px 7px;border-radius:4px;margin-left:8px;border:1px solid var(--a2)">${match.note}</span>` : '';
     result.innerHTML = `
-      <div style="background:${bg};border:1px solid ${col}30;border-radius:var(--r);padding:1rem 1.125rem">
+      <div class="cn-box cn-${cls}">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:.5rem">
-          <span style="font-size:13px;font-weight:800;color:${col}">✓ In scope — CBAM applies</span>
+          <span class="cn-head-${cls}" style="font-size:13px;font-weight:800">✓ In scope — CBAM applies</span>
           ${noteHtml}
         </div>
-        <div style="font-size:13px;color:var(--t1);margin-bottom:.375rem"><strong>HS heading ${match.hs}</strong> — ${match.desc}</div>
-        <div style="font-size:12px;color:var(--t2)">Sector: <strong>${match.sector}</strong> · 50-tonne annual threshold applies${match.sector==='Electricity'||match.sector==='Hydrogen'?' (except electricity and hydrogen)':''}</div>
+        <div class="cn-t1" style="font-size:13px;margin-bottom:.375rem"><strong>HS heading ${match.hs}</strong> — ${match.desc}</div>
+        <div class="cn-t2" style="font-size:12px">Sector: <strong>${match.sector}</strong> · 50-tonne annual threshold applies${match.sector==='Electricity'||match.sector==='Hydrogen'?' (except electricity and hydrogen)':''}</div>
         ${match.note?'<div style="font-size:11px;color:var(--am);margin-top:.375rem">⚠ Not all CN codes within this HS heading are covered. Verify against Annex I of Regulation (EU) 2023/956.</div>':''}
       </div>`;
   } else {
